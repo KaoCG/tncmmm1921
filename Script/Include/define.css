@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'pixelFont';
+  font-weight: 400;
+  src: url(../../Resource/JF-Dot-K12.ttf);
+}
+
+@font-face {
+  font-family: 'pixelSilver';
+  font-weight: 400;
+  src: url(../../Resource/Silver.ttf);
+}
