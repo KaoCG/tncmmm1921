@@ -249,15 +249,19 @@ function openFullscreen() {
   }
 }
 
-
-
-function resize() {
-
-  //console.log(screenfull.isEnabled);
+async function full()
+{
   if (screenfull.isEnabled) {
     screenfull.request();
   }
-  document.documentElement.requestFullscreen();
+
+}
+
+async function resize() {
+
+  //console.log(screenfull.isEnabled);
+
+  //document.documentElement.requestFullscreen();
 
   var dir = 1;
   phoneHeight = parseInt(document.documentElement.clientHeight);

@@ -232,11 +232,13 @@ async function onAssetsLoaded() {
   clickBox.interactive = true;
   clickBox.buttonMode = true;
 
-  clickBox.addListener("pointerdown", function () {
+  clickBox.addListener("pointerdown",async function () {
     EndThisScene();
 
     //設置好畫面和中央變數後，重新調整螢幕大小
-    resize();
+    await full();
+
+    await resize();
     window.addEventListener('resize', resize);
 
   });
