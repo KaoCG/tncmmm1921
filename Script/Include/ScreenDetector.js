@@ -6,7 +6,7 @@
 
 // globalScale = 1; //這個變數外面會用到，切記不要設置成區域變數
 
-getsize();
+
 
 {
   var document = typeof window !== 'undefined' && typeof window.document !== 'undefined' ? window.document : {};

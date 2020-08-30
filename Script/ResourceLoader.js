@@ -12,8 +12,29 @@
     resolution: devicePixelRatio
   });
 
+  //上下填補畫面
+  {
+    blackrectangleA = new PIXI.Graphics();
+    blackrectangleA.beginFill(0x000000);
+    blackrectangleA.drawRect(0, 0, 1, 1);
+    blackrectangleA.endFill();
+    blackrectangleA.zIndex = 200;
+    blackrectangleA.alpha = 1;
+    app.stage.addChild(blackrectangleA);
+
+    blackrectangleB = new PIXI.Graphics();
+    blackrectangleB.beginFill(0x000000);
+    blackrectangleB.drawRect(0, 0, 1, 1);
+    blackrectangleB.endFill();
+    blackrectangleB.zIndex = 200;
+    blackrectangleB.alpha = 1;
+    app.stage.addChild(blackrectangleB);
+  }
+
+  await resize();
+  window.addEventListener('resize', resize);
+
   //app.renderer.resize( screenHeight* globalScale,  screenWidth* globalScale);
-  //console.log( screenHeight* globalScale,  screenWidth* globalScale);
 
   app.renderer.backgroundColor = 0x000000;
   document.getElementById("display").appendChild(app.view);
@@ -233,13 +254,6 @@ async function onAssetsLoaded() {
 
   clickBox.addListener("pointerdown", async function () {
     EndThisScene();
-
-    //設置好畫面和中央變數後，重新調整螢幕大小
-    await full();
-
-    await resize();
-    window.addEventListener('resize', resize);
-
   });
   sceneLoading.addChild(clickBox);
 
@@ -264,8 +278,11 @@ function testInit() {
 
 async function EndThisScene() {
 
-  await CreateCenterComponent();
+  //設置好畫面和中央變數後，重新調整螢幕大小
+  //await full();
+  //await resize();
 
+  await CreateCenterComponent();
   sceneLoading.visible = false;
   //openFullscreen();
   GoToNextScene();

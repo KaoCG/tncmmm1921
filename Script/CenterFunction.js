@@ -60,24 +60,7 @@ async function CreateCenterComponent() {
     centerComponent.fadeUI = fadeUI;
   }
 
-  //上下填補畫面
-  {
-    blackrectangleA = new PIXI.Graphics();
-    blackrectangleA.beginFill(0x000000);
-    blackrectangleA.drawRect(0, 0, 1, 1);
-    blackrectangleA.endFill();
-    blackrectangleA.zIndex = 200;
-    blackrectangleA.alpha = 1;
-    app.stage.addChild(blackrectangleA);
 
-    blackrectangleB = new PIXI.Graphics();
-    blackrectangleB.beginFill(0x000000);
-    blackrectangleB.drawRect(0, 0, 1, 1);
-    blackrectangleB.endFill();
-    blackrectangleB.zIndex = 200;
-    blackrectangleB.alpha = 1;
-    app.stage.addChild(blackrectangleB);
-  }
 
   centerComponent.fadeFrame = 20;
 
