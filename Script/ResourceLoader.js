@@ -185,8 +185,8 @@ function loadProgressHandler(loader, resource) {
 
 
 
-  // console.log(resource.name);
-  // console.log(loader.progress.toFixed(2));
+   console.log(resource.name);
+   console.log(loader.progress.toFixed(2));
 
   //x++;
   //console.log(x);

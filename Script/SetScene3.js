@@ -330,7 +330,7 @@ async function SetObject() {
       charInstance.position.set(- charInstance.width / 2, -charInstance.height / 2);
       charInstance.tint = "0xAAAAAA";
 
-      char.position.set(screenWidth / 2, screenHeight / 2 - 62);
+      char.position.set(screenWidth / 2, screenHeight / 2 - 61);
       char.instance = charInstance;
 
       scene3_chars.push(char);

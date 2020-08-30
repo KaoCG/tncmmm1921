@@ -68,7 +68,7 @@ async function SetObject() {
     start0.scale.set(globalImageScale, globalImageScale);
     start0.zIndex = 4;
     scene0.addChild(start0);
-    start0.y = -3;
+    start0.y = -20;
 
 
     let but2 = new PIXI.Sprite(PIXI.Texture.from("StartBut01"));
@@ -76,7 +76,7 @@ async function SetObject() {
     but2.height = start0.height * 1.1;
     but2.zIndex = 10;
     scene0.addChild(but2);
-    but2.y = -42;
+    but2.y = -82;
     but2.x = -48;
 
     but2.interactive = true;
@@ -117,7 +117,7 @@ async function SetObject() {
 
     cat.scale.set(globalImageScale, globalImageScale);
     //1000->-200
-    cat.zIndex = 2;
+    cat.zIndex = 3.5;
     cat.x = 1500;
     cat.y = 305;
     scene0.addChild(cat);
