@@ -36,7 +36,7 @@ function hitTestRectangle(r1, r2) {
 
     r1.halfWidth = r1.width / 2 ;
     r1.halfHeight = r1.height /1 ;
-    r2.halfWidth = r2.width / 1;
+    r2.halfWidth = r2.width / 2;
     r2.halfHeight = r2.height / 1 ;
 
 
