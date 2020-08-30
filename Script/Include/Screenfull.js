@@ -1,9 +1,3 @@
-/*!
-* screenfull
-* v5.0.2 - 2020-02-13
-* (c) Sindre Sorhus; MIT License
-*/
-
 var document = typeof window !== 'undefined' && typeof window.document !== 'undefined' ? window.document : {};
 var isCommonjs = typeof module !== 'undefined' && module.exports;
 
