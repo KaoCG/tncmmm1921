@@ -343,11 +343,11 @@ async function resize() {
       app.stage.y = deltaDis / 2;
 
       blackrectangleA.width = deltaDis / 2 + 400;
-      blackrectangleA.height = phoneWidth + 400;
+      blackrectangleA.height = (phoneWidth + 400)*2;
       blackrectangleA.position.set(-deltaDis / 2 - 400, -200);
 
       blackrectangleB.width = deltaDis / 2 + 400;
-      blackrectangleB.height = phoneWidth + 400;
+      blackrectangleB.height = (phoneWidth + 400)*2;
       blackrectangleB.position.set(screenWidth, -200);
     }
     else {
@@ -358,11 +358,11 @@ async function resize() {
       app.stage.x = deltaDis / 2;//不同
       app.stage.y = 0;
 
-      blackrectangleA.width = phoneHeight + 400;
+      blackrectangleA.width = (phoneHeight + 400)*2;
       blackrectangleA.height = deltaDis / 2 + 400;
       blackrectangleA.position.set(-200, -deltaDis / 2 - 400);
 
-      blackrectangleB.width = phoneHeight + 400;
+      blackrectangleB.width = (phoneHeight + 400)*2;
       blackrectangleB.height = deltaDis / 2 + 400;
       blackrectangleB.position.set(-200, screenHeight);
     }
