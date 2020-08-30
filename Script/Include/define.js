@@ -28,10 +28,24 @@ function hitTestRectangle(r1, r2) {
   //hit will determine whether there's a collision
   hit = false;
   //Find the center points of each sprite
-  r1.centerX = r1.getGlobalPosition().x ;
-  r1.centerY = r1.getGlobalPosition().y ;
-  r2.centerX = r2.getGlobalPosition().x ;
-  r2.centerY = r2.getGlobalPosition().y ;
+
+  //console.log("landscape");
+  if(screenDir == 1)
+  {
+    r1.centerX = r1.getGlobalPosition().x ;
+    r1.centerY = r1.getGlobalPosition().y ;
+    r2.centerX = r2.getGlobalPosition().x ;
+    r2.centerY = r2.getGlobalPosition().y ;
+  }
+     //console.log("portrait");
+  else if(screenDir == 0)
+  {
+    r1.centerX = r1.getGlobalPosition().y ;
+    r1.centerY = r1.getGlobalPosition().x ;
+    r2.centerX = r2.getGlobalPosition().y ;
+    r2.centerY = r2.getGlobalPosition().x ;
+  }
+
   //Find the half-widths and half-heights of each sprite
 
     r1.halfWidth = r1.width / 2 * globalScale ;
@@ -53,7 +67,8 @@ function hitTestRectangle(r1, r2) {
     if (Math.abs(vy) < combinedHalfHeights) {
       //There's definitely a collision happening
 
-      console.log(globalScale);
+      console.log(r1.centerX.toFixed(2),r1.centerY.toFixed(2),r2.centerX.toFixed(2),r2.centerY.toFixed(2));
+      console.log(r1.halfWidth.toFixed(2),r1.halfHeight.toFixed(2),r2.halfWidth.toFixed(2),r2.halfHeight.toFixed(2));
 
       hit = true;
     } else {

@@ -6,6 +6,7 @@
 
 // globalScale = 1; //這個變數外面會用到，切記不要設置成區域變數
 
+screenDir = 1;
 
 
 {
@@ -324,6 +325,7 @@ async function resize() {
     app.stage.scale.set(globalScale, globalScale);
 
     app.stage.rotation = 0;
+    
 
   }
   else if (dir == 0) {
@@ -368,14 +370,14 @@ async function resize() {
     }
 
     app.renderer.resize(phoneHeight, phoneWidth); //不同
-
     app.stage.scale.set(globalScale, globalScale);
 
     app.stage.rotation = Math.PI / 2;//不同
     app.stage.x += screenHeight * globalScale;
   }
 
-
+  screenDir = dir;
+   console.log(screenDir);
 
 }
 
