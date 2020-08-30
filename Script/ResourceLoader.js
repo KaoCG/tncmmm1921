@@ -238,8 +238,8 @@ async function onAssetsLoaded() {
     //設置好畫面和中央變數後，重新調整螢幕大小
     await full();
 
-    await resize();
-    window.addEventListener('resize', resize);
+    //await resize();
+    //window.addEventListener('resize', resize);
 
   });
   sceneLoading.addChild(clickBox);
