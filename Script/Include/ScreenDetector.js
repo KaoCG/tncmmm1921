@@ -264,8 +264,8 @@ async function resize() {
   //document.documentElement.requestFullscreen();
 
   var dir = 1;
-  phoneHeight = parseInt(document.documentElement.clientHeight);
-  phoneWidth = parseInt(document.documentElement.clientWidth);
+  phoneHeight = parseInt(window.innerHeight);
+  phoneWidth = parseInt(window.innerWidth);
 
   if (window.matchMedia("(orientation: portrait)").matches) {
     //console.log("portrait");
