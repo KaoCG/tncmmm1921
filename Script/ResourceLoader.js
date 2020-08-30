@@ -162,8 +162,7 @@ function finishHandler(loader, resource) {
 
 function loadProgressHandler(loader, resource) {
 
-  sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
-  sceneLoading_scoreText2.text = "loading: " + resource.name;
+
 
   // console.log(resource.name);
   // console.log(loader.progress.toFixed(2));
@@ -171,9 +170,14 @@ function loadProgressHandler(loader, resource) {
   //x++;
   //console.log(x);
 
-  /*if (loader.progress.toFixed(2) == 99.02) {
+  if (loader.progress.toFixed(2) > 99) {
     onAssetsLoaded();
-  }*/
+  }
+  else
+  {
+    sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
+    sceneLoading_scoreText2.text = "loading: " + resource.name;
+  }
 
 }
 
