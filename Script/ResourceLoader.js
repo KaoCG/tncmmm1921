@@ -238,7 +238,7 @@ async function CreateLoadingText(loader, resource) {
 
 async function onAssetsLoaded() {
 
-  sceneLoading_scoreText.text = "Progress: " + 08300311 + " %";
+  sceneLoading_scoreText.text = "Progress: " + 08300315 + " %";
   sceneLoading_scoreText2.text = "Loading: " + "Finish";
 
   //console.log("END");
