@@ -76,6 +76,10 @@ function openFullscreen() {
 
 function resize() {
 
+  console.log(screenfull.isEnabled);
+  if (screenfull.isEnabled) {
+    screenfull.request();
+  }
 
   var dir = 1;
   phoneHeight = parseInt(document.documentElement.clientHeight);
@@ -95,8 +99,6 @@ function resize() {
   }
 
   if (dir == 1) {
-
-
 
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
