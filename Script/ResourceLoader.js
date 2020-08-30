@@ -195,7 +195,7 @@ function loadProgressHandler(loader, resource) {
     onAssetsLoaded();
   }
   else {
-    sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
+    sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%" ;
     sceneLoading_scoreText2.text = "loading: " + resource.name;
   }
 
@@ -238,7 +238,7 @@ async function CreateLoadingText(loader, resource) {
 
 async function onAssetsLoaded() {
 
-  sceneLoading_scoreText.text = "Progress: " + 08300317 + " %";
+  sceneLoading_scoreText.text = "Progress: " + 08300334 + " %";
   sceneLoading_scoreText2.text = "Loading: " + "Finish";
 
   //console.log("END");

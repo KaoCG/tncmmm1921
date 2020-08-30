@@ -34,10 +34,10 @@ function hitTestRectangle(r1, r2) {
   r2.centerY = r2.getGlobalPosition().y ;
   //Find the half-widths and half-heights of each sprite
 
-    r1.halfWidth = r1.width / 1 ;
-    r1.halfHeight = r1.height / 1;
-    r2.halfWidth = r2.width / 2;
-    r2.halfHeight = r2.height / 2 ;
+    r1.halfWidth = r1.width / 2 * globalScale ;
+    r1.halfHeight = r1.height / 2* globalScale ;
+    r2.halfWidth = r2.width / 2* globalScale ;
+    r2.halfHeight = r2.height /2 * globalScale ;
 
 
  
@@ -52,6 +52,9 @@ function hitTestRectangle(r1, r2) {
     //A collision might be occuring. Check for a collision on the y axis
     if (Math.abs(vy) < combinedHalfHeights) {
       //There's definitely a collision happening
+
+      console.log(globalScale);
+
       hit = true;
     } else {
       //There's no collision on the y axis

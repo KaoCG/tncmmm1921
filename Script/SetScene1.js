@@ -714,7 +714,7 @@ function SetObject() {
 
       timeUI.text = timeText;
 
-      timeUI.position.set(screenWidth - 45 - timeUI.text.width - 15, 10);
+      timeUI.position.set(screenWidth - 45 - timeUI.text.width - 15 - 80, 10);
     }
 
     let buttonBoxSize = [115, 68];
@@ -1477,7 +1477,9 @@ function GameFunction() {
         if (scene1_countDownTimer > scene1_countDownTick) {
           scene1_countDownTimer = 0;
           scene1_stageTimer -= 1;
-          scene1_uiGroup[1].text.text = scene1_stageTimer;
+
+          //scene1_uiGroup[1].text.text = scene1_stageTimer;
+          scene1_uiGroup[1].text.text = globalScale.toFixed(2);
         }
       }
       else if (scene1_stageTimer == 0) {
