@@ -110,7 +110,7 @@ async function SetObject() {
     let cat_frame = [PIXI.Texture.from("Cat0"), PIXI.Texture.from("Cat1"), PIXI.Texture.from("Cat2"), PIXI.Texture.from("Cat3")];
 
     let cat = new PIXI.AnimatedSprite(cat_frame);
-    cat.animationSpeed = 0.2;
+    cat.animationSpeed = 0.25;
     cat.pivot.set(cat.width, 0);
     cat.test = false;
     cat.play();

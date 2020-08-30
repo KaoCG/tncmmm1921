@@ -1229,7 +1229,7 @@ function SetObject() {
     runnerDetectBox.position.set(runner.x + runner.width/2 - 20, runner.y+ runner.height/2 - 30 );
     runnerDetectBox.zIndex = 100;
     runnerDetectBox.alpha = 0.5;
-    runnerDetectBox.visible = true;
+    runnerDetectBox.visible = false;
     scene1_runner.addChild(runnerDetectBox);
     scene1_runner.detectArea = runnerDetectBox;
 
@@ -1263,7 +1263,7 @@ async function CreateItem(createInPool = true, name = -1) {
   //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
   let appleDetectBox = new PIXI.Graphics();
   appleDetectBox.beginFill(0x700028).drawRect(0, 0, 30, 30).endFill();
-  appleDetectBox.visible = true;
+  appleDetectBox.visible = false;
   appleDetectBox.zIndex = 10;
   //appleDetectBox.position.set(appleInstance.width * 0.25 + appleInstance.width * 0.2 / 2, appleInstance.height * 0.25 + appleInstance.width * 0.2 / 2);
 
