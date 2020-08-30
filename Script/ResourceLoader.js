@@ -68,8 +68,8 @@
     PIXI.loader.add("StartBut0" + i, "./Resource/Final/StartScene/StartBut0" + i + ".png");
   }
 
-   //結尾畫面
-   for (let i = 0; i < 3; i++) {
+  //結尾畫面
+  for (let i = 0; i < 3; i++) {
     PIXI.loader.add("End" + i, "./Resource/Final/EndScene/End0" + i + ".png");
   }
 
@@ -173,8 +173,7 @@ function loadProgressHandler(loader, resource) {
   if (loader.progress.toFixed(2) > 99) {
     onAssetsLoaded();
   }
-  else
-  {
+  else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
     sceneLoading_scoreText2.text = "loading: " + resource.name;
   }
@@ -232,7 +231,7 @@ async function onAssetsLoaded() {
   clickBox.interactive = true;
   clickBox.buttonMode = true;
 
-  clickBox.addListener("pointerdown",async function () {
+  clickBox.addListener("pointerdown", async function () {
     EndThisScene();
 
     //設置好畫面和中央變數後，重新調整螢幕大小
@@ -271,6 +270,10 @@ async function EndThisScene() {
   //openFullscreen();
   GoToNextScene();
 }
+
+
+
+
 
 
 
