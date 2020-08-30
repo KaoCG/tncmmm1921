@@ -76,10 +76,17 @@ function openFullscreen() {
 
 function resize() {
 
-  var dir = 0;
+
+  var dir = 1;
+  phoneHeight = parseInt(document.documentElement.clientHeight);
+  phoneWidth = parseInt(document.documentElement.clientWidth);
+
   if (window.matchMedia("(orientation: portrait)").matches) {
     //console.log("portrait");
     dir = 0;
+    var temp = phoneWidth;
+    phoneWidth = phoneHeight;
+    phoneHeight = temp;
   }
 
   if (window.matchMedia("(orientation: landscape)").matches) {
@@ -89,8 +96,7 @@ function resize() {
 
   if (dir == 1) {
 
-    var phoneWidth = parseInt(window.innerWidth);
-    var phoneHeight = parseInt(window.innerHeight);
+
 
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
@@ -138,9 +144,6 @@ function resize() {
   }
   else if (dir == 0) {
 
-    var phoneHeight = parseInt(window.innerWidth); //不同
-    var phoneWidth = parseInt(window.innerHeight); //不同
-
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
     globalScale = 1;//外面會用到
@@ -161,7 +164,7 @@ function resize() {
 
       blackrectangleB.width = deltaDis / 2 + 400;
       blackrectangleB.height = phoneWidth + 400;
-      blackrectangleB.position.set(screenWidth , -200);
+      blackrectangleB.position.set(screenWidth, -200);
     }
     else {
       //console.log("Long");
@@ -173,10 +176,10 @@ function resize() {
 
       blackrectangleA.width = phoneHeight + 400;
       blackrectangleA.height = deltaDis / 2 + 400;
-      blackrectangleA.position.set( -200, -deltaDis / 2 - 400);
+      blackrectangleA.position.set(-200, -deltaDis / 2 - 400);
 
       blackrectangleB.width = phoneHeight + 400;
-      blackrectangleB.height = deltaDis / 2 +400;
+      blackrectangleB.height = deltaDis / 2 + 400;
       blackrectangleB.position.set(-200, screenHeight);
     }
 

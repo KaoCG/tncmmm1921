@@ -4,7 +4,7 @@ async function CreateCenterComponent() {
   centerComponent = new PIXI.Container();
   centerComponent.sceneExist = [false, false, false, false, false, false];
 
-  centerComponent.currentStage = 13;
+  centerComponent.currentStage = 0;
 
   centerComponent.currentScene = null;
   centerComponent.stageResult = -1;
