@@ -239,7 +239,7 @@ async function onAssetsLoaded() {
     await full();
 
     //await resize();
-    //window.addEventListener('resize', resize);
+    window.addEventListener('resize', resize);
 
   });
   sceneLoading.addChild(clickBox);
