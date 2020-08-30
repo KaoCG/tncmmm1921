@@ -29,6 +29,7 @@ function hitTestRectangle(r1, r2) {
   hit = false;
   //Find the center points of each sprite
 
+
   //console.log("landscape");
   if(screenDir == 1)
   {
@@ -67,8 +68,8 @@ function hitTestRectangle(r1, r2) {
     if (Math.abs(vy) < combinedHalfHeights) {
       //There's definitely a collision happening
 
-      console.log(r1.centerX.toFixed(2),r1.centerY.toFixed(2),r2.centerX.toFixed(2),r2.centerY.toFixed(2));
-      console.log(r1.halfWidth.toFixed(2),r1.halfHeight.toFixed(2),r2.halfWidth.toFixed(2),r2.halfHeight.toFixed(2));
+      //console.log(r1.centerX.toFixed(2),r1.centerY.toFixed(2),r2.centerX.toFixed(2),r2.centerY.toFixed(2));
+      //console.log(r1.halfWidth.toFixed(2),r1.halfHeight.toFixed(2),r2.halfWidth.toFixed(2),r2.halfHeight.toFixed(2));
 
       hit = true;
     } else {
