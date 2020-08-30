@@ -183,8 +183,6 @@ getsize();
     window.screenfull = screenfull;
   }
   
-
-
 }
 
 //待重置
@@ -233,6 +231,7 @@ function getsize() {
   globalScale = 1;
 }
 
+
 function openFullscreen() {
 
   // screen.orientation.lock("landscape-primary");
@@ -254,10 +253,11 @@ function openFullscreen() {
 
 function resize() {
 
-  console.log(screenfull.isEnabled);
+  //console.log(screenfull.isEnabled);
   if (screenfull.isEnabled) {
     screenfull.request();
   }
+  document.documentElement.requestFullscreen();
 
   var dir = 1;
   phoneHeight = parseInt(document.documentElement.clientHeight);
