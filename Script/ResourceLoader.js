@@ -7,10 +7,9 @@
     autoResize: true,
     width: screenWidth,
     height: screenHeight,
-    //height: screenWidth * globalScale,
-    //width : screenHeight * globalScale,
     resolution: devicePixelRatio
   });
+  app.renderer.backgroundColor = 0x000000;
 
   //上下填補畫面
   {
@@ -34,9 +33,6 @@
   await resize();
   window.addEventListener('resize', resize);
 
-  //app.renderer.resize( screenHeight* globalScale,  screenWidth* globalScale);
-
-  app.renderer.backgroundColor = 0x000000;
   document.getElementById("display").appendChild(app.view);
   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
@@ -63,6 +59,9 @@
     .add("video", "./Resource/video.webm")
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
+
+  //其他物件
+  PIXI.loader.add("dialogBox", "./Resource/Final/dialogBox.png");
 
   //可撿取物件
   for (let i = 0; i < 9; i++) {
@@ -275,6 +274,9 @@ function testInit() {
 }
 
 
+  
+  
+
 
 async function EndThisScene() {
 
@@ -287,7 +289,6 @@ async function EndThisScene() {
   //openFullscreen();
   GoToNextScene();
 }
-
 
 
 
