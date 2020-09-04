@@ -232,7 +232,7 @@ async function SetObject() {
         dialogBoxText.scale.set(1/scale,1/scale);
         //dialogBoxText.position.set(64, 32);
         //dialogBoxText.position.set(44, 141);
-        dialogBoxText.position.set(88, 145);
+        dialogBoxText.position.set(88, 146);
         scene3_dialogBox.text = dialogBoxText;
   
         scene3_dialogBox.active = true;
