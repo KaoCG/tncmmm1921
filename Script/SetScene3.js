@@ -617,6 +617,8 @@ async function SetObject() {
   }
 }
 
+
+
 function CharJump(P) {
 
   if (P.jumpSpeed == 0) {
@@ -956,7 +958,7 @@ async function GameFunction() {
 
   });
 
-
+  
 
 
   scene3_dialogBox.on("pointerdown", function () {

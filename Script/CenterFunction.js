@@ -118,8 +118,8 @@ async function GoToNextScene() {
 
   await centerComponent.currentStage++;
 
-  loadScript("Script/SetScene3.js");
-  return;
+  //loadScript("Script/SetScene3.js");
+  //return;
 
   switch (centerComponent.currentStage) {
     case 1:
