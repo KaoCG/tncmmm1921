@@ -202,16 +202,33 @@ async function SetObject() {
       scene3_dialogBox.buttonMode = true;
 
       //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelSilver",
+      /*let style = new PIXI.TextStyle({
+        fontFamily: "pixelSilver",       
         fontSize: 32,
         fill: "white",
-        stroke: '#000000',
-        strokeThickness: 1,
+        fontStyle: "normal",
+        fontWeight: "100",
+        //stroke: '#000000',
+        //strokeThickness: 0,
         letterSpacing: 3,
         align: "left",
         padding: 10,
         lineHeight: 32
+      });*/
+
+      //padding可以處理字體顯示位置不正確的問題
+      let style = new PIXI.TextStyle({
+        fontFamily: "pixelSilver",       
+        fontSize: 64,
+        fill: "white",
+        fontStyle: "normal",
+        fontWeight: "100",
+        //stroke: '#000000',
+        //strokeThickness: 0,
+        letterSpacing: 6.4,
+        align: "left",
+        padding: 10,
+        lineHeight: 64
       });
 
 
@@ -229,12 +246,13 @@ async function SetObject() {
 
         let dialogBoxText = new PIXI.Text(scene3_textInput[scene3_textIndex], style);
         dialogBox.addChild(dialogBoxText);
-        dialogBoxText.scale.set(1/scale,1/scale);
+
+        dialogBoxText.scale.set(1/scale * 0.5,1/scale * 0.5);
         //dialogBoxText.position.set(64, 32);
         //dialogBoxText.position.set(44, 141);
-        dialogBoxText.position.set(88, 146);
+        dialogBoxText.position.set(45, 143);
         scene3_dialogBox.text = dialogBoxText;
-  
+       
         scene3_dialogBox.active = true;
         scene3_dialogBox.dialogEnd = false;
   
@@ -366,7 +384,7 @@ async function SetObject() {
       black.position.set(0, 0);
       black.tint = "0x000000";
       black.zIndex = -10;
-      black.alpha = 0.4;
+      black.alpha = 0.88;
 
       scene3_charBoard.addChild(black);
     }

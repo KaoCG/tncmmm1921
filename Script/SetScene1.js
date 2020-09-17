@@ -1478,8 +1478,8 @@ function GameFunction() {
           scene1_countDownTimer = 0;
           scene1_stageTimer -= 1;
 
-          //scene1_uiGroup[1].text.text = scene1_stageTimer;
-          scene1_uiGroup[1].text.text = globalScale.toFixed(2);
+          scene1_uiGroup[1].text.text = scene1_stageTimer;
+          //scene1_uiGroup[1].text.text = globalScale.toFixed(2);
         }
       }
       else if (scene1_stageTimer == 0) {

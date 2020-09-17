@@ -40,7 +40,7 @@ function ResetSetting() {
   scene2_randomAddItemTimer = 0;
 
   //重置結束時間
-  scene2_stageTimer = 8;
+  scene2_stageTimer = 20;
   scene2_countDownTimer = 0;
   scene2_startTimer = 0;
 

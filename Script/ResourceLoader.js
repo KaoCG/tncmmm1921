@@ -149,6 +149,9 @@
   PIXI.loader.add("B2L12", "./Resource/Final/B2/B2building/B2L12.png");
   PIXI.loader.add("B2L13", "./Resource/Final/B2/B2building/B2L13.png");
 
+  //小遊戲2 的場景背景/物件
+  PIXI.loader.add("policeSmall", "./Resource/Final/M2/police.png");
+
   //結局畫面
   PIXI.loader.add("END1", "./Resource/Final/END1.png");
   PIXI.loader.add("END2", "./Resource/Final/END2.png");

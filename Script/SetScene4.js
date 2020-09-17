@@ -52,7 +52,7 @@ async function ResetSetting() {
   scene4_scoreLevel = 0;
 
   //時間倒數
-  scene4_stageTimer = 8;
+  scene4_stageTimer = 20;
   scene4_countDownTimer = 0;
 
   if (scene4_gameMode == 1) {
@@ -438,20 +438,19 @@ function SetObject() {
 
       police.sortableChildren = true;
 
-      let policeInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
-      policeInstance.width = 40;
-      policeInstance.height = 40;
+      let policeInstance = new PIXI.Sprite(PIXI.Texture.from("policeSmall"));
+      policeInstance.pivot.set(policeInstance.width/2, policeInstance.height/2);
       policeInstance.scale.set(-2, 2);
-      policeInstance.pivot.set(0.5, 0.5);
+
 
       scene4_uIBoard.addChild(police);
       police.addChild(policeInstance);
       scene4_policeGroup.push(police);
     }
 
-    scene4_policeGroup[0].position.set(520, 180);
-    scene4_policeGroup[1].position.set(580, 130);
-    scene4_policeGroup[2].position.set(600, 230);
+    scene4_policeGroup[0].position.set(520 , 280);
+    scene4_policeGroup[1].position.set(550, 220);
+    scene4_policeGroup[2].position.set(600, 260);
 
     for (let i = 0; i < 3; i++) {
       scene4_policeGroup[0].zIndex = 2 + scene4_policeGroup[0].y * 0.01;
