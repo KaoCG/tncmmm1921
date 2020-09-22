@@ -256,7 +256,7 @@ else {
    ', user-scalable=no, target-densitydpi=device-dpi">');
 }*/
 
-
+/*
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
     var deltaDis = 0;
@@ -274,6 +274,6 @@ else {
       deltaDis = phoneHeight - screenHeight * globalScale;
       app.stage.x = 0;
       app.stage.y = deltaDis / 2;
-    }
+    }*/
 
     

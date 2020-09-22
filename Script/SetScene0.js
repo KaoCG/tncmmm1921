@@ -49,40 +49,40 @@ async function SetObject() {
     start3.scale.set(globalImageScale, globalImageScale);
     start3.zIndex = 1;
     scene0.addChild(start3);
-    start3.x = -2;
+    start3.x = -15;
 
     let start2 = new PIXI.Sprite(PIXI.Texture.from("Start02"));
     start2.scale.set(globalImageScale, globalImageScale);
     start2.zIndex = 2;
     scene0.addChild(start2);
-    start2.x = -2;
+    start2.x = -15;
 
     let start1 = new PIXI.Sprite(PIXI.Texture.from("Start01"));
     start1.scale.set(globalImageScale, globalImageScale);
     start1.zIndex = 3;
     scene0.addChild(start1);
-
-    start1.x = -2;
+    start1.y = -22;
+    start1.x = 0;
 
     let start0 = new PIXI.Sprite(PIXI.Texture.from("Start00"));
     start0.scale.set(globalImageScale, globalImageScale);
     start0.zIndex = 4;
     scene0.addChild(start0);
-    start0.y = -20;
+    start0.y = -22;
 
 
-    let but2 = new PIXI.Sprite(PIXI.Texture.from("StartBut01"));
-    but2.width = start0.width * 1.1;
-    but2.height = start0.height * 1.1;
+    let but2 = new PIXI.Sprite(PIXI.Texture.from("StartBut02"));
+    but2.width = start0.width ;
+    but2.height = start0.height;
     but2.zIndex = 10;
     scene0.addChild(but2);
-    but2.y = -82;
-    but2.x = -48;
+    but2.y = -41;
+    but2.x = 0;
 
     but2.interactive = true;
     but2.buttonMode = true;
 
-    let but = new PIXI.Sprite(PIXI.Texture.from("StartBut00"));
+    let but = new PIXI.Sprite(PIXI.Texture.from("StartBut02"));
     but.width = start0.width * 1.1;
     but.height = start0.height * 1.1;
     but.zIndex = 10;

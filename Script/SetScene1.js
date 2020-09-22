@@ -31,6 +31,13 @@ async function ResetSetting() {
 
   scene1_slime.position.set(135, 340);
 
+  for (let i = 0; i < scene1_selectableGroup.length; i++) {
+
+    scene1_selectableGroup[i].activate = true;
+    scene1_selectableGroup[i].text.visible = true;
+    scene1_selectableGroup[i].visible = false;
+  }
+  scene1_endChar.visible = false;
 
   //需要重新設定的參數
   {
@@ -63,27 +70,10 @@ async function ResetSetting() {
     scene1_randomAddItemTimeLimit = 50;
 
     //時間倒數
-    scene1_stageTimer = 40;
     scene1_countDownTimer = 0;
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
   }
-
-  for (let i = 0; i < scene1_selectableGroup.length; i++) {
-
-    scene1_selectableGroup[i].activate = true;
-    scene1_selectableGroup[i].text.visible = true;
-  }
-  //scene1_selectableGroup[0].x = 2400;
-  //scene1_selectableGroup[1].x = 4100;
-  //scene1_selectableGroup[2].x = 9450;
-  //scene1_selectableGroup[3].x = 14530;
-  //scene1_selectableGroup[4].x = 18150;
-  scene1_selectableGroup[0].x = 3870;
-  scene1_selectableGroup[1].x = 7600;
-  scene1_selectableGroup[2].x = 9500;
-  scene1_selectableGroup[3].x = 4500;
-  scene1_selectableGroup[4].x = 2000;
 
   //分層背景
   for (let i = 0; i < scene1_BGObjectGroup.length; i++) {
@@ -91,24 +81,52 @@ async function ResetSetting() {
     scene1_BGObjectGroup[i].x = scene1_BGObjectGroup[i].width * scene1_BGObjectGroup[i].index;
   }
 
+  scene1_stageTimer = 4;
+
   switch (centerComponent.currentStage) {
     case 4:
       for (let i = 0; i < 4; i++) {
         scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B1L0" + (i % 2));
-
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B1L1" + (i));
-
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B1L2" + (i % 2));
       }
+
+      scene1_selectableGroup[0].visible = true;
+      scene1_selectableGroup[1].visible = true;
+      scene1_selectableGroup[2].visible = true;
+      scene1_selectableGroup[3].visible = true;
+      scene1_selectableGroup[4].visible = true;
+
+      scene1_selectableGroup[0].x = 3870;
+      scene1_selectableGroup[1].x = 7600;
+      scene1_selectableGroup[2].x = 9500;
+      scene1_selectableGroup[3].x = 4500;
+      scene1_selectableGroup[4].x = 2000;
+      scene1_endChar.x = 12250;
+
+      scene1_endChar.visible = true;
+      scene1_finalDistant = 11800;
+      
       break;
     case 8:
       for (let i = 0; i < 4; i++) {
         scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B2L0" + (i % 2));
-
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B2L1" + (i));
-
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B2L2" + (i % 2));
       }
+
+      scene1_finalDistant = 11800;
+
+      break;
+    case 12:
+      for (let i = 0; i < 4; i++) {
+        scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B3L0" + (i % 2));
+        scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B3L1" + (i % 3));
+        scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B3L2" + (i % 2));
+      }
+
+      scene1_finalDistant = 11800;
+
       break;
   }
 
@@ -117,12 +135,6 @@ async function ResetSetting() {
 
     scene1_SPBGObjectGroup[i].x = scene1_SPBGAccuDistant;
     scene1_SPBGAccuDistant += scene1_SPBGObjectGroup[i].width;
-  }
-
-  for (let i = 0; i < scene1_grassGroup.length; i++) {
-    //console.log(i * scene1_grassGroup[i].Instance.width);
-
-    scene1_grassGroup[i].position.set(i * scene1_grassGroup[i].Instance.width, 200);
   }
 
   for (let i = 0; i < scene1_tickerFunc.length; i++) {
@@ -135,12 +147,11 @@ async function ResetSetting() {
 
   for (var i = scene1_itemGroup.length - 1; i >= 0; i--) {
     //把物件移到池中
-
     RecycleItem(scene1_itemGroup, i);
-
   }
 
   scene1_movingBoard.position.set(0, 0);
+
 
 
   StartingFadeFunc();
@@ -1186,6 +1197,40 @@ function SetObject() {
       B1S00.id = 1;
       scene1_selectableGroup.push(B1S00);
     }
+
+    {
+      scene1_endChar = new PIXI.Container();
+      scene1_endChar.position.set(1000, 85);
+      scene1_endChar.activate = true;
+      scene1_endChar.zIndex = 1;
+
+      let tableframes = PIXI.Texture.from("B1C2");
+
+      let tableInstance = new PIXI.Sprite(tableframes);
+      tableInstance.scale.set(globalImageScale, globalImageScale);
+
+      //padding可以處理字體顯示位置不正確的問題
+      let style = new PIXI.TextStyle({
+        fontFamily: "pixelFont",
+        fontSize: 36,
+        fill: "white",
+        stroke: '#000000',
+        strokeThickness: 5,
+        letterSpacing: 0,
+        padding: 10
+        //dropShadow: true,
+        //dropShadowColor: "#000000",
+        //dropShadowBlur: 4,
+        //dropShadowAngle: Math.PI / 6,
+        //dropShadowDistance: 6,
+      });
+
+      scene1_selectableBoard.addChild(scene1_endChar);
+      scene1_endChar.addChild(tableInstance);
+
+      scene1_endChar.instance = tableInstance;
+
+    }
   }
 
   //runner
@@ -1223,10 +1268,10 @@ function SetObject() {
     let runnerDetectBox = new PIXI.Graphics();
     runnerDetectBox.lineStyle(0, 0x82cd2e, 1);
     runnerDetectBox.beginFill(0x704828);
-    runnerDetectBox.drawRect(0, 0, runner.width *0.1, runner.height*0.2);
+    runnerDetectBox.drawRect(0, 0, runner.width * 0.1, runner.height * 0.2);
     runnerDetectBox.endFill();
     //slimeDetectBox.position.set(slimeInstance.getGlobalPosition().x - slimeInstance.width / 2 + slimeInstance.width * 0.7 / 2, slimeInstance.getGlobalPosition().y - slimeInstance.height / 2 + slimeInstance.height * 0.7 / 2);
-    runnerDetectBox.position.set(runner.x + runner.width/2 - 20, runner.y+ runner.height/2 - 30 );
+    runnerDetectBox.position.set(runner.x + runner.width / 2 - 20, runner.y + runner.height / 2 - 30);
     runnerDetectBox.zIndex = 100;
     runnerDetectBox.alpha = 0.5;
     runnerDetectBox.visible = false;
@@ -1329,7 +1374,7 @@ function ItemReset(item) {
 
   item.x = scene1_movingDistant + screenWidth * 1.1;
   //item.y = 210 + 40 * Math.floor(Math.random() * 3);
-  item.y = 280 - 35 * Math.floor(Math.random() * 4)*2;
+  item.y = 280 - 35 * Math.floor(Math.random() * 4) * 2;
 
   //在這邊決定出現的道具是哪個
   //item.instance.texture = scene1_appleTextures[3];
@@ -1362,12 +1407,18 @@ function GameFunction() {
         scene1_movingPauseTimer -= 1;
       }
       else {
-        scene1_movingDistant += scene1_movingSpeed;
+        //scene1_movingDistant += scene1_movingSpeed;
+        scene1_movingDistant += scene1_finalDistant / (scene1_stageTimer * scene1_countDownTick);
         scene1_movingBoard.x = -scene1_movingDistant;
 
         scene1_BGContainerA.x = -scene1_movingDistant * 1.1;
         scene1_BGContainerB.x = -scene1_movingDistant;
         scene1_BGContainerC.x = -scene1_movingDistant * 0.4;
+
+        if (scene1_movingDistant >= scene1_finalDistant) {
+          //scene1_movingPauseTimer = 1000;
+          EndThisScene();
+        }
       }
 
     }
@@ -1469,26 +1520,27 @@ function GameFunction() {
     }
 
     //時間倒數
-    scene1_tickerFunc.push(TimerCountDown);
-    function TimerCountDown(deltaTime) {
-
-      if (scene1_stageTimer > 0) {
-        scene1_countDownTimer += 1;
-        if (scene1_countDownTimer > scene1_countDownTick) {
-          scene1_countDownTimer = 0;
-          scene1_stageTimer -= 1;
-
-          scene1_uiGroup[1].text.text = scene1_stageTimer;
-          //scene1_uiGroup[1].text.text = globalScale.toFixed(2);
-        }
-      }
-      else if (scene1_stageTimer == 0) {
-        scene1_stageTimer -= 1;
-        //console.log("GAME OVER");
-        EndThisScene();
-      }
-    }
-
+    /*
+     scene1_tickerFunc.push(TimerCountDown);
+     function TimerCountDown(deltaTime) {
+ 
+       if (scene1_stageTimer > 0) {
+         scene1_countDownTimer += 1;
+         if (scene1_countDownTimer > scene1_countDownTick) {
+           scene1_countDownTimer = 0;
+           scene1_stageTimer -= 1;
+ 
+           scene1_uiGroup[1].text.text = scene1_stageTimer;
+           //scene1_uiGroup[1].text.text = globalScale.toFixed(2);
+         }
+       }
+       else if (scene1_stageTimer == 0) {
+         scene1_stageTimer -= 1;
+         //console.log("GAME OVER");
+         EndThisScene();
+       }
+     }
+ */
 
   }
 
@@ -1617,6 +1669,8 @@ function addEnergy(addScore = 10) {
 }
 
 async function EndThisScene() {
+
+  console.log(scene1_movingDistant);
 
   for (let i = 0; i < scene1_keyGroup.length; i++) {
     scene1_keyGroup[i].press = null;

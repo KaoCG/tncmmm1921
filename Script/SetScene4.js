@@ -328,7 +328,7 @@ function SetObject() {
       dialogBoxA.visible = true;
       dialogBoxA.alpha = 0;
       x = screenWidth / 2 - dialogBoxA.width / 2; y = 80;
-      dialogBoxA.position.set(x,y);
+      dialogBoxA.position.set(x, y);
       scene4_uIBoard.addChild(dialogBoxA);
       dialogBoxA.interactive = true;
       dialogBoxA.buttonMode = true;
@@ -343,8 +343,8 @@ function SetObject() {
       dialogBoxB.zIndex = 10;
       dialogBoxB.visible = true;
       dialogBoxB.alpha = 0;
-      x = screenWidth - dialogBoxB.width - edge; y = screenHeight / 2 - dialogBoxB.height / 2 + 40 - 20; 
-      dialogBoxB.position.set(x,y);
+      x = screenWidth - dialogBoxB.width - edge; y = screenHeight / 2 - dialogBoxB.height / 2 + 40 - 20;
+      dialogBoxB.position.set(x, y);
       scene4_uIBoard.addChild(dialogBoxB);
       dialogBoxB.interactive = true;
       dialogBoxB.buttonMode = true;
@@ -359,8 +359,8 @@ function SetObject() {
       dialogBoxC.zIndex = 10;
       dialogBoxC.visible = true;
       dialogBoxC.alpha = 0;
-      x = screenWidth / 2 - dialogBoxC.width / 2; y = screenHeight - dialogBoxC.height -35;
-      dialogBoxC.position.set(x,y);
+      x = screenWidth / 2 - dialogBoxC.width / 2; y = screenHeight - dialogBoxC.height - 35;
+      dialogBoxC.position.set(x, y);
       scene4_uIBoard.addChild(dialogBoxC);
       dialogBoxC.interactive = true;
       dialogBoxC.buttonMode = true;
@@ -375,8 +375,8 @@ function SetObject() {
       dialogBoxD.zIndex = 10;
       dialogBoxD.visible = true;
       dialogBoxD.alpha = 0;
-      x = edge; y = screenHeight / 2 - dialogBoxD.height / 2 + 40 -20;
-      dialogBoxD.position.set(x,y);
+      x = edge; y = screenHeight / 2 - dialogBoxD.height / 2 + 40 - 20;
+      dialogBoxD.position.set(x, y);
       scene4_uIBoard.addChild(dialogBoxD);
       dialogBoxD.interactive = true;
       dialogBoxD.buttonMode = true;
@@ -397,26 +397,35 @@ function SetObject() {
 
   //史萊姆Sprite
   {
+    var peopleID = 5;
+    var x = 0;
+    var y = 6;
+
     for (let i = 0; i < 15; i++) {
       let slime = new PIXI.Container();
       slime.no = 0;
 
       slime.sortableChildren = true;
 
-      let slimeInstance = new PIXI.Sprite(scene4_slimeTexture);
+      peopleID = (peopleID + 7) % 6;
+      x = (x + 70)%27;
+      y = (y + 15)%21;
+
+      let slimeInstance = new PIXI.Sprite(PIXI.Texture.from("normalPeople" + peopleID));
       slimeInstance.width = 40;
       slimeInstance.height = 40;
-      slimeInstance.scale.set(4, 4);
+      slimeInstance.scale.set(2, 2);
       slimeInstance.pivot.set(0.5, 0.5);
 
-      let x = Math.floor(Math.random() * 8);
+      /*let x = Math.floor(Math.random() * 8);
       let y = Math.floor(Math.random() * 8);
       while (x % 2 == y % 2) {
         x = Math.floor(Math.random() * 8);
         y = Math.floor(Math.random() * 8);
-      }
+      }*/
 
-      slime.position.set(150 + x * 25, 150 + y * 25);
+
+      slime.position.set(-80 + x * 9, 60 + y * -2);
       slime.zIndex = 2 + slime.y * 0.01;
 
       if (i != 0)
@@ -439,7 +448,7 @@ function SetObject() {
       police.sortableChildren = true;
 
       let policeInstance = new PIXI.Sprite(PIXI.Texture.from("policeSmall"));
-      policeInstance.pivot.set(policeInstance.width/2, policeInstance.height/2);
+      policeInstance.pivot.set(policeInstance.width / 2, policeInstance.height / 2);
       policeInstance.scale.set(-2, 2);
 
 
@@ -448,9 +457,9 @@ function SetObject() {
       scene4_policeGroup.push(police);
     }
 
-    scene4_policeGroup[0].position.set(520 , 280);
-    scene4_policeGroup[1].position.set(550, 220);
-    scene4_policeGroup[2].position.set(600, 260);
+    scene4_policeGroup[0].position.set(520, 250);
+    scene4_policeGroup[1].position.set(550, 190);
+    scene4_policeGroup[2].position.set(600, 230);
 
     for (let i = 0; i < 3; i++) {
       scene4_policeGroup[0].zIndex = 2 + scene4_policeGroup[0].y * 0.01;
@@ -492,10 +501,8 @@ async function ReuseButton(dir) {
   await scene4_buttonGroup.push(reuseItem);
 
   if (dir == -1) dir = Math.floor(Math.random() * 4);
-  if(scene4_buttonGroup.length != 1 )
-  {
-    while(dir == scene4_buttonGroup[0].dir )
-    {
+  if (scene4_buttonGroup.length != 1) {
+    while (dir == scene4_buttonGroup[0].dir) {
       dir = Math.floor(Math.random() * 4);
     }
   }
@@ -516,7 +523,7 @@ async function ReuseButton(dir) {
   dialogBox.moveLeftCounter = 0;
   dialogBox.moveLeftCounterSP = 0;
 
-  console.log(  dialogBox.index);
+  console.log(dialogBox.index);
 
   let edge = 20;
 
@@ -548,10 +555,10 @@ async function ReuseButton(dir) {
       scene4_markContainer.position.set(x + scene4_buttonBoxSize[0] / 2, y + scene4_buttonBoxSize[0] / 2);
     }
 
-   /* let q = dialogBox.index ;
-    dialogBox.on("pointerdown", function () {
-      DetectButtonInput(q);
-    });*/
+    /* let q = dialogBox.index ;
+     dialogBox.on("pointerdown", function () {
+       DetectButtonInput(q);
+     });*/
   }
 
   scene4_uIBoard.addChild(dialogBox);
