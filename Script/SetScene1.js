@@ -99,7 +99,7 @@ async function ResetSetting() {
       scene1_selectableGroup[3].visible = true;
       scene1_selectableGroup[4].visible = true;
 
-      scene1_selectableGroup[0].position.set(3870,105);
+      scene1_selectableGroup[0].position.set(3870, 105);
       scene1_selectableGroup[1].position.set(7600, 200);
       scene1_selectableGroup[2].position.set(9500, 40);
       scene1_selectableGroup[3].position.set(4500, 178);
@@ -967,13 +967,48 @@ function SetObject() {
 
   //選擇物件
   {
+    var frame0 = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
+    var frame0w = PIXI.Texture.from("B1S02")
+    var frame1 = [PIXI.Texture.from("B1S10"), PIXI.Texture.from("B1S11")];
+    var frame1w = PIXI.Texture.from("B1S12")
+    var frame2 = [PIXI.Texture.from("B1S20"), PIXI.Texture.from("B1S21")];
+    var frame2w = PIXI.Texture.from("B1S22")
+    var frame3 = [PIXI.Texture.from("B1S30"), PIXI.Texture.from("B1S31")];
+    var frame3w = PIXI.Texture.from("B1S32")
+    var frame4 = [PIXI.Texture.from("B1S40"), PIXI.Texture.from("B1S41")];
+    var frame4w = PIXI.Texture.from("B1S42")
+
     for (var i = 0; i < 5; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
       B1S00.activate = true;
       B1S00.zIndex = 1;
 
-      let tableframes = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
+      let tableframes = [];
+      let whiteTexture = PIXI.Texture.from("B1S02")
+
+      switch (i) {
+        case 0:
+          tableframes = frame0;
+          whiteTexture = frame0w;
+          break;
+        case 1:
+          tableframes = frame1;
+          whiteTexture = frame1w;
+          break;
+        case 2:
+          tableframes = frame2;
+          whiteTexture = frame2w;
+          break;
+        case 3:
+          tableframes = frame3;
+          whiteTexture = frame3w;
+          break;
+        case 4:
+          tableframes = frame4;
+          whiteTexture = frame4w;
+          break;
+      }
 
       let tableInstance = new PIXI.AnimatedSprite(tableframes);
       tableInstance.scale.set(globalImageScale, globalImageScale);
@@ -982,16 +1017,16 @@ function SetObject() {
       tableInstance.tint = 0xFFFFFF;
 
       let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.3, tableInstance.height * 0.4).endFill();
+      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.3, tableInstance.height * 0.5).endFill();
       tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * 0.25, tableInstance.height * 0.8);
+      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.3/2), tableInstance.height * (0.6));
 
 
       let chooseText = new PIXI.Text("choose", style);
       chooseText.position.set(tableInstance.width * 0.28, -15);
       chooseText.visible = true;
 
-      let white = new PIXI.Sprite(PIXI.Texture.from("B1S02"));
+      let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
       //white.mask = tableInstance;
 
@@ -1011,16 +1046,7 @@ function SetObject() {
 
     }
 
-    scene1_selectableGroup[0].instance.textures = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
-    scene1_selectableGroup[0].white.textures = PIXI.Texture.from("B1S02")
-    scene1_selectableGroup[1].instance.textures = [PIXI.Texture.from("B1S10"), PIXI.Texture.from("B1S11")];
-    scene1_selectableGroup[1].white.textures = PIXI.Texture.from("B1S12")
-    scene1_selectableGroup[2].instance.textures = [PIXI.Texture.from("B1S20"), PIXI.Texture.from("B1S21")];
-    scene1_selectableGroup[2].white.textures = PIXI.Texture.from("B1S22")
-    scene1_selectableGroup[3].instance.textures = [PIXI.Texture.from("B1S30"), PIXI.Texture.from("B1S31")];
-    scene1_selectableGroup[3].white.textures = PIXI.Texture.from("B1S32")
-    scene1_selectableGroup[4].instance.textures = [PIXI.Texture.from("B1S40"), PIXI.Texture.from("B1S41")];
-    scene1_selectableGroup[4].white.textures = PIXI.Texture.from("B1S42")
+
 
 
 
@@ -1226,7 +1252,7 @@ function GameFunction() {
   {
 
     //畫面移動
-    //scene1_tickerFunc.push(SlimeMove);
+    scene1_tickerFunc.push(SlimeMove);
     function SlimeMove(deltaTime) {
 
       if (scene1_movingPauseTimer != 0) {

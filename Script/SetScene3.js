@@ -427,7 +427,7 @@ async function SetObject() {
       black.position.set(0, 0);
       black.tint = "0x000000";
       black.zIndex = -10;
-      black.alpha = 0.9;
+      black.alpha = 0.85;
 
       scene3_charBoard.addChild(black);
     }

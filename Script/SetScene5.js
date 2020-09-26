@@ -384,7 +384,9 @@ function buttonB() {
 }
 
 function buttonC() {
-  console.log("C");
+
+
+
 }
 
 function buttonD() {

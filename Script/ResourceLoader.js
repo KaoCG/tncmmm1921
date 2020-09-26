@@ -40,7 +40,7 @@
     app.stage.addChild(blackrectangleB);
   }
 
-  //這個暫時暫停(影片用的設定)
+  //這個用影片時暫時暫停
   await resize();
   window.addEventListener('resize', resize);
 
@@ -293,6 +293,7 @@ async function onAssetsLoaded() {
   clickBox.buttonMode = true;
 
   clickBox.addListener("pointerdown", async function () {
+    screenfull.request();
     EndThisScene();
   });
   sceneLoading.addChild(clickBox);
