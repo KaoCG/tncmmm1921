@@ -3,6 +3,7 @@
 
   //設定畫面底色與相關設定
 
+
   app = new PIXI.Application({
     autoResize: true,
     width: screenWidth,
@@ -10,6 +11,15 @@
     resolution: devicePixelRatio
   });
   app.renderer.backgroundColor = 0x000000;
+
+    //這個是影片用的設定
+  /*app = new PIXI.Application({
+    autoResize: true,
+    width: 1920,
+    height: 1080,
+    resolution: devicePixelRatio
+  });
+  app.renderer.backgroundColor = 0x000000;*/
 
   //上下填補畫面
   {
@@ -30,6 +40,7 @@
     app.stage.addChild(blackrectangleB);
   }
 
+  //這個暫時暫停(影片用的設定)
   await resize();
   window.addEventListener('resize', resize);
 
@@ -37,7 +48,7 @@
   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
   await document.fonts.load('16px pixelFont');
-  await document.fonts.load('16px pixelSilver');
+  await document.fonts.load('8px pixelSilver');
 
   await CreateLoadingText();
 
@@ -115,6 +126,7 @@
   }
   PIXI.loader.add("B1L12", "./Resource/Final/B1/B1building/B1L12.png");
   PIXI.loader.add("B1L13", "./Resource/Final/B1/B1building/B1L13.png");
+  PIXI.loader.add("B1Spe1", "./Resource/Final/B1/B1Spe1.png");
   //跑步2的場景背景
   for (let i = 0; i < 2; i++) {
     PIXI.loader.add("B2L0" + i, "./Resource/Final/B2/B2building/B2L0" + i + ".png");
@@ -123,6 +135,7 @@
   }
   PIXI.loader.add("B2L12", "./Resource/Final/B2/B2building/B2L12.png");
   PIXI.loader.add("B2L13", "./Resource/Final/B2/B2building/B2L13.png");
+  PIXI.loader.add("B2Spe1", "./Resource/Final/B2/B2Spe1.png");
   //跑步3的場景背景
   for (let i = 0; i < 2; i++) {
     PIXI.loader.add("B3L0" + i, "./Resource/Final/B3/B3building/B3L0" + i + ".png");
@@ -133,7 +146,7 @@
 
   //跑步1的選擇物件
   for (let i = 0; i < 5; i++) {
-    for (let j = 0; j < 2; j++) {
+    for (let j = 0; j < 3; j++) {
       PIXI.loader.add("B1S" + i + "" + j, "./Resource/Final/B1/B1select/B1S" + i + "" + j + ".png");
     }
   }
@@ -142,7 +155,9 @@
   PIXI.loader.add("B1C0", "./Resource/Final/character/full/B1PeopleA.png");
   PIXI.loader.add("B1C1", "./Resource/Final/character/full/B1PeopleB.png");
   PIXI.loader.add("B1C2", "./Resource/Final/character/full/B1PeopleC.png");
-  PIXI.loader.add("B1Spe1", "./Resource/Final/B1/B1Spe1.png");
+
+
+
 
   for(var i = 0 ; i < 6 ;i++)
   {
@@ -179,6 +194,10 @@
 
   //其他
   await PIXI.loader.add("block", "./Resource/Final/block.png");
+
+  await PIXI.loader.add("VideoSelect", "./Resource/Final/Video/select.png");
+  await PIXI.loader.add("VideoSelect2", "./Resource/Final/Video/select2.png");
+  await PIXI.loader.add("VideoTitle", "./Resource/Final/Video/title.png");
 
   //結算
   //await PIXI.loader.onProgress.add(loadProgressHandler);

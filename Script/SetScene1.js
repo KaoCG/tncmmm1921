@@ -81,10 +81,12 @@ async function ResetSetting() {
     scene1_BGObjectGroup[i].x = scene1_BGObjectGroup[i].width * scene1_BGObjectGroup[i].index;
   }
 
-  scene1_stageTimer = 4;
+  //關卡時間
+  scene1_stageTimer = 40;
 
   switch (centerComponent.currentStage) {
     case 4:
+    default:
       for (let i = 0; i < 4; i++) {
         scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B1L0" + (i % 2));
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B1L1" + (i));
@@ -97,16 +99,16 @@ async function ResetSetting() {
       scene1_selectableGroup[3].visible = true;
       scene1_selectableGroup[4].visible = true;
 
-      scene1_selectableGroup[0].x = 3870;
-      scene1_selectableGroup[1].x = 7600;
-      scene1_selectableGroup[2].x = 9500;
-      scene1_selectableGroup[3].x = 4500;
-      scene1_selectableGroup[4].x = 2000;
+      scene1_selectableGroup[0].position.set(3870,105);
+      scene1_selectableGroup[1].position.set(7600, 200);
+      scene1_selectableGroup[2].position.set(9500, 40);
+      scene1_selectableGroup[3].position.set(4500, 178);
+      scene1_selectableGroup[4].position.set(2000, 39)
       scene1_endChar.x = 12250;
 
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
-      
+
       break;
     case 8:
       for (let i = 0; i < 4; i++) {
@@ -287,14 +289,14 @@ function LoadSetting() {
       scene1_appleTextures.push(PIXI.Texture.from("appleP" + (i + 1) + ".png"));
     }
 
-    var slimeTextures = [];
-    for (var f = 1; f < 80; f++) {
-      var str;
-      if (f < 10) str = "0" + (f);
-      else str = (f);
-      let resource = PIXI.Texture.from("slime_sheet_" + str + ".gif");
-      slimeTextures.push(resource);
-    }
+    /*  var slimeTextures = [];
+      for (var f = 1; f < 80; f++) {
+        var str;
+        if (f < 10) str = "0" + (f);
+        else str = (f);
+        let resource = PIXI.Texture.from("slime_sheet_" + str + ".gif");
+        slimeTextures.push(resource);
+      }*/
 
     scene1_itemTextures = [];
     for (var f = 0; f < 9; f++) {
@@ -363,12 +365,12 @@ function SetObject() {
     scene1_slime.position.set(135, 340);
     scene1_slimeInitY = scene1_slime.position.y;
 
-    let slimeInstance = new PIXI.AnimatedSprite(scene1_frames);
-    slimeInstance.animationSpeed = 0.65 * 0.2;
+    let slimeInstance = new PIXI.Sprite(PIXI.Texture.from("slime_sheet_01.gif"));
+
     //slimeInstance.position.set(150, 302.5);
 
     slimeInstance.pivot.set(0, 0);
-    slimeInstance.play();
+
     slimeInstance.width = 150;
     slimeInstance.height = 150;
     slimeInstance.zIndex = 3;
@@ -393,153 +395,135 @@ function SetObject() {
 
   }
 
-  //樹木Sprite
-  {
-    /*
-        for (var i = 0; i < 16; i++) {
-          let treeInstance = new PIXI.Sprite(PIXI.Texture.from("tree"));
-          treeInstance.width = 200;
-          treeInstance.height = 200;
-          treeInstance.position.set(screenWidth * i / 12 * 1.5, Math.random() * 60);
-          treeInstance.zIndex = -100 + treeInstance.y;
-          treeInstance.x -= 100;
-          treeInstance.y += 65;
-    
-          scene1_BGObjectGroup.push(treeInstance);
-          scene1_BGContainer.addChild(treeInstance);
-    
-          //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
-          let treeDetectBox = new PIXI.Graphics();
-          treeDetectBox.lineStyle(0, 0x82cd2e, 1);
-          treeDetectBox.beginFill(0x700028);
-          treeDetectBox.drawRect(0, 0, treeInstance.width * 0.6, treeInstance.height * 0.6);
-          treeDetectBox.endFill();
-          treeDetectBox.zIndex = 100;
-          treeDetectBox.visible = false;
-          treeDetectBox.position.set(treeInstance.width * 0.1, treeInstance.height * 0.2);
-    
-          treeInstance.addChild(treeDetectBox);
-          treeInstance.detectArea = treeDetectBox;
-    
-        }
-        for (var i = 0; i < 15; i++) {
-          let treeInstance = new PIXI.Sprite(PIXI.Texture.from("tree"));
-    
-          treeInstance.width = 200;
-          treeInstance.height = 200;
-          treeInstance.position.set(Math.random() * screenWidth * 1.5, Math.floor(Math.random() * 60));
-          treeInstance.zIndex = -100 + treeInstance.y;
-          treeInstance.x -= 100;
-          treeInstance.y += 65;
-          scene1_BGObjectGroup.push(treeInstance);
-          scene1_BGContainer.addChild(treeInstance);
-    
-          let treeDetectBox = new PIXI.Graphics();
-          treeDetectBox.lineStyle(0, 0x82cd2e, 1);
-          treeDetectBox.beginFill(0x700028);
-          treeDetectBox.drawRect(0, 0, treeInstance.width * 0.6, treeInstance.height * 0.6);
-          treeDetectBox.endFill();
-          treeDetectBox.zIndex = 100;
-          treeDetectBox.visible = false;
-          treeDetectBox.position.set(treeInstance.width * 0.1, treeInstance.height * 0.2);
-    
-          treeInstance.addChild(treeDetectBox);
-          treeInstance.detectArea = treeDetectBox;
-        }
-    */
-  }
-
-  //背景色塊
-  {
-    /* let rectangle2 = new PIXI.Graphics();
-     rectangle2.beginFill(0x5aa05a);
-     rectangle2.drawRect(-5, 220, 900, 150);
-     rectangle2.endFill();
-     rectangle2.zIndex = -201;
-     scene1_grassBoard.addChild(rectangle2);
-
-     let rectangle = new PIXI.Graphics();
-     rectangle.lineStyle(15, 0x82cd2e, 1);
-     rectangle.beginFill(0x704828);
-     rectangle.drawRect(-5, 260, 900, 450);
-     rectangle.endFill();
-     rectangle.zIndex = -2;
-     scene1_grassBoard.addChild(rectangle);
-     //scene1_grassBoard.mask = rectangle;*/
-  }
-
-  //草地Sprite
-  {
-    /*
-        for (var i = 0; i < 6; i++) {
-    
-          let grass = new PIXI.Container();
-          grass.activate = true;
-    
-          let grassInstance = new PIXI.Sprite(PIXI.Texture.from("bg"));
-          grassInstance.zIndex = -300;
-          grassInstance.scale.set(0.2, 0.2);
-    
-          grass.position.set(i * grassInstance.width, 200);
-    
-          grass.Instance = grassInstance;
-          scene1_grassBoard.addChild(grass);
-          grass.addChild(grassInstance);
-    
-          let grassDetectBox = new PIXI.Graphics();
-          grassDetectBox.lineStyle(0, 0x82cd2e, 1);
-          grassDetectBox.beginFill(0x700028);
-          grassDetectBox.drawRect(0, 0, grassInstance.width * 0.6, grassInstance.height * 0.6);
-          grassDetectBox.endFill();
-          grassDetectBox.zIndex = 100;
-          grassDetectBox.visible = false;
-          grassDetectBox.position.set(0, 0);
-    
-          scene1_grassGroup.push(grass);
-          scene1_grassGroup[i].addChild(grassDetectBox);
-          scene1_grassGroup[i].detectArea = grassDetectBox;
-    
-        }
-        */
-  }
-
-  //蘋果Sprite
-  {
+  //廢案
+  { //樹木Sprite
     {
-      CreateItem(createInPool = false, name = 0);
-      for (let i = 0; i < 8; i++) {
-        CreateItem(createInPool = true, name = (i + 1));
-      }
+      /*
+          for (var i = 0; i < 16; i++) {
+            let treeInstance = new PIXI.Sprite(PIXI.Texture.from("tree"));
+            treeInstance.width = 200;
+            treeInstance.height = 200;
+            treeInstance.position.set(screenWidth * i / 12 * 1.5, Math.random() * 60);
+            treeInstance.zIndex = -100 + treeInstance.y;
+            treeInstance.x -= 100;
+            treeInstance.y += 65;
+      
+            scene1_BGObjectGroup.push(treeInstance);
+            scene1_BGContainer.addChild(treeInstance);
+      
+            //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
+            let treeDetectBox = new PIXI.Graphics();
+            treeDetectBox.lineStyle(0, 0x82cd2e, 1);
+            treeDetectBox.beginFill(0x700028);
+            treeDetectBox.drawRect(0, 0, treeInstance.width * 0.6, treeInstance.height * 0.6);
+            treeDetectBox.endFill();
+            treeDetectBox.zIndex = 100;
+            treeDetectBox.visible = false;
+            treeDetectBox.position.set(treeInstance.width * 0.1, treeInstance.height * 0.2);
+      
+            treeInstance.addChild(treeDetectBox);
+            treeInstance.detectArea = treeDetectBox;
+      
+          }
+          for (var i = 0; i < 15; i++) {
+            let treeInstance = new PIXI.Sprite(PIXI.Texture.from("tree"));
+      
+            treeInstance.width = 200;
+            treeInstance.height = 200;
+            treeInstance.position.set(Math.random() * screenWidth * 1.5, Math.floor(Math.random() * 60));
+            treeInstance.zIndex = -100 + treeInstance.y;
+            treeInstance.x -= 100;
+            treeInstance.y += 65;
+            scene1_BGObjectGroup.push(treeInstance);
+            scene1_BGContainer.addChild(treeInstance);
+      
+            let treeDetectBox = new PIXI.Graphics();
+            treeDetectBox.lineStyle(0, 0x82cd2e, 1);
+            treeDetectBox.beginFill(0x700028);
+            treeDetectBox.drawRect(0, 0, treeInstance.width * 0.6, treeInstance.height * 0.6);
+            treeDetectBox.endFill();
+            treeDetectBox.zIndex = 100;
+            treeDetectBox.visible = false;
+            treeDetectBox.position.set(treeInstance.width * 0.1, treeInstance.height * 0.2);
+      
+            treeInstance.addChild(treeDetectBox);
+            treeInstance.detectArea = treeDetectBox;
+          }
+      */
     }
-  }
 
-  //雕像Sprite
-  {
+    //背景色塊
     {
-      /* let statue = new PIXI.Container();
-       statue.no = 0;
-       statue.activate = true;
-       statue.zIndex = 1.5;
-       statue.sortableChildren = true;
-       statue.position.set(500, 260);
- 
-       let statueInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
-       statueInstance.width = 50;
-       statueInstance.height = 50;
- 
-       statueInstance.pivot.set(0.5, 0.5);
-       statueInstance.scale.set(2, 2);
- 
-       //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
-       let statueDetectBox = new PIXI.Graphics();
-       statueDetectBox.lineStyle(0, 0x82cd2e, 1);
-       statueDetectBox.beginFill(0x700028);
-       statueDetectBox.drawRect(0, 0, statueInstance.width, statueInstance.height);
-       statueDetectBox.endFill();
-       statueDetectBox.alpha = 0.5;
-       statueDetectBox.visible = false;
-       statueDetectBox.position.set(0, statueInstance.height * 0.9);
- 
+      /* let rectangle2 = new PIXI.Graphics();
+       rectangle2.beginFill(0x5aa05a);
+       rectangle2.drawRect(-5, 220, 900, 150);
+       rectangle2.endFill();
+       rectangle2.zIndex = -201;
+       scene1_grassBoard.addChild(rectangle2);
+  
+       let rectangle = new PIXI.Graphics();
+       rectangle.lineStyle(15, 0x82cd2e, 1);
+       rectangle.beginFill(0x704828);
+       rectangle.drawRect(-5, 260, 900, 450);
+       rectangle.endFill();
+       rectangle.zIndex = -2;
+       scene1_grassBoard.addChild(rectangle);
+       //scene1_grassBoard.mask = rectangle;*/
+    }
+
+    //草地Sprite
+    {
+      /*
+          for (var i = 0; i < 6; i++) {
+      
+            let grass = new PIXI.Container();
+            grass.activate = true;
+      
+            let grassInstance = new PIXI.Sprite(PIXI.Texture.from("bg"));
+            grassInstance.zIndex = -300;
+            grassInstance.scale.set(0.2, 0.2);
+      
+            grass.position.set(i * grassInstance.width, 200);
+      
+            grass.Instance = grassInstance;
+            scene1_grassBoard.addChild(grass);
+            grass.addChild(grassInstance);
+      
+            let grassDetectBox = new PIXI.Graphics();
+            grassDetectBox.lineStyle(0, 0x82cd2e, 1);
+            grassDetectBox.beginFill(0x700028);
+            grassDetectBox.drawRect(0, 0, grassInstance.width * 0.6, grassInstance.height * 0.6);
+            grassDetectBox.endFill();
+            grassDetectBox.zIndex = 100;
+            grassDetectBox.visible = false;
+            grassDetectBox.position.set(0, 0);
+      
+            scene1_grassGroup.push(grass);
+            scene1_grassGroup[i].addChild(grassDetectBox);
+            scene1_grassGroup[i].detectArea = grassDetectBox;
+      
+          }
+          */
+    }
+    //桌子
+    {
+      /* let table = new PIXI.Container();
+       table.position.set(900, 100);
+       table.activate = true;
+       table.zIndex = 1;
+   
+       let tableframes = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
+   
+       let tableInstance = new PIXI.AnimatedSprite(tableframes);
+       tableInstance.scale.set(globalImageScale,globalImageScale);
+       tableInstance.animationSpeed = 0.05;
+       tableInstance.play();
+   
+       let tableDetectBox = new PIXI.Graphics();
+       tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.6, tableInstance.height * 0.4).endFill();
+       tableDetectBox.visible = true;
+       tableDetectBox.position.set(tableInstance.width *0.2, tableInstance.height * 0.8);
+   
        //padding可以處理字體顯示位置不正確的問題
        let style = new PIXI.TextStyle({
          fontFamily: "pixelFont",
@@ -556,73 +540,92 @@ function SetObject() {
          //dropShadowDistance: 6,
        });
        let chooseText = new PIXI.Text("choose", style);
-       chooseText.position.set(statueInstance.width * -0.35, -42);
+       chooseText.position.set(tableInstance.width * 0.28, -15);
        chooseText.visible = true;
- 
- 
-       scene1_selectableBoard.addChild(statue);
-       statue.addChild(statueDetectBox);
-       statue.addChild(statueInstance);
-       statue.addChild(chooseText);
- 
-       statue.detectArea = statueDetectBox;
-       statue.statueInstance = statueInstance;
-       statue.text = chooseText;
- 
-       statue.id = 0;
-       scene1_selectableGroup.push(statue);*/
+   
+       scene1_selectableBoard.addChild(table);
+       table.addChild(tableInstance);
+       table.addChild(tableDetectBox);
+       table.addChild(chooseText);
+   
+       table.instance = tableInstance;
+       table.detectArea = tableDetectBox;
+       table.text = chooseText;
+   
+       table.id = 1;
+       scene1_selectableGroup.push(table);*/
     }
+    //雕像Sprite
+    {
+      {
+        /* let statue = new PIXI.Container();
+         statue.no = 0;
+         statue.activate = true;
+         statue.zIndex = 1.5;
+         statue.sortableChildren = true;
+         statue.position.set(500, 260);
+   
+         let statueInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
+         statueInstance.width = 50;
+         statueInstance.height = 50;
+   
+         statueInstance.pivot.set(0.5, 0.5);
+         statueInstance.scale.set(2, 2);
+   
+         //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
+         let statueDetectBox = new PIXI.Graphics();
+         statueDetectBox.lineStyle(0, 0x82cd2e, 1);
+         statueDetectBox.beginFill(0x700028);
+         statueDetectBox.drawRect(0, 0, statueInstance.width, statueInstance.height);
+         statueDetectBox.endFill();
+         statueDetectBox.alpha = 0.5;
+         statueDetectBox.visible = false;
+         statueDetectBox.position.set(0, statueInstance.height * 0.9);
+   
+         //padding可以處理字體顯示位置不正確的問題
+         let style = new PIXI.TextStyle({
+           fontFamily: "pixelFont",
+           fontSize: 36,
+           fill: "white",
+           stroke: '#000000',
+           strokeThickness: 5,
+           letterSpacing: 0,
+           padding: 10
+           //dropShadow: true,
+           //dropShadowColor: "#000000",
+           //dropShadowBlur: 4,
+           //dropShadowAngle: Math.PI / 6,
+           //dropShadowDistance: 6,
+         });
+         let chooseText = new PIXI.Text("choose", style);
+         chooseText.position.set(statueInstance.width * -0.35, -42);
+         chooseText.visible = true;
+   
+   
+         scene1_selectableBoard.addChild(statue);
+         statue.addChild(statueDetectBox);
+         statue.addChild(statueInstance);
+         statue.addChild(chooseText);
+   
+         statue.detectArea = statueDetectBox;
+         statue.statueInstance = statueInstance;
+         statue.text = chooseText;
+   
+         statue.id = 0;
+         scene1_selectableGroup.push(statue);*/
+      }
+    }
+
   }
 
-  //桌子
+  //蘋果Sprite
   {
-    /* let table = new PIXI.Container();
-     table.position.set(900, 100);
-     table.activate = true;
-     table.zIndex = 1;
- 
-     let tableframes = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
- 
-     let tableInstance = new PIXI.AnimatedSprite(tableframes);
-     tableInstance.scale.set(globalImageScale,globalImageScale);
-     tableInstance.animationSpeed = 0.05;
-     tableInstance.play();
- 
-     let tableDetectBox = new PIXI.Graphics();
-     tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.6, tableInstance.height * 0.4).endFill();
-     tableDetectBox.visible = true;
-     tableDetectBox.position.set(tableInstance.width *0.2, tableInstance.height * 0.8);
- 
-     //padding可以處理字體顯示位置不正確的問題
-     let style = new PIXI.TextStyle({
-       fontFamily: "pixelFont",
-       fontSize: 36,
-       fill: "white",
-       stroke: '#000000',
-       strokeThickness: 5,
-       letterSpacing: 0,
-       padding: 10
-       //dropShadow: true,
-       //dropShadowColor: "#000000",
-       //dropShadowBlur: 4,
-       //dropShadowAngle: Math.PI / 6,
-       //dropShadowDistance: 6,
-     });
-     let chooseText = new PIXI.Text("choose", style);
-     chooseText.position.set(tableInstance.width * 0.28, -15);
-     chooseText.visible = true;
- 
-     scene1_selectableBoard.addChild(table);
-     table.addChild(tableInstance);
-     table.addChild(tableDetectBox);
-     table.addChild(chooseText);
- 
-     table.instance = tableInstance;
-     table.detectArea = tableDetectBox;
-     table.text = chooseText;
- 
-     table.id = 1;
-     scene1_selectableGroup.push(table);*/
+    {
+      CreateItem(createInPool = false, name = 0);
+      for (let i = 0; i < 8; i++) {
+        CreateItem(createInPool = true, name = (i + 1));
+      }
+    }
   }
 
   //底部偵測區
@@ -946,9 +949,25 @@ function SetObject() {
 
   }
 
+  //padding可以處理字體顯示位置不正確的問題
+  let style = new PIXI.TextStyle({
+    fontFamily: "pixelFont",
+    fontSize: 36,
+    fill: "white",
+    stroke: '#000000',
+    strokeThickness: 5,
+    letterSpacing: 0,
+    padding: 10
+    //dropShadow: true,
+    //dropShadowColor: "#000000",
+    //dropShadowBlur: 4,
+    //dropShadowAngle: Math.PI / 6,
+    //dropShadowDistance: 6,
+  });
+
   //選擇物件
   {
-    {
+    for (var i = 0; i < 5; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
       B1S00.activate = true;
@@ -960,243 +979,50 @@ function SetObject() {
       tableInstance.scale.set(globalImageScale, globalImageScale);
       tableInstance.animationSpeed = 0.05;
       tableInstance.play();
+      tableInstance.tint = 0xFFFFFF;
 
       let tableDetectBox = new PIXI.Graphics();
       tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.3, tableInstance.height * 0.4).endFill();
       tableDetectBox.visible = false;
       tableDetectBox.position.set(tableInstance.width * 0.25, tableInstance.height * 0.8);
 
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
+
       let chooseText = new PIXI.Text("choose", style);
       chooseText.position.set(tableInstance.width * 0.28, -15);
       chooseText.visible = true;
+
+      let white = new PIXI.Sprite(PIXI.Texture.from("B1S02"));
+      white.alpha = 0;
+      //white.mask = tableInstance;
 
       scene1_selectableBoard.addChild(B1S00);
       B1S00.addChild(tableInstance);
       B1S00.addChild(tableDetectBox);
       B1S00.addChild(chooseText);
+      tableInstance.addChild(white);
 
       B1S00.instance = tableInstance;
       B1S00.detectArea = tableDetectBox;
       B1S00.text = chooseText;
+      B1S00.white = white
 
       B1S00.id = 1;
       scene1_selectableGroup.push(B1S00);
+
     }
 
-    {
-      let B1S00 = new PIXI.Container();
-      B1S00.position.set(1300, 200);
-      B1S00.activate = true;
-      B1S00.zIndex = 1;
+    scene1_selectableGroup[0].instance.textures = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
+    scene1_selectableGroup[0].white.textures = PIXI.Texture.from("B1S02")
+    scene1_selectableGroup[1].instance.textures = [PIXI.Texture.from("B1S10"), PIXI.Texture.from("B1S11")];
+    scene1_selectableGroup[1].white.textures = PIXI.Texture.from("B1S12")
+    scene1_selectableGroup[2].instance.textures = [PIXI.Texture.from("B1S20"), PIXI.Texture.from("B1S21")];
+    scene1_selectableGroup[2].white.textures = PIXI.Texture.from("B1S22")
+    scene1_selectableGroup[3].instance.textures = [PIXI.Texture.from("B1S30"), PIXI.Texture.from("B1S31")];
+    scene1_selectableGroup[3].white.textures = PIXI.Texture.from("B1S32")
+    scene1_selectableGroup[4].instance.textures = [PIXI.Texture.from("B1S40"), PIXI.Texture.from("B1S41")];
+    scene1_selectableGroup[4].white.textures = PIXI.Texture.from("B1S42")
 
-      let tableframes = [PIXI.Texture.from("B1S10"), PIXI.Texture.from("B1S11")];
 
-      let tableInstance = new PIXI.AnimatedSprite(tableframes);
-      tableInstance.scale.set(globalImageScale, globalImageScale);
-      tableInstance.animationSpeed = 0.05;
-      tableInstance.play();
-
-      let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.4, tableInstance.height * 0.4).endFill();
-      tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * 0.25, tableInstance.height * 0.6);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-      let chooseText = new PIXI.Text("choose", style);
-      chooseText.position.set(tableInstance.width * 0.28, -15);
-      chooseText.visible = true;
-
-      scene1_selectableBoard.addChild(B1S00);
-      B1S00.addChild(tableInstance);
-      B1S00.addChild(tableDetectBox);
-      B1S00.addChild(chooseText);
-
-      B1S00.instance = tableInstance;
-      B1S00.detectArea = tableDetectBox;
-      B1S00.text = chooseText;
-
-      B1S00.id = 1;
-      scene1_selectableGroup.push(B1S00);
-    }
-
-    {
-      let B1S00 = new PIXI.Container();
-      B1S00.position.set(500, 40);
-      B1S00.activate = true;
-      B1S00.zIndex = 1;
-
-      let tableframes = [PIXI.Texture.from("B1S20"), PIXI.Texture.from("B1S21")];
-
-      let tableInstance = new PIXI.AnimatedSprite(tableframes);
-      tableInstance.scale.set(globalImageScale, globalImageScale);
-      tableInstance.animationSpeed = 0.05;
-      tableInstance.play();
-
-      let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.2, tableInstance.height * 0.4).endFill();
-      tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * 0.4, tableInstance.height * 0.7);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-      let chooseText = new PIXI.Text("choose", style);
-      chooseText.position.set(tableInstance.width * 0.28, -15);
-      chooseText.visible = true;
-
-      scene1_selectableBoard.addChild(B1S00);
-      B1S00.addChild(tableInstance);
-      B1S00.addChild(tableDetectBox);
-      B1S00.addChild(chooseText);
-
-      B1S00.instance = tableInstance;
-      B1S00.detectArea = tableDetectBox;
-      B1S00.text = chooseText;
-
-      B1S00.id = 1;
-      scene1_selectableGroup.push(B1S00);
-    }
-
-    {
-      let B1S00 = new PIXI.Container();
-      B1S00.position.set(1500, 178);
-      B1S00.activate = true;
-      B1S00.zIndex = 1;
-
-      let tableframes = [PIXI.Texture.from("B1S30"), PIXI.Texture.from("B1S31")];
-
-      let tableInstance = new PIXI.AnimatedSprite(tableframes);
-      tableInstance.scale.set(globalImageScale, globalImageScale);
-      tableInstance.animationSpeed = 0.05;
-      tableInstance.play();
-
-      let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.2, tableInstance.height * 0.4).endFill();
-      tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * 0.3, tableInstance.height * 0.6);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-      let chooseText = new PIXI.Text("choose", style);
-      chooseText.position.set(tableInstance.width * 0.28, -15);
-      chooseText.visible = true;
-
-      scene1_selectableBoard.addChild(B1S00);
-      B1S00.addChild(tableInstance);
-      B1S00.addChild(tableDetectBox);
-      B1S00.addChild(chooseText);
-
-      B1S00.instance = tableInstance;
-      B1S00.detectArea = tableDetectBox;
-      B1S00.text = chooseText;
-
-      B1S00.id = 1;
-      scene1_selectableGroup.push(B1S00);
-    }
-
-    {
-      let B1S00 = new PIXI.Container();
-      B1S00.position.set(1000, 39);
-      B1S00.activate = true;
-      B1S00.zIndex = 1;
-
-      let tableframes = [PIXI.Texture.from("B1S40"), PIXI.Texture.from("B1S41")];
-
-      let tableInstance = new PIXI.AnimatedSprite(tableframes);
-      tableInstance.scale.set(globalImageScale, globalImageScale);
-      tableInstance.animationSpeed = 0.05;
-      tableInstance.play();
-
-      let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.2, tableInstance.height * 0.4).endFill();
-      tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * 0.35, tableInstance.height * 0.7);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-      let chooseText = new PIXI.Text("choose", style);
-      chooseText.position.set(tableInstance.width * 0.28, -15);
-      chooseText.visible = true;
-
-      scene1_selectableBoard.addChild(B1S00);
-      B1S00.addChild(tableInstance);
-      B1S00.addChild(tableDetectBox);
-      B1S00.addChild(chooseText);
-
-      B1S00.instance = tableInstance;
-      B1S00.detectArea = tableDetectBox;
-      B1S00.text = chooseText;
-
-      B1S00.id = 1;
-      scene1_selectableGroup.push(B1S00);
-    }
 
     {
       scene1_endChar = new PIXI.Container();
@@ -1400,7 +1226,7 @@ function GameFunction() {
   {
 
     //畫面移動
-    scene1_tickerFunc.push(SlimeMove);
+    //scene1_tickerFunc.push(SlimeMove);
     function SlimeMove(deltaTime) {
 
       if (scene1_movingPauseTimer != 0) {
@@ -1520,28 +1346,29 @@ function GameFunction() {
     }
 
     //時間倒數
-    /*
-     scene1_tickerFunc.push(TimerCountDown);
-     function TimerCountDown(deltaTime) {
- 
-       if (scene1_stageTimer > 0) {
-         scene1_countDownTimer += 1;
-         if (scene1_countDownTimer > scene1_countDownTick) {
-           scene1_countDownTimer = 0;
+    {
+      /*
+       scene1_tickerFunc.push(TimerCountDown);
+       function TimerCountDown(deltaTime) {
+   
+         if (scene1_stageTimer > 0) {
+           scene1_countDownTimer += 1;
+           if (scene1_countDownTimer > scene1_countDownTick) {
+             scene1_countDownTimer = 0;
+             scene1_stageTimer -= 1;
+   
+             scene1_uiGroup[1].text.text = scene1_stageTimer;
+             //scene1_uiGroup[1].text.text = globalScale.toFixed(2);
+           }
+         }
+         else if (scene1_stageTimer == 0) {
            scene1_stageTimer -= 1;
- 
-           scene1_uiGroup[1].text.text = scene1_stageTimer;
-           //scene1_uiGroup[1].text.text = globalScale.toFixed(2);
+           //console.log("GAME OVER");
+           EndThisScene();
          }
        }
-       else if (scene1_stageTimer == 0) {
-         scene1_stageTimer -= 1;
-         //console.log("GAME OVER");
-         EndThisScene();
-       }
-     }
- */
-
+   */
+    }
   }
 
   //史萊姆跳躍
@@ -1584,14 +1411,32 @@ function GameFunction() {
 
       //確認所有啟動中的可選物件是否與玩家重疊
       for (let i = 0; i < scene1_selectableGroup.length; i++) {
+
         if (scene1_selectableGroup[i].activate && hitTestRectangle(scene1_runner.detectArea, scene1_selectableGroup[i].detectArea)) {
           //任意物件都只能啟動一次
           scene1_selectableGroup[i].activate = false;
           scene1_selectableGroup[i].instance.gotoAndStop(1);
           canSelect = true;
           index = i;
+
+          let counter = 0;
+          app.ticker.add(function ChooseShine(deltaTime) {
+            counter++;
+            if (counter <= 15) {
+              scene1_selectableGroup[i].white.alpha += 0.06;
+            }
+            else if (counter <= 30) {
+              scene1_selectableGroup[i].white.alpha -= 0.06;
+            }
+            else {
+              scene1_selectableGroup[i].white.alpha = 0;
+              app.ticker.remove(ChooseShine);
+            }
+          });
+
           break;
         }
+
       }
 
       //如果都沒有人符合條件，則回歸

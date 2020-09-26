@@ -380,7 +380,7 @@ function buttonA() {
 }
 
 function buttonB() {
-  console.log("B");
+  window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', 'Share tncmmm1921');
 }
 
 function buttonC() {

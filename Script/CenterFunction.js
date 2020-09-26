@@ -98,6 +98,8 @@ function EndingFade(deltaTime) {
 
 function StartingFade(deltaTime) {
 
+
+
   centerComponent.fadeTimer -= 1;
 
   if (centerComponent.fadeTimer <= centerComponent.fadeFrame) {
@@ -118,8 +120,9 @@ async function GoToNextScene() {
 
   await centerComponent.currentStage++;
 
-  //loadScript("Script/SetScene3.js");
-  //return;
+  //centerComponent.fadeUI.visible = false;
+  loadScript("Script/SetScene5.js");
+  return;
   //centerComponent.currentStage = 10;
 
   switch (centerComponent.currentStage) {

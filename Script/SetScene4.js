@@ -409,7 +409,7 @@ function SetObject() {
 
       peopleID = (peopleID + 7) % 6;
       x = (x + 70)%27;
-      y = (y + 15)%21;
+      y = (y + 55)%21;
 
       let slimeInstance = new PIXI.Sprite(PIXI.Texture.from("normalPeople" + peopleID));
       slimeInstance.width = 40;
@@ -425,7 +425,7 @@ function SetObject() {
       }*/
 
 
-      slime.position.set(-80 + x * 9, 60 + y * -2);
+      slime.position.set(-80 + x * 9, 55 + (70-55)/21 * y);
       slime.zIndex = 2 + slime.y * 0.01;
 
       if (i != 0)
@@ -438,7 +438,23 @@ function SetObject() {
     }
 
   }
+ 
+  // Scene
+ {
+  let sceneA = new PIXI.Container();
 
+  let scene3_ScenePic = new PIXI.Sprite(PIXI.Texture.from("B2Spe1"));
+  scene3_ScenePic.zIndex = 0;
+  scene3_ScenePic.scale.set(globalImageScale, globalImageScale);
+  scene3_ScenePic.position.set(0, 0);
+  scene3_ScenePic.position.set(screenWidth / 2 - scene3_ScenePic.width / 2, screenHeight / 2 - scene3_ScenePic.height / 2 - 5);
+
+  scene4_movingBoard.addChild(sceneA);
+  sceneA.addChild(scene3_ScenePic)
+
+  sceneA.visible = true;
+
+}
   //警察sPRITE
   {
     for (let i = 0; i < 3; i++) {
@@ -457,9 +473,9 @@ function SetObject() {
       scene4_policeGroup.push(police);
     }
 
-    scene4_policeGroup[0].position.set(520, 250);
-    scene4_policeGroup[1].position.set(550, 190);
-    scene4_policeGroup[2].position.set(600, 230);
+    scene4_policeGroup[0].position.set(520, 255);
+    scene4_policeGroup[1].position.set(570, 245);
+    scene4_policeGroup[2].position.set(620, 260);
 
     for (let i = 0; i < 3; i++) {
       scene4_policeGroup[0].zIndex = 2 + scene4_policeGroup[0].y * 0.01;
