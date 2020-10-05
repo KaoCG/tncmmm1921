@@ -68,8 +68,10 @@ async function CreateCenterComponent() {
 }
 
 function EndingFadeFunc(scene) {
+  //
   centerComponent.currentScene = scene;
   centerComponent.fadeTimer = centerComponent.fadeFrame;
+  centerComponent.fadeUI.x = -(screenHeight);
   app.ticker.add(EndingFade);
 }
 
@@ -98,7 +100,7 @@ function EndingFade(deltaTime) {
 
 function StartingFade(deltaTime) {
 
-
+ 
 
   centerComponent.fadeTimer -= 1;
 
@@ -121,14 +123,15 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  //loadScript("Script/SetScene1.js");
+  //centerComponent.currentStage =10;
+  //loadScript("Script/SetScene3.js");
   //return;
-  //centerComponent.currentStage = 10;
+  
 
   switch (centerComponent.currentStage) {
     case 1:
-      loadScript("Script/SetScene0.js");
-      //GoToNextScene();
+      //loadScript("Script/SetScene0.js");
+      GoToNextScene();
       break;
     case 2:
     case 3:

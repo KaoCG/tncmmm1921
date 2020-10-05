@@ -38,7 +38,7 @@ async function resize() {
   }
 
   if (dir == 1) {
-
+   
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
     globalScale = 1; //外面會用到
@@ -46,7 +46,7 @@ async function resize() {
 
     if (globalScale_w > globalScale_h) {
       //console.log("LONG");
-
+    
       globalScale = globalScale_h;
       deltaDis = phoneWidth - screenWidth * globalScale;
       app.stage.x = deltaDis / 2;
@@ -59,7 +59,8 @@ async function resize() {
       blackrectangleB.width = deltaDis / 2 + 400;
       blackrectangleB.height = phoneHeight + 400;
       blackrectangleB.position.set(screenWidth, -200);
-
+      //console.log(   blackrectangleA.position);
+      //console.log(   blackrectangleB.position);
     }
     else {
       //console.log("HIGH");
@@ -85,7 +86,7 @@ async function resize() {
 
   }
   else if (dir == 0) {
-
+  
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
     globalScale = 1;//外面會用到

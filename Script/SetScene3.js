@@ -60,41 +60,56 @@ async function ResetSetting() {
   /////////////////////
 
   switch (centerComponent.currentStage) {
+    //開頭林獻堂感嘆
     case 2:
       scene3_textInput = PIXI.loader.resources.textContent.data.set1;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose1;
       scene3_sceneList[0].visible = true;
       break;
+    //主角感嘆
     case 3:
       scene3_textInput = PIXI.loader.resources.textContent.data.set2;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose2;
       scene3_sceneList[1].visible = true;
       break;
+    //主角被招募
     case 5:
       scene3_textInput = PIXI.loader.resources.textContent.data.set3;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose3;
       scene3_sceneList[2].visible = true;
       break;
+    //主角蓋完書
     case 7:
       scene3_textInput = PIXI.loader.resources.textContent.data.set4;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose4;
+      scene3_sceneList[4].visible = true;
       break;
+    //主角發完書看到抗議
     case 9:
       scene3_textInput = PIXI.loader.resources.textContent.data.set5;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose5;
+      scene3_sceneList[4].visible = true;
       break;
+    //抗議遊戲結束
+    //主角要去找人
     case 11:
       scene3_textInput = PIXI.loader.resources.textContent.data.set6;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose6;
+      scene3_sceneList[5].visible = true;
       break;
+    //找完人回去在飯店
     case 13:
       scene3_textInput = PIXI.loader.resources.textContent.data.set7;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose7;
+      scene3_sceneList[3].visible = true;
       break;
+    //主角結局前獨白(飯店)
     case 14:
       scene3_textInput = PIXI.loader.resources.textContent.data.set8;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose8;
+      scene3_sceneList[3].visible = true;
       break;
+    //結局畫面(未完成)
     case 15:
       scene3_textInput = PIXI.loader.resources.textContent.data.set9;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose9;
@@ -207,7 +222,6 @@ async function SetObject() {
       scene3_dialogBox.y = screenHeight - buttonBoxSize[1];
       scene3_dialogBox.alpha = 0;
 
-
       scene3_dialogBox.interactive = true;
       scene3_dialogBox.buttonMode = true;
 
@@ -255,7 +269,7 @@ async function SetObject() {
         scene3_uIBoard.addChild(dialogBox);
 
         let dialogBoxText = new PIXI.Text(scene3_textInput[scene3_textIndex], style);
-   
+
 
         dialogBoxText.scale.set(1 / scale * 0.5, 1 / scale * 0.5);
         //dialogBoxText.position.set(64, 32);
@@ -263,41 +277,16 @@ async function SetObject() {
         dialogBoxText.position.set(44, 143);
         scene3_dialogBox.text = dialogBoxText;
         scene3_dialogBox.active = true;
-        scene3_dialogBox.dialogEnd = false;    
+        scene3_dialogBox.dialogEnd = false;
 
         //箭頭
         scene1_arrow = new PIXI.Sprite(PIXI.Texture.from("arrow"));
-        scene1_arrow.scale.set(1.2, 1.2);   
+        scene1_arrow.scale.set(1.2, 1.2);
         scene1_arrow.position.set(145, 159);
 
         scene3_uIBoard.addChild(scene3_dialogBox);
         dialogBox.addChild(dialogBoxText);
         dialogBox.addChild(scene1_arrow);
-      }
-
-
-      //名字
-      for (let i = 0; i < 13; i++) {
-
-        let name = new PIXI.Container();
-        name.zIndex = 20;
-        name.visible = false;
-
-        name.qqq = i;
-
-        let nameInstance = new PIXI.Sprite(PIXI.Texture.from("name" + i));
-        nameInstance.scale.set(0.5, 0.5);
-        nameInstance.position.set(0, 0);
-
-        name.position.set(28, 225);
-        name.instance = nameInstance;
-
-        scene3_names.push(name);
-
-        scene3_uIBoard.addChild(name);
-        name.addChild(nameInstance);
-        
-       
       }
 
     }
@@ -338,7 +327,7 @@ async function SetObject() {
     }
 
     //選擇UI
-    let selectButtonBoxSize = [150, 60];
+    let selectButtonBoxSize = [150, 50];
     {
       for (let i = 0; i < 3; i++) {
         let select = new PIXI.Container();
@@ -350,22 +339,29 @@ async function SetObject() {
         select.buttonMode = true;
 
         let selectBox = new PIXI.Graphics();
-        selectBox.beginFill(0xFFFFFF);
-        selectBox.drawRect(0, 0, selectButtonBoxSize[0], selectButtonBoxSize[1]).endFill();
+        selectBox.beginFill(0x000000);
+        selectBox.drawRect(0, 0, selectButtonBoxSize[0] + 16, selectButtonBoxSize[1] + 10).endFill();
         selectBox.zIndex = 0;
-        selectBox.alpha = 0.8;
+        selectBox.alpha = 1;
 
+        let selectBox2 = new PIXI.Graphics();
+        selectBox2.beginFill(0xFFFFFF);
+        selectBox2.drawRect(0, 0, selectButtonBoxSize[0], selectButtonBoxSize[1]).endFill();
+        selectBox2.position.set(8, 5);
+        selectBox2.zIndex = 0;
+        selectBox2.alpha = 1;
+        selectBox.addChild(selectBox2);
 
         //padding可以處理字體顯示位置不正確的問題
         let style = new PIXI.TextStyle({
-          fontFamily: "pixelFont",
-          fontSize: 36,
-          fill: "white",
+          fontFamily: "pixelSilver",
+          fontSize: 96,
+          fill: "black",
           stroke: '#000000',
-          strokeThickness: 5,
-          letterSpacing: 0,
+          strokeThickness: 0,
+          letterSpacing: 6,
           align: "left",
-          padding: 10,
+          padding: 100,
           lineHeight: 50
           //dropShadow: true,
           //dropShadowColor: "#000000",
@@ -375,7 +371,8 @@ async function SetObject() {
         });
 
         let selectBoxText = new PIXI.Text(scene3_selectTextInput[scene3_selectIndex][i], style);
-        selectBoxText.position.set(edge, 15);
+        selectBoxText.position.set(edge - 5, 22);
+        selectBoxText.scale.set(0.5, 0.5);
 
         select.text = selectBoxText;
         select.box = selectBox;
@@ -394,26 +391,35 @@ async function SetObject() {
 
     }
 
-    //腳色
-    for (let i = 0; i < 13; i++) {
+    //腳色和名字
+    for (let i = 0; i < 16; i++) {
 
       let char = new PIXI.Container();
       char.zIndex = 10;
       char.visible = false;
       char.color = 135;
-
       let charInstance = new PIXI.Sprite(PIXI.Texture.from("person" + i));
       charInstance.scale.set(2.4, 2.4);
       charInstance.position.set(- charInstance.width / 2, -charInstance.height / 2);
       charInstance.tint = "0xAAAAAA";
-
       char.position.set(screenWidth / 2, screenHeight / 2 - 61);
       char.instance = charInstance;
-
       scene3_chars.push(char);
-
       scene3_charBoard.addChild(char);
       char.addChild(charInstance);
+
+      let name = new PIXI.Container();
+      name.zIndex = 20;
+      name.visible = false;
+      name.qqq = i;
+      let nameInstance = new PIXI.Sprite(PIXI.Texture.from("name" + i));
+      nameInstance.scale.set(0.5, 0.5);
+      nameInstance.position.set(0, 0);
+      name.position.set(28, 225);
+      name.instance = nameInstance;
+      scene3_names.push(name);
+      scene3_uIBoard.addChild(name);
+      name.addChild(nameInstance);
     }
 
 
@@ -478,18 +484,33 @@ async function SetObject() {
   {
 
     // Scene0
+    //開頭林獻堂感嘆
     {
       let sceneA = new PIXI.Container();
 
-      let scene3_ScenePic = new PIXI.Sprite(PIXI.Texture.from("StartDialog"));
-      scene3_ScenePic.zIndex = 0;
-      scene3_ScenePic.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
-      scene3_ScenePic.position.set(0, 0);
-      scene3_ScenePic.position.set(screenWidth / 2 - scene3_ScenePic.width / 2, screenHeight / 2 - scene3_ScenePic.height / 2 - 5);
+      let scene3_ScenePic0 = new PIXI.Sprite(PIXI.Texture.from("Hotel00"));
+      scene3_ScenePic0.zIndex = 2;
+      scene3_ScenePic0.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic0.position.set(screenWidth / 2 - scene3_ScenePic0.width / 2, screenHeight / 2 - scene3_ScenePic0.height / 2 - 5);
+
+      let scene3_ScenePic1 = new PIXI.Sprite(PIXI.Texture.from("Hotel01"));
+      scene3_ScenePic1.zIndex = 1;
+      scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
+
+      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel02"));
+      scene3_ScenePic2.zIndex = 0;
+      scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
 
       scene3_sceneBoard.addChild(sceneA);
-      sceneA.addChild(scene3_ScenePic)
+      scene3_sceneBoard.sortableChildren = true;
+      sceneA.addChild(scene3_ScenePic2)
+      sceneA.addChild(scene3_ScenePic1)
+      //sceneA.addChild(scene3_ScenePic0)
+
+
 
       sceneA.char = [];
 
@@ -500,6 +521,7 @@ async function SetObject() {
     }
 
     // Scene1
+    //主角感嘆
     {
       let sceneA = new PIXI.Container();
 
@@ -553,6 +575,7 @@ async function SetObject() {
     }
 
     // Scene2
+    //主角被招募
     {
       let sceneA = new PIXI.Container();
 
@@ -596,6 +619,81 @@ async function SetObject() {
 
     }
 
+    // Scene3
+    //找完人回去在飯店
+    {
+      let sceneA = new PIXI.Container();
+
+      let scene3_ScenePic0 = new PIXI.Sprite(PIXI.Texture.from("Hotel00"));
+      scene3_ScenePic0.zIndex = 2;
+      scene3_ScenePic0.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic0.position.set(screenWidth / 2 - scene3_ScenePic0.width / 2, screenHeight / 2 - scene3_ScenePic0.height / 2 - 5);
+
+      let scene3_ScenePic1 = new PIXI.Sprite(PIXI.Texture.from("Hotel01"));
+      scene3_ScenePic1.zIndex = 1;
+      scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
+
+      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel02"));
+      scene3_ScenePic2.zIndex = 0;
+      scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
+
+      scene3_sceneBoard.addChild(sceneA);
+      scene3_sceneBoard.sortableChildren = true;
+      sceneA.addChild(scene3_ScenePic2)
+      sceneA.addChild(scene3_ScenePic1)
+      //sceneA.addChild(scene3_ScenePic0)
+
+      sceneA.char = [];
+
+      scene3_sceneList.push(sceneA);
+
+      sceneA.visible = false;
+
+    }
+
+    // Scene4
+    //主角發完書看到抗議(B2場景)
+    {
+      let sceneA = new PIXI.Container();
+
+      let scene3_ScenePic = new PIXI.Sprite(PIXI.Texture.from("B2Spe1"));
+      scene3_ScenePic.zIndex = -1;
+      scene3_ScenePic.scale.set(globalImageScale, globalImageScale);
+      scene3_ScenePic.position.set(0, 0);
+      scene3_ScenePic.position.set(screenWidth / 2 - scene3_ScenePic.width / 2, screenHeight / 2 - scene3_ScenePic.height / 2 - 5);
+
+      scene3_sceneBoard.addChild(sceneA);
+      sceneA.addChild(scene3_ScenePic)
+
+      scene3_sceneList.push(sceneA);
+
+      sceneA.visible = false;
+
+    }
+
+    // Scene5
+    //主角要去找人(B3場景)
+    {
+      let sceneA = new PIXI.Container();
+
+      let scene3_ScenePic = new PIXI.Sprite(PIXI.Texture.from("B3Spe1"));
+      scene3_ScenePic.zIndex = -1;
+      scene3_ScenePic.scale.set(globalImageScale, globalImageScale);
+      scene3_ScenePic.position.set(0, 0);
+      scene3_ScenePic.position.set(screenWidth / 2 - scene3_ScenePic.width / 2, screenHeight / 2 - scene3_ScenePic.height / 2 - 5);
+
+      scene3_sceneBoard.addChild(sceneA);
+      sceneA.addChild(scene3_ScenePic)
+
+
+      scene3_sceneList.push(sceneA);
+
+      sceneA.visible = false;
+
+    }
+
     //對話中出現的道具物件
     {
 
@@ -605,7 +703,7 @@ async function SetObject() {
 
       let book = new PIXI.Sprite(PIXI.Texture.from("illustrated0"));
       book.zIndex = 2;
-      book.scale.set(0.2,0.2);
+      book.scale.set(0.2, 0.2);
       book.position.set(225, -25);
 
       let block = new PIXI.Sprite(PIXI.Texture.from("block"));
@@ -687,12 +785,12 @@ async function GoToNextDialog() {
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
       // console.log(scene3_selectBoxes[i].text.width);
 
-      scene3_selectBoxes[i].text.x = -(scene3_selectBoxes[i].text.width) / 2;
-      scene3_selectBoxes[i].box.width = scene3_selectBoxes[i].text.width + 20;
+      scene3_selectBoxes[i].text.x = -(scene3_selectBoxes[i].text.width) / 2 + 2;
+      scene3_selectBoxes[i].box.width = scene3_selectBoxes[i].text.width + 30;
       scene3_selectBoxes[i].box.x = (- scene3_selectBoxes[i].box.width) / 2;
 
       scene3_selectBoxes[i].y =
-        (screenHeight - 20 - 125 - 15) - (60 + 20 * 0.8 + (3 - optionsNumber) * 10) * (i + 1) + (3 - optionsNumber) * -25;
+        (screenHeight - 20 - 145) - (60 + 20 * 0.8 + (3 - optionsNumber) * 10) * (i + 1) + (3 - optionsNumber) * -25;
 
 
     }

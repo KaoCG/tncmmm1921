@@ -55,9 +55,12 @@ async function ResetSetting() {
   scene4_stageTimer = 20;
   scene4_countDownTimer = 0;
 
+  //讓按鈕不會重複位置
+  scene4_lastButDir = -1;
+
   if (scene4_gameMode == 1) {
     await ReuseButton(-1);
-    await ReuseButton(-1);
+    //await ReuseButton(-1);
   }
 
 
@@ -517,6 +520,11 @@ async function ReuseButton(dir) {
   await scene4_buttonGroup.push(reuseItem);
 
   if (dir == -1) dir = Math.floor(Math.random() * 4);
+  
+  //讓新的按鈕位置不會和上次一樣
+  while(dir == scene4_lastButDir)dir = Math.floor(Math.random() * 4);
+  scene4_lastButDir = dir;
+
   if (scene4_buttonGroup.length != 1) {
     while (dir == scene4_buttonGroup[0].dir) {
       dir = Math.floor(Math.random() * 4);
@@ -750,8 +758,8 @@ function DetectButtonInput(dir) {
     if (scene4_buttonGroup[0].dir == dir) {
       AddScore(10);
       RecyleButton(scene4_buttonGroup, 0);
-      CheckButtonIndex();
       ReuseButton(-1);
+      CheckButtonIndex(); 
     } else {
       AddScore(-18);
     }

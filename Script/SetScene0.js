@@ -103,6 +103,10 @@ async function SetObject() {
       but.visible = false;
       EndThisScene();
     });
+
+    console.log(but2.width);
+    console.log(but2.height);
+ 
   }
 
   //cat
@@ -202,7 +206,6 @@ async function SetObject() {
   }
 
 }
-
 
 async function SetVideo() {
 
