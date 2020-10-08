@@ -109,6 +109,8 @@ async function ResetSetting() {
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
 
+      scene1_currentAudio = 'run1';
+
       break;
     case 8:
       for (let i = 0; i < 4; i++) {
@@ -119,6 +121,8 @@ async function ResetSetting() {
 
       scene1_finalDistant = 11800;
 
+      scene1_currentAudio = 'run2';
+
       break;
     case 12:
       for (let i = 0; i < 4; i++) {
@@ -128,6 +132,8 @@ async function ResetSetting() {
       }
 
       scene1_finalDistant = 11800;
+
+      scene1_currentAudio = 'run3';
 
       break;
   }
@@ -154,9 +160,7 @@ async function ResetSetting() {
 
   scene1_movingBoard.position.set(0, 0);
 
-
-
-  StartingFadeFunc();
+  StartingFadeFunc(scene1, scene1_currentAudio);
 }
 
 //設定容器
@@ -1551,7 +1555,7 @@ async function EndThisScene() {
   }
 
 
-  EndingFadeFunc(scene1);
+  EndingFadeFunc(scene1,scene1_currentAudio);
 }
 
 

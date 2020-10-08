@@ -6,6 +6,9 @@ async function CreateCenterComponent() {
 
   centerComponent.currentStage = 0;
 
+  centerComponent.currentAudio = null;
+  centerComponent.stopAudio = null;
+  centerComponent.startAudio = null;
   centerComponent.currentScene = null;
   centerComponent.stageResult = -1;
   centerComponent.dialogResult = -1;
@@ -67,21 +70,36 @@ async function CreateCenterComponent() {
 
 }
 
-function EndingFadeFunc(scene) {
+function EndingFadeFunc(scene, audio) {
   //
   centerComponent.currentScene = scene;
+
+  centerComponent.currentAudio = audio;
+
   centerComponent.fadeTimer = centerComponent.fadeFrame;
   centerComponent.fadeUI.x = -(screenHeight);
   app.ticker.add(EndingFade);
 }
 
-function StartingFadeFunc() {
+function StartingFadeFunc(scene, audio) {
 
   centerComponent.fadeTimer = centerComponent.fadeFrame + 20;
+  centerComponent.currentScene = scene;
+
+
+  centerComponent.currentAudio = audio;
+
+
+  if (centerComponent.currentAudio != null) {
+
+    PIXI.sound.volumeAll = 0;
+    PIXI.sound.play(centerComponent.currentAudio);
+
+  }
+
 
   app.ticker.add(StartingFade);
 }
-
 
 function EndingFade(deltaTime) {
 
@@ -89,9 +107,18 @@ function EndingFade(deltaTime) {
 
   centerComponent.fadeUI.x += (screenWidth + screenHeight * 2) / centerComponent.fadeFrame;
 
+  if (centerComponent.currentAudio != null) {
+    PIXI.sound.volumeAll = centerComponent.fadeTimer / centerComponent.fadeFrame;
+  }
+
   if (centerComponent.fadeTimer == 0) {
 
     app.ticker.remove(EndingFade);
+
+    if (centerComponent.currentAudio != null) {
+      PIXI.sound.volumeAll = 0;
+      PIXI.sound.stop(centerComponent.currentAudio);
+    }
 
     if (centerComponent.currentScene != null) centerComponent.currentScene.visible = false;
     GoToNextScene();
@@ -100,18 +127,29 @@ function EndingFade(deltaTime) {
 
 function StartingFade(deltaTime) {
 
- 
-
   centerComponent.fadeTimer -= 1;
 
   if (centerComponent.fadeTimer <= centerComponent.fadeFrame) {
     centerComponent.fadeUI.x += (screenWidth + screenHeight * 2) / centerComponent.fadeFrame;
+
+    if (centerComponent.currentAudio != null) {
+
+      PIXI.sound.volumeAll = (1 - centerComponent.fadeTimer / (centerComponent.fadeFrame));
+      console.log(1 - centerComponent.fadeTimer / (centerComponent.fadeFrame));
+    }
   }
 
   if (centerComponent.fadeTimer == 0) {
 
-    app.ticker.remove(StartingFade);
+    if (centerComponent.currentAudio != null) {
+
+      //PIXI.sound.volumeAll= 1;
+
+    }
+
     centerComponent.fadeUI.x = -(screenHeight);
+    app.ticker.remove(StartingFade);
+
   }
 }
 
@@ -126,7 +164,7 @@ async function GoToNextScene() {
   //centerComponent.currentStage =10;
   //loadScript("Script/SetScene3.js");
   //return;
-  
+
 
   switch (centerComponent.currentStage) {
     case 1:

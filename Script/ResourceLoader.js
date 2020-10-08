@@ -37,25 +37,27 @@ async function LoadResourceLoader() {
     app.stage.addChild(blackrectangleB);
   }
 
-  //把畫面放入html
-  document.getElementById("display").appendChild(app.view);
-  PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-
-   //這個用影片時暫時暫停
- 
-  await LoadScene0();
-
-  await SetLoader();
 
   await resize();
   window.addEventListener('resize', resize);
 
+  //把畫面放入html
+  document.getElementById("display").appendChild(app.view);
+  PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
+
+  //這個用影片時暫時暫停
+
+  await LoadScene0();
+
+  await SetLoader();
+
+  await ResetSetting();
 
   //console.log(   blackrectangleA.position);
   //blackrectangleA.position.set( blackrectangleA.position.x, blackrectangleA.position.y);
   //console.log(   blackrectangleA.position);
   //console.log(   blackrectangleB.position);
- 
+
 }
 
 async function LoadScene0() {
@@ -68,8 +70,9 @@ async function LoadScene0() {
 
   await LoadSetting();
   await SetObject();
-  //await SetVideo();
 
+
+  //await SetVideo();
   //StartingFadeFunc();
 }
 
@@ -119,14 +122,14 @@ async function SetObject() {
     start1.scale.set(globalImageScale, globalImageScale);
     start1.zIndex = 3;
     scene0.addChild(start1);
-    start1.y = -22;
+    start1.y = -30;
     start1.x = 0;
 
     let start0 = new PIXI.Sprite.from("./Resource/Final/StartScene/Start00.png");
     start0.scale.set(globalImageScale, globalImageScale);
     start0.zIndex = 4;
     scene0.addChild(start0);
-    start0.y = -22;
+    start0.y = -30;
 
     let but2 = new PIXI.Sprite(PIXI.Texture.from("./Resource/Final/StartScene/StartBut02.png"));
     but2.width = 806.74;
@@ -142,41 +145,41 @@ async function SetObject() {
 
     scene0_but = but2;
 
-  /*  let but = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut02.png");
-    but.width = start0.width * 1.1;
-    but.height = start0.height * 1.1;
-    but.zIndex = 10;
-    but.visible = true;
-    scene0.addChild(but);
-    but.y = -42;
-    but.x = -42;
-
-    but.interactive = true;
-    but.buttonMode = true;
-
-    but.addListener("pointerdown", function () {
-      but.visible = false;
-      //EndThisScene();
-    });*/
+    /*  let but = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut02.png");
+      but.width = start0.width * 1.1;
+      but.height = start0.height * 1.1;
+      but.zIndex = 10;
+      but.visible = true;
+      scene0.addChild(but);
+      but.y = -42;
+      but.x = -42;
+  
+      but.interactive = true;
+      but.buttonMode = true;
+  
+      but.addListener("pointerdown", function () {
+        but.visible = false;
+        //EndThisScene();
+      });*/
 
     but2.addListener("pointerdown", function () {
       //but.visible = true;
       //but.visible = false;
-     
+
       onAssetsLoaded();
 
       //EndThisScene();
     });
 
- 
-    
+
+
   }
 
   //cat
   {
-    let cat_frame = [PIXI.Texture.from("./Resource/Final/StartScene/cat0.png"), 
-    PIXI.Texture.from("./Resource/Final/StartScene/cat1.png"), 
-    PIXI.Texture.from("./Resource/Final/StartScene/cat2.png"), 
+    let cat_frame = [PIXI.Texture.from("./Resource/Final/StartScene/cat0.png"),
+    PIXI.Texture.from("./Resource/Final/StartScene/cat1.png"),
+    PIXI.Texture.from("./Resource/Final/StartScene/cat2.png"),
     PIXI.Texture.from("./Resource/Final/StartScene/cat3.png")];
 
     let cat = new PIXI.AnimatedSprite(cat_frame);
@@ -189,7 +192,7 @@ async function SetObject() {
     //1000->-200
     cat.zIndex = 3.5;
     cat.x = 1500;
-    cat.y = 305;
+    cat.y = 300;
     scene0.addChild(cat);
 
     let counter = 0;
@@ -220,12 +223,12 @@ async function SetObject() {
   //runner
   {
     let runner_frame = [
-      PIXI.Texture.from("./Resource/Final/runner/runnerR0.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerR1.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerR2.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerR3.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerR4.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerR5.png")];
+      PIXI.Texture.from("./Resource/Final/runner/runnerR0.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerR1.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerR2.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerR3.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerR4.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerR5.png")];
 
     let runner = new PIXI.AnimatedSprite(runner_frame);
     runner.animationSpeed = 0.15;
@@ -255,13 +258,13 @@ async function SetObject() {
 
     }
 
-    let runnerS_frame = 
-    [PIXI.Texture.from("./Resource/Final/runner/runnerRS0.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerRS1.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerRS2.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerRS3.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerRS4.png"), 
-    PIXI.Texture.from("./Resource/Final/runner/runnerRS5.png")];
+    let runnerS_frame =
+      [PIXI.Texture.from("./Resource/Final/runner/runnerRS0.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerRS1.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerRS2.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerRS3.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerRS4.png"),
+      PIXI.Texture.from("./Resource/Final/runner/runnerRS5.png")];
 
     let runnerS = new PIXI.AnimatedSprite(runnerS_frame);
     runnerS.animationSpeed = 0.15;
@@ -287,29 +290,38 @@ async function SetObject() {
   //resize();
 }
 
+async function ResetSetting() {
+  scene0.visible = true;
+  PIXI.sound.play('theme');
+}
+
 async function SetLoader() {
 
 
   await document.fonts.load('16px pixelFont');
   await document.fonts.load('8px pixelSilver');
 
-  //await CreateLoadingText();
+  //音樂載入
+  PIXI.sound.add('plot', './Resource/Music/mp3/plot.mp3');
+  PIXI.sound.add('run1', './Resource/Music/mp3/run1.mp3');
+  PIXI.sound.add('run2', './Resource/Music/mp3/run2.mp3');
+  PIXI.sound.add('run3', './Resource/Music/mp3/run3.mp3');
+  PIXI.sound.add('small_game1', './Resource/Music/mp3/small_game1.mp3');
+  PIXI.sound.add('small_game2', './Resource/Music/mp3/small_game2.mp3');
+  PIXI.sound.add('theme', './Resource/Music/mp3/theme.mp3');
 
-  const loader = new PIXI.Loader();
+
+
+  //團片載入
+  await PIXI.loader.onComplete.add(finishHandler);
 
   PIXI.loader
     .add("slime", "./Resource/slimeSpriteSheet.json")
     .add("apple", "./Resource/apple.json")
-    //.add("tree", "./Resource/tree2.png")
-    //.add("bg", "./Resource/bg_low.png")
     .add("statue", "./Resource/statue.png")
-    //.add("book", "./Resource/book.png")
-    //.add("bookMark", "./Resource/bookmark.png")
     .add("sight", "./Resource/sight.png")
     .add("textContent", "./Resource/textContent.json")
     .add("paper", "./Resource/paper.png")
-    //.add("building0", "./Resource/Final/building0.png")
-    //.add("table0", "./Resource/Final/table0.png")
     .add("video", "./Resource/video.webm")
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
@@ -398,6 +410,19 @@ async function SetLoader() {
       PIXI.loader.add("B1S" + i + "" + j, "./Resource/Final/B1/B1select/B1S" + i + "" + j + ".png");
     }
   }
+  //跑步2的選擇物件
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 2; j++) {
+      PIXI.loader.add("B2S" + i + "" + j, "./Resource/Final/B2/B2select/B2S" + i + "" + j + ".png");
+    }
+  }
+  PIXI.loader.add("B2S32", "./Resource/Final/B2/B2select/B2S32.png");
+  //跑步3的選擇物件
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 2; j++) {
+      PIXI.loader.add("B3S" + i + "" + j, "./Resource/Final/B3/B3select/B3S" + i + "" + j + ".png");
+    }
+  }
 
   //過廠對話1的人物場景
   PIXI.loader.add("B1C0", "./Resource/Final/character/full/B1PeopleA.png");
@@ -417,13 +442,7 @@ async function SetLoader() {
   PIXI.loader.add("M112", "./Resource/Final/M1/M112.png");
   PIXI.loader.add("M113", "./Resource/Final/M1/M113.png");
 
-  //跑步2的選擇物件
-  for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 2; j++) {
-      PIXI.loader.add("B2S" + i + "" + j, "./Resource/Final/B2/B2select/B2S" + i + "" + j + ".png");
-    }
-  }
-  PIXI.loader.add("B2S32", "./Resource/Final/B2/B2select/B2S32.png");
+
 
   //小遊戲2 的場景背景/物件
   PIXI.loader.add("policeSmall", "./Resource/Final/M2/police.png");
@@ -476,9 +495,9 @@ function loadProgressHandler(loader, resource) {
 
   if (loader.progress.toFixed(2) > 99) {
     //等下打開
-   // onAssetsLoaded();
-   scene0_but.visible = true;
-   sceneLoading_scoreText.visible = false;
+    // onAssetsLoaded();
+    scene0_but.visible = true;
+    sceneLoading_scoreText.visible = false;
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
@@ -539,7 +558,7 @@ async function onAssetsLoaded() {
   clickBox.buttonMode = true;
 
   clickBox.addListener("pointerdown", async function () {
-    
+
     //測試時關閉
     //
     //EndThisScene();
@@ -573,7 +592,7 @@ async function EndThisScene() {
   await CreateCenterComponent();
   sceneLoading.visible = false;
   //openFullscreen();
- 
+
   for (let i = 0; i < scene0_keyGroup.length; i++) {
     scene0_keyGroup[i].press = null;
   }
@@ -582,13 +601,9 @@ async function EndThisScene() {
     app.ticker.remove(scene0_tickerFunc[i]);
   }
 
-  //scene0.visible = false;
 
-  // videoSprite.visible = false;
-  //  videoSprite.parent.removeChild(videoSprite);
-  //videoSprite.destroy({ children: true });
 
-  EndingFadeFunc(scene0);
+  EndingFadeFunc(scene0, 'theme');
   //GoToNextScene();
 
 

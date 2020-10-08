@@ -11,7 +11,7 @@ async function LoadScene5() {
   }
 
   scene5.visible = true;
-  StartingFadeFunc();
+  StartingFadeFunc(scene5,null);
 }
 
 //讀取設定
@@ -376,7 +376,7 @@ function buttonA() {
 
   centerComponent.currentStage = 1;
 
-  EndingFadeFunc(scene5);
+  EndingFadeFunc(scene5,null);
 }
 
 function buttonB() {

@@ -68,7 +68,9 @@ function ResetSetting() {
 
   //顯示畫面
   scene2.visible = true;
-  StartingFadeFunc();
+
+  StartingFadeFunc(scene2,'small_game1');
+
 }
 
 //讀取設定
@@ -729,5 +731,5 @@ async function EndThisScene() {
     centerComponent.stageResult = 1;
   }
 
-  EndingFadeFunc(scene2);
+  EndingFadeFunc(scene2,'small_game1');
 }

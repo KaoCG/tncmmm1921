@@ -15,6 +15,7 @@ async function LoadScene3() {
   await ResetSetting();
 
 
+
 }
 
 //讀取設定
@@ -162,9 +163,7 @@ async function ResetSetting() {
 
   scene3_nameBox[0].visible = true;
 
-
-
-  StartingFadeFunc();
+  StartingFadeFunc(scene3,'plot');
 }
 
 //設定容器
@@ -1181,7 +1180,7 @@ function EndThisScene() {
   }
 
 
-  EndingFadeFunc(scene3);
+  EndingFadeFunc(scene3,'plot');
 }
 
 function characterEnter(index) {

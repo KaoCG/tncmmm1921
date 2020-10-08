@@ -66,7 +66,7 @@ async function ResetSetting() {
 
   scene4.visible = true;
 
-  StartingFadeFunc();
+  StartingFadeFunc(scene4,'small_game2');
 }
 
 //讀取設定
@@ -875,6 +875,6 @@ function EndThisScene() {
     app.ticker.remove(scene4_tickerFunc[i]);
   }
 
-  EndingFadeFunc(scene4);
+  EndingFadeFunc(scene4,'small_game2');
 }
 
