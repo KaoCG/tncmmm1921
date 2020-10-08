@@ -302,13 +302,13 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
 
   //音樂載入
-  PIXI.sound.add('plot', './Resource/Music/mp3/plot.mp3');
-  PIXI.sound.add('run1', './Resource/Music/mp3/run1.mp3');
-  PIXI.sound.add('run2', './Resource/Music/mp3/run2.mp3');
-  PIXI.sound.add('run3', './Resource/Music/mp3/run3.mp3');
-  PIXI.sound.add('small_game1', './Resource/Music/mp3/small_game1.mp3');
-  PIXI.sound.add('small_game2', './Resource/Music/mp3/small_game2.mp3');
-  PIXI.sound.add('theme', './Resource/Music/mp3/theme.mp3');
+  await PIXI.sound.add('plot', './Resource/Music/mp3/plot.mp3');
+  await PIXI.sound.add('run1', './Resource/Music/mp3/run1.mp3');
+  await PIXI.sound.add('run2', './Resource/Music/mp3/run2.mp3');
+  await PIXI.sound.add('run3', './Resource/Music/mp3/run3.mp3');
+  await PIXI.sound.add('small_game1', './Resource/Music/mp3/small_game1.mp3');
+  await PIXI.sound.add('small_game2', './Resource/Music/mp3/small_game2.mp3');
+  await PIXI.sound.add('theme', './Resource/Music/mp3/theme.mp3');
 
 
 
