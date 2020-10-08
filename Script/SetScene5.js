@@ -11,7 +11,7 @@ async function LoadScene5() {
   }
 
   scene5.visible = true;
-  StartingFadeFunc(scene5,null);
+  StartingFadeFunc(scene5,'theme');
 }
 
 //讀取設定
@@ -373,13 +373,14 @@ function GameFunction() {
 
 function buttonA() {
 
-
+  PIXI.sound.play('button_click');
   centerComponent.currentStage = 1;
 
-  EndingFadeFunc(scene5,null);
+  EndingFadeFunc(scene5,'theme');
 }
 
 function buttonB() {
+  PIXI.sound.play('button_click');
   window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', 'Share tncmmm1921');
 }
 
