@@ -23,7 +23,7 @@ async function CreateCenterComponent() {
     fadeUI.position.set(screenWidth + screenHeight, 0);
     fadeUI.sortableChildren = true;
 
-    let fadeUIInstance = new PIXI.Sprite(PIXI.Texture.from("fade"));
+    let fadeUIInstance = new PIXI.Sprite.from("./Resource/Fade.png");
     fadeUIInstance.pivot.set(fadeUIInstance.width / 2, fadeUIInstance.height / 2);
     fadeUIInstance.width = screenHeight;
     fadeUIInstance.height = screenHeight * 2;
@@ -31,10 +31,12 @@ async function CreateCenterComponent() {
     fadeUIInstance.tint = 0x000000;
     fadeUIInstance.rotation = 90 * (Math.PI / 180);
 
+    
+
     fadeUIInstance.interactive = true;
     fadeUIInstance.buttonMode = true;
 
-    let blackUIInstance = new PIXI.Sprite(PIXI.Texture.from("white"));
+    let blackUIInstance = new PIXI.Sprite.from("./Resource/White.png");
     blackUIInstance.pivot.set(blackUIInstance.width / 2, blackUIInstance.height / 2);
     blackUIInstance.width = screenWidth;
     blackUIInstance.height = screenHeight;
@@ -44,7 +46,9 @@ async function CreateCenterComponent() {
     blackUIInstance.interactive = true;
     blackUIInstance.buttonMode = true;
 
-    let fadeUIInstance2 = new PIXI.Sprite(PIXI.Texture.from("fade"));
+    //console.log(  blackUIInstance.position);
+
+    let fadeUIInstance2 = new PIXI.Sprite.from("./Resource/Fade.png");
     fadeUIInstance2.pivot.set(fadeUIInstance2.width / 2, fadeUIInstance2.height / 2);
     fadeUIInstance2.width = screenHeight;
     fadeUIInstance2.height = screenHeight * 2;
@@ -93,7 +97,7 @@ function StartingFadeFunc(scene, audio) {
   if (centerComponent.currentAudio != null) {
 
     PIXI.sound.volumeAll = 0;
-    PIXI.sound.play(centerComponent.currentAudio);
+    PIXI.sound.play(centerComponent.currentAudio,{loop:true});
 
   }
 
@@ -135,7 +139,7 @@ function StartingFade(deltaTime) {
     if (centerComponent.currentAudio != null) {
 
       PIXI.sound.volumeAll = (1 - centerComponent.fadeTimer / (centerComponent.fadeFrame));
-      console.log(1 - centerComponent.fadeTimer / (centerComponent.fadeFrame));
+      //console.log(1 - centerComponent.fadeTimer / (centerComponent.fadeFrame));
     }
   }
 
@@ -161,7 +165,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  //centerComponent.currentStage =10;
+  //centerComponent.currentStage =4;
   //loadScript("Script/SetScene3.js");
   //return;
 

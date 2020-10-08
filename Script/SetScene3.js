@@ -225,21 +225,6 @@ async function SetObject() {
       scene3_dialogBox.buttonMode = true;
 
       //padding可以處理字體顯示位置不正確的問題
-      /*let style = new PIXI.TextStyle({
-        fontFamily: "pixelSilver",       
-        fontSize: 32,
-        fill: "white",
-        fontStyle: "normal",
-        fontWeight: "100",
-        //stroke: '#000000',
-        //strokeThickness: 0,
-        letterSpacing: 3,
-        align: "left",
-        padding: 10,
-        lineHeight: 32
-      });*/
-
-      //padding可以處理字體顯示位置不正確的問題
       let style = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
         fontSize: 54,
@@ -253,8 +238,6 @@ async function SetObject() {
         padding: 10,
         lineHeight: 54
       });
-
-
 
       //新版文字框
       {
@@ -1082,6 +1065,9 @@ async function GameFunction() {
   });
 
   scene3_dialogBox.on("pointerdown", function () {
+
+    PIXI.sound.play('talking_click');
+
     if (scene3_dialogBox.dialogEnd == true) {
       scene3_dialogBox.dialogEnd = false;
       scene3_dialogBox.active = false;
@@ -1099,6 +1085,7 @@ async function GameFunction() {
 
     scene3_selectBoxes[i].addListener("pointerdown", () => {
 
+      PIXI.sound.play('choose_click');
       clickSelectBox(i);
 
     });

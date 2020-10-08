@@ -34,7 +34,7 @@ function ResetSetting() {
   //scene2_stampBox.visible = false;
   //scene2_stampBox2.visible = false;
 
-  scene2_title.alpha =1;
+  scene2_title.alpha = 1;
 
   //重置隨機產生書本
   scene2_randomAddItemTimer = 0;
@@ -69,7 +69,7 @@ function ResetSetting() {
   //顯示畫面
   scene2.visible = true;
 
-  StartingFadeFunc(scene2,'small_game1');
+  StartingFadeFunc(scene2, 'small_game1');
 
 }
 
@@ -256,7 +256,7 @@ function SetObject() {
     scene2_title = new PIXI.Sprite(PIXI.Texture.from("M113"));
     scene2_title.zIndex = 20;
     scene2_title.scale.set(globalImageScale, globalImageScale);
-    scene2_title.position.set(screenWidth/2-scene2_title.width/2,screenHeight/2-scene2_title.height/2);
+    scene2_title.position.set(screenWidth / 2 - scene2_title.width / 2, screenHeight / 2 - scene2_title.height / 2);
     scene2.addChild(scene2_title);
 
 
@@ -352,8 +352,8 @@ function SetObject() {
       let stampBoxText = new PIXI.Sprite(PIXI.Texture.from("M112"));
       scene2_stampBox.addChild(stampBoxText);
       stampBoxText.scale.set(0.18, 0.18);
-      stampBoxText.x = - stampBoxText.width / 2 + scene2_stampBox.width / 4 +2;
-      stampBoxText.y = - stampBoxText.height / 2 + scene2_stampBox.height / 4 +1;
+      stampBoxText.x = - stampBoxText.width / 2 + scene2_stampBox.width / 4 + 2;
+      stampBoxText.y = - stampBoxText.height / 2 + scene2_stampBox.height / 4 + 1;
 
 
       scene2_stampBox2 = new PIXI.Sprite(PIXI.Texture.from("M105"));
@@ -366,8 +366,8 @@ function SetObject() {
       let stampBoxText2 = new PIXI.Sprite(PIXI.Texture.from("M112"));
       scene2_stampBox2.addChild(stampBoxText2);
       stampBoxText2.scale.set(0.18, 0.18);
-      stampBoxText2.x = - stampBoxText2.width / 2 + scene2_stampBox2.width / 4 ;
-      stampBoxText2.y = - stampBoxText2.height / 2 + scene2_stampBox2.height / 4 -0.5;
+      stampBoxText2.x = - stampBoxText2.width / 2 + scene2_stampBox2.width / 4;
+      stampBoxText2.y = - stampBoxText2.height / 2 + scene2_stampBox2.height / 4 - 0.5;
 
 
     }
@@ -514,7 +514,7 @@ function detectMarkPos() {
 
     if (dis < 0) dis *= -1;
 
-    if (dis < 15) { thisScore = 30; perfectHit = true; }
+    if (dis < 15) { thisScore = 30; perfectHit = true; PIXI.sound.play('get_something'); }
     else if (dis < 35) { thisScore = 10; }
     else if (dis < 60) { thisScore = 5; }
     else if (dis < 80) { thisScore = -10; }
@@ -538,22 +538,28 @@ function detectMarkPos() {
       let shineTimer = 0;
       app.ticker.add(function BookShine(deltaTime) {
 
-        shineTimer++;
-
-
-        if (shineTimer == 6) {
-          scene2_bookGroup[targetBook].border.texture = PIXI.Texture.from("M103");
-        }
-        else if (shineTimer == 12) {
-          scene2_bookGroup[targetBook].border.texture = PIXI.Texture.from("M104");
-        }
-        else if (shineTimer == 18) {
-          scene2_bookGroup[targetBook].border.texture = PIXI.Texture.from("M103");
-        }
-        else if (shineTimer > 24) {
-          scene2_bookGroup[targetBook].border.visible = false;
+        if (scene2_bookGroup[targetBook] === undefined) {
           app.ticker.remove(BookShine);
         }
+        else {
+          shineTimer++;
+
+          if (shineTimer == 6) {
+            scene2_bookGroup[targetBook].border.texture = PIXI.Texture.from("M103");
+          }
+          else if (shineTimer == 12) {
+            scene2_bookGroup[targetBook].border.texture = PIXI.Texture.from("M104");
+          }
+          else if (shineTimer == 18) {
+            scene2_bookGroup[targetBook].border.texture = PIXI.Texture.from("M103");
+          }
+          else if (shineTimer > 24) {
+            scene2_bookGroup[targetBook].border.visible = false;
+            app.ticker.remove(BookShine);
+          }
+        }
+
+
 
 
 
@@ -668,27 +674,23 @@ function GameFunction() {
     function TitleShowUp(deltaTime) {
       scene2_startTimer++;
 
-      if(scene2_startTimer<= 20)
-      {
-        scene2_title.scale.set(((1-scene2_startTimer/20)*2+1)*globalImageScale,((1-scene2_startTimer/20)*2+1)*globalImageScale);
-        scene2_title.position.set(screenWidth/2-scene2_title.width/2,screenHeight/2-scene2_title.height/2)
-  
-      }
-      else if(scene2_startTimer <= 60)
-      {
-      }
-      else if(scene2_startTimer <= 100)
-      {
-        scene2_title.alpha = (1-(scene2_startTimer-60)/40);
-      }
-      else 
-      {
-          scene2_stampBox.visible = true;
-          scene2_stampBox2.visible = true;
+      if (scene2_startTimer <= 20) {
+        scene2_title.scale.set(((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale);
+        scene2_title.position.set(screenWidth / 2 - scene2_title.width / 2, screenHeight / 2 - scene2_title.height / 2)
 
-          app.ticker.remove(TitleShowUp);
       }
-     
+      else if (scene2_startTimer <= 60) {
+      }
+      else if (scene2_startTimer <= 100) {
+        scene2_title.alpha = (1 - (scene2_startTimer - 60) / 40);
+      }
+      else {
+        scene2_stampBox.visible = true;
+        scene2_stampBox2.visible = true;
+
+        app.ticker.remove(TitleShowUp);
+      }
+
     }
   }
 
@@ -699,6 +701,8 @@ function GameFunction() {
       scene2_stampBox2.visible = 0;
       scene2_hand.texture = PIXI.Texture.from("M101");
       scene2_hand.timer = 0;
+
+      PIXI.sound.play('stamp');
 
       createMark(scene2_movingDistant);
       detectMarkPos();
@@ -731,5 +735,5 @@ async function EndThisScene() {
     centerComponent.stageResult = 1;
   }
 
-  EndingFadeFunc(scene2,'small_game1');
+  EndingFadeFunc(scene2, 'small_game1');
 }

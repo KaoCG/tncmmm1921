@@ -1356,6 +1356,11 @@ function GameFunction() {
           //console.log(scene1_itemGroup[i].id);
           RecycleItem(scene1_itemGroup, i);
 
+          //PIXI.sound.play('get_something');
+          //PIXI.sound.play('button_click');
+          PIXI.sound.play('choose_click');
+          PIXI.sound.play('small_game_click');
+          
           //3符咒 4紳章 7錢袋
         }
       }
@@ -1442,12 +1447,16 @@ function GameFunction() {
       //確認所有啟動中的可選物件是否與玩家重疊
       for (let i = 0; i < scene1_selectableGroup.length; i++) {
 
+        //當成功碰到的話
         if (scene1_selectableGroup[i].activate && hitTestRectangle(scene1_runner.detectArea, scene1_selectableGroup[i].detectArea)) {
           //任意物件都只能啟動一次
           scene1_selectableGroup[i].activate = false;
           scene1_selectableGroup[i].instance.gotoAndStop(1);
           canSelect = true;
           index = i;
+
+          //PIXI.sound.play('choose_click');
+          PIXI.sound.play('get_something');
 
           let counter = 0;
           app.ticker.add(function ChooseShine(deltaTime) {
@@ -1492,6 +1501,7 @@ function GameFunction() {
   //按鈕相關
   {
     scene1_buttonGroup[0].addListener("pointerdown", function () {
+      PIXI.sound.play('jump');
       SlimeJump();
     });
 

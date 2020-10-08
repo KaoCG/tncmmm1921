@@ -760,6 +760,9 @@ function DetectButtonInput(dir) {
       RecyleButton(scene4_buttonGroup, 0);
       ReuseButton(-1);
       CheckButtonIndex(); 
+
+      PIXI.sound.play('small_game_click');
+
     } else {
       AddScore(-18);
     }

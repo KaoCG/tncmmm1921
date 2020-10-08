@@ -13,6 +13,40 @@ async function LoadResourceLoader() {
   app.stage.sortableChildren = true;
   app.renderer.backgroundColor = 0x000000;
 
+
+  Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/White.png");
+  Scene0_TouchToStartBlack.width = screenWidth;
+  Scene0_TouchToStartBlack.height = screenHeight;
+  Scene0_TouchToStartBlack.tint = 0x000000;
+  Scene0_TouchToStartBlack.position.set(0, 0);
+
+  let style = new PIXI.TextStyle({
+    fontFamily: "pixelSliver",
+    fontSize: 96,
+    fill: "white",
+    stroke: '#000000',
+    strokeThickness: 0,
+    letterSpacing: 9,
+    padding: 100
+  });
+
+  Scene0_TouchToStartText = new PIXI.Text("Touch To Start", style);
+  Scene0_TouchToStartText.scale.set(0.5, 0.5);
+  Scene0_TouchToStartText.position.set(screenWidth / 2 - Scene0_TouchToStartText.width / 2, screenHeight / 2 - Scene0_TouchToStartText.height / 2);
+
+  Scene0_TouchToStartBlack.interactive = true;
+  Scene0_TouchToStartBlack.buttonMode = true;
+  Scene0_TouchToStartBlack.addListener("pointerdown", function () {
+
+    Scene0_TouchToStartBlack.visible = false;
+    Scene0_TouchToStartText.visible = false;
+    TouchToStart();
+  });
+
+  app.stage.addChild(Scene0_TouchToStartBlack);
+  app.stage.addChild(Scene0_TouchToStartText);
+
+
   //這個是影片用的設定
   /*app = new PIXI.Application({
     autoResize: true,
@@ -37,26 +71,26 @@ async function LoadResourceLoader() {
     app.stage.addChild(blackrectangleB);
   }
 
-
-  await resize();
-  window.addEventListener('resize', resize);
-
   //把畫面放入html
   document.getElementById("display").appendChild(app.view);
   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
 
-  //這個用影片時暫時暫停
+  //調整畫面大小
+  await resize();
+  window.addEventListener('resize', resize);
 
+}
+
+async function TouchToStart() {
   await LoadScene0();
 
   await SetLoader();
 
   await ResetSetting();
 
-  //console.log(   blackrectangleA.position);
-  //blackrectangleA.position.set( blackrectangleA.position.x, blackrectangleA.position.y);
-  //console.log(   blackrectangleA.position);
-  //console.log(   blackrectangleB.position);
+
+  //等一下要打開
+  //screenfull.request();
 
 }
 
@@ -131,47 +165,40 @@ async function SetObject() {
     scene0.addChild(start0);
     start0.y = -30;
 
-    let but2 = new PIXI.Sprite(PIXI.Texture.from("./Resource/Final/StartScene/StartBut02.png"));
-    but2.width = 806.74;
-    but2.height = 492.15;
-    but2.zIndex = 10;
-    scene0.addChild(but2);
-    but2.y = -41;
-    but2.x = 0;
-    but2.visible = false;
+    scene0_but2 = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut01.png");
+    scene0_but2.width = 806.74;
+    scene0_but2.height = 492.15;
+    scene0_but2.zIndex = 10;
+    scene0.addChild(scene0_but2);
+    scene0_but2.y = -42;
+    scene0_but2.x = 1;
+    scene0_but2.interactive = true;
+    scene0_but2.buttonMode = true;
 
-    but2.interactive = true;
-    but2.buttonMode = true;
+    scene0_but = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut00.png");
+    //but.width = start0.width * 1.1;
+    //but.height = start0.height * 1.1;
+    scene0_but.width = 806.74;
+    scene0_but.height = 492.15;
+    scene0_but.zIndex = 11;
+    scene0.addChild(scene0_but);
+    scene0_but.y = -46;
+    scene0_but.x = -5;
+    scene0_but.interactive = true;
+    scene0_but.buttonMode = true;
 
-    scene0_but = but2;
-
-    /*  let but = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut02.png");
-      but.width = start0.width * 1.1;
-      but.height = start0.height * 1.1;
-      but.zIndex = 10;
-      but.visible = true;
-      scene0.addChild(but);
-      but.y = -42;
-      but.x = -42;
-  
-      but.interactive = true;
-      but.buttonMode = true;
-  
-      but.addListener("pointerdown", function () {
-        but.visible = false;
-        //EndThisScene();
-      });*/
-
-    but2.addListener("pointerdown", function () {
-      //but.visible = true;
-      //but.visible = false;
-
-      onAssetsLoaded();
-
-      //EndThisScene();
+    scene0_but.addListener("pointerdown", function () {
+      scene0_but.visible = false;
+      PIXI.sound.play('button_click');
     });
 
+    scene0_but2.addListener("pointerup", function () {
+      scene0_but.visible = true;
+      EndThisScene();
+    });
 
+    scene0_but.visible = false;
+    scene0_but2.visible = false;
 
   }
 
@@ -292,7 +319,14 @@ async function SetObject() {
 
 async function ResetSetting() {
   scene0.visible = true;
-  PIXI.sound.play('theme');
+  // PIXI.sound.volumeAll = 1;
+
+  // console.log( PIXI.sound.volumeAll );
+  // StartingFadeFunc(scene0,'theme')
+  PIXI.sound.play('theme', { loop: true });
+  // PIXI.sound.volumeAll = 1;
+
+
 }
 
 async function SetLoader() {
@@ -302,15 +336,21 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
 
   //音樂載入
-  await PIXI.sound.add('plot', './Resource/Music/mp3/plot.mp3');
-  await PIXI.sound.add('run1', './Resource/Music/mp3/run1.mp3');
-  await PIXI.sound.add('run2', './Resource/Music/mp3/run2.mp3');
-  await PIXI.sound.add('run3', './Resource/Music/mp3/run3.mp3');
-  await PIXI.sound.add('small_game1', './Resource/Music/mp3/small_game1.mp3');
-  await PIXI.sound.add('small_game2', './Resource/Music/mp3/small_game2.mp3');
-  await PIXI.sound.add('theme', './Resource/Music/mp3/theme.mp3');
+  await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
+  await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
+  await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
+  await PIXI.sound.add('run3', './Resource/Music/BGM/run3.mp3');
+  await PIXI.sound.add('small_game1', './Resource/Music/BGM/small_game1.mp3');
+  await PIXI.sound.add('small_game2', './Resource/Music/BGM/small_game2.mp3');
+  await PIXI.sound.add('theme', './Resource/Music/BGM/theme.mp3');
 
-
+  await PIXI.sound.add('button_click', './Resource/Music/SE/button_click.mp3');
+  await PIXI.sound.add('choose_click', './Resource/Music/SE/choose_click.mp3');
+  await PIXI.sound.add('get_something', './Resource/Music/SE/get_something.mp3');
+  await PIXI.sound.add('jump', './Resource/Music/SE/jump.mp3');
+  await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
+  await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
+  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');
 
   //團片載入
   await PIXI.loader.onComplete.add(finishHandler);
@@ -477,15 +517,13 @@ async function SetLoader() {
 
 function finishHandler(loader, resource) {
 
-
   //onAssetsLoaded();
   scene0_but.visible = true;
+  scene0_but2.visible = true;
   sceneLoading_scoreText.visible = false;
 }
 
 function loadProgressHandler(loader, resource) {
-
-
 
   // console.log(resource.name);
   // console.log(loader.progress.toFixed(2));
@@ -496,6 +534,7 @@ function loadProgressHandler(loader, resource) {
   if (loader.progress.toFixed(2) > 99) {
     //等下打開
     // onAssetsLoaded();
+
     scene0_but.visible = true;
     sceneLoading_scoreText.visible = false;
   }
@@ -557,17 +596,11 @@ async function onAssetsLoaded() {
   clickBox.interactive = true;
   clickBox.buttonMode = true;
 
-  clickBox.addListener("pointerdown", async function () {
-
-    //測試時關閉
-    //
-    //EndThisScene();
-  });
   sceneLoading.addChild(clickBox);
 
-  //暫時關閉
+
   EndThisScene();
-  screenfull.request();
+
 
   /*
     let key_Q = keyboard(81);
