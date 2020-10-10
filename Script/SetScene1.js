@@ -644,6 +644,7 @@ function SetObject() {
     let barSize = [115, 30];
 
     let scene1_uIBoardSP = new PIXI.Container();
+    scene1_uIBoardSP.visible = false;
     scene1_uIBoardSP.scale.set(globalImageScale + 0.1, globalImageScale + 0.1);
     scene1_uIBoardSP.y = -12;
     scene1_uIBoard.addChild(scene1_uIBoardSP);
