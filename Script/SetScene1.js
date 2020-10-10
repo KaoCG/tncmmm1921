@@ -34,7 +34,6 @@ async function ResetSetting() {
   for (let i = 0; i < scene1_selectableGroup.length; i++) {
 
     scene1_selectableGroup[i].activate = true;
-    scene1_selectableGroup[i].text.visible = true;
     scene1_selectableGroup[i].visible = false;
   }
   scene1_endChar.visible = false;
@@ -644,7 +643,6 @@ function SetObject() {
     let barSize = [115, 30];
 
     let scene1_uIBoardSP = new PIXI.Container();
-    scene1_uIBoardSP.visible = false;
     scene1_uIBoardSP.scale.set(globalImageScale + 0.1, globalImageScale + 0.1);
     scene1_uIBoardSP.y = -12;
     scene1_uIBoard.addChild(scene1_uIBoardSP);
@@ -819,9 +817,7 @@ function SetObject() {
       tableDetectBox.position.set(tableInstance.width * (0.5 - 0.3 / 2), tableInstance.height * (0.6));
 
 
-      let chooseText = new PIXI.Text("choose", style);
-      chooseText.position.set(tableInstance.width * 0.28, -15);
-      chooseText.visible = true;
+     
 
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
@@ -830,12 +826,11 @@ function SetObject() {
       scene1_selectableBoard.addChild(B1S00);
       B1S00.addChild(tableInstance);
       B1S00.addChild(tableDetectBox);
-      B1S00.addChild(chooseText);
+
       tableInstance.addChild(white);
 
       B1S00.instance = tableInstance;
       B1S00.detectArea = tableDetectBox;
-      B1S00.text = chooseText;
       B1S00.white = white
 
       B1S00.id = 1;
@@ -1276,7 +1271,7 @@ function GameFunction() {
 
       scene1_movingPauseTimer = 30;
       id = scene1_selectableGroup[index].id;
-      scene1_selectableGroup[index].text.visible = false;
+      //scene1_selectableGroup[index].text.visible = false;
 
       if (id == 0) {
         addExp(30);
@@ -1318,23 +1313,23 @@ function GameFunction() {
   {
     scene1_buttonGroup[0].addListener("pointerdown", function () {
       Button_jamp.visible = false;
-      Button_jamp_down.visible = false;
+      Button_jamp_down.visible = true;
       PIXI.sound.play('jump');
       SlimeJump();
     });
     scene1_buttonGroup[0].addListener("pointerup", function () {
-      Button_jamp.visible = false;
+      Button_jamp.visible = true;
       Button_jamp_down.visible = false;
     });
 
     scene1_buttonGroup[1].addListener("pointerdown", function () {
       Button_choose.visible = false;
-      Button_choose_down.visible = false;
+      Button_choose_down.visible = true;
       SlimeSelect();
     });
 
     scene1_buttonGroup[1].addListener("pointerup", function () {
-      Button_choose.visible = false;
+      Button_choose.visible = true;
       Button_choose_down.visible = false;
     });
 
