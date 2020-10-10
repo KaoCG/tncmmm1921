@@ -15,6 +15,7 @@ async function LoadResourceLoader() {
 
 
   Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/White.png");
+  Scene0_TouchToStartBlack.zIndex = 100;
   Scene0_TouchToStartBlack.width = screenWidth;
   Scene0_TouchToStartBlack.height = screenHeight;
   Scene0_TouchToStartBlack.tint = 0x000000;
@@ -33,7 +34,7 @@ async function LoadResourceLoader() {
   Scene0_TouchToStartText = new PIXI.Text("Touch To Start", style);
   Scene0_TouchToStartText.scale.set(0.5, 0.5);
   Scene0_TouchToStartText.position.set(screenWidth / 2 - Scene0_TouchToStartText.width / 2, screenHeight / 2 - Scene0_TouchToStartText.height / 2);
-
+  Scene0_TouchToStartText.zIndex = 100;
   Scene0_TouchToStartBlack.interactive = true;
   Scene0_TouchToStartBlack.buttonMode = true;
 
@@ -65,6 +66,54 @@ async function LoadResourceLoader() {
 
     TouchToStart();
   });
+
+
+  centerComponent = new PIXI.Container();
+  centerComponent.sceneExist = [false, false, false, false, false, false];
+  centerComponent.currentStage = 0;
+  centerComponent.currentAudio = null;
+  centerComponent.stopAudio = null;
+  centerComponent.startAudio = null;
+  centerComponent.currentScene = null;
+  centerComponent.stageResult = -1;
+  centerComponent.dialogResult = -1;
+  centerComponent.playAudio = 1;
+  centerComponent.AudioVolume = 1;
+
+  //靜音按鈕
+  {
+    let audioButtonA = new PIXI.Sprite.from("./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
+    audioButtonA.zIndex = 80;
+    audioButtonA.visible = true;
+    audioButtonA.interactive = true;
+    audioButtonA.buttonMode = true;
+    audioButtonA.scale.set(globalImageScale * 1.2, globalImageScale * 1.2);
+    audioButtonA.position.set(720+30, 30-15)
+
+    let audioButtonB = new PIXI.Sprite.from("./Resource/Final/Brige_UIUX/But/Button_sound_close.png");
+    audioButtonB.zIndex = 80;
+    audioButtonB.visible = false;
+    audioButtonB.interactive = true;
+    audioButtonB.buttonMode = true;
+    audioButtonB.scale.set(globalImageScale * 1.2, globalImageScale * 1.2);
+    audioButtonB.position.set(720+30, 30-15)
+
+    audioButtonA.addListener("pointerdown", function () {
+      audioButtonA.visible = false;
+      audioButtonB.visible = true;
+      centerComponent.playAudio = 0;
+      PIXI.sound.volumeAll = centerComponent.AudioVolume * 0;
+    });
+    audioButtonB.addListener("pointerdown", function () {
+      audioButtonB.visible = false;
+      audioButtonA.visible = true;
+      centerComponent.playAudio = 1;
+      PIXI.sound.volumeAll = centerComponent.AudioVolume * 1;
+    });
+
+    app.stage.addChild(audioButtonA);
+    app.stage.addChild(audioButtonB);
+  }
 
   //把畫面放入html
   document.getElementById("display").appendChild(app.view);
@@ -407,7 +456,6 @@ async function SetLoader() {
     PIXI.loader.add("runnerS" + i, "./Resource/Final/runner/runnerRS" + i + ".png");
   }
 
-
   //跑步1的場景背景
   for (let i = 0; i < 2; i++) {
     PIXI.loader.add("B1L0" + i, "./Resource/Final/B1/B1building/B1L0" + i + ".png");
@@ -455,6 +503,19 @@ async function SetLoader() {
     }
   }
 
+  //跑步的UI
+  PIXI.loader.add("Bridge_DefaultUI", "./Resource/Final/Brige_UIUX/Bridge_DefaultUI.png");
+  PIXI.loader.add("Blood_Mask", "./Resource/Final/Brige_UIUX/Blood_Mask.png");
+
+  PIXI.loader.add("Button_choose", "./Resource/Final/Brige_UIUX/But/Button_choose.png");
+  PIXI.loader.add("Button_choose_down", "./Resource/Final/Brige_UIUX/But/Button_choose_down.png");
+  PIXI.loader.add("Button_jamp", "./Resource/Final/Brige_UIUX/But/Button_jamp.png");
+  PIXI.loader.add("Button_jamp_down", "./Resource/Final/Brige_UIUX/But/Button_jamp_down.png");
+  PIXI.loader.add("Button_sound_close", "./Resource/Final/Brige_UIUX/But/Button_sound_close.png");
+  PIXI.loader.add("Button_sound_open", "./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
+  PIXI.loader.add("Button_sound_stop", "./Resource/Final/Brige_UIUX/But/Button_sound_stop.png");
+  PIXI.loader.add("Button_sound_play", "./Resource/Final/Brige_UIUX/But/Button_sound_play.png");
+
   //過廠對話1的人物場景
   PIXI.loader.add("B1C0", "./Resource/Final/character/full/B1PeopleA.png");
   PIXI.loader.add("B1C1", "./Resource/Final/character/full/B1PeopleB.png");
@@ -475,8 +536,6 @@ async function SetLoader() {
   PIXI.loader.add("M111", "./Resource/Final/M1/M111.png");
   PIXI.loader.add("M112", "./Resource/Final/M1/M112.png");
   PIXI.loader.add("M113", "./Resource/Final/M1/M113.png");
-
-
 
   //小遊戲2 的場景背景/物件
   PIXI.loader.add("policeSmall", "./Resource/Final/M2/police.png");

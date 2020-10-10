@@ -107,7 +107,7 @@ function LoadSetting() {
   scene2_randomAddItemTimeLimit = 80;
 
   //時間倒數
-  scene2_stageTimer = 8;
+  scene2_stageTimer = 25;
   scene2_countDownTimer = 0;
   scene2_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
@@ -271,6 +271,7 @@ function SetObject() {
       scene2_scoreUI.no = 0;
       scene2_scoreUI.zIndex = 2;
       scene2_scoreUI.sortableChildren = true;
+      scene2_scoreUI.visible =false;
 
       var scoreUIInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
       scoreUIInstance.width = 40;
@@ -308,6 +309,7 @@ function SetObject() {
     {
       scene2_timeUI = new PIXI.Container();
       scene2_timeUI.no = 0;
+      scene2_timeUI.visible =false;
       scene2_timeUI.activate = true;
       scene2_timeUI.zIndex = 2;
       scene2_timeUI.sortableChildren = true;

@@ -42,9 +42,9 @@ async function ResetSetting() {
   //需要重新設定的參數
   {
     scene1_score = 0;
-    scene1_energy = 0;
-    scene1_energyBar.width = 0;
-    addEnergy(250);
+    //scene1_energy = 0;
+    //scene1_energyBar.x = 156 / 2;
+    addEnergy(0);
 
     scene1_slimeInitY = scene1_slime.position.y;
     scene1_slimeJumpInitSpeed = 14;
@@ -275,6 +275,7 @@ function LoadSetting() {
 
     scene1_energyBar = null;
     scene1_bottomDetectLine = null;
+    scene1_energy = 0;
 
     scene1_itemGroup = [];
     scene1_BGObjectGroup = [];
@@ -292,15 +293,6 @@ function LoadSetting() {
     for (var i = 0; i < 4; i++) {
       scene1_appleTextures.push(PIXI.Texture.from("appleP" + (i + 1) + ".png"));
     }
-
-    /*  var slimeTextures = [];
-      for (var f = 1; f < 80; f++) {
-        var str;
-        if (f < 10) str = "0" + (f);
-        else str = (f);
-        let resource = PIXI.Texture.from("slime_sheet_" + str + ".gif");
-        slimeTextures.push(resource);
-      }*/
 
     scene1_itemTextures = [];
     for (var f = 0; f < 9; f++) {
@@ -381,20 +373,6 @@ function SetObject() {
 
     scene1_slime.addChild(slimeInstance);
     scene1_slime.slimeInstance = slimeInstance;
-
-    //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
-    /*let slimeDetectBox = new PIXI.Graphics();
-    slimeDetectBox.lineStyle(0, 0x82cd2e, 1);
-    slimeDetectBox.beginFill(0x704828);
-    slimeDetectBox.drawRect(0, 0, slimeInstance.width * 0.3, slimeInstance.height * 0.3);
-    slimeDetectBox.endFill();
-    //slimeDetectBox.position.set(slimeInstance.getGlobalPosition().x - slimeInstance.width / 2 + slimeInstance.width * 0.7 / 2, slimeInstance.getGlobalPosition().y - slimeInstance.height / 2 + slimeInstance.height * 0.7 / 2);
-    slimeDetectBox.position.set(-slimeInstance.width * 0.15, -slimeInstance.height * 0.15);
-    slimeDetectBox.zIndex = 100;
-    slimeDetectBox.visible = false;
-    scene1_slime.addChild(slimeDetectBox);
-    scene1_slime.detectArea = slimeDetectBox;*/
-
     scene1_slime.visible = false;
 
   }
@@ -658,267 +636,86 @@ function SetObject() {
 
   (async () => {
 
-    //右上角的分數
-    {
-      let scoreUI = new PIXI.Container();
-      scoreUI.no = 0;
-      scoreUI.activate = true;
-      scoreUI.zIndex = 2;
-      scoreUI.sortableChildren = true;
-
-      scene1_uiGroup.push(scoreUI);
-      scene1_uIBoard.addChild(scoreUI);
-
-      /*let scoreUIInstance = new PIXI.Sprite(scene1_appleTextures[3]);
-
-      scoreUIInstance.width = 40;
-      scoreUIInstance.height = 40;
-
-      scoreUIInstance.pivot.set(0.5, 0.5);      
-      scoreUI.addChild(scoreUIInstance);*/
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-
-      let scoreText = new PIXI.Text("0", style);
-      scoreUI.addChild(scoreText);
-      scoreText.position.set(45, 5);
-      scoreText.visible = true;
-      scoreUI.text = scoreText;
-
-      scoreUI.visible = false;
-      scoreUI.position.set(screenWidth - 45 - scoreUI.text.width - 15, 10);
-    }
-
-    //右上角的時間
-    {
-      let timeUI = new PIXI.Container();
-      timeUI.no = 0;
-      timeUI.activate = true;
-      timeUI.zIndex = 2;
-      timeUI.sortableChildren = true;
-
-      scene1_uiGroup.push(timeUI);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-      });
-      let timeText = new PIXI.Text(scene1_stageTimer, style);
-      timeText.position.set(45, 55);
-      timeText.visible = true;
-
-      scene1_uIBoard.addChild(timeUI);
-      timeUI.addChild(timeText);
-
-      timeUI.text = timeText;
-
-      timeUI.position.set(screenWidth - 45 - timeUI.text.width - 15 - 80, 10);
-    }
 
     let buttonBoxSize = [115, 68];
     let buttonBoxEdgeDistant = [18, 15];
 
+
+    let barSize = [115, 30];
+
+    let scene1_uIBoardSP = new PIXI.Container();
+    scene1_uIBoardSP.scale.set(globalImageScale + 0.1, globalImageScale + 0.1);
+    scene1_uIBoardSP.y = -12;
+    scene1_uIBoard.addChild(scene1_uIBoardSP);
+
+    let default_UI = new PIXI.Sprite(PIXI.Texture.from('Bridge_DefaultUI'));
+    scene1_uIBoardSP.addChild(default_UI);
+
+    let Blood_Mask = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
+    scene1_uIBoardSP.addChild(Blood_Mask);
+
+    let Blood_MaskW = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
+    Blood_MaskW.mask = Blood_Mask
+    Blood_MaskW.x = 156/2;
+    scene1_uIBoardSP.addChild(Blood_MaskW);
+    scene1_energyBar = Blood_MaskW;
+
+    //按鈕
+    {
+      Button_choose = new PIXI.Sprite(PIXI.Texture.from('Button_choose'));
+      Button_choose_down = new PIXI.Sprite(PIXI.Texture.from('Button_choose_down'));
+      Button_jamp = new PIXI.Sprite(PIXI.Texture.from('Button_jamp'));
+      Button_jamp_down = new PIXI.Sprite(PIXI.Texture.from('Button_jamp_down'));
+      Button_choose.scale.set(0.1, 0.1);
+      Button_choose_down.scale.set(0.1, 0.1);
+      Button_jamp.scale.set(0.1, 0.1);
+      Button_jamp_down.scale.set(0.1, 0.1);
+      Button_choose_down.visible = false;
+      Button_jamp_down.visible = false;
+      Button_choose.position.set(250 - 5, 200);
+      Button_choose_down.position.set(251.3 - 5, 201.2);
+      Button_jamp.position.set(250 + 70, 200);
+      Button_jamp_down.position.set(251.3 + 70, 201.2);
+      scene1_uIBoardSP.addChild(Button_choose);
+      scene1_uIBoardSP.addChild(Button_choose_down);
+      scene1_uIBoardSP.addChild(Button_jamp);
+      scene1_uIBoardSP.addChild(Button_jamp_down);
+    }
+
     //點擊UI
     {
       let clickBox = new PIXI.Graphics();
-      clickBox.beginFill(0xFFFFFF);
-      clickBox.drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]);
-      clickBox.x = screenWidth - buttonBoxSize[0] - buttonBoxEdgeDistant[0];
-      clickBox.y = screenHeight - buttonBoxSize[1] - buttonBoxEdgeDistant[1];
-      clickBox.endFill();
-      clickBox.zIndex = 0;
+      clickBox.beginFill(0xFFFFFF).drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
+      clickBox.x = screenWidth - buttonBoxSize[0] - buttonBoxEdgeDistant[0] - 10;
+      clickBox.y = screenHeight - buttonBoxSize[1] - buttonBoxEdgeDistant[1] + 20;
       clickBox.visible = true;
-      clickBox.alpha = 0.8;
+      clickBox.alpha = 0;
       scene1_uIBoard.addChild(clickBox);
-
       scene1_buttonGroup.push(clickBox);
-
       clickBox.interactive = true;
       clickBox.buttonMode = true;
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        align: "center",
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-      let clickBoxText = new PIXI.Text("跳躍", style);
-      clickBox.addChild(clickBoxText);
-      clickBoxText.position
-        .set(buttonBoxSize[0] / 2 - clickBoxText.width / 2,
-          buttonBoxSize[1] / 2 - clickBoxText.height / 2 + 1);
-      clickBoxText.visible = true;
     }
 
     //選擇UI
     {
       let selectBox = new PIXI.Graphics();
-      selectBox.beginFill(0xFFFFFF);
-      selectBox.drawRect(
-        0,
-        0,
-        buttonBoxSize[0],
-        buttonBoxSize[1]);
-      selectBox.x = screenWidth - (buttonBoxSize[0] + buttonBoxEdgeDistant[0]) * 2;
-      selectBox.y = screenHeight - (buttonBoxSize[1] + buttonBoxEdgeDistant[1]);
-      selectBox.endFill();
-      selectBox.zIndex = 0;
+      selectBox.beginFill(0xFFFFFF).drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
+      selectBox.x = screenWidth - (buttonBoxSize[0] + buttonBoxEdgeDistant[0]) * 2 - 30;
+      selectBox.y = screenHeight - (buttonBoxSize[1] + buttonBoxEdgeDistant[1]) + 20;
       selectBox.visible = true;
-      selectBox.alpha = 0.8;
+      selectBox.alpha = 0;
       scene1_uIBoard.addChild(selectBox);
-
       scene1_buttonGroup.push(selectBox);
-
       selectBox.interactive = true;
       selectBox.buttonMode = true;
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        align: "center",
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-      let selectBoxText = new PIXI.Text("選擇", style);
-      selectBox.addChild(selectBoxText);
-      selectBoxText.position
-        .set(buttonBoxSize[0] / 2 - selectBoxText.width / 2,
-          buttonBoxSize[1] / 2 - selectBoxText.height / 2 + 1);
-      selectBoxText.visible = true;
     }
-
-    let barSize = [115, 30];
-    let barEdgeDistant = [12, 15];
 
 
 
     //drawRect的圖案尺寸調整，其實是用scale的方式達成，
     //因此初始長度為0的話，就無法調整了~ (因為0乘以多少都是0)
 
-    //能量條(和其遮罩)
-    {
-      let barContainer = new PIXI.Container();
-      scene1_uIBoard.addChild(barContainer);
 
-      let maskBar = new PIXI.Graphics();
-      maskBar.beginFill(0xFFFFFF);
-      maskBar.drawRect(0, 0, 500, barSize[1] * 2).endFill();;
-      maskBar.x = screenWidth / 2 - maskBar.width / 2;
-      maskBar.y = 0;
-      maskBar.zIndex = 1;
-      maskBar.visible = true;
-      maskBar.alpha = 0.8;
-      barContainer.addChild(maskBar);
-
-      scene1_energyBar3 = new PIXI.Graphics();
-      scene1_energyBar3.beginFill(0x000000);
-      scene1_energyBar3.drawRect(0, 0, 1, barSize[1] + 7).endFill();;
-      scene1_energyBar3.width = 500 + 7;
-      scene1_energyBar3.x = screenWidth / 2 - scene1_energyBar3.width / 2 + 0.05;
-      scene1_energyBar3.y = 16 - 3.5;
-      scene1_energyBar3.zIndex = 2;
-      scene1_energyBar3.visible = true;
-      scene1_energyBar3.alpha = 1;
-      //scene1_energyBar3.mask = maskBar;
-      barContainer.addChild(scene1_energyBar3);
-
-      scene1_energyBar2 = new PIXI.Graphics();
-      scene1_energyBar2.beginFill(0xFF6347);
-      scene1_energyBar2.drawRect(0, 0, 1, barSize[1]).endFill();;
-      scene1_energyBar2.width = 500;
-      scene1_energyBar2.x = screenWidth / 2 - scene1_energyBar2.width / 2;
-      scene1_energyBar2.y = 16;
-      scene1_energyBar2.zIndex = 2;
-      scene1_energyBar2.visible = true;
-      scene1_energyBar2.alpha = 1;
-      scene1_energyBar2.mask = maskBar;
-      //barContainer.addChild(scene1_energyBar2);
-
-      scene1_energyBar = new PIXI.Graphics();
-      scene1_energyBar.beginFill(0xFFFF00);
-      scene1_energyBar.drawRect(0, 0, 1, barSize[1]).endFill();;
-      scene1_energyBar.width = 250;
-      scene1_energyBar.x = screenWidth / 2 - scene1_energyBar.width / 2 - 125;
-      scene1_energyBar.y = 16;
-      scene1_energyBar.zIndex = 2;
-      scene1_energyBar.visible = true;
-      scene1_energyBar.alpha = 1;
-      scene1_energyBar.mask = maskBar;
-      barContainer.addChild(scene1_energyBar);
-
-      barContainer.position.set(0, 0);
-
-      //padding可以處理字體顯示位置不正確的問題
-      /* let style = new PIXI.TextStyle({
-       fontFamily: "pixelFont",
-       fontSize: 32,
-       fill: "white",
-       stroke: '#000000',
-       strokeThickness: 5,
-       letterSpacing: 0,
-       align: "center",
-       padding: 10
-       //dropShadow: true,
-       //dropShadowColor: "#000000",
-       //dropShadowBlur: 4,
-       //dropShadowAngle: Math.PI / 6,
-       //dropShadowDistance: 6,
-     });
-    
-   let energyBarText = new PIXI.Text("改革派", style);
-     scene1_uIBoard.addChild(energyBarText);
-     energyBarText.position.set(20, 17);
-     energyBarText.visible = true;
-
-     let energyBarText2 = new PIXI.Text("日治派", style);
-     scene1_uIBoard.addChild(energyBarText2);
-     energyBarText2.position.set(screenWidth - 20 - energyBarText2.width, 17);
-     energyBarText2.visible = true;*/
-
-      let sp = new PIXI.Sprite(PIXI.Texture.from("spItem0"));
-      scene1_uIBoard.addChild(sp);
-      sp.position.set(60, 3);
-
-    }
 
   })();
 
@@ -962,11 +759,6 @@ function SetObject() {
     strokeThickness: 5,
     letterSpacing: 0,
     padding: 10
-    //dropShadow: true,
-    //dropShadowColor: "#000000",
-    //dropShadowBlur: 4,
-    //dropShadowAngle: Math.PI / 6,
-    //dropShadowDistance: 6,
   });
 
   //選擇物件
@@ -1023,7 +815,7 @@ function SetObject() {
       let tableDetectBox = new PIXI.Graphics();
       tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.3, tableInstance.height * 0.5).endFill();
       tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.3/2), tableInstance.height * (0.6));
+      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.3 / 2), tableInstance.height * (0.6));
 
 
       let chooseText = new PIXI.Text("choose", style);
@@ -1353,14 +1145,11 @@ function GameFunction() {
             addEnergy(10);
           }
 
-          //console.log(scene1_itemGroup[i].id);
           RecycleItem(scene1_itemGroup, i);
 
-          //PIXI.sound.play('get_something');
-          //PIXI.sound.play('button_click');
           PIXI.sound.play('choose_click');
           PIXI.sound.play('small_game_click');
-          
+
           //3符咒 4紳章 7錢袋
         }
       }
@@ -1498,18 +1287,6 @@ function GameFunction() {
     }
   }
 
-  //按鈕相關
-  {
-    scene1_buttonGroup[0].addListener("pointerdown", function () {
-      PIXI.sound.play('jump');
-      SlimeJump();
-    });
-
-    scene1_buttonGroup[1].addListener("pointerdown", function () {
-      SlimeSelect();
-    });
-
-  }
 
   // 鍵盤操作相關
   {
@@ -1535,22 +1312,52 @@ function GameFunction() {
 
   }
 
+
+  //按鈕相關
+  {
+    scene1_buttonGroup[0].addListener("pointerdown", function () {
+      Button_jamp.visible = false;
+      Button_jamp_down.visible = true;
+      PIXI.sound.play('jump');
+      SlimeJump();
+    });
+    scene1_buttonGroup[0].addListener("pointerup", function () {
+      Button_jamp.visible = true;
+      Button_jamp_down.visible = false;
+    });
+
+    scene1_buttonGroup[1].addListener("pointerdown", function () {
+      Button_choose.visible = false;
+      Button_choose_down.visible = true;
+      SlimeSelect();
+    });
+
+    scene1_buttonGroup[1].addListener("pointerup", function () {
+      Button_choose.visible = true;
+      Button_choose_down.visible = false;
+    });
+
+  }
+
 }
 
 function addExp(addScore = 10) {
 
   scene1_score += addScore;
   //scene1_energyBar.width = scene1_energy / 5;
-  scene1_uiGroup[0].text.text = scene1_score;
+  //scene1_uiGroup[0].text.text = scene1_score;
   //scene1_uiGroup[0].position.set(screenWidth - 45 - scene1_uiGroup[0].text.width - 15, 10);
 }
 
 function addEnergy(addScore = 10) {
 
   scene1_energy += addScore;
-  scene1_energyBar.width = scene1_energy;
+  let x = 156 / 2 + scene1_energy / 5;
+  if (x > 156) x = 156;
+  if (x < 0) x = 0;
+  scene1_energyBar.x = x;
   //scene1_uiGroup[0].text.text = scene1_energy;
-  scene1_uiGroup[0].position.set(screenWidth / 2 - scene1_energyBar.width / 2 - 125, 10);
+  //scene1_uiGroup[0].position.set(screenWidth / 2 - scene1_energyBar.width / 2 - 125, 10);
 }
 
 async function EndThisScene() {
@@ -1565,7 +1372,7 @@ async function EndThisScene() {
   }
 
 
-  EndingFadeFunc(scene1,scene1_currentAudio);
+  EndingFadeFunc(scene1, scene1_currentAudio);
 }
 
 
