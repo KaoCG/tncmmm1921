@@ -230,11 +230,12 @@ async function SetObject() {
     scene0_but.addListener("pointerdown", function () {
       scene0_but.visible = false;
       PIXI.sound.play('button_click');
+      EndThisScene();
     });
 
     scene0_but2.addListener("pointerup", function () {
       scene0_but.visible = true;
-      EndThisScene();
+  
     });
 
     scene0_but.visible = false;
