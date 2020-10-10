@@ -83,7 +83,7 @@ async function ResetSetting() {
     case 7:
       scene3_textInput = PIXI.loader.resources.textContent.data.set4;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose4;
-      scene3_sceneList[4].visible = true;
+      scene3_sceneList[6].visible = true;
       break;
     //主角發完書看到抗議
     case 9:
@@ -163,7 +163,7 @@ async function ResetSetting() {
 
   scene3_nameBox[0].visible = true;
 
-  StartingFadeFunc(scene3,'plot');
+  StartingFadeFunc(scene3, 'plot');
 }
 
 //設定容器
@@ -317,12 +317,14 @@ async function SetObject() {
         select.x = (screenWidth) / 2;
         select.y = screenHeight - edge - buttonBoxSize[1] - (selectButtonBoxSize[1] + edge * 0.8) * (i + 1) - 15;
 
+        select.scale.set(0.5, 0.5);
+
         select.interactive = true;
         select.buttonMode = true;
 
         let selectBox = new PIXI.Graphics();
-        selectBox.beginFill(0x000000);
-        selectBox.drawRect(0, 0, selectButtonBoxSize[0] + 16, selectButtonBoxSize[1] + 10).endFill();
+        selectBox.beginFill(0xFFFFFF);
+        selectBox.drawRect(0, 0, selectButtonBoxSize[0] + 16, selectButtonBoxSize[1] + 8).endFill();
         selectBox.zIndex = 0;
         selectBox.alpha = 1;
 
@@ -337,14 +339,14 @@ async function SetObject() {
         //padding可以處理字體顯示位置不正確的問題
         let style = new PIXI.TextStyle({
           fontFamily: "pixelSilver",
-          fontSize: 96,
+          fontSize: 112,
           fill: "black",
-          stroke: '#000000',
-          strokeThickness: 0,
-          letterSpacing: 6,
+          fontStyle: "normal",
+          fontWeight: "lighter",
+          letterSpacing: 11,
           align: "left",
           padding: 100,
-          lineHeight: 50
+          lineHeight: 112
           //dropShadow: true,
           //dropShadowColor: "#000000",
           //dropShadowBlur: 4,
@@ -374,21 +376,33 @@ async function SetObject() {
     }
 
     //腳色和名字
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < 17; i++) {
 
       let char = new PIXI.Container();
       char.zIndex = 10;
       char.visible = false;
       char.color = 135;
+      char.position.set(screenWidth / 2, screenHeight / 2 - 61);
+      scene3_charBoard.addChild(char);
+      scene3_chars.push(char);
+
+      let black = new PIXI.Sprite(PIXI.Texture.from("white"));
+      black.width = screenWidth;
+      black.height = screenHeight;
+      black.position.set(-char.position.x, -char.position.y);
+      black.tint = "0x000000";
+      black.zIndex = -10;
+      black.alpha = 0.7;
+      char.addChild(black);
+
       let charInstance = new PIXI.Sprite(PIXI.Texture.from("person" + i));
       charInstance.scale.set(2.4, 2.4);
       charInstance.position.set(- charInstance.width / 2, -charInstance.height / 2);
       charInstance.tint = "0xAAAAAA";
-      char.position.set(screenWidth / 2, screenHeight / 2 - 61);
       char.instance = charInstance;
-      scene3_chars.push(char);
-      scene3_charBoard.addChild(char);
       char.addChild(charInstance);
+
+
 
       let name = new PIXI.Container();
       name.zIndex = 20;
@@ -402,22 +416,6 @@ async function SetObject() {
       scene3_names.push(name);
       scene3_uIBoard.addChild(name);
       name.addChild(nameInstance);
-    }
-
-
-
-    //腳色背後的黑色
-    {
-
-      let black = new PIXI.Sprite(PIXI.Texture.from("white"));
-      black.width = screenWidth;
-      black.height = screenHeight;
-      black.position.set(0, 0);
-      black.tint = "0x000000";
-      black.zIndex = -10;
-      black.alpha = 0.85;
-
-      scene3_charBoard.addChild(black);
     }
 
   }
@@ -469,32 +467,54 @@ async function SetObject() {
     //開頭林獻堂感嘆
     {
       let sceneA = new PIXI.Container();
+      scene3_sceneBoard.addChild(sceneA);
+      scene3_sceneBoard.sortableChildren = true;
 
       let scene3_ScenePic0 = new PIXI.Sprite(PIXI.Texture.from("Hotel00"));
       scene3_ScenePic0.zIndex = 2;
       scene3_ScenePic0.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic0.position.set(screenWidth / 2 - scene3_ScenePic0.width / 2, screenHeight / 2 - scene3_ScenePic0.height / 2 - 5);
-
       let scene3_ScenePic1 = new PIXI.Sprite(PIXI.Texture.from("Hotel01"));
       scene3_ScenePic1.zIndex = 1;
       scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
-
       let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel02"));
       scene3_ScenePic2.zIndex = 0;
       scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
-
-
-      scene3_sceneBoard.addChild(sceneA);
-      scene3_sceneBoard.sortableChildren = true;
       sceneA.addChild(scene3_ScenePic2)
       sceneA.addChild(scene3_ScenePic1)
-      //sceneA.addChild(scene3_ScenePic0)
+      sceneA.addChild(scene3_ScenePic0)
+
+      let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
+      P0.zIndex = 1;
+      P0.jumpSpeed = 0;
+      P0.scale.set(0.24, 0.24);
+      P0.position.set(-45, 36);
+      let P1 = new PIXI.Sprite(PIXI.Texture.from("policeSmall"));
+      P1.zIndex = 1;
+      P1.jumpSpeed = 0;
+      P1.scale.set(-(globalImageScale + 1), globalImageScale + 1);
+      P1.position.set(835, 48);
+      // console.log(P0.width);
+      // console.log(P1.width);
+
+      sceneA.addChild(P0)
+      sceneA.addChild(P1)
+
+
+
+
 
 
 
       sceneA.char = [];
+      sceneA.char.push(P0);
+      sceneA.char.push(P1);
+      P0.jump = false;
+      P1.jump = false;
+      P0.initY = P0.position.y;
+      P1.initY = P1.position.y;
 
       scene3_sceneList.push(sceneA);
 
@@ -517,19 +537,19 @@ async function SetObject() {
       P0.zIndex = 1;
       P0.jumpSpeed = 0;
       P0.scale.set(globalImageScale, globalImageScale);
-      P0.position.set(420 + 90, 150);
+      P0.position.set(420 + 20, 150);
 
       let P1 = new PIXI.Sprite(PIXI.Texture.from("B1C1"));
       P1.zIndex = 1;
       P1.jumpSpeed = 0;
       P1.scale.set(-globalImageScale, globalImageScale);
-      P1.position.set(750 + 90, 150);
+      P1.position.set(750 + 20, 150);
 
-      let P2 = new PIXI.Sprite(PIXI.Texture.from("B1C2"));
+      let P2 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
       P2.zIndex = 1;
       P2.jumpSpeed = 0;
-      P2.scale.set(-globalImageScale, globalImageScale);
-      P2.position.set(330 - 30, 73);
+      P2.scale.set(globalImageScale, globalImageScale);
+      P2.position.set(-10, 73);
 
       scene3_sceneBoard.addChild(sceneA);
       sceneA.addChild(scene3_ScenePic)
@@ -545,7 +565,6 @@ async function SetObject() {
       P0.jump = false;
       P1.jump = false;
       P2.jump = false;
-
       P0.initY = P0.position.y;
       P1.initY = P1.position.y;
       P2.initY = P2.position.y;
@@ -560,38 +579,33 @@ async function SetObject() {
     //主角被招募
     {
       let sceneA = new PIXI.Container();
+      scene3_sceneBoard.addChild(sceneA);
 
       let scene3_ScenePic = new PIXI.Sprite(PIXI.Texture.from("B1Spe1"));
       scene3_ScenePic.zIndex = -1;
       scene3_ScenePic.scale.set(globalImageScale, globalImageScale);
       scene3_ScenePic.position.set(0, 0);
       scene3_ScenePic.position.set(screenWidth / 2 - scene3_ScenePic.width / 2, screenHeight / 2 - scene3_ScenePic.height / 2 - 5);
+      sceneA.addChild(scene3_ScenePic)
 
-      let P0 = new PIXI.Sprite(PIXI.Texture.from("B1C0"));
+      let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
       P0.zIndex = 1;
       P0.jumpSpeed = 0;
       P0.scale.set(globalImageScale, globalImageScale);
-      P0.position.set(40, 150);
-
+      P0.position.set(-10, 73);
       let P1 = new PIXI.Sprite(PIXI.Texture.from("B1C2"));
       P1.zIndex = 1;
       P1.jumpSpeed = 0;
       P1.scale.set(globalImageScale, globalImageScale);
-      P1.position.set(500, 73);
-
-
-      scene3_sceneBoard.addChild(sceneA);
-      sceneA.addChild(scene3_ScenePic)
+      P1.position.set(450, 73);
       sceneA.addChild(P0);
       sceneA.addChild(P1);
 
       sceneA.char = [];
       sceneA.char.push(P0);
       sceneA.char.push(P1);
-
       P0.jump = false;
       P1.jump = false;
-
       P0.initY = P0.position.y;
       P1.initY = P1.position.y;
 
@@ -627,7 +641,8 @@ async function SetObject() {
       sceneA.addChild(scene3_ScenePic1)
       //sceneA.addChild(scene3_ScenePic0)
 
-      sceneA.char = [];
+
+
 
       scene3_sceneList.push(sceneA);
 
@@ -676,6 +691,47 @@ async function SetObject() {
 
     }
 
+    // Scene6
+    //主角蓋完書(B2場景)
+    {
+      let sceneA = new PIXI.Container();
+
+      let scene3_ScenePic = new PIXI.Sprite(PIXI.Texture.from("B2Spe1"));
+      scene3_ScenePic.zIndex = -1;
+      scene3_ScenePic.scale.set(globalImageScale, globalImageScale);
+      scene3_ScenePic.position.set(0, 0);
+      scene3_ScenePic.position.set(screenWidth / 2 - scene3_ScenePic.width / 2, screenHeight / 2 - scene3_ScenePic.height / 2 - 5);
+
+      scene3_sceneBoard.addChild(sceneA);
+      sceneA.addChild(scene3_ScenePic)
+
+      scene3_sceneList.push(sceneA);
+
+      sceneA.visible = false;
+
+      let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
+      P0.zIndex = 1;
+      P0.jumpSpeed = 0;
+      P0.scale.set(globalImageScale, globalImageScale);
+      P0.position.set(-10, 73);
+      let P1 = new PIXI.Sprite(PIXI.Texture.from("B1C2"));
+      P1.zIndex = 1;
+      P1.jumpSpeed = 0;
+      P1.scale.set(globalImageScale, globalImageScale);
+      P1.position.set(450, 73);
+      sceneA.addChild(P0);
+      sceneA.addChild(P1);
+
+      sceneA.char = [];
+      sceneA.char.push(P0);
+      sceneA.char.push(P1);
+      P0.jump = false;
+      P1.jump = false;
+      P0.initY = P0.position.y;
+      P1.initY = P1.position.y;
+
+    }
+
     //對話中出現的道具物件
     {
 
@@ -683,12 +739,14 @@ async function SetObject() {
       let bookContainer = new PIXI.Container();
       let metalContainer = new PIXI.Container();
 
+
+
       let book = new PIXI.Sprite(PIXI.Texture.from("illustrated0"));
       book.zIndex = 2;
-      book.scale.set(0.2, 0.2);
-      book.position.set(225, -25);
+      book.scale.set(0.1, 0.1);
+      book.position.set(591, 270);
 
-      let block = new PIXI.Sprite(PIXI.Texture.from("block"));
+      /*let block = new PIXI.Sprite(PIXI.Texture.from("block"));
       block.zIndex = 1;
       block.position.set(312, 58);
       block.scale.set(0.18, 0.18);
@@ -699,14 +757,14 @@ async function SetObject() {
       block2.position.set(320, 65);
       block2.scale.set(0.16, 0.16);
       block2.alpha = 1;
-      block2.tint = "0xAAAAAA"
-      scene3_uIBoard.addChild(scene3_plotItemBlockContainer);
+      block2.tint = "0xAAAAAA"*/
 
       let metal = new PIXI.Sprite(PIXI.Texture.from("spItem0"));
       metal.zIndex = 2;
       metal.scale.set(2.8, 2.8);
       metal.position.set(318, 62);
 
+      scene3_uIBoard.addChild(scene3_plotItemBlockContainer);
       //scene3_plotItemBlockContainer.addChild(block);
       //scene3_plotItemBlockContainer.addChild(block2);
       scene3_plotItemBlockContainer.addChild(bookContainer);
@@ -762,19 +820,29 @@ async function GoToNextDialog() {
     console.log("AA:" + scene3_selectIndex);
 
     var optionsNumber = scene3_selectTextInput[scene3_selectIndex].length
+
     for (let i = 0; i < optionsNumber; i++) {
+
       scene3_selectBoxes[i].visible = true;
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
-      // console.log(scene3_selectBoxes[i].text.width);
 
-      scene3_selectBoxes[i].text.x = -(scene3_selectBoxes[i].text.width) / 2 + 2;
-      scene3_selectBoxes[i].box.width = scene3_selectBoxes[i].text.width + 30;
-      scene3_selectBoxes[i].box.x = (- scene3_selectBoxes[i].box.width) / 2;
+      //scene3_selectBoxes[i].text.x = -(scene3_selectBoxes[i].text.width) / 2 + 2;
+      // scene3_selectBoxes[i].box.width = scene3_selectBoxes[i].text.width + 250;
+      scene3_selectBoxes[i].box.width = 314
+      // console.log(      scene3_selectBoxes[i].box.width);
+      //scene3_selectBoxes[i].box.x = (- scene3_selectBoxes[i].box.width) / 2 ;
+      // scene3_selectBoxes[i].box.x = screenWidth/2  + (- scene3_selectBoxes[i].box.width) / 2 + 100;
+      scene3_selectBoxes[i].box.x = 343;
+      //console.log(     scene3_selectBoxes[i].box.x);
+      scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + scene3_selectBoxes[i].box.width / 2 - (scene3_selectBoxes[i].text.width) / 2;
 
-      scene3_selectBoxes[i].y =
-        (screenHeight - 20 - 145) - (60 + 20 * 0.8 + (3 - optionsNumber) * 10) * (i + 1) + (3 - optionsNumber) * -25;
-
-
+      //scene3_selectBoxes[i].y =        (screenHeight - 20 - 145) - (60 + 20 * 0.8 + (3 - optionsNumber) * 10) * (i + 1) + (3 - optionsNumber) * -25;
+      //310~370
+      //scene3_selectBoxes[i].y =  308 + 70/(optionsNumber-1) * i;
+      if (optionsNumber == 3)
+        scene3_selectBoxes[i].y = 343 + 35 * (i - 1);
+      else
+        scene3_selectBoxes[i].y = 343 + 22 * (i * 2 - 1);
     }
   }
   //End/結尾
@@ -804,7 +872,10 @@ async function GoToNextDialog() {
     //切換人物位置
     for (let i = 0; i < scene3_chars.length; i++) {
       if (scene3_chars[i].visible == true && i != charIndex) {
-        characterExit(i);
+
+        if (i != 13 && i != 14 && i != 15)
+          characterExit(i);
+
       }
     }
 
@@ -813,7 +884,8 @@ async function GoToNextDialog() {
       characterEnter(charIndex);
     }*/
 
-    characterEnter(charIndex);
+    if (charIndex != 13 && charIndex != 14 && charIndex != 15)
+      characterEnter(charIndex);
 
     /*if (charIndex == 0) {
       scene3_nameBox[0].visible = true; scene3_nameBox[1].visible = false;
@@ -849,7 +921,10 @@ async function GoToNextDialog() {
       charIndex += parseInt(content[i], 10);
     }
 
-    CharJump(scene3_sceneList[sceneIndex].char[charIndex]);
+    if (scene3_sceneList[sceneIndex].char[charIndex] !== undefined) {
+      CharJump(scene3_sceneList[sceneIndex].char[charIndex]);
+    }
+
 
     //自動跳到下一句話
     GoToNextDialog();
@@ -1167,7 +1242,7 @@ function EndThisScene() {
   }
 
 
-  EndingFadeFunc(scene3,'plot');
+  EndingFadeFunc(scene3, 'plot');
 }
 
 function characterEnter(index) {
@@ -1181,8 +1256,9 @@ function characterEnter(index) {
   char.visible = true;
 
   char.alpha = 0;
-  char.color = 0;
-  char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
+  //char.color = 256;
+  //char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
+  char.instance.tint = "0xFFFFFF"
 
   let nowColor = char.color;
   let finalColor = 255;
@@ -1194,7 +1270,7 @@ function characterEnter(index) {
 
     char.color = Math.round(nowColor * di + finalColor * (1 - di));
     char.alpha = 1 - di;
-    char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
+    //char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
 
     if (counter == 0) {
       app.ticker.remove(TestFuncA);
@@ -1214,7 +1290,7 @@ function characterExit(index) {
 
   name.visible = false;
   char.visible = true;
-  char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
+  //char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
 
   let nowColor = char.color;
   let finalColor = 0;
@@ -1226,10 +1302,10 @@ function characterExit(index) {
 
     char.color = Math.round(nowColor * di + finalColor * (1 - di));
     char.alpha = di;
-    char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
+    //char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
 
     if (counter == 0) {
-      //char.visible = false;
+      char.visible = false;
       app.ticker.remove(TestFuncB);
     }
 

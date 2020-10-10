@@ -36,25 +36,9 @@ async function LoadResourceLoader() {
 
   Scene0_TouchToStartBlack.interactive = true;
   Scene0_TouchToStartBlack.buttonMode = true;
-  Scene0_TouchToStartBlack.addListener("pointerdown", function () {
-
-    Scene0_TouchToStartBlack.visible = false;
-    Scene0_TouchToStartText.visible = false;
-    TouchToStart();
-  });
 
   app.stage.addChild(Scene0_TouchToStartBlack);
   app.stage.addChild(Scene0_TouchToStartText);
-
-
-  //這個是影片用的設定
-  /*app = new PIXI.Application({
-    autoResize: true,
-    width: 1920,
-    height: 1080,
-    resolution: devicePixelRatio
-  });
-  app.renderer.backgroundColor = 0x000000;*/
 
   //調整尺寸時用來填補在上下的黑圖案
   {
@@ -71,13 +55,20 @@ async function LoadResourceLoader() {
     app.stage.addChild(blackrectangleB);
   }
 
+  Scene0_TouchToStartBlack.addListener("pointerdown", function () {
+    Scene0_TouchToStartBlack.visible = false;
+    Scene0_TouchToStartText.visible = false;
+
+    //調整畫面大小
+    resize();
+    window.addEventListener('resize', resize);
+
+    TouchToStart();
+  });
+
   //把畫面放入html
   document.getElementById("display").appendChild(app.view);
   PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
-
-  //調整畫面大小
-  await resize();
-  window.addEventListener('resize', resize);
 
 }
 
@@ -381,7 +372,7 @@ async function SetLoader() {
   PIXI.loader.add("spItem0", "./Resource/Final/item/spItem0.png");
 
   //半身像與人名
-  for (let i = 0; i < 16; i++) {
+  for (let i = 0; i < 17; i++) {
     PIXI.loader.add("person" + i, "./Resource/Final/character/half/person" + i + ".png");
     PIXI.loader.add("name" + i, "./Resource/Final/character/name/name" + i + ".png");
   }
@@ -468,6 +459,9 @@ async function SetLoader() {
   PIXI.loader.add("B1C0", "./Resource/Final/character/full/B1PeopleA.png");
   PIXI.loader.add("B1C1", "./Resource/Final/character/full/B1PeopleB.png");
   PIXI.loader.add("B1C2", "./Resource/Final/character/full/B1PeopleC.png");
+
+  PIXI.loader.add("characterFull3", "./Resource/Final/character/full/characterFull3.png");
+  PIXI.loader.add("characterFull10", "./Resource/Final/character/full/characterFull10.png");
 
   for (var i = 0; i < 6; i++) {
     PIXI.loader.add("normalPeople" + i, "./Resource/Final/character/full/normal/normalPeople" + i + ".png");
