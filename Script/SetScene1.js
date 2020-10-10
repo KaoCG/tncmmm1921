@@ -650,14 +650,34 @@ function SetObject() {
     let default_UI = new PIXI.Sprite(PIXI.Texture.from('Bridge_DefaultUI'));
     scene1_uIBoardSP.addChild(default_UI);
 
-    let Blood_Mask = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
+   /* let Blood_Mask = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
+    Blood_Mask.visible = false;
     scene1_uIBoardSP.addChild(Blood_Mask);
 
     let Blood_MaskW = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
-    Blood_MaskW.mask = Blood_Mask
+    //Blood_MaskW.mask = Blood_Mask
     Blood_MaskW.x = 156/2;
+    Blood_MaskW.visible = false;
     scene1_uIBoardSP.addChild(Blood_MaskW);
+    scene1_energyBar = Blood_MaskW;*/
+
+    let Blood_Mask = new PIXI.Graphics();
+    Blood_Mask.beginFill(0xFFFFFF);
+    Blood_Mask.drawRect(42, 23, 156, 9);
+    Blood_Mask.endFill();
+    Blood_Mask.visible = true;
+    Blood_Mask.position.set(0,0);
+    scene1_uIBoardSP.addChild(Blood_Mask);
+
+    let Blood_MaskW = new PIXI.Graphics();
+    Blood_MaskW.beginFill(0xFFFFFF);
+    Blood_MaskW.drawRect(42, 23, 156, 9);
+    Blood_MaskW.endFill();
+    Blood_MaskW.visible = true;
+    Blood_MaskW.position.set(0,0);
+    Blood_MaskW.mask = Blood_Mask;
     scene1_energyBar = Blood_MaskW;
+    scene1_uIBoardSP.addChild(Blood_MaskW);
 
     //按鈕
     {
@@ -708,8 +728,6 @@ function SetObject() {
       selectBox.interactive = true;
       selectBox.buttonMode = true;
     }
-
-
 
     //drawRect的圖案尺寸調整，其實是用scale的方式達成，
     //因此初始長度為0的話，就無法調整了~ (因為0乘以多少都是0)
