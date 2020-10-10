@@ -1317,23 +1317,23 @@ function GameFunction() {
   {
     scene1_buttonGroup[0].addListener("pointerdown", function () {
       Button_jamp.visible = false;
-      Button_jamp_down.visible = true;
+      Button_jamp_down.visible = false;
       PIXI.sound.play('jump');
       SlimeJump();
     });
     scene1_buttonGroup[0].addListener("pointerup", function () {
-      Button_jamp.visible = true;
+      Button_jamp.visible = false;
       Button_jamp_down.visible = false;
     });
 
     scene1_buttonGroup[1].addListener("pointerdown", function () {
       Button_choose.visible = false;
-      Button_choose_down.visible = true;
+      Button_choose_down.visible = false;
       SlimeSelect();
     });
 
     scene1_buttonGroup[1].addListener("pointerup", function () {
-      Button_choose.visible = true;
+      Button_choose.visible = false;
       Button_choose_down.visible = false;
     });
 
