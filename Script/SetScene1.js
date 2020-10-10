@@ -663,7 +663,7 @@ function SetObject() {
 
     let Blood_Mask = new PIXI.Graphics();
     Blood_Mask.beginFill(0xFFFFFF);
-    Blood_Mask.drawRect(42, 23, 156, 9);
+    Blood_Mask.drawRect(42, 23, 156.5, 9);
     Blood_Mask.endFill();
     Blood_Mask.visible = true;
     Blood_Mask.position.set(0,0);
@@ -671,7 +671,7 @@ function SetObject() {
 
     let Blood_MaskW = new PIXI.Graphics();
     Blood_MaskW.beginFill(0xFFFFFF);
-    Blood_MaskW.drawRect(42, 23, 156, 9);
+    Blood_MaskW.drawRect(42, 23, 156.5, 9);
     Blood_MaskW.endFill();
     Blood_MaskW.visible = true;
     Blood_MaskW.position.set(0,0);
