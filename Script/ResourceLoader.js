@@ -499,7 +499,7 @@ async function SetLoader() {
   PIXI.loader.add("B2S32", "./Resource/Final/B2/B2select/B2S32.png");
   //跑步3的選擇物件
   for (let i = 0; i < 3; i++) {
-    for (let j = 0; j < 2; j++) {
+    for (let j = 0; j < 3; j++) {
       PIXI.loader.add("B3S" + i + "" + j, "./Resource/Final/B3/B3select/B3S" + i + "" + j + ".png");
     }
   }
@@ -508,7 +508,7 @@ async function SetLoader() {
   PIXI.loader.add("Bridge_DefaultUI", "./Resource/Final/Brige_UIUX/Bridge_DefaultUI.png");
   PIXI.loader.add("Blood_Mask", "./Resource/Final/Brige_UIUX/Blood_Mask.png");
   PIXI.loader.add("Blood", "./Resource/Final/Brige_UIUX/Blood.png");
-  
+
   PIXI.loader.add("Bridge_CharTilteUI", "./Resource/Final/Brige_UIUX/Bridge_CharTilteUI.png");
   PIXI.loader.add("Bridge_CharTilteUIDefault", "./Resource/Final/Brige_UIUX/Bridge_CharTilteUIDefault.png");
   PIXI.loader.add("Bridge_RadioUI", "./Resource/Final/Brige_UIUX/Bridge_RadioUI.png");

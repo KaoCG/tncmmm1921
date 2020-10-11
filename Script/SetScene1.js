@@ -860,6 +860,14 @@ function SetObject() {
     var frame4 = [PIXI.Texture.from("B1S40"), PIXI.Texture.from("B1S41")];
     var frame4w = PIXI.Texture.from("B1S42")
 
+    var frame20 = [PIXI.Texture.from("B3S00"), PIXI.Texture.from("B3S01")];
+    var frame20w = PIXI.Texture.from("B3S02")
+    var frame21 = [PIXI.Texture.from("B3S10"), PIXI.Texture.from("B3S11")];
+    var frame21w = PIXI.Texture.from("B3S12")
+    var frame22 = [PIXI.Texture.from("B3S20"), PIXI.Texture.from("B3S21")];
+    var frame22w = PIXI.Texture.from("B3S22")
+
+
     for (var i = 0; i < 5; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
