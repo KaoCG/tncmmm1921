@@ -60,6 +60,8 @@ async function ResetSetting() {
   //centerComponent.currentStage = 14;
   /////////////////////
 
+  let audio = 'plot';
+
   switch (centerComponent.currentStage) {
     //開頭林獻堂感嘆
     case 2:
@@ -78,18 +80,21 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set3;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose3;
       scene3_sceneList[2].visible = true;
+      audio = 'run1';
       break;
     //主角蓋完書
     case 7:
       scene3_textInput = PIXI.loader.resources.textContent.data.set4;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose4;
       scene3_sceneList[6].visible = true;
+      audio = 'run1';
       break;
     //主角發完書看到抗議
     case 9:
       scene3_textInput = PIXI.loader.resources.textContent.data.set5;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose5;
       scene3_sceneList[4].visible = true;
+      audio = 'run2';
       break;
     //抗議遊戲結束
     //主角要去找人
@@ -97,12 +102,14 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set6;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose6;
       scene3_sceneList[5].visible = true;
+      audio = 'run2';
       break;
     //找完人回去在飯店
     case 13:
       scene3_textInput = PIXI.loader.resources.textContent.data.set7;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose7;
       scene3_sceneList[3].visible = true;
+      audio = 'run3';
       break;
     //主角結局前獨白(飯店)
     case 14:
@@ -150,8 +157,6 @@ async function ResetSetting() {
       JumpResult(stageResult);
     }
   }
-
-
 
   for (let i = 0; i < scene3_tickerFunc.length; i++) {
     app.ticker.add(scene3_tickerFunc[i]);

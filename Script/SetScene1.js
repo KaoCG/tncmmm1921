@@ -40,9 +40,7 @@ async function ResetSetting() {
 
   //需要重新設定的參數
   {
-    scene1_score = 0;
-    //scene1_energy = 0;
-    //scene1_energyBar.x = 156 / 2;
+
     addEnergy(0);
 
     scene1_slimeInitY = scene1_slime.position.y;
@@ -82,6 +80,8 @@ async function ResetSetting() {
 
   //關卡時間
   scene1_stageTimer = 40;
+  scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
+  //scene1_itemTimer = scene1_stageTimer / (scene1_itemList[0]+5);
 
   switch (centerComponent.currentStage) {
     case 4:
@@ -98,15 +98,26 @@ async function ResetSetting() {
       scene1_selectableGroup[3].visible = true;
       scene1_selectableGroup[4].visible = true;
 
+      scene1_selectableGroup[4].position.set(2000, 39)
       scene1_selectableGroup[0].position.set(3870, 105);
+      scene1_selectableGroup[3].position.set(4500, 178);
       scene1_selectableGroup[1].position.set(7600, 200);
       scene1_selectableGroup[2].position.set(9500, 40);
-      scene1_selectableGroup[3].position.set(4500, 178);
-      scene1_selectableGroup[4].position.set(2000, 39)
+
+      scene1_selectableGroup[0].id = 10;
+      scene1_selectableGroup[1].id = 11;
+
       scene1_endChar.x = 12250;
+      scene1_stageTimer = 40;
+      //40秒的關卡大概是2350甄
+      scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
+      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 2);
+
 
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
+
+
 
       scene1_currentAudio = 'run1';
 
@@ -119,6 +130,11 @@ async function ResetSetting() {
       }
 
       scene1_finalDistant = 11800;
+
+      scene1_stageTimer = 40;
+      //40秒的關卡大概是2350甄
+      scene1_itemList = [40, 5, 5, 5, 0, 5, 5, 5, 5, 5];
+      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 2);
 
       scene1_currentAudio = 'run2';
 
@@ -268,6 +284,7 @@ function SetContainer() {
 //設定變數起始值
 function LoadSetting() {
 
+  //不需要重新設定的
   //需要紀錄的
   {
     //雕像
@@ -275,6 +292,9 @@ function LoadSetting() {
     scene1_energyBar = null;
     scene1_bottomDetectLine = null;
     scene1_energy = 0;
+    scene1_score = 0;
+    scene1_title = 4;
+    scene1_radio = -1;
 
     scene1_itemGroup = [];
     scene1_BGObjectGroup = [];
@@ -647,26 +667,20 @@ function SetObject() {
     scene1_uIBoardSP.y = -12;
     scene1_uIBoard.addChild(scene1_uIBoardSP);
 
-    let default_UI = new PIXI.Sprite(PIXI.Texture.from('Bridge_DefaultUI'));
-    scene1_uIBoardSP.addChild(default_UI);
+    //let default_UI = new PIXI.Sprite(PIXI.Texture.from('Bridge_DefaultUI'));
+    //scene1_uIBoardSP.addChild(default_UI);
 
-   /* let Blood_Mask = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
-    Blood_Mask.visible = false;
-    scene1_uIBoardSP.addChild(Blood_Mask);
-
-    let Blood_MaskW = new PIXI.Sprite(PIXI.Texture.from('Blood_Mask'));
-    //Blood_MaskW.mask = Blood_Mask
-    Blood_MaskW.x = 156/2;
-    Blood_MaskW.visible = false;
-    scene1_uIBoardSP.addChild(Blood_MaskW);
-    scene1_energyBar = Blood_MaskW;*/
+    let Blood = new PIXI.Sprite(PIXI.Texture.from('Blood'));
+    Blood.x = 16;
+    Blood.y = 14;
+    scene1_uIBoardSP.addChild(Blood);
 
     let Blood_Mask = new PIXI.Graphics();
     Blood_Mask.beginFill(0xFFFFFF);
     Blood_Mask.drawRect(42, 23, 156.5, 9);
     Blood_Mask.endFill();
     Blood_Mask.visible = true;
-    Blood_Mask.position.set(0,0);
+    Blood_Mask.position.set(0, 0);
     scene1_uIBoardSP.addChild(Blood_Mask);
 
     let Blood_MaskW = new PIXI.Graphics();
@@ -674,10 +688,65 @@ function SetObject() {
     Blood_MaskW.drawRect(42, 23, 156.5, 9);
     Blood_MaskW.endFill();
     Blood_MaskW.visible = true;
-    Blood_MaskW.position.set(0,0);
+    Blood_MaskW.position.set(0, 0);
     Blood_MaskW.mask = Blood_Mask;
     scene1_energyBar = Blood_MaskW;
     scene1_uIBoardSP.addChild(Blood_MaskW);
+
+    Bridge_CharTilteUIDefault = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUIDefault'));
+    scene1_uIBoardSP.addChild(Bridge_CharTilteUIDefault);
+    Bridge_CharTilteUIDefault.x = 17;
+    Bridge_CharTilteUIDefault.y = 205;
+
+    Bridge_CharTilteUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUI'));
+    Bridge_CharTilteUI.visible = false;
+    scene1_uIBoardSP.addChild(Bridge_CharTilteUI);
+    Bridge_CharTilteUI.x = 16;
+    Bridge_CharTilteUI.y = 204;
+
+    Bridge_RadioUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_RadioUI'));
+    Bridge_RadioUI.visible = true;
+    scene1_uIBoardSP.addChild(Bridge_RadioUI);
+    Bridge_RadioUI.x = 84;
+    Bridge_RadioUI.y = 209;
+
+    scene1_CharTitleList = [];
+
+    for (let i = 0; i < 9; i++) {
+
+      let scene1_CharTitle = new PIXI.Sprite(PIXI.Texture.from("CharTitle" + i));
+
+      if (i != scene1_title)
+        scene1_CharTitle.visible = false;
+
+      scene1_CharTitle.scale.set(0.079, 0.079);
+
+      scene1_CharTitle.x = 1;
+      scene1_CharTitleList.push(scene1_CharTitle);
+
+      scene1_CharTitle.x = 52 - scene1_CharTitle.width / 2;
+      scene1_CharTitle.y = 212;
+
+      scene1_uIBoardSP.addChild(scene1_CharTitle);
+
+    }
+
+
+    scene1_RadioList = [];
+    for (let i = 0; i < 5; i++) {
+
+      let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("Radio" + i));
+      scene1_Radio.visible = false;
+
+      scene1_Radio.scale.set(0.079, 0.079);
+
+      scene1_Radio.x = 101;
+      scene1_Radio.y = 212.2;
+      scene1_RadioList.push(scene1_Radio);
+
+      scene1_uIBoardSP.addChild(scene1_Radio);
+
+    }
 
     //按鈕
     {
@@ -835,7 +904,7 @@ function SetObject() {
       tableDetectBox.position.set(tableInstance.width * (0.5 - 0.3 / 2), tableInstance.height * (0.6));
 
 
-     
+
 
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
@@ -1015,9 +1084,12 @@ async function ReuseItem() {
 
   if (scene1_prepareItemGroup.length == 0) {
     console.log("Empty");
-
     return;
-    // await CreateItem();
+  }
+
+  if (scene1_itemList[0] == 0) {
+    console.log("No Item Left");
+    return;
   }
 
   let reuseItem = scene1_prepareItemGroup[0];
@@ -1032,6 +1104,8 @@ async function ReuseItem() {
 
 }
 
+testCounter = 0;
+
 function ItemReset(item) {
 
   item.x = scene1_movingDistant + screenWidth * 1.1;
@@ -1041,6 +1115,16 @@ function ItemReset(item) {
   //在這邊決定出現的道具是哪個
   //item.instance.texture = scene1_appleTextures[3];
   var itemIndex = Math.floor(Math.random() * 9);
+  let bugCrasher = 0;
+
+  while (scene1_itemList[itemIndex + 1] == 0 && bugCrasher < 50) { itemIndex = Math.floor(Math.random() * 9); bugCrasher++; }
+  if (bugCrasher >= 50) { console.log("BUG"); }
+
+  testCounter++;
+
+  scene1_itemList[itemIndex + 1] -= 1;
+  scene1_itemList[0] -= 1;
+
   item.id = itemIndex;
 
   //item.instance.texture = scene1_itemTextures[itemIndex * 3];
@@ -1152,12 +1236,37 @@ function GameFunction() {
       for (let i = 0; i < scene1_itemGroup.length; i++) {
         if (scene1_itemGroup[i].activate && hitTestRectangle(scene1_runner.detectArea, scene1_itemGroup[i].detectArea)) {
 
-          if (scene1_itemGroup[i].id == 0 || scene1_itemGroup[i].id == 5 || scene1_itemGroup[i].id == 6 || scene1_itemGroup[i].id == 3) {
-            addEnergy(-10);
+          switch (scene1_itemGroup[i].id) {
+            case 0:
+              addEnergy(-1);
+              break;
+            case 1:
+              addEnergy(+1);
+              break;
+            case 2:
+              addEnergy(+2);
+              break;
+            case 3:
+              addEnergy(-1);
+              break;
+            case 4:
+              addEnergy(+1);
+              break;
+            case 5:
+              addEnergy(-1);
+              break;
+            case 6:
+              addEnergy(-1);
+              break;
+            case 7:
+              addEnergy(0);
+              break;
+            case 8:
+              addEnergy(+2);
+              break;
           }
-          else if (scene1_itemGroup[i].id == 1 || scene1_itemGroup[i].id == 2 || scene1_itemGroup[i].id == 8 || scene1_itemGroup[i].id == 4) {
-            addEnergy(10);
-          }
+
+
 
           RecycleItem(scene1_itemGroup, i);
 
@@ -1176,10 +1285,8 @@ function GameFunction() {
     function RandomAddItem(deltaTime) {
       scene1_randomAddItemTimer += 1;
       if (scene1_randomAddItemTimer >= scene1_randomAddItemTimeLimit + 15) {
-        if (Math.floor(Math.random() * 10) == 0) {
-          ReuseItem();
-          scene1_randomAddItemTimer = 15;
-        }
+        ReuseItem();
+        scene1_randomAddItemTimer = 15;
       }
     }
 
@@ -1292,10 +1399,18 @@ function GameFunction() {
       //scene1_selectableGroup[index].text.visible = false;
 
       if (id == 0) {
-        addExp(30);
+
       }
       else if (id == 1) {
-        addExp(100);
+
+      }
+      else if (id == 10) {
+
+        addEnergy(-5);
+      }
+      else if (id == 11) {
+
+        addEnergy(+5);
       }
 
     }
@@ -1355,23 +1470,149 @@ function GameFunction() {
 
 }
 
-function addExp(addScore = 10) {
+function addExp(addScore = 0) {
 
   scene1_score += addScore;
-  //scene1_energyBar.width = scene1_energy / 5;
-  //scene1_uiGroup[0].text.text = scene1_score;
-  //scene1_uiGroup[0].position.set(screenWidth - 45 - scene1_uiGroup[0].text.width - 15, 10);
+
+  if (scene1_score >= 25) {
+    changeTitle(8);
+  }
+  else if (scene1_score >= 20) {
+    changeTitle(7);
+  }
+  else if (scene1_score >= 15) {
+    changeTitle(6);
+  }
+  else if (scene1_score >= 8) {
+    changeTitle(5);
+  }
+  else if (scene1_score > -8) {
+    changeTitle(4);
+  }
+  else if (scene1_score > -15) {
+    changeTitle(3);
+  }
+  else if (scene1_score > -20) {
+    changeTitle(2);
+  }
+  else if (scene1_score > -25) {
+    changeTitle(1);
+  }
+  else {
+    changeTitle(0);
+  }
+
+
+
+
+}
+
+function changeTitle(newTitle = 0) {
+
+  if (newTitle == scene1_title) return;
+
+  scene1_CharTitleList[scene1_title].visible = false;
+
+  scene1_title = newTitle;
+
+  scene1_CharTitleList[newTitle].visible = true;
+
+  let timer = 0;
+  let counter = 0;
+  let counterLimit = 8;
+
+  app.ticker.add(function TitleShine(deltaTime) {
+
+    timer++;
+
+    if (timer > 20) {
+      timer = 0;
+      counter++;
+
+      if (counter % 2 == 0) {
+
+        Bridge_CharTilteUI.visible = false;
+      }
+      else if (counter % 2 == 1) {
+
+        Bridge_CharTilteUI.visible = true;
+      }
+
+      if (counter >= counterLimit) {
+        app.ticker.remove(TitleShine);
+      }
+    }
+  });
+
 }
 
 function addEnergy(addScore = 10) {
 
+  if (addScore > 0) addExp(1);
+  else if (addScore < 0) addExp(-1);
+
   scene1_energy += addScore;
-  let x = 156 / 2 + scene1_energy / 5;
-  if (x > 156) x = 156;
-  if (x < 0) x = 0;
-  scene1_energyBar.x = x;
-  //scene1_uiGroup[0].text.text = scene1_energy;
-  //scene1_uiGroup[0].position.set(screenWidth / 2 - scene1_energyBar.width / 2 - 125, 10);
+
+  let total = 156;
+  let rate = (30 / 90 + scene1_energy / 90)
+  if (rate > 1) rate = 1;
+  if (rate < 0) rate = 0;
+
+  scene1_energyBar.x = total * rate;
+
+  showRadio(rate);
+
+}
+
+function showRadio(rate = 0) {
+
+  if (rate >= 0.4 && scene1_radio == -1) {
+    scene1_radio = 0;
+  }
+  else if (rate >= 0.5 && scene1_radio == 0) {
+    scene1_radio = 1;
+  }
+  else if (rate >= 0.6 && scene1_radio == 1) {
+    scene1_radio = 2;
+  }
+  else if (rate >= 0.7 && scene1_radio == 2) {
+    scene1_radio = 3;
+  }
+  else if (rate >= 0.8 && scene1_radio == 3) {
+    scene1_radio = 4;
+  }
+  else return;
+
+  let timer = 0;
+  let counter = 0;
+  let counterLimit = 12;
+
+  scene1_RadioList[scene1_radio].visible = true;
+  scene1_RadioList[scene1_radio].tint = "0x07ffa5";
+
+  //07ffa5
+  app.ticker.add(function TitleShine(deltaTime) {
+
+    timer++;
+
+    if (timer > 15) {
+      timer = 0;
+      counter++;
+
+      if (counter % 2 == 0) {
+        scene1_RadioList[scene1_radio].tint = "0x07ffa5";
+      }
+      else if (counter % 2 == 1) {
+        scene1_RadioList[scene1_radio].tint = "0xFFFFFF";
+      }
+
+      if (counter >= counterLimit) {
+        scene1_RadioList[scene1_radio].visible = false;
+        app.ticker.remove(TitleShine);
+      }
+    }
+  });
+
 }
 
 async function EndThisScene() {

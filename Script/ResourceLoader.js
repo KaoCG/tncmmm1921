@@ -504,9 +504,15 @@ async function SetLoader() {
     }
   }
 
-  //跑步的UI
+  //Bridge場景的UI
   PIXI.loader.add("Bridge_DefaultUI", "./Resource/Final/Brige_UIUX/Bridge_DefaultUI.png");
   PIXI.loader.add("Blood_Mask", "./Resource/Final/Brige_UIUX/Blood_Mask.png");
+  PIXI.loader.add("Blood", "./Resource/Final/Brige_UIUX/Blood.png");
+  
+  PIXI.loader.add("Bridge_CharTilteUI", "./Resource/Final/Brige_UIUX/Bridge_CharTilteUI.png");
+  PIXI.loader.add("Bridge_CharTilteUIDefault", "./Resource/Final/Brige_UIUX/Bridge_CharTilteUIDefault.png");
+  PIXI.loader.add("Bridge_RadioUI", "./Resource/Final/Brige_UIUX/Bridge_RadioUI.png");
+
 
   PIXI.loader.add("Button_choose", "./Resource/Final/Brige_UIUX/But/Button_choose.png");
   PIXI.loader.add("Button_choose_down", "./Resource/Final/Brige_UIUX/But/Button_choose_down.png");
@@ -516,6 +522,14 @@ async function SetLoader() {
   PIXI.loader.add("Button_sound_open", "./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
   PIXI.loader.add("Button_sound_stop", "./Resource/Final/Brige_UIUX/But/Button_sound_stop.png");
   PIXI.loader.add("Button_sound_play", "./Resource/Final/Brige_UIUX/But/Button_sound_play.png");
+
+  for (var i = 0; i < 9; i++) {
+    PIXI.loader.add("CharTitle" + i,"./Resource/Final/Brige_UIUX/Title/CharTitle" + i +".png");
+  }
+
+  for (var i = 0; i < 5; i++) {
+    PIXI.loader.add("Radio" + i,"./Resource/Final/Brige_UIUX/Radio/Radio" + i +".png");
+  }
 
   //過廠對話1的人物場景
   PIXI.loader.add("B1C0", "./Resource/Final/character/full/B1PeopleA.png");
