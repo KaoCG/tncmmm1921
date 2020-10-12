@@ -150,7 +150,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  centerComponent.currentStage = 9;
+  //centerComponent.currentStage = 9;
   //loadScript("Script/SetScene3.js");
   //return;
 
