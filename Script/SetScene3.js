@@ -87,7 +87,7 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set4;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose4;
       scene3_sceneList[6].visible = true;
-      audio = 'run1';
+      audio = 'run2';
       break;
     //主角發完書看到抗議
     case 9:
@@ -102,14 +102,14 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set6;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose6;
       scene3_sceneList[5].visible = true;
-      audio = 'run2';
+      audio = 'run3';
       break;
     //找完人回去在飯店
     case 13:
       scene3_textInput = PIXI.loader.resources.textContent.data.set7;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose7;
       scene3_sceneList[3].visible = true;
-      audio = 'run3';
+      audio = 'for_conclusion';
       break;
     //主角結局前獨白(飯店)
     case 14:
@@ -329,38 +329,33 @@ async function SetObject() {
 
         let selectBox = new PIXI.Graphics();
         selectBox.beginFill(0xFFFFFF);
-        selectBox.drawRect(0, 0, selectButtonBoxSize[0] + 16, selectButtonBoxSize[1] + 8).endFill();
+        selectBox.drawRect(0, 0, selectButtonBoxSize[0] + 16 + 20, selectButtonBoxSize[1] +4).endFill();
         selectBox.zIndex = 0;
         selectBox.alpha = 1;
 
-        let selectBox2 = new PIXI.Graphics();
+        /*let selectBox2 = new PIXI.Graphics();
         selectBox2.beginFill(0xFFFFFF);
         selectBox2.drawRect(0, 0, selectButtonBoxSize[0], selectButtonBoxSize[1]).endFill();
         selectBox2.position.set(8, 5);
         selectBox2.zIndex = 0;
         selectBox2.alpha = 1;
-        selectBox.addChild(selectBox2);
+        selectBox.addChild(selectBox2);*/
 
         //padding可以處理字體顯示位置不正確的問題
         let style = new PIXI.TextStyle({
           fontFamily: "pixelSilver",
-          fontSize: 112,
+          fontSize: 96,
           fill: "black",
           fontStyle: "normal",
           fontWeight: "lighter",
-          letterSpacing: 11,
+          letterSpacing: 9,
           align: "left",
           padding: 100,
-          lineHeight: 112
-          //dropShadow: true,
-          //dropShadowColor: "#000000",
-          //dropShadowBlur: 4,
-          //dropShadowAngle: Math.PI / 6,
-          //dropShadowDistance: 6,
+          lineHeight: 96
         });
 
         let selectBoxText = new PIXI.Text(scene3_selectTextInput[scene3_selectIndex][i], style);
-        selectBoxText.position.set(edge - 5, 22);
+        selectBoxText.position.set(edge - 5, 20.5);
         selectBoxText.scale.set(0.5, 0.5);
 
         select.text = selectBoxText;
@@ -540,19 +535,16 @@ async function SetObject() {
 
       let P0 = new PIXI.Sprite(PIXI.Texture.from("B1C0"));
       P0.zIndex = 1;
-      P0.jumpSpeed = 0;
       P0.scale.set(globalImageScale, globalImageScale);
       P0.position.set(420 + 20, 150);
 
       let P1 = new PIXI.Sprite(PIXI.Texture.from("B1C1"));
       P1.zIndex = 1;
-      P1.jumpSpeed = 0;
       P1.scale.set(-globalImageScale, globalImageScale);
       P1.position.set(750 + 20, 150);
 
       let P2 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
       P2.zIndex = 1;
-      P2.jumpSpeed = 0;
       P2.scale.set(globalImageScale, globalImageScale);
       P2.position.set(-10, 73);
 
@@ -567,12 +559,12 @@ async function SetObject() {
       sceneA.char.push(P0);
       sceneA.char.push(P1);
 
-      P0.jump = false;
-      P1.jump = false;
-      P2.jump = false;
-      P0.initY = P0.position.y;
-      P1.initY = P1.position.y;
-      P2.initY = P2.position.y;
+      for(let i = 0 ; i <  sceneA.char.length;i++)
+      {
+        sceneA.char[i].jumpSpeed = 0;
+        sceneA.char[i].jump = false;
+        sceneA.char[i].initY =   sceneA.char[i].position.y;
+      }
 
       scene3_sceneList.push(sceneA);
 
@@ -595,12 +587,12 @@ async function SetObject() {
 
       let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
       P0.zIndex = 1;
-      P0.jumpSpeed = 0;
+
       P0.scale.set(globalImageScale, globalImageScale);
       P0.position.set(-10, 73);
       let P1 = new PIXI.Sprite(PIXI.Texture.from("B1C2"));
       P1.zIndex = 1;
-      P1.jumpSpeed = 0;
+
       P1.scale.set(globalImageScale, globalImageScale);
       P1.position.set(450, 73);
       sceneA.addChild(P0);
@@ -609,10 +601,13 @@ async function SetObject() {
       sceneA.char = [];
       sceneA.char.push(P0);
       sceneA.char.push(P1);
-      P0.jump = false;
-      P1.jump = false;
-      P0.initY = P0.position.y;
-      P1.initY = P1.position.y;
+
+      for(let i = 0 ; i <  sceneA.char.length;i++)
+      {
+        sceneA.char[i].jumpSpeed = 0;
+        sceneA.char[i].jump = false;
+        sceneA.char[i].initY =   sceneA.char[i].position.y;
+      }
 
       scene3_sceneList.push(sceneA);
 
@@ -672,6 +667,56 @@ async function SetObject() {
       scene3_sceneList.push(sceneA);
 
       sceneA.visible = false;
+
+      sceneA.char = [];
+
+      //人物
+      {
+        let slime = new PIXI.Container();
+        let slimeInstance = new PIXI.Sprite(PIXI.Texture.from("G2People0" + 0));
+        slimeInstance.width = 40;
+        slimeInstance.height = 40;
+        slimeInstance.zIndex = 50;
+        slimeInstance.scale.set(2, 2);
+        slimeInstance.pivot.set(0.5, 0.5);
+        slimeInstance.position.set(-15, -14);
+        sceneA.addChild(slime);
+        slime.addChild(slimeInstance);
+
+        sceneA.char.push(slime);
+
+      }
+     
+      //警察
+      {
+        let scene3_policeGroup= [];
+        for (let i = 0; i < 3; i++) {
+          let police = new PIXI.Container();
+          police.sortableChildren = true;
+          let policeInstance = new PIXI.Sprite(PIXI.Texture.from("policeSmall"));
+          policeInstance.pivot.set(policeInstance.width / 2, policeInstance.height / 2);
+          policeInstance.scale.set(-2, 2);
+          sceneA.addChild(police);
+          police.addChild(policeInstance);
+          scene3_policeGroup.push(police);
+          sceneA.char.push(police);
+        }
+     
+        scene3_policeGroup[0].position.set(530, 262);
+        scene3_policeGroup[1].position.set(580, 255);
+        scene3_policeGroup[2].position.set(630, 265);
+        for (let i = 0; i < 3; i++) {
+          scene3_policeGroup[0].zIndex = 2 + scene3_policeGroup[0].y * 0.01;
+        }
+      }
+   
+
+      for(let i = 0 ; i <  sceneA.char.length;i++)
+      {
+        sceneA.char[i].jumpSpeed = 0;
+        sceneA.char[i].jump = false;
+        sceneA.char[i].initY =   sceneA.char[i].position.y;
+      }
 
     }
 
@@ -792,7 +837,7 @@ function CharJump(P) {
 
   if (P.jumpSpeed == 0) {
     P.jumpSpeed = 9;
-
+  
     app.ticker.add(function CharJumpTicker(deltaTime) {
 
       P.position.y -= P.jumpSpeed;
@@ -830,22 +875,11 @@ async function GoToNextDialog() {
 
       scene3_selectBoxes[i].visible = true;
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
-
-      //scene3_selectBoxes[i].text.x = -(scene3_selectBoxes[i].text.width) / 2 + 2;
-      // scene3_selectBoxes[i].box.width = scene3_selectBoxes[i].text.width + 250;
-      scene3_selectBoxes[i].box.width = 314
-      // console.log(      scene3_selectBoxes[i].box.width);
-      //scene3_selectBoxes[i].box.x = (- scene3_selectBoxes[i].box.width) / 2 ;
-      // scene3_selectBoxes[i].box.x = screenWidth/2  + (- scene3_selectBoxes[i].box.width) / 2 + 100;
-      scene3_selectBoxes[i].box.x = 343;
-      //console.log(     scene3_selectBoxes[i].box.x);
+      scene3_selectBoxes[i].box.width = 314+30;
+      scene3_selectBoxes[i].box.x = 343  -15;
       scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + scene3_selectBoxes[i].box.width / 2 - (scene3_selectBoxes[i].text.width) / 2;
-
-      //scene3_selectBoxes[i].y =        (screenHeight - 20 - 145) - (60 + 20 * 0.8 + (3 - optionsNumber) * 10) * (i + 1) + (3 - optionsNumber) * -25;
-      //310~370
-      //scene3_selectBoxes[i].y =  308 + 70/(optionsNumber-1) * i;
       if (optionsNumber == 3)
-        scene3_selectBoxes[i].y = 343 + 35 * (i - 1);
+        scene3_selectBoxes[i].y = 345 + 36 * (i - 1);
       else
         scene3_selectBoxes[i].y = 343 + 22 * (i * 2 - 1);
     }
@@ -872,11 +906,13 @@ async function GoToNextDialog() {
 
     //讀取下一個名字
     scene3_textIndex = (scene3_textIndex + 1) % scene3_textInput.length;
-    var name = scene3_textInput[scene3_textIndex];
 
     //切換人物位置
     for (let i = 0; i < scene3_chars.length; i++) {
-      if (scene3_chars[i].visible == true && i != charIndex) {
+
+      if (scene3_names[i].visible == true && i != charIndex) {
+
+        scene3_names[i].visible = false;
 
         if (i != 13 && i != 14 && i != 15)
           characterExit(i);
@@ -888,6 +924,9 @@ async function GoToNextDialog() {
     {
       characterEnter(charIndex);
     }*/
+
+    let name = scene3_names[charIndex];
+    name.visible = true;
 
     if (charIndex != 13 && charIndex != 14 && charIndex != 15)
       characterEnter(charIndex);
@@ -927,6 +966,7 @@ async function GoToNextDialog() {
     }
 
     if (scene3_sceneList[sceneIndex].char[charIndex] !== undefined) {
+   
       CharJump(scene3_sceneList[sceneIndex].char[charIndex]);
     }
 
@@ -1059,6 +1099,7 @@ async function GoToNextDialog_Ending() {
 
 async function OptionsResult(result) {
 
+  console.log(result);
   while (true) {
     scene3_textIndex = (scene3_textIndex + 1) % scene3_textInput.length;
     let content = scene3_textInput[scene3_textIndex];
@@ -1165,7 +1206,7 @@ async function GameFunction() {
 
     scene3_selectBoxes[i].addListener("pointerdown", () => {
 
-      PIXI.sound.play('choose_click');
+      PIXI.sound.play('option_click');
       clickSelectBox(i);
 
     });
@@ -1253,11 +1294,10 @@ function EndThisScene() {
 function characterEnter(index) {
 
   let char = scene3_chars[index];
-  let name = scene3_names[index];
-
+ 
   let counter = scene3_charMoveframes;
 
-  name.visible = true;
+ 
   char.visible = true;
 
   char.alpha = 0;

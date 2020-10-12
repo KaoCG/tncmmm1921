@@ -70,6 +70,9 @@ async function ResetSetting() {
     scene1_countDownTimer = 0;
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
+    scene1_InvitedAmount = 3;
+    scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
+
   }
 
   //分層背景
@@ -81,6 +84,7 @@ async function ResetSetting() {
   //關卡時間
   scene1_stageTimer = 40;
   scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
+  scene1_setWidth = scene1_BGObjectGroup[0].width;
   //scene1_itemTimer = scene1_stageTimer / (scene1_itemList[0]+5);
 
   switch (centerComponent.currentStage) {
@@ -92,11 +96,10 @@ async function ResetSetting() {
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B1L2" + (i % 2));
       }
 
-      scene1_selectableGroup[0].visible = true;
-      scene1_selectableGroup[1].visible = true;
-      scene1_selectableGroup[2].visible = true;
-      scene1_selectableGroup[3].visible = true;
-      scene1_selectableGroup[4].visible = true;
+      for (let i = 0; i < 5; i++) {
+        scene1_selectableGroup[i].visible = true;
+        scene1_selectableGroup[i].instance.play();
+      }
 
       scene1_selectableGroup[4].position.set(2000, 39)
       scene1_selectableGroup[0].position.set(3870, 105);
@@ -146,7 +149,25 @@ async function ResetSetting() {
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B3L2" + (i % 2));
       }
 
-      scene1_finalDistant = 11800;
+      scene1_BGObjectGroup[10].visible = false;
+
+      for (let i = 5; i < 15; i++) {
+        scene1_selectableGroup[i].visible = true;
+        scene1_selectableGroup[i].instance.play();
+      }
+      scene1_selectableGroup[5].position.set(494, 146);
+      scene1_selectableGroup[6].position.set(1070, 151);
+      scene1_selectableGroup[7].position.set(1863, 142.5);
+      scene1_selectableGroup[8].position.set(2688.5 + 268, 147);
+      scene1_selectableGroup[9].position.set(2688.5 + 735, 152);
+      scene1_selectableGroup[10].position.set(2688.5 + 1390, 132);
+      scene1_selectableGroup[11].position.set(2688.5 * 2 + 292, 148);
+      scene1_selectableGroup[12].position.set(2688.5 * 2 + 738, 146);
+      scene1_selectableGroup[13].position.set(2688.5 * 2 + 1340, 146);
+      scene1_selectableGroup[14].position.set(2688.5 * 2 + 1910, 148);
+
+      scene1_finalDistant = 8065.5;
+      scene1_stageTimer = 40;
 
       scene1_currentAudio = 'run3';
 
@@ -154,11 +175,11 @@ async function ResetSetting() {
   }
 
   //特殊背景
-  for (let i = 0; i < scene1_SPBGObjectGroup.length; i++) {
+  /*for (let i = 0; i < scene1_SPBGObjectGroup.length; i++) {
 
     scene1_SPBGObjectGroup[i].x = scene1_SPBGAccuDistant;
     scene1_SPBGAccuDistant += scene1_SPBGObjectGroup[i].width;
-  }
+  }*/
 
   for (let i = 0; i < scene1_tickerFunc.length; i++) {
     app.ticker.add(scene1_tickerFunc[i]);
@@ -298,7 +319,7 @@ function LoadSetting() {
 
     scene1_itemGroup = [];
     scene1_BGObjectGroup = [];
-    scene1_SPBGObjectGroup = [];
+    // scene1_SPBGObjectGroup = [];
     scene1_grassGroup = [];
     scene1_prepareItemGroup = [];
     scene1_selectableGroup = [];
@@ -393,229 +414,6 @@ function SetObject() {
     scene1_slime.addChild(slimeInstance);
     scene1_slime.slimeInstance = slimeInstance;
     scene1_slime.visible = false;
-
-  }
-
-  //廢案
-  { //樹木Sprite
-    {
-      /*
-          for (var i = 0; i < 16; i++) {
-            let treeInstance = new PIXI.Sprite(PIXI.Texture.from("tree"));
-            treeInstance.width = 200;
-            treeInstance.height = 200;
-            treeInstance.position.set(screenWidth * i / 12 * 1.5, Math.random() * 60);
-            treeInstance.zIndex = -100 + treeInstance.y;
-            treeInstance.x -= 100;
-            treeInstance.y += 65;
-      
-            scene1_BGObjectGroup.push(treeInstance);
-            scene1_BGContainer.addChild(treeInstance);
-      
-            //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
-            let treeDetectBox = new PIXI.Graphics();
-            treeDetectBox.lineStyle(0, 0x82cd2e, 1);
-            treeDetectBox.beginFill(0x700028);
-            treeDetectBox.drawRect(0, 0, treeInstance.width * 0.6, treeInstance.height * 0.6);
-            treeDetectBox.endFill();
-            treeDetectBox.zIndex = 100;
-            treeDetectBox.visible = false;
-            treeDetectBox.position.set(treeInstance.width * 0.1, treeInstance.height * 0.2);
-      
-            treeInstance.addChild(treeDetectBox);
-            treeInstance.detectArea = treeDetectBox;
-      
-          }
-          for (var i = 0; i < 15; i++) {
-            let treeInstance = new PIXI.Sprite(PIXI.Texture.from("tree"));
-      
-            treeInstance.width = 200;
-            treeInstance.height = 200;
-            treeInstance.position.set(Math.random() * screenWidth * 1.5, Math.floor(Math.random() * 60));
-            treeInstance.zIndex = -100 + treeInstance.y;
-            treeInstance.x -= 100;
-            treeInstance.y += 65;
-            scene1_BGObjectGroup.push(treeInstance);
-            scene1_BGContainer.addChild(treeInstance);
-      
-            let treeDetectBox = new PIXI.Graphics();
-            treeDetectBox.lineStyle(0, 0x82cd2e, 1);
-            treeDetectBox.beginFill(0x700028);
-            treeDetectBox.drawRect(0, 0, treeInstance.width * 0.6, treeInstance.height * 0.6);
-            treeDetectBox.endFill();
-            treeDetectBox.zIndex = 100;
-            treeDetectBox.visible = false;
-            treeDetectBox.position.set(treeInstance.width * 0.1, treeInstance.height * 0.2);
-      
-            treeInstance.addChild(treeDetectBox);
-            treeInstance.detectArea = treeDetectBox;
-          }
-      */
-    }
-
-    //背景色塊
-    {
-      /* let rectangle2 = new PIXI.Graphics();
-       rectangle2.beginFill(0x5aa05a);
-       rectangle2.drawRect(-5, 220, 900, 150);
-       rectangle2.endFill();
-       rectangle2.zIndex = -201;
-       scene1_grassBoard.addChild(rectangle2);
-  
-       let rectangle = new PIXI.Graphics();
-       rectangle.lineStyle(15, 0x82cd2e, 1);
-       rectangle.beginFill(0x704828);
-       rectangle.drawRect(-5, 260, 900, 450);
-       rectangle.endFill();
-       rectangle.zIndex = -2;
-       scene1_grassBoard.addChild(rectangle);
-       //scene1_grassBoard.mask = rectangle;*/
-    }
-
-    //草地Sprite
-    {
-      /*
-          for (var i = 0; i < 6; i++) {
-      
-            let grass = new PIXI.Container();
-            grass.activate = true;
-      
-            let grassInstance = new PIXI.Sprite(PIXI.Texture.from("bg"));
-            grassInstance.zIndex = -300;
-            grassInstance.scale.set(0.2, 0.2);
-      
-            grass.position.set(i * grassInstance.width, 200);
-      
-            grass.Instance = grassInstance;
-            scene1_grassBoard.addChild(grass);
-            grass.addChild(grassInstance);
-      
-            let grassDetectBox = new PIXI.Graphics();
-            grassDetectBox.lineStyle(0, 0x82cd2e, 1);
-            grassDetectBox.beginFill(0x700028);
-            grassDetectBox.drawRect(0, 0, grassInstance.width * 0.6, grassInstance.height * 0.6);
-            grassDetectBox.endFill();
-            grassDetectBox.zIndex = 100;
-            grassDetectBox.visible = false;
-            grassDetectBox.position.set(0, 0);
-      
-            scene1_grassGroup.push(grass);
-            scene1_grassGroup[i].addChild(grassDetectBox);
-            scene1_grassGroup[i].detectArea = grassDetectBox;
-      
-          }
-          */
-    }
-    //桌子
-    {
-      /* let table = new PIXI.Container();
-       table.position.set(900, 100);
-       table.activate = true;
-       table.zIndex = 1;
-   
-       let tableframes = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
-   
-       let tableInstance = new PIXI.AnimatedSprite(tableframes);
-       tableInstance.scale.set(globalImageScale,globalImageScale);
-       tableInstance.animationSpeed = 0.05;
-       tableInstance.play();
-   
-       let tableDetectBox = new PIXI.Graphics();
-       tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.6, tableInstance.height * 0.4).endFill();
-       tableDetectBox.visible = true;
-       tableDetectBox.position.set(tableInstance.width *0.2, tableInstance.height * 0.8);
-   
-       //padding可以處理字體顯示位置不正確的問題
-       let style = new PIXI.TextStyle({
-         fontFamily: "pixelFont",
-         fontSize: 36,
-         fill: "white",
-         stroke: '#000000',
-         strokeThickness: 5,
-         letterSpacing: 0,
-         padding: 10
-         //dropShadow: true,
-         //dropShadowColor: "#000000",
-         //dropShadowBlur: 4,
-         //dropShadowAngle: Math.PI / 6,
-         //dropShadowDistance: 6,
-       });
-       let chooseText = new PIXI.Text("choose", style);
-       chooseText.position.set(tableInstance.width * 0.28, -15);
-       chooseText.visible = true;
-   
-       scene1_selectableBoard.addChild(table);
-       table.addChild(tableInstance);
-       table.addChild(tableDetectBox);
-       table.addChild(chooseText);
-   
-       table.instance = tableInstance;
-       table.detectArea = tableDetectBox;
-       table.text = chooseText;
-   
-       table.id = 1;
-       scene1_selectableGroup.push(table);*/
-    }
-    //雕像Sprite
-    {
-      {
-        /* let statue = new PIXI.Container();
-         statue.no = 0;
-         statue.activate = true;
-         statue.zIndex = 1.5;
-         statue.sortableChildren = true;
-         statue.position.set(500, 260);
-   
-         let statueInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
-         statueInstance.width = 50;
-         statueInstance.height = 50;
-   
-         statueInstance.pivot.set(0.5, 0.5);
-         statueInstance.scale.set(2, 2);
-   
-         //一定要畫在0,0，再去條位置，用getGlobalPosition才能正確讀取。
-         let statueDetectBox = new PIXI.Graphics();
-         statueDetectBox.lineStyle(0, 0x82cd2e, 1);
-         statueDetectBox.beginFill(0x700028);
-         statueDetectBox.drawRect(0, 0, statueInstance.width, statueInstance.height);
-         statueDetectBox.endFill();
-         statueDetectBox.alpha = 0.5;
-         statueDetectBox.visible = false;
-         statueDetectBox.position.set(0, statueInstance.height * 0.9);
-   
-         //padding可以處理字體顯示位置不正確的問題
-         let style = new PIXI.TextStyle({
-           fontFamily: "pixelFont",
-           fontSize: 36,
-           fill: "white",
-           stroke: '#000000',
-           strokeThickness: 5,
-           letterSpacing: 0,
-           padding: 10
-           //dropShadow: true,
-           //dropShadowColor: "#000000",
-           //dropShadowBlur: 4,
-           //dropShadowAngle: Math.PI / 6,
-           //dropShadowDistance: 6,
-         });
-         let chooseText = new PIXI.Text("choose", style);
-         chooseText.position.set(statueInstance.width * -0.35, -42);
-         chooseText.visible = true;
-   
-   
-         scene1_selectableBoard.addChild(statue);
-         statue.addChild(statueDetectBox);
-         statue.addChild(statueInstance);
-         statue.addChild(chooseText);
-   
-         statue.detectArea = statueDetectBox;
-         statue.statueInstance = statueInstance;
-         statue.text = chooseText;
-   
-         statue.id = 0;
-         scene1_selectableGroup.push(statue);*/
-      }
-    }
 
   }
 
@@ -838,37 +636,25 @@ function SetObject() {
 
   //padding可以處理字體顯示位置不正確的問題
   let style = new PIXI.TextStyle({
-    fontFamily: "pixelFont",
-    fontSize: 36,
+    fontFamily: "pixelSilver",
+    fontSize: 72,
     fill: "white",
-    stroke: '#000000',
-    strokeThickness: 5,
-    letterSpacing: 0,
-    padding: 10
+    letterSpacing: 9,
+    padding: 72
   });
+
+  scene1_InvitedAmount = 0;
+  scene1_SelectPeopleText = new PIXI.Text("尚須邀請的人數：" + (3 - scene1_InvitedAmount), style);
+  scene1_SelectPeopleText.scale.set(0.5);
+  //scene1_SelectPeopleText.x = 450;
+  scene1_SelectPeopleText.x = 470;
+  scene1_SelectPeopleText.y = 37;
+  scene1_uIBoard.addChild(scene1_SelectPeopleText);
 
   //選擇物件
   {
-    var frame0 = [PIXI.Texture.from("B1S00"), PIXI.Texture.from("B1S01")];
-    var frame0w = PIXI.Texture.from("B1S02")
-    var frame1 = [PIXI.Texture.from("B1S10"), PIXI.Texture.from("B1S11")];
-    var frame1w = PIXI.Texture.from("B1S12")
-    var frame2 = [PIXI.Texture.from("B1S20"), PIXI.Texture.from("B1S21")];
-    var frame2w = PIXI.Texture.from("B1S22")
-    var frame3 = [PIXI.Texture.from("B1S30"), PIXI.Texture.from("B1S31")];
-    var frame3w = PIXI.Texture.from("B1S32")
-    var frame4 = [PIXI.Texture.from("B1S40"), PIXI.Texture.from("B1S41")];
-    var frame4w = PIXI.Texture.from("B1S42")
 
-    var frame20 = [PIXI.Texture.from("B3S00"), PIXI.Texture.from("B3S01")];
-    var frame20w = PIXI.Texture.from("B3S02")
-    var frame21 = [PIXI.Texture.from("B3S10"), PIXI.Texture.from("B3S11")];
-    var frame21w = PIXI.Texture.from("B3S12")
-    var frame22 = [PIXI.Texture.from("B3S20"), PIXI.Texture.from("B3S21")];
-    var frame22w = PIXI.Texture.from("B3S22")
-
-
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 15; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
       B1S00.activate = true;
@@ -876,47 +662,49 @@ function SetObject() {
 
       let tableframes = [];
       let whiteTexture = PIXI.Texture.from("B1S02")
+      B1S00.id = 1;
 
       switch (i) {
+
+        //0~4場景一
         case 0:
-          tableframes = frame0;
-          whiteTexture = frame0w;
-          break;
         case 1:
-          tableframes = frame1;
-          whiteTexture = frame1w;
-          break;
         case 2:
-          tableframes = frame2;
-          whiteTexture = frame2w;
-          break;
         case 3:
-          tableframes = frame3;
-          whiteTexture = frame3w;
-          break;
         case 4:
-          tableframes = frame4;
-          whiteTexture = frame4w;
+          tableframes = [PIXI.Texture.from("B1S" + i + "0"), PIXI.Texture.from("B1S" + i + "1")];
+          whiteTexture = PIXI.Texture.from("B1S" + i + "2");
+          break;
+        //5~14
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+          tableframes = [PIXI.Texture.from("B3S" + (i - 5) + "0"), PIXI.Texture.from("B3S" + (i - 5) + "1")];
+          whiteTexture = PIXI.Texture.from("B3S" + (i - 5) + "2");
+          B1S00.id = 30 + i - 5;
           break;
       }
 
       let tableInstance = new PIXI.AnimatedSprite(tableframes);
       tableInstance.scale.set(globalImageScale, globalImageScale);
       tableInstance.animationSpeed = 0.05;
-      tableInstance.play();
+      tableInstance.stop();
       tableInstance.tint = 0xFFFFFF;
 
       let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.3, tableInstance.height * 0.5).endFill();
+      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.4, tableInstance.height * 0.5).endFill();
       tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.3 / 2), tableInstance.height * (0.6));
-
-
-
+      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.4 / 2), tableInstance.height * (0.6));
 
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
-      //white.mask = tableInstance;
 
       scene1_selectableBoard.addChild(B1S00);
       B1S00.addChild(tableInstance);
@@ -928,7 +716,7 @@ function SetObject() {
       B1S00.detectArea = tableDetectBox;
       B1S00.white = white
 
-      B1S00.id = 1;
+
       scene1_selectableGroup.push(B1S00);
 
     }
@@ -1169,10 +957,13 @@ function GameFunction() {
         scene1_BGContainerB.x = -scene1_movingDistant;
         scene1_BGContainerC.x = -scene1_movingDistant * 0.4;
 
-        if (scene1_movingDistant >= scene1_finalDistant) {
-          //scene1_movingPauseTimer = 1000;
-          EndThisScene();
+        if (centerComponent.currentStage != 12) {
+          if (scene1_movingDistant >= scene1_finalDistant) {
+            EndThisScene();
+          }
         }
+
+
       }
 
     }
@@ -1193,7 +984,14 @@ function GameFunction() {
         }
         else if (scene1_BGObjectGroup[i].layerIndex == 1) {
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerB.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
-            scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 4;
+
+            if (centerComponent.currentStage == 12) {
+              scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 3;
+            }
+            else {
+              scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 4;
+            }
+
           }
         }
         else if (scene1_BGObjectGroup[i].layerIndex == 2) {
@@ -1202,15 +1000,6 @@ function GameFunction() {
           }
         }
 
-      }
-
-      for (var i = 0; i < scene1_SPBGObjectGroup.length; i++) {
-
-        //特殊背景
-        if (scene1_SPBGObjectGroup[i].x + (scene1_movingDistant * -1) <= -scene1_SPBGObjectGroup[i].width * 1.5) {
-          scene1_SPBGObjectGroup[i].x = scene1_SPBGAccuDistant;
-          scene1_SPBGAccuDistant += scene1_SPBGObjectGroup[i].width;
-        }
       }
 
       for (var i = 0; i < scene1_itemGroup.length; i++) {
@@ -1224,19 +1013,24 @@ function GameFunction() {
       }
 
       for (var i = 0; i < scene1_selectableGroup.length; i++) {
-        /*
-                if (scene1_selectableGroup[i].x + (scene1_movingDistant * -1) <= -400) {
-                  scene1_selectableGroup[i].x += screenWidth * 1.8;
-                  scene1_selectableGroup[i].activate = true;
-                  scene1_selectableGroup[i].instance.gotoAndPlay(0);
-        
-                  scene1_selectableGroup[i].text.visible = true;
-                }*/
+
+        if (centerComponent.currentStage == 12) {
+          if (scene1_selectableGroup[i].visible && scene1_selectableGroup[i].x + (scene1_movingDistant * -1) <= -400) {
+            if (scene1_selectableGroup[i].activate == false) {
+              scene1_selectableGroup[i].visible = false;
+            }
+            else {
+              scene1_selectableGroup[i].x += scene1_setWidth * 3;
+              scene1_selectableGroup[i].instance.gotoAndPlay(0);
+            }
+          }
+        }
+
       }
 
     }
 
-    //史萊姆碰觸相關
+    //撿取物件相關
     scene1_tickerFunc.push(EatApple);
     function EatApple(deltaTime) {
 
@@ -1246,7 +1040,7 @@ function GameFunction() {
 
           switch (scene1_itemGroup[i].id) {
             case 0:
-              addEnergy(-1);
+              addEnergy(-2);
               break;
             case 1:
               addEnergy(+1);
@@ -1255,10 +1049,10 @@ function GameFunction() {
               addEnergy(+2);
               break;
             case 3:
-              addEnergy(-1);
+              addEnergy(0);
               break;
             case 4:
-              addEnergy(+1);
+              addEnergy(0);
               break;
             case 5:
               addEnergy(-1);
@@ -1278,8 +1072,9 @@ function GameFunction() {
 
           RecycleItem(scene1_itemGroup, i);
 
-          PIXI.sound.play('choose_click');
-          PIXI.sound.play('small_game_click');
+          //PIXI.sound.play('choose_click');
+          //PIXI.sound.play('small_game_click');
+          PIXI.sound.play('get_something');
 
           //3符咒 4紳章 7錢袋
         }
@@ -1291,11 +1086,15 @@ function GameFunction() {
     //隨機產生可碰觸的物件
     scene1_tickerFunc.push(RandomAddItem);
     function RandomAddItem(deltaTime) {
-      scene1_randomAddItemTimer += 1;
-      if (scene1_randomAddItemTimer >= scene1_randomAddItemTimeLimit + 15) {
-        ReuseItem();
-        scene1_randomAddItemTimer = 15;
+
+      if (centerComponent.currentStage != 12) {
+        scene1_randomAddItemTimer += 1;
+        if (scene1_randomAddItemTimer >= scene1_randomAddItemTimeLimit + 15) {
+          ReuseItem();
+          scene1_randomAddItemTimer = 15;
+        }
       }
+
     }
 
     //時間倒數
@@ -1373,9 +1172,6 @@ function GameFunction() {
           canSelect = true;
           index = i;
 
-          //PIXI.sound.play('choose_click');
-          PIXI.sound.play('get_something');
-
           let counter = 0;
           app.ticker.add(function ChooseShine(deltaTime) {
             counter++;
@@ -1402,9 +1198,12 @@ function GameFunction() {
       //結算觸發物件
       //根據此受選物件的編號不同產生結果
 
+      PIXI.sound.play('choose_click');
+
       scene1_movingPauseTimer = 30;
       id = scene1_selectableGroup[index].id;
-      //scene1_selectableGroup[index].text.visible = false;
+
+      console.log(id);
 
       if (id == 0) {
 
@@ -1413,12 +1212,55 @@ function GameFunction() {
 
       }
       else if (id == 10) {
-
         addEnergy(-5);
       }
       else if (id == 11) {
 
         addEnergy(+5);
+      }
+      else if (id >=30 && id <=39) {
+
+        scene1_InvitedAmount -= 1 ;
+        scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
+
+        switch (id % 10) {
+          case 0:
+            break;
+          case 1:
+            break;
+          case 2:
+            break;
+          case 3:
+            break;
+          case 4:
+            break;
+          case 5:
+            break;
+          case 6:
+            break;
+          case 7:
+            break;
+          case 8:
+            break;
+          case 9:
+            break;
+        }
+
+        if(scene1_InvitedAmount == 0)
+        {
+          let timer = 0;
+          app.ticker.add(function EndTimer(deltaTime) {
+
+            timer++;
+        
+            if (timer > 120) {
+              app.ticker.remove(EndTimer);
+              EndThisScene();
+            }
+          });
+
+         
+        }
       }
 
     }
@@ -1593,7 +1435,7 @@ function showRadio(rate = 0) {
 
   let timer = 0;
   let counter = 0;
-  let counterLimit = 12;
+  let counterLimit = 24;
 
   scene1_RadioList[scene1_radio].visible = true;
   scene1_RadioList[scene1_radio].tint = "0x07ffa5";

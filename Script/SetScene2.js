@@ -23,6 +23,7 @@ function ResetSetting() {
 
   //重置分數
   scene2_score = 0;
+  scene2_totalScore = 0;
   scene2_scoreUI.text.text = scene2_score;
   scene2_scoreUI.position.set(screenWidth - 45 - scene2_scoreUI.text.width - 15, 10);
   scene2_stampBox2.enable = true;
@@ -40,7 +41,7 @@ function ResetSetting() {
   scene2_randomAddItemTimer = 0;
 
   //重置結束時間
-  scene2_stageTimer = 20;
+  scene2_stageTimer = 25;
   scene2_countDownTimer = 0;
   scene2_startTimer = 0;
 
@@ -61,9 +62,7 @@ function ResetSetting() {
   }
 
   for (let i = scene2_platforms.length - 1; i >= 0; i--) {
-
     scene2_platforms[i].x = scene2_platforms[i].width * i;
-
   }
 
   //顯示畫面
@@ -271,7 +270,7 @@ function SetObject() {
       scene2_scoreUI.no = 0;
       scene2_scoreUI.zIndex = 2;
       scene2_scoreUI.sortableChildren = true;
-      scene2_scoreUI.visible =false;
+      scene2_scoreUI.visible = false;
 
       var scoreUIInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
       scoreUIInstance.width = 40;
@@ -309,7 +308,7 @@ function SetObject() {
     {
       scene2_timeUI = new PIXI.Container();
       scene2_timeUI.no = 0;
-      scene2_timeUI.visible =false;
+      scene2_timeUI.visible = false;
       scene2_timeUI.activate = true;
       scene2_timeUI.zIndex = 2;
       scene2_timeUI.sortableChildren = true;
@@ -500,7 +499,9 @@ function detectMarkPos() {
   if (index < 1) return;
   let lastMark = scene2_markGroup[index - 1];
   let lastMarkPos = lastMark.x;
-  let highScore = -30;
+
+  let highScore = 0;
+  scene2_totalScore += 10;
 
   let perfectHit = false;
   var targetBook = -1;
@@ -510,16 +511,16 @@ function detectMarkPos() {
     if (scene2_bookGroup[i].enable == false) continue;
 
     let bookPos = scene2_bookGroup[i].x;
-    let thisScore = -30;
+    let thisScore = 0;
     //let dis = lastMarkPos - bookPos - scene2_markDistant;
     let dis = lastMarkPos - bookPos - scene2_bookGroup[i].width / 2 + scene2_markGroup[index - 1].width / 2;
 
     if (dis < 0) dis *= -1;
 
-    if (dis < 15) { thisScore = 30; perfectHit = true; PIXI.sound.play('get_something'); }
-    else if (dis < 35) { thisScore = 10; }
-    else if (dis < 60) { thisScore = 5; }
-    else if (dis < 80) { thisScore = -10; }
+    if (dis < 15) { thisScore = 10; perfectHit = true; PIXI.sound.play('stamp_good'); }
+    else if (dis < 35) { thisScore = 7; }
+    else if (dis < 60) { thisScore = 4; }
+    else if (dis < 80) { thisScore = 0; }
 
     if (highScore < thisScore) {
       highScore = thisScore;
@@ -560,10 +561,6 @@ function detectMarkPos() {
             app.ticker.remove(BookShine);
           }
         }
-
-
-
-
 
       });
     }
@@ -730,11 +727,14 @@ async function EndThisScene() {
     app.ticker.remove(scene2_tickerFunc[i]);
   }
 
-  if (scene2_score == 0) {
-    centerComponent.stageResult = 0;
-  }
-  else if (scene2_score > 0) {
+  let rate = scene2_score / scene2_totalScore;
+  console.log(rate);
+
+  if (rate > 0.6) {
     centerComponent.stageResult = 1;
+  }
+  else {
+    centerComponent.stageResult = 0;
   }
 
   EndingFadeFunc(scene2, 'small_game1');
