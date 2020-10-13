@@ -62,6 +62,10 @@ async function ResetSetting() {
 
   let audio = 'plot';
 
+  scene3_dialogContainer.visible = true;
+  scene3_charBoard.visible = true;
+  scene3_nameBoard.visible = true;
+
   switch (centerComponent.currentStage) {
     //開頭林獻堂感嘆
     case 2:
@@ -175,14 +179,78 @@ async function ResetSetting() {
       scene3_sceneList[3].visible = true;
       audio = 'theme';
       break;
-    //結局畫面(未完成)
+    //結局字幕畫面
     case 15:
 
-      if (centerComponent.rate >= 0.5) centerComponent.stageResult = 1;
-      else centerComponent.stageResult = 0;
+      if (centerComponent.rate >= 0.5) {
+        scene3_ENDPic.texture = PIXI.Texture.from("END2");
+        centerComponent.stageResult = 1;
+      }
+      else {
+        scene3_ENDPic.texture = PIXI.Texture.from("END1");
+        centerComponent.stageResult = 0;
+      }
 
       scene3_textInput = PIXI.loader.resources.textContent.data.set9;
-      scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose9;
+      audio = 'theme';
+      break;
+    //結算畫面
+    case 16:
+      scene3_textInput = PIXI.loader.resources.textContent.data.set10;
+      scene3_sceneList[7].visible = true;
+
+      //兩種底板
+      {
+        if (centerComponent.rate < 0.25) { centerComponent.stageResult = 0; scene5_End0.texture = PIXI.Texture.from("EndR00"); }
+        else if (centerComponent.rate < 0.5) { centerComponent.stageResult = 1; scene5_End0.texture = PIXI.Texture.from("EndR01"); }
+        else if (centerComponent.rate < 0.75) { centerComponent.stageResult = 2; scene5_End0.texture = PIXI.Texture.from("EndR02"); }
+        else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR03"); }
+
+      }
+
+      //兩種隱藏結局
+      {
+        let HideEndingTrigger = true;
+        for (let i = 0; i < centerComponent.HideEndingTriggerA.length; i++) {
+          if (centerComponent.HideEndingTriggerA[i] == false) HideEndingTrigger = false;
+        }
+        if (HideEndingTrigger) centerComponent.stageResult = 4;
+
+        HideEndingTrigger = true;
+        for (let i = 0; i < centerComponent.HideEndingTriggerB.length; i++) {
+          if (centerComponent.HideEndingTriggerB[i] == false) HideEndingTrigger = false;
+        }
+        if (HideEndingTrigger) centerComponent.stageResult = 5;
+      }
+
+      //稱號
+      {
+        for (let i = 0; i < scene5_CharTitleList.length; i++) {
+          scene5_CharTitleList[i].visible = false;
+        }
+        if (centerComponent.sceneExist[1]) {
+          scene5_CharTitleList[scene1_title].visible = true;
+        }
+        else {
+          scene5_CharTitleList[4].visible = true;
+        }
+      }
+
+      //數字
+      {
+        //centerComponent.G1Rate = 0;
+        let A = parseInt(centerComponent.G1Rate * 100, 10);
+        scene5_N3.texture = PIXI.Texture.from("Number0" + (A % 10));
+        scene5_N2.texture = PIXI.Texture.from("Number0" + (parseInt((A / 10), 10) % 10));
+        if (A < 100) scene5_N1.visible = false;
+
+        console.log(parseInt(centerComponent.rate * 100, 10));
+        A = parseInt(centerComponent.rate * 100, 10);
+        scene5_N7.texture = PIXI.Texture.from("Number0" + (A % 10));
+        scene5_N6.texture = PIXI.Texture.from("Number0" + (parseInt((A / 10), 10) % 10));
+        if (A < 100) scene5_N5.visible = false;
+      }
+
       audio = 'theme';
       break;
   }
@@ -278,6 +346,12 @@ async function SetContainer() {
   scene3_uIBoard.sortableChildren = true;
   scene3_gameBoardGroup.addChild(scene3_uIBoard);
 
+
+  scene3_nameBoard = new PIXI.Container();
+  scene3_nameBoard.zIndex = 101;
+  scene3_nameBoard.sortableChildren = true;
+  scene3_gameBoardGroup.addChild(scene3_nameBoard);
+
   scene3_endBoard = new PIXI.Container();
   scene3_endBoard.zIndex = 150;
   scene3_endBoard.sortableChildren = true;
@@ -295,6 +369,9 @@ async function SetObject() {
 
     //文字對話框
     {
+
+      scene3_dialogContainer = new PIXI.Container();
+
       scene3_dialogBox.beginFill(0xFFFFFF);
       scene3_dialogBox.drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
       //圖案沒有position數值，一定要用X和Y
@@ -329,7 +406,7 @@ async function SetObject() {
         dialogBox.position.set(screenWidth / 2 - dialogBox.width / 2, -36);
         dialogBox.zIndex = -1;
 
-        scene3_uIBoard.addChild(dialogBox);
+
 
         let dialogBoxText = new PIXI.Text(scene3_textInput[scene3_textIndex], style);
 
@@ -347,7 +424,9 @@ async function SetObject() {
         scene1_arrow.scale.set(1.2, 1.2);
         scene1_arrow.position.set(145, 159);
 
-        scene3_uIBoard.addChild(scene3_dialogBox);
+        scene3_uIBoard.addChild(scene3_dialogContainer);
+        scene3_dialogContainer.addChild(scene3_dialogBox);
+        scene3_dialogContainer.addChild(dialogBox);
         dialogBox.addChild(dialogBoxText);
         dialogBox.addChild(scene1_arrow);
       }
@@ -490,7 +569,7 @@ async function SetObject() {
       name.position.set(28, 225);
       name.instance = nameInstance;
       scene3_names.push(name);
-      scene3_uIBoard.addChild(name);
+      scene3_nameBoard.addChild(name);
       name.addChild(nameInstance);
     }
 
@@ -527,7 +606,7 @@ async function SetObject() {
     scene3_endBoard.addChild(dialogBoxText);
     dialogBoxText.zIndex = 21;
     dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, screenHeight / 2 - dialogBoxText.height / 2 - 115);
-    dialogBoxText.scale.set(0.5,0.5);
+    dialogBoxText.scale.set(0.5, 0.5);
 
     scene3_ENDPic.text = dialogBoxText;
 
@@ -879,6 +958,360 @@ async function SetObject() {
 
     }
 
+    // Scene7
+    //結局畫面(場景)
+    {
+
+
+      scene5 = new PIXI.Container();
+      scene5.scale.set(1);
+      scene5.sortableChildren = true;
+
+      scene3_sceneBoard.addChild(scene5);
+      scene3_sceneList.push(scene5);
+
+      uIBoard = new PIXI.Container();
+      uIBoard.zIndex = 12;
+      uIBoard.sortableChildren = true;
+      scene5.addChild(uIBoard);
+
+      resultBoard = new PIXI.Container();
+      resultBoard.zIndex = 5;
+      resultBoard.sortableChildren = true;
+      uIBoard.addChild(resultBoard);
+
+      achieveBoard = new PIXI.Container();
+      achieveBoard.zIndex = 1;
+      achieveBoard.sortableChildren = true;
+
+      uIBoard.addChild(achieveBoard);
+
+      {
+        gameMode = 0; //0依序 1隨機
+        score = 0;
+        buttonGroup = [];
+        totalButtonConnter = 0;
+        clickButtonConuter = 0;
+
+        barSize = [120, 30];
+        barEdgeDistant = [12, 15];
+        barSizeMaskMult = 4;
+
+        currentScoreLevel = 0;
+        scoreLevel = 0;
+
+        counterPerIndex = 12;
+        spMoveLeftSpeed = 3;
+
+        slimeTexture = (PIXI.Texture.from("slime_sheet_" + "01" + ".gif"));
+
+        slimeGroup = [];
+        policeGroup = [];
+      }
+      {
+        currentMode = 1;
+        currentIndex = 0;
+
+        resultPaperContainer = new PIXI.Container();
+        selectBoxes = [];
+
+        //結局畫面
+        {
+          let End2 = new PIXI.Sprite(PIXI.Texture.from("End2"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          End2.width = screenWidth;
+          End2.height = screenHeight;
+          uIBoard.addChild(End2);
+
+          let End1 = new PIXI.Sprite(PIXI.Texture.from("End1"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          End1.width = screenWidth;
+          End1.height = screenHeight;
+          uIBoard.addChild(End1);
+
+          scene5_End0 = new PIXI.Sprite(PIXI.Texture.from("End0"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          scene5_End0.width = screenWidth;
+          scene5_End0.height = screenHeight;
+          uIBoard.addChild(scene5_End0);
+
+        }
+
+        //稱號
+        scene5_CharTitleList = [];
+        for (let i = 0; i < 9; i++) {
+
+          let scene5_CharTitle = new PIXI.Sprite(PIXI.Texture.from("CharTitle" + i));
+
+          scene5_CharTitle.visible = false;
+
+          scene5_CharTitle.scale.set(0.2, 0.2);
+
+          scene5_CharTitle.x = 1;
+          scene5_CharTitleList.push(scene5_CharTitle);
+          scene5_CharTitle.x = 277;
+          scene5_CharTitle.y = 99.5;
+
+          uIBoard.addChild(scene5_CharTitle);
+
+        }
+
+        //數字
+        {
+          scene5_N1 = new PIXI.Sprite(PIXI.Texture.from("Number01"));
+          scene5_N1.scale.set(0.12, 0.12);
+          scene5_N1.x = 380;
+          scene5_N1.y = 156.6;
+          uIBoard.addChild(scene5_N1);
+
+          scene5_N2 = new PIXI.Sprite(PIXI.Texture.from("Number02"));
+          scene5_N2.scale.set(0.12, 0.12);
+          scene5_N2.x = 380 + 8;
+          scene5_N2.y = 156.6;
+          uIBoard.addChild(scene5_N2);
+
+          scene5_N3 = new PIXI.Sprite(PIXI.Texture.from("Number03"));
+          scene5_N3.scale.set(0.12, 0.12);
+          scene5_N3.x = 380 + 16;
+          scene5_N3.y = 156.6;
+          uIBoard.addChild(scene5_N3);
+
+          scene5_N4 = new PIXI.Sprite(PIXI.Texture.from("Number10"));
+          scene5_N4.scale.set(0.12, 0.12);
+          scene5_N4.x = 380 + 24;
+          scene5_N4.y = 156.6;
+          uIBoard.addChild(scene5_N4);
+
+          scene5_N5 = new PIXI.Sprite(PIXI.Texture.from("Number01"));
+          scene5_N5.scale.set(0.12, 0.12);
+          scene5_N5.x = 390;
+          scene5_N5.y = 174.5;
+          uIBoard.addChild(scene5_N5);
+
+          scene5_N6 = new PIXI.Sprite(PIXI.Texture.from("Number02"));
+          scene5_N6.scale.set(0.12, 0.12);
+          scene5_N6.x = 390 + 8;
+          scene5_N6.y = 174.5;
+          uIBoard.addChild(scene5_N6);
+
+          scene5_N7 = new PIXI.Sprite(PIXI.Texture.from("Number03"));
+          scene5_N7.scale.set(0.12, 0.12);
+          scene5_N7.x = 390 + 16;
+          scene5_N7.y = 174.5;
+          uIBoard.addChild(scene5_N7);
+
+          scene5_N8 = new PIXI.Sprite(PIXI.Texture.from("Number10"));
+          scene5_N8.scale.set(0.12, 0.12);
+          scene5_N8.x = 390 + 24;
+          scene5_N8.y = 174.5;
+          uIBoard.addChild(scene5_N8);
+
+
+        }
+
+        //選擇UI
+        let selectButtonBoxSize = [120, 50];
+        let buttonText = ["再玩一次", "分享遊戲", "文化圖鑑", "瞭解更多", "123"]
+        {
+
+          let edge = 230;
+          let buttonSpace = (screenWidth - edge) / 4 + 10;
+          for (let i = 0; i < 5; i++) {
+            let selectBox = new PIXI.Graphics();
+            selectBox.beginFill(0xFFFFFF);
+            selectBox.drawRect(0, 0, selectButtonBoxSize[0], selectButtonBoxSize[1]);
+            selectBox.x = buttonSpace * i + (- selectButtonBoxSize[0] + edge) / 2 - 24;
+            selectBox.y = screenHeight - 72;
+            selectBox.endFill();
+            //selectBox.zIndex = 12;
+            selectBox.visible = true;
+            selectBox.alpha = 0.8;
+
+            scene5.addChild(selectBox);
+
+            selectBox.interactive = true;
+            selectBox.buttonMode = true;
+
+            let style = new PIXI.TextStyle({
+              fontFamily: "pixelFont",
+              fontSize: 26,
+              fill: "black",
+              stroke: '#000000',
+              strokeThickness: 0,
+              letterSpacing: 0,
+              align: "left",
+              padding: 10,
+              lineHeight: 50
+            });
+
+            let selectBoxText = new PIXI.Text(buttonText[i], style);
+            selectBox.addChild(selectBoxText);
+            selectBoxText.position.set(selectButtonBoxSize[0] / 2 - selectBoxText.width / 2 - 1, 16);
+            selectBoxText.visible = true;
+            selectBox.text = selectBoxText;
+            selectBoxes.push(selectBox);
+          }
+        }
+      }
+
+      selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
+      selectBoxes[1].addListener("pointerdown", () => { buttonB(); });
+      selectBoxes[2].addListener("pointerdown", () => { buttonC(); });
+      selectBoxes[3].addListener("pointerdown", () => { buttonD(); });
+      selectBoxes[4].addListener("pointerdown", () => { buttonE(); });
+
+      function buttonA() {
+
+        PIXI.sound.play('button_click');
+        centerComponent.currentStage = 1;
+
+        EndingFadeFunc(scene5, 'theme');
+      }
+
+      function buttonB() {
+        PIXI.sound.play('button_click');
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', 'Share tncmmm1921');
+      }
+
+      function buttonC() {
+
+
+
+      }
+
+      function buttonD() {
+
+      }
+      function buttonE() {
+        scene3_sceneList[8].visible = true;
+      }
+
+
+    }
+
+    // Scene8
+    //元帥畫面(場景)
+    {
+
+      let sceneA = new PIXI.Container();
+      sceneA.sortableChildren = true;
+      scene3_sceneBoard.addChild(sceneA);
+
+      let white = new PIXI.Sprite(PIXI.Texture.from("white"));
+      sceneA.addChild(white);
+      white.width = screenWidth;
+      white.height = screenHeight;
+      white.tint = "0x000000";
+      white.interactive = true;
+
+      let but0 = new PIXI.Sprite(PIXI.Texture.from("white"));
+      sceneA.addChild(but0);
+      but0.width = 100;
+      but0.height = 50;
+      but0.position.set(200, screenHeight - 70);
+      but0.tint = "0xFFFFFF";
+      but0.interactive = true;
+      but0.buttonMode = true;
+      but0.addListener("pointerdown", function () { scene3_sceneList[8].visible = false })
+
+      let but1 = new PIXI.Sprite(PIXI.Texture.from("white"));
+      but1.width = 100;
+      but1.height = 50;
+      but1.position.set(screenWidth - 300, screenHeight - 70);
+      but1.tint = "0xFF00FF";
+      but1.interactive = true;
+      but1.buttonMode = true;
+      but1.addListener("pointerdown", function () { })
+      sceneA.addChild(but1);
+
+      scene5_ghost = new PIXI.Container();
+      sceneA.addChild(scene5_ghost);
+      let IMAGEA = new PIXI.Sprite(PIXI.Texture.from("Summon00"));
+      IMAGEA.scale.set(globalImageScale, globalImageScale);
+      IMAGEA.position.set(screenWidth / 2 - IMAGEA.width / 2, 0)
+      scene5_ghost.addChild(IMAGEA);
+
+      let IMAGEB = new PIXI.Sprite(PIXI.Texture.from("Summon01"));
+      IMAGEB.scale.set(globalImageScale, globalImageScale);
+      IMAGEB.position.set(screenWidth / 2 - IMAGEB.width / 2, 0)
+      sceneA.addChild(IMAGEB);
+
+      let IMAGEC = new PIXI.Sprite(PIXI.Texture.from("Summon02"));
+      IMAGEC.scale.set(globalImageScale * 0.1264, globalImageScale * 0.1264);
+      IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2, 0)
+      sceneA.addChild(IMAGEC);
+
+      for(let i = 0 ; i < 3;i++)
+      {
+        let IMAGET = new PIXI.Sprite(PIXI.Texture.from("SummonTalk0" + i ));
+        if(i!=0)IMAGET.visible = false;
+        IMAGET.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
+        IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 8, -37)
+        sceneA.addChild(IMAGET);
+      }
+
+      //輸入功能
+      {
+        scene5_input = new PIXI.TextInput({
+          input: {
+            fontSize: '36px',
+            padding: '12px',
+            width: '290px',
+            height: '20px',
+            color: '#26272E'
+          },
+          box: {
+            default: { fill: 0xE8E9F3, rounded: 12, stroke: { color: 0xCBCEE0, width: 3 } },
+            focused: { fill: 0xE1E3EE, rounded: 12, stroke: { color: 0xABAFC6, width: 3 } },
+            disabled: { fill: 0xDBDBDB, rounded: 12 }
+          }
+        })
+
+        scene5_input.width = 290;
+        scene5_input.height = 20;
+
+
+        scene5_input.x = (screenWidth - scene5_input.width) / 2;
+        scene5_input.y = 312;
+
+        scene5_input.visible = true;
+        scene5_input.alpha = 0;
+
+        sceneA.addChild(scene5_input)
+      }
+
+      //padding可以處理字體顯示位置不正確的問題
+      let style = new PIXI.TextStyle({
+        fontFamily: "pixelSilver",
+        fontSize: 36,
+        fill: "white",
+        letterSpacing: 2,
+        padding: 36
+      });
+
+      let text = new PIXI.Text("", style);
+      text.scale.set(0.5, 0.5);
+      text.x = 263; text.y = 320;
+      sceneA.addChild(text);
+
+      scene5_input.on('input', keycode => {
+        text.text = keycode;
+
+        //console.log('key pressed:', keycode)
+      })
+      scene5_input.on('focus', function () {
+        IMAGEC.visible = false;
+        //console.log('focus',)
+      })
+      scene5_input.on('blur', function () {
+        if (text.text == "") IMAGEC.visible = true;
+        //console.log('blur',)
+      })
+
+
+      scene3_sceneList.push(sceneA);
+    }
+
     //對話中出現的道具物件
     {
 
@@ -1124,6 +1557,13 @@ async function GoToNextDialog() {
       scene3_plotItemBlockContainer.visible = false;
       scene3_plotItemBlockContainer.metal.visible = false;
     }
+    //發書橋段後的對話隱藏旭日章ICON
+    else if (charIndex == 6) {
+      scene3_dialogContainer.visible = false;
+      scene3_charBoard.visible = false;
+      scene3_nameBoard.visible = false;
+      return;
+    }
 
     //自動跳到下一句話
     GoToNextDialog();
@@ -1256,7 +1696,7 @@ async function JumpResult_End(result) {
     let content = scene3_textInput[scene3_textIndex];
 
     if (content[0] == "T") {
-     
+
       var targetIndex = parseInt(content[1], 10);
       console.log(result);
       if (result == targetIndex) {

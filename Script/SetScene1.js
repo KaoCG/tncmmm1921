@@ -152,7 +152,7 @@ async function ResetSetting() {
       break;
     case 12:
       for (let i = 0; i < 4; i++) {
-        scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B3L0" + (i % 2));
+        scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B3L0" + (i % 1 + 1));
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B3L1" + (i % 3));
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B3L2" + (i % 2));
       }
@@ -165,15 +165,25 @@ async function ResetSetting() {
         scene1_selectableGroup[i].instance.play();
       }
       scene1_selectableGroup[5].position.set(494, 146);
+      scene1_selectableGroup[5].dialog.position.set(65, -30); 
       scene1_selectableGroup[6].position.set(1070, 151);
+      scene1_selectableGroup[6].dialog.position.set(65, -50); 
       scene1_selectableGroup[7].position.set(1863, 142.5);
+      scene1_selectableGroup[7].dialog.position.set(40, -40); 
       scene1_selectableGroup[8].position.set(2688.5 + 268, 147);
+      scene1_selectableGroup[8].dialog.position.set(60, -52); 
       scene1_selectableGroup[9].position.set(2688.5 + 735, 152);
+      scene1_selectableGroup[9].dialog.position.set(-145, -55); 
       scene1_selectableGroup[10].position.set(2688.5 + 1390, 132);
+      scene1_selectableGroup[10].dialog.position.set(125, -27); 
       scene1_selectableGroup[11].position.set(2688.5 * 2 + 292, 148);
+      scene1_selectableGroup[11].dialog.position.set(60, -50); 
       scene1_selectableGroup[12].position.set(2688.5 * 2 + 738, 146);
+      scene1_selectableGroup[12].dialog.position.set(-142, -42); 
       scene1_selectableGroup[13].position.set(2688.5 * 2 + 1340, 146);
+      scene1_selectableGroup[13].dialog.position.set(56, -58); 
       scene1_selectableGroup[14].position.set(2688.5 * 2 + 1910, 148);
+      scene1_selectableGroup[14].dialog.position.set(-75, -42); 
 
       if(scene1_GhostEvent != 5)
       {
@@ -720,6 +730,11 @@ function SetObject() {
           tableframes = [PIXI.Texture.from("B3S" + (i - 5) + "0"), PIXI.Texture.from("B3S" + (i - 5) + "1")];
           whiteTexture = PIXI.Texture.from("B3S" + (i - 5) + "2");
           B1S00.id = 30 + i - 5;
+
+          let dialog = new PIXI.Sprite(PIXI.Texture.from("B3S" + (i - 5) + "3"));
+          dialog.scale.set(0.3, 0.3);
+          B1S00.addChild(dialog);
+          B1S00.dialog = dialog;
           break;
       }
 

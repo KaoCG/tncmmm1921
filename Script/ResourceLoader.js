@@ -80,6 +80,12 @@ async function LoadResourceLoader() {
   centerComponent.playAudio = 1;
   centerComponent.AudioVolume = 1;
 
+ 
+
+  centerComponent.HideEndingTriggerA = [false,false,false,false,false,false,false,false];
+  centerComponent.HideEndingTriggerB = [false,false,false,false,false,false,false,false];
+
+  centerComponent.G1Rate = 0.6;
   centerComponent.rate  = 30/90;
 
   //靜音按鈕
@@ -89,16 +95,16 @@ async function LoadResourceLoader() {
     audioButtonA.visible = true;
     audioButtonA.interactive = true;
     audioButtonA.buttonMode = true;
-    audioButtonA.scale.set(globalImageScale * 1.2, globalImageScale * 1.2);
-    audioButtonA.position.set(720+30, 30-15)
+    audioButtonA.scale.set(globalImageScale * 1.2 * 0.1, globalImageScale * 1.2 * 0.1);
+    audioButtonA.position.set(720+30, 30-13)
 
     let audioButtonB = new PIXI.Sprite.from("./Resource/Final/Brige_UIUX/But/Button_sound_close.png");
     audioButtonB.zIndex = 80;
     audioButtonB.visible = false;
     audioButtonB.interactive = true;
     audioButtonB.buttonMode = true;
-    audioButtonB.scale.set(globalImageScale * 1.2, globalImageScale * 1.2);
-    audioButtonB.position.set(720+30, 30-15)
+    audioButtonB.scale.set(globalImageScale * 1.2 * 0.1, globalImageScale * 1.2 * 0.1);
+    audioButtonB.position.set(720+30, 30-13)
 
     audioButtonA.addListener("pointerdown", function () {
       audioButtonA.visible = false;
@@ -454,6 +460,22 @@ async function SetLoader() {
   for (let i = 0; i < 3; i++) {
     PIXI.loader.add("End" + i, "./Resource/Final/EndScene/End0" + i + ".png");
   }
+  PIXI.loader.add("EndR00", "./Resource/Final/EndScene/EndR00.png");
+  PIXI.loader.add("EndR01", "./Resource/Final/EndScene/EndR01.png");
+  PIXI.loader.add("EndR02", "./Resource/Final/EndScene/EndR02.png");
+  PIXI.loader.add("EndR03", "./Resource/Final/EndScene/EndR03.png");
+
+  for (let i = 0; i < 3; i++) {
+    PIXI.loader.add("SummonTalk0" + i, "./Resource/Final/EndScene/Summon/SummonTalk0" + i + ".png");
+    PIXI.loader.add("Summon0" + i, "./Resource/Final/EndScene/Summon/Summon0" + i + ".png");
+  }
+
+
+  //結尾數字
+  for (let i = 0; i < 10; i++) {
+    PIXI.loader.add("Number0" + i, "./Resource/Final/EndScene/Number/Number0" + i + ".png");
+  }
+  PIXI.loader.add("Number10" , "./Resource/Final/EndScene/Number/Number10.png");
 
   //跑步的人
   for (let i = 0; i < 6; i++) {
@@ -505,7 +527,7 @@ async function SetLoader() {
   PIXI.loader.add("B2S32", "./Resource/Final/B2/B2select/B2S32.png");
   //跑步3的選擇物件
   for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 3; j++) {
+    for (let j = 0; j < 4; j++) {
       PIXI.loader.add("B3S" + i + "" + j, "./Resource/Final/B3/B3select/S/B3S" + i + "" + j + "S.png");
     }
   }
@@ -536,10 +558,12 @@ async function SetLoader() {
   
   }
  
+  //稱號
   for (var i = 0; i < 9; i++) {
     PIXI.loader.add("CharTitle" + i,"./Resource/Final/Brige_UIUX/Title/CharTitle" + i +".png");
   }
 
+  //收音機
   for (var i = 0; i < 5; i++) {
     PIXI.loader.add("Radio" + i,"./Resource/Final/Brige_UIUX/Radio/Radio" + i +".png");
   }
@@ -640,6 +664,7 @@ function loadProgressHandler(loader, resource) {
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
+    sceneLoading_scoreText.position.set((screenWidth-sceneLoading_scoreText.width +20) / 2 , screenHeight / 2 + 65);
     sceneLoading_scoreText2.text = "loading: " + resource.name;
   }
 
@@ -668,7 +693,7 @@ async function CreateLoadingText(loader, resource) {
   app.stage.addChild(sceneLoading);
 
   sceneLoading_scoreText = new PIXI.Text("0", style);
-  sceneLoading_scoreText.position.set(screenWidth / 2 - 130, screenHeight / 2 + 65);
+  sceneLoading_scoreText.position.set(screenWidth / 2 - 140, screenHeight / 2 + 65);
   sceneLoading_scoreText.visible = true;
 
   sceneLoading_scoreText2 = new PIXI.Text("0", style);
@@ -684,6 +709,7 @@ async function CreateLoadingText(loader, resource) {
 async function onAssetsLoaded() {
 
   sceneLoading_scoreText.text = "Progress: " + 100 + " %";
+  sceneLoading_scoreText.position.set((screenWidth-sceneLoading_scoreText.width +20) / 2 , screenHeight / 2 + 65);
   sceneLoading_scoreText2.text = "Loading: " + "Finish";
 
 

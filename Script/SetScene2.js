@@ -730,6 +730,8 @@ async function EndThisScene() {
   let rate = scene2_score / scene2_totalScore;
   console.log(rate);
 
+  centerComponent.G1Rate  = rate;
+  
   if (rate > 0.6) {
     centerComponent.stageResult = 1;
   }
