@@ -70,9 +70,6 @@ async function ResetSetting() {
     scene1_countDownTimer = 0;
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
-    scene1_InvitedAmount = 3;
-    scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
-
   }
 
   //分層背景
@@ -87,6 +84,14 @@ async function ResetSetting() {
   scene1_setWidth = scene1_BGObjectGroup[0].width;
   //scene1_itemTimer = scene1_stageTimer / (scene1_itemList[0]+5);
 
+  scene1_SelectPeopleText.visible = false;
+
+  for (let i = 0; i < scene1_selectableGroup.length; i++) {
+    scene1_selectableGroup[i].visible = false;
+    scene1_selectableGroup[i].activate = false;
+    scene1_selectableGroup[i].instance.stop();
+  }
+
   switch (centerComponent.currentStage) {
     case 4:
     default:
@@ -98,6 +103,7 @@ async function ResetSetting() {
 
       for (let i = 0; i < 5; i++) {
         scene1_selectableGroup[i].visible = true;
+        scene1_selectableGroup[i].activate = true;
         scene1_selectableGroup[i].instance.play();
       }
 
@@ -116,12 +122,11 @@ async function ResetSetting() {
       scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
       scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 2);
 
-
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
 
-
-
+      scene1_GhostEvent = 0;
+ 
       scene1_currentAudio = 'run1';
 
       break;
@@ -139,6 +144,9 @@ async function ResetSetting() {
       scene1_itemList = [40, 5, 5, 5, 0, 5, 5, 5, 5, 5];
       scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 2);
 
+      scene1_PlaneEventA = 0;
+      scene1_PlaneEventB = 0;
+
       scene1_currentAudio = 'run2';
 
       break;
@@ -153,6 +161,7 @@ async function ResetSetting() {
 
       for (let i = 5; i < 15; i++) {
         scene1_selectableGroup[i].visible = true;
+        scene1_selectableGroup[i].activate = true;
         scene1_selectableGroup[i].instance.play();
       }
       scene1_selectableGroup[5].position.set(494, 146);
@@ -166,8 +175,20 @@ async function ResetSetting() {
       scene1_selectableGroup[13].position.set(2688.5 * 2 + 1340, 146);
       scene1_selectableGroup[14].position.set(2688.5 * 2 + 1910, 148);
 
+      if(scene1_GhostEvent != 5)
+      {
+        scene1_selectableGroup[10].visible = false;
+        scene1_selectableGroup[10].activate = false;
+      }
+
       scene1_finalDistant = 8065.5;
       scene1_stageTimer = 40;
+
+      scene1_SelectPeopleText.visible = true;
+
+      scene1_InvitedAmount = 3;
+      scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
+      scene1_InvitedPeopleList = [-1,-1,-1];
 
       scene1_currentAudio = 'run3';
 
@@ -389,6 +410,12 @@ function LoadSetting() {
     scene1_countDownTimer = 0;
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
+    //
+    scene1_GhostEvent = 0;
+    scene1_PlaneEventA = 0;
+    scene1_PlaneEventB = 0;
+
+    scene1_InvitedPeopleList = [0,0,0];
   }
 
 }
@@ -611,8 +638,10 @@ function SetObject() {
     B1O00.position.set(B1O00.width * i, 0);
     B1O00.index = i;
     B1O00.layerIndex = 0;
+    B1O00.imageWidth =  B1O00.width
     scene1_BGContainerA.addChild(B1O00);
     scene1_BGObjectGroup.push(B1O00);
+
 
     let B1O01 = new PIXI.Sprite(PIXI.Texture.from("B1L1" + i));
     B1O01.zIndex = 214;
@@ -620,6 +649,7 @@ function SetObject() {
     B1O01.position.set(B1O01.width * i, 0);
     B1O01.index = i;
     B1O01.layerIndex = 1;
+    B1O01.imageWidth =  B1O01.width
     scene1_BGContainerB.addChild(B1O01);
     scene1_BGObjectGroup.push(B1O01);
 
@@ -629,6 +659,7 @@ function SetObject() {
     B1O02.position.set(B1O02.width * i, 0);
     B1O02.index = i;
     B1O02.layerIndex = 2;
+    B1O02.imageWidth =  B1O02.width
     scene1_BGContainerC.addChild(B1O02);
     scene1_BGObjectGroup.push(B1O02);
 
@@ -979,24 +1010,27 @@ function GameFunction() {
         if (scene1_BGObjectGroup[i].layerIndex == 0) {
 
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerA.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
-            scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 4;
+            scene1_BGObjectGroup[i].x += scene1_setWidth * 4;
+       
           }
         }
+
         else if (scene1_BGObjectGroup[i].layerIndex == 1) {
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerB.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
 
             if (centerComponent.currentStage == 12) {
-              scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 3;
+              scene1_BGObjectGroup[i].x +=scene1_setWidth * 3;
             }
             else {
-              scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 4;
+              scene1_BGObjectGroup[i].x += scene1_setWidth* 4;
             }
 
           }
         }
+
         else if (scene1_BGObjectGroup[i].layerIndex == 2) {
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerC.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
-            scene1_BGObjectGroup[i].x += scene1_BGObjectGroup[i].width * 4;
+            scene1_BGObjectGroup[i].x +=scene1_setWidth * 4;
           }
         }
 
@@ -1050,6 +1084,7 @@ function GameFunction() {
               break;
             case 3:
               addEnergy(0);
+              scene1_GhostEvent += 1;
               break;
             case 4:
               addEnergy(0);
@@ -1220,31 +1255,12 @@ function GameFunction() {
       }
       else if (id >=30 && id <=39) {
 
+        if(scene1_InvitedAmount == 0) return;
+
         scene1_InvitedAmount -= 1 ;
         scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
 
-        switch (id % 10) {
-          case 0:
-            break;
-          case 1:
-            break;
-          case 2:
-            break;
-          case 3:
-            break;
-          case 4:
-            break;
-          case 5:
-            break;
-          case 6:
-            break;
-          case 7:
-            break;
-          case 8:
-            break;
-          case 9:
-            break;
-        }
+        scene1_InvitedPeopleList[scene1_InvitedAmount] = id % 10;
 
         if(scene1_InvitedAmount == 0)
         {
@@ -1259,7 +1275,6 @@ function GameFunction() {
             }
           });
 
-         
         }
       }
 
@@ -1404,10 +1419,12 @@ function addEnergy(addScore = 10) {
   scene1_energy += addScore;
 
   let total = 156;
+
   let rate = (30 / 90 + scene1_energy / 90)
   if (rate > 1) rate = 1;
   if (rate < 0) rate = 0;
 
+  centerComponent.rate = rate;
   scene1_energyBar.x = total * rate;
 
   showRadio(rate);

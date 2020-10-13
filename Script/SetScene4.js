@@ -889,7 +889,7 @@ function GameFunction() {
 
       if (timer == 1) {
         timer = 0;
-        AddScore(-0.08);
+        AddScore(-0.05);
       }
 
       if (buttonTimer >= 30 && scene4_gameMode == 0) {
@@ -995,6 +995,7 @@ function DetectButtonInput(dir) {
 
   else if (scene4_gameMode == 1) {
 
+    console.log(scene4_answer);
     if (scene4_answer == dir) {
 
       AddScore(7);
@@ -1083,7 +1084,7 @@ function CheckScoreLevel() {
   else if (scene4_energyBar.width < degree * 4) scene4_scoreLevel = 4;
   else if (scene4_energyBar.width >= degree * 4) scene4_scoreLevel = 5;
 
-  let k = -1;
+  let k = 0;
 
   if (scene4_scoreLevel != scene4_currentScoreLevel) {
     scene4_currentScoreLevel = scene4_scoreLevel;
@@ -1136,7 +1137,7 @@ function EndThisScene() {
     app.ticker.remove(scene4_tickerFunc[i]);
   }
 
-  if (scene4_currentScoreLevel >= 5) 
+  if (scene4_currentScoreLevel >= 4) 
   {
     centerComponent.stageResult = 1;
   }

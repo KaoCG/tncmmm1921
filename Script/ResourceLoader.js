@@ -80,6 +80,8 @@ async function LoadResourceLoader() {
   centerComponent.playAudio = 1;
   centerComponent.AudioVolume = 1;
 
+  centerComponent.rate  = 30/90;
+
   //靜音按鈕
   {
     let audioButtonA = new PIXI.Sprite.from("./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
@@ -550,8 +552,13 @@ async function SetLoader() {
   PIXI.loader.add("characterFull3", "./Resource/Final/character/full/characterFull3.png");
   PIXI.loader.add("characterFull10", "./Resource/Final/character/full/characterFull10.png");
 
-  for (var i = 0; i < 6; i++) {
+  //路人腳色
+  /*for (var i = 0; i < 6; i++) {
     PIXI.loader.add("normalPeople" + i, "./Resource/Final/character/full/normal/normalPeople" + i + ".png");
+  }*/
+
+  for (var i = 0; i < 10; i++) {
+    PIXI.loader.add("SPPeople0" + i, "./Resource/Final/character/full/char/FullChar0" + i + ".png");
   }
 
   //小遊戲1的場景背景/物件
