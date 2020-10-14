@@ -112,6 +112,8 @@ async function ResetSetting() {
     case 13:
       scene3_InvitedPeopleImageList = [0, 1, 2];
       scene3_GroupTend = 0;
+      let sp = false;
+
       if (centerComponent.sceneExist[1])
         for (let i = 0; i < scene1_InvitedPeopleList.length; i++) {
           let k = 2 - i;
@@ -140,6 +142,7 @@ async function ResetSetting() {
               break;
             case 5:
               scene3_InvitedPeopleImageList[k] = 16
+              sp = true;
               break;
             case 6:
               scene3_InvitedPeopleImageList[k] = 17
@@ -163,10 +166,13 @@ async function ResetSetting() {
       else if (scene3_GroupTend <= -2) centerComponent.stageResult = 0;
       else centerComponent.stageResult = 2;
 
+      if (sp == true) centerComponent.stageResult = 2;
+
+
       scene3_textInput = PIXI.loader.resources.textContent.data.set7;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose7;
       scene3_sceneList[3].visible = true;
-      audio = 'for_conclusion';
+      audio = 'plot';
       break;
     //主角結局前獨白(飯店)
     case 14:
@@ -177,12 +183,12 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set8;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose8;
       scene3_sceneList[3].visible = true;
-      audio = 'theme';
+      audio = 'for_conclusion';
       break;
     //結局字幕畫面
     case 15:
 
-      if (centerComponent.rate >= 0.5) {
+      if (centerComponent.rate < 0.5) {
         scene3_ENDPic.texture = PIXI.Texture.from("END2");
         centerComponent.stageResult = 1;
       }
@@ -192,7 +198,7 @@ async function ResetSetting() {
       }
 
       scene3_textInput = PIXI.loader.resources.textContent.data.set9;
-      audio = 'theme';
+      audio = 'for_conclusion';
       break;
     //結算畫面
     case 16:
@@ -240,18 +246,34 @@ async function ResetSetting() {
       {
         //centerComponent.G1Rate = 0;
         let A = parseInt(centerComponent.G1Rate * 100, 10);
-        scene5_N3.texture = PIXI.Texture.from("Number0" + (A % 10));
-        scene5_N2.texture = PIXI.Texture.from("Number0" + (parseInt((A / 10), 10) % 10));
-        if (A < 100) scene5_N1.visible = false;
+        if (A < 10) {
+          scene5_N7.texture = PIXI.Texture.from("Number0" + (A % 10));
+          scene5_N6.visible = false;
+          scene5_N5.visible = false;
+        }
+        else {
+          scene5_N3.texture = PIXI.Texture.from("Number0" + (A % 10));
+          scene5_N2.texture = PIXI.Texture.from("Number0" + (parseInt((A / 10), 10) % 10));
+          if (A < 100) scene5_N1.visible = false;
+        }
 
-        console.log(parseInt(centerComponent.rate * 100, 10));
+
+        //console.log(parseInt(centerComponent.rate * 100, 10));
         A = parseInt(centerComponent.rate * 100, 10);
-        scene5_N7.texture = PIXI.Texture.from("Number0" + (A % 10));
-        scene5_N6.texture = PIXI.Texture.from("Number0" + (parseInt((A / 10), 10) % 10));
-        if (A < 100) scene5_N5.visible = false;
+        if (A < 10) {
+          scene5_N7.texture = PIXI.Texture.from("Number0" + (A % 10));
+          scene5_N6.visible = false;
+          scene5_N5.visible = false;
+        }
+        else {
+          scene5_N7.texture = PIXI.Texture.from("Number0" + (A % 10));
+          scene5_N6.texture = PIXI.Texture.from("Number0" + (parseInt((A / 10), 10) % 10));
+          if (A < 100) scene5_N5.visible = false;
+        }
+
       }
 
-      audio = 'theme';
+      audio = 'for_conclusion';
       break;
   }
 
@@ -1165,6 +1187,8 @@ async function SetObject() {
         PIXI.sound.play('button_click');
         centerComponent.currentStage = 1;
 
+        ResetCenterComponent();
+
         EndingFadeFunc(scene5, 'theme');
       }
 
@@ -1241,10 +1265,9 @@ async function SetObject() {
       IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2, 0)
       sceneA.addChild(IMAGEC);
 
-      for(let i = 0 ; i < 3;i++)
-      {
-        let IMAGET = new PIXI.Sprite(PIXI.Texture.from("SummonTalk0" + i ));
-        if(i!=0)IMAGET.visible = false;
+      for (let i = 0; i < 3; i++) {
+        let IMAGET = new PIXI.Sprite(PIXI.Texture.from("SummonTalk0" + i));
+        if (i != 0) IMAGET.visible = false;
         IMAGET.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
         IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 8, -37)
         sceneA.addChild(IMAGET);
@@ -1326,23 +1349,10 @@ async function SetObject() {
       book.scale.set(0.1, 0.1);
       book.position.set(591, 270);
 
-      /*let block = new PIXI.Sprite(PIXI.Texture.from("block"));
-      block.zIndex = 1;
-      block.position.set(312, 58);
-      block.scale.set(0.18, 0.18);
-      block.alpha = 1;
-
-      let block2 = new PIXI.Sprite(PIXI.Texture.from("block"));
-      block2.zIndex = 1;
-      block2.position.set(320, 65);
-      block2.scale.set(0.16, 0.16);
-      block2.alpha = 1;
-      block2.tint = "0xAAAAAA"*/
-
       let metal = new PIXI.Sprite(PIXI.Texture.from("spItem0"));
       metal.zIndex = 2;
-      metal.scale.set(2.8, 2.8);
-      metal.position.set(318, 62);
+      metal.scale.set(2, 2);
+      metal.position.set(620, 295);
 
       scene3_uIBoard.addChild(scene3_plotItemBlockContainer);
       //scene3_plotItemBlockContainer.addChild(block);
@@ -1406,10 +1416,14 @@ async function GoToNextDialog() {
       scene3_selectBoxes[i].visible = true;
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
       scene3_selectBoxes[i].box.width = 314 + 30;
-      scene3_selectBoxes[i].box.x = 343 - 15;
-      scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + scene3_selectBoxes[i].box.width / 2 - (scene3_selectBoxes[i].text.width) / 2;
+      scene3_selectBoxes[i].box.x = 343 - 20;
+      scene3_selectBoxes[i].text.x =
+        scene3_selectBoxes[i].box.x +
+        scene3_selectBoxes[i].box.width / 2 -
+        (scene3_selectBoxes[i].text.width) / 2 ;
+        
       if (optionsNumber == 3)
-        scene3_selectBoxes[i].y = 345 + 36 * (i - 1);
+        scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
       else
         scene3_selectBoxes[i].y = 343 + 22 * (i * 2 - 1);
     }
@@ -1443,9 +1457,12 @@ async function GoToNextDialog() {
       charIndex = scene3_InvitedPeopleImageList[2];
     }
 
-    console.log(charIndex);
+    //console.log(charIndex);
     //讀取下一個名字
     scene3_textIndex = (scene3_textIndex + 1) % scene3_textInput.length;
+
+    let name = scene3_names[charIndex];
+    name.visible = true;
 
     //切換人物位置
     for (let i = 0; i < scene3_chars.length; i++) {
@@ -1460,8 +1477,7 @@ async function GoToNextDialog() {
       }
     }
 
-    let name = scene3_names[charIndex];
-    name.visible = true;
+
 
     if (charIndex != 13 && charIndex != 14 && charIndex != 15)
       characterEnter(charIndex);
@@ -1854,6 +1870,7 @@ function EndThisScene() {
 
 function characterEnter(index) {
 
+  console.log("Enter:" + index);
   let char = scene3_chars[index];
 
   let counter = scene3_charMoveframes;
@@ -1911,7 +1928,7 @@ function characterExit(index) {
     //char.instance.tint = "0x" + char.color.toString(16) + char.color.toString(16) + char.color.toString(16);
 
     if (counter == 0) {
-      char.visible = false;
+      //char.visible = false;
       app.ticker.remove(TestFuncB);
     }
 

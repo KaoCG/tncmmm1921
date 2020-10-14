@@ -56,7 +56,8 @@ async function CreateCenterComponent() {
   }
 
   //設置開始的位置測試用
-  //centerComponent.currentStage = 12;
+  //centerComponent.stageResult = 1;
+  //centerComponent.currentStage = 2;
 
   centerComponent.fadeFrame = 20;
 
@@ -85,7 +86,7 @@ function StartingFadeFunc(scene, audio) {
   if (centerComponent.currentAudio != null) {
 
     centerComponent.AudioVolume = 0;
-    PIXI.sound.volumeAll =  centerComponent.AudioVolume * centerComponent.playAudio ;
+    PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
     PIXI.sound.play(centerComponent.currentAudio, { loop: true });
 
   }
@@ -99,10 +100,10 @@ function EndingFade(deltaTime) {
 
   centerComponent.fadeUI.x += (screenWidth + screenHeight * 2) / centerComponent.fadeFrame;
 
-  if (centerComponent.currentAudio != null ) {
+  if (centerComponent.currentAudio != null) {
 
-    centerComponent.AudioVolume =  centerComponent.fadeTimer / centerComponent.fadeFrame ;
-    PIXI.sound.volumeAll =  centerComponent.AudioVolume * centerComponent.playAudio ;
+    centerComponent.AudioVolume = centerComponent.fadeTimer / centerComponent.fadeFrame;
+    PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
 
   }
 
@@ -110,10 +111,10 @@ function EndingFade(deltaTime) {
 
     app.ticker.remove(EndingFade);
 
-    if (centerComponent.currentAudio != null ) {
+    if (centerComponent.currentAudio != null) {
 
       centerComponent.AudioVolume = 0;
-      PIXI.sound.volumeAll =  centerComponent.AudioVolume * centerComponent.playAudio ;
+      PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
       PIXI.sound.stop(centerComponent.currentAudio);
     }
 
@@ -128,10 +129,10 @@ function StartingFade(deltaTime) {
   if (centerComponent.fadeTimer <= centerComponent.fadeFrame) {
     centerComponent.fadeUI.x += (screenWidth + screenHeight * 2) / centerComponent.fadeFrame;
 
-    if (centerComponent.currentAudio != null ) {
+    if (centerComponent.currentAudio != null) {
 
-      centerComponent.AudioVolume = (1 - centerComponent.fadeTimer / (centerComponent.fadeFrame)) ;
-      PIXI.sound.volumeAll = centerComponent.AudioVolume *  centerComponent.playAudio;
+      centerComponent.AudioVolume = (1 - centerComponent.fadeTimer / (centerComponent.fadeFrame));
+      PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
     }
   }
 
@@ -169,7 +170,7 @@ async function GoToNextScene() {
     case 13:
     case 14:
     case 15:
-      case 16:
+    case 16:
       loadScript("Script/SetScene3.js");
       break;
     case 4:
@@ -183,12 +184,22 @@ async function GoToNextScene() {
     case 10:
       loadScript("Script/SetScene4.js");
       break;
-    case 16:
-      loadScript("Script/SetScene5.js");
-      break;
+
     default:
       console.log("END");
   }
+}
+
+function ResetCenterComponent() {
+  centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
+  centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
+
+  centerComponent.G1Rate = 0.6;
+  centerComponent.rate = 30 / 90;
+
+ 
+
+
 }
 
 

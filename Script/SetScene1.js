@@ -41,7 +41,7 @@ async function ResetSetting() {
   //需要重新設定的參數
   {
 
-    addEnergy(0);
+
 
     scene1_slimeInitY = scene1_slime.position.y;
     scene1_slimeJumpInitSpeed = 14;
@@ -75,13 +75,13 @@ async function ResetSetting() {
   //分層背景
   for (let i = 0; i < scene1_BGObjectGroup.length; i++) {
 
-    scene1_BGObjectGroup[i].x = scene1_BGObjectGroup[i].width * scene1_BGObjectGroup[i].index;
+    scene1_BGObjectGroup[i].x = scene1_setWidth * scene1_BGObjectGroup[i].index;
   }
 
   //關卡時間
   scene1_stageTimer = 40;
   scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
-  scene1_setWidth = scene1_BGObjectGroup[0].width;
+  //scene1_setWidth = scene1_BGObjectGroup[0].width;
   //scene1_itemTimer = scene1_stageTimer / (scene1_itemList[0]+5);
 
   scene1_SelectPeopleText.visible = false;
@@ -92,9 +92,28 @@ async function ResetSetting() {
     scene1_selectableGroup[i].instance.stop();
   }
 
+  for (let i = 0; i < 4; i++) {
+    scene1_BGObjectGroup[i * 3].visible = true;
+    scene1_BGObjectGroup[i * 3 + 1].visible = true;
+    scene1_BGObjectGroup[i * 3 + 2].visible = true;
+  }
+
   switch (centerComponent.currentStage) {
     case 4:
     default:
+
+      scene1_energy = 0;
+      addEnergy(0);
+
+      scene1_title = 4;
+      scene1_radio = -1;
+      for (let i = 0; i < 9; i++) {
+        if (i != scene1_title)
+          scene1_CharTitleList[i].visible = false;
+        else
+          scene1_CharTitleList[i].visible = true;
+      }
+
       for (let i = 0; i < 4; i++) {
         scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B1L0" + (i % 2));
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B1L1" + (i));
@@ -126,7 +145,7 @@ async function ResetSetting() {
       scene1_finalDistant = 11800;
 
       scene1_GhostEvent = 0;
- 
+
       scene1_currentAudio = 'run1';
 
       break;
@@ -165,28 +184,27 @@ async function ResetSetting() {
         scene1_selectableGroup[i].instance.play();
       }
       scene1_selectableGroup[5].position.set(494, 146);
-      scene1_selectableGroup[5].dialog.position.set(65, -30); 
+      scene1_selectableGroup[5].dialog.position.set(65, -30);
       scene1_selectableGroup[6].position.set(1070, 151);
-      scene1_selectableGroup[6].dialog.position.set(65, -50); 
+      scene1_selectableGroup[6].dialog.position.set(65, -50);
       scene1_selectableGroup[7].position.set(1863, 142.5);
-      scene1_selectableGroup[7].dialog.position.set(40, -40); 
+      scene1_selectableGroup[7].dialog.position.set(40, -40);
       scene1_selectableGroup[8].position.set(2688.5 + 268, 147);
-      scene1_selectableGroup[8].dialog.position.set(60, -52); 
+      scene1_selectableGroup[8].dialog.position.set(60, -52);
       scene1_selectableGroup[9].position.set(2688.5 + 735, 152);
-      scene1_selectableGroup[9].dialog.position.set(-145, -55); 
+      scene1_selectableGroup[9].dialog.position.set(-145, -55);
       scene1_selectableGroup[10].position.set(2688.5 + 1390, 132);
-      scene1_selectableGroup[10].dialog.position.set(125, -27); 
+      scene1_selectableGroup[10].dialog.position.set(125, -27);
       scene1_selectableGroup[11].position.set(2688.5 * 2 + 292, 148);
-      scene1_selectableGroup[11].dialog.position.set(60, -50); 
+      scene1_selectableGroup[11].dialog.position.set(60, -50);
       scene1_selectableGroup[12].position.set(2688.5 * 2 + 738, 146);
-      scene1_selectableGroup[12].dialog.position.set(-142, -42); 
+      scene1_selectableGroup[12].dialog.position.set(-142, -42);
       scene1_selectableGroup[13].position.set(2688.5 * 2 + 1340, 146);
-      scene1_selectableGroup[13].dialog.position.set(56, -58); 
+      scene1_selectableGroup[13].dialog.position.set(56, -58);
       scene1_selectableGroup[14].position.set(2688.5 * 2 + 1910, 148);
-      scene1_selectableGroup[14].dialog.position.set(-75, -42); 
+      scene1_selectableGroup[14].dialog.position.set(-75, -42);
 
-      if(scene1_GhostEvent != 5)
-      {
+      if (scene1_GhostEvent != 5) {
         scene1_selectableGroup[10].visible = false;
         scene1_selectableGroup[10].activate = false;
       }
@@ -197,8 +215,8 @@ async function ResetSetting() {
       scene1_SelectPeopleText.visible = true;
 
       scene1_InvitedAmount = 3;
-      scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
-      scene1_InvitedPeopleList = [-1,-1,-1];
+      scene1_SelectPeopleText.text = "尚須邀請的人數：" + (scene1_InvitedAmount);
+      scene1_InvitedPeopleList = [-1, -1, -1];
 
       scene1_currentAudio = 'run3';
 
@@ -425,7 +443,7 @@ function LoadSetting() {
     scene1_PlaneEventA = 0;
     scene1_PlaneEventB = 0;
 
-    scene1_InvitedPeopleList = [0,0,0];
+    scene1_InvitedPeopleList = [0, 0, 0];
   }
 
 }
@@ -528,22 +546,24 @@ function SetObject() {
     scene1_energyBar = Blood_MaskW;
     scene1_uIBoardSP.addChild(Blood_MaskW);
 
+    moveDelta = 10;
+
     Bridge_CharTilteUIDefault = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUIDefault'));
     scene1_uIBoardSP.addChild(Bridge_CharTilteUIDefault);
     Bridge_CharTilteUIDefault.x = 17;
-    Bridge_CharTilteUIDefault.y = 205;
+    Bridge_CharTilteUIDefault.y = 205 - moveDelta;
 
     Bridge_CharTilteUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUI'));
     Bridge_CharTilteUI.visible = false;
     scene1_uIBoardSP.addChild(Bridge_CharTilteUI);
     Bridge_CharTilteUI.x = 16;
-    Bridge_CharTilteUI.y = 204;
+    Bridge_CharTilteUI.y = 204 - moveDelta;
 
     Bridge_RadioUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_RadioUI'));
     Bridge_RadioUI.visible = true;
     scene1_uIBoardSP.addChild(Bridge_RadioUI);
     Bridge_RadioUI.x = 84;
-    Bridge_RadioUI.y = 209;
+    Bridge_RadioUI.y = 209 - moveDelta;
 
     scene1_CharTitleList = [];
 
@@ -560,7 +580,7 @@ function SetObject() {
       scene1_CharTitleList.push(scene1_CharTitle);
 
       scene1_CharTitle.x = 52 - scene1_CharTitle.width / 2;
-      scene1_CharTitle.y = 212;
+      scene1_CharTitle.y = 212 - moveDelta;
 
       scene1_uIBoardSP.addChild(scene1_CharTitle);
 
@@ -576,7 +596,7 @@ function SetObject() {
       scene1_Radio.scale.set(0.079, 0.079);
 
       scene1_Radio.x = 101;
-      scene1_Radio.y = 212.2;
+      scene1_Radio.y = 212.2 - moveDelta;
       scene1_RadioList.push(scene1_Radio);
 
       scene1_uIBoardSP.addChild(scene1_Radio);
@@ -595,10 +615,10 @@ function SetObject() {
       Button_jamp_down.scale.set(0.1, 0.1);
       Button_choose_down.visible = false;
       Button_jamp_down.visible = false;
-      Button_choose.position.set(250 - 5, 200);
-      Button_choose_down.position.set(251.3 - 5, 201.2);
-      Button_jamp.position.set(250 + 70, 200);
-      Button_jamp_down.position.set(251.3 + 70, 201.2);
+      Button_choose.position.set(250 - 5, 200 - moveDelta);
+      Button_choose_down.position.set(251.3 - 5, 201.2 - moveDelta);
+      Button_jamp.position.set(250 + 70, 200 - moveDelta);
+      Button_jamp_down.position.set(251.3 + 70, 201.2 - moveDelta);
       scene1_uIBoardSP.addChild(Button_choose);
       scene1_uIBoardSP.addChild(Button_choose_down);
       scene1_uIBoardSP.addChild(Button_jamp);
@@ -610,7 +630,7 @@ function SetObject() {
       let clickBox = new PIXI.Graphics();
       clickBox.beginFill(0xFFFFFF).drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
       clickBox.x = screenWidth - buttonBoxSize[0] - buttonBoxEdgeDistant[0] - 10;
-      clickBox.y = screenHeight - buttonBoxSize[1] - buttonBoxEdgeDistant[1] + 20;
+      clickBox.y = screenHeight - buttonBoxSize[1] - buttonBoxEdgeDistant[1] + 20 - moveDelta;;
       clickBox.visible = true;
       clickBox.alpha = 0;
       scene1_uIBoard.addChild(clickBox);
@@ -624,7 +644,7 @@ function SetObject() {
       let selectBox = new PIXI.Graphics();
       selectBox.beginFill(0xFFFFFF).drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
       selectBox.x = screenWidth - (buttonBoxSize[0] + buttonBoxEdgeDistant[0]) * 2 - 30;
-      selectBox.y = screenHeight - (buttonBoxSize[1] + buttonBoxEdgeDistant[1]) + 20;
+      selectBox.y = screenHeight - (buttonBoxSize[1] + buttonBoxEdgeDistant[1]) + 20 - moveDelta;;
       selectBox.visible = true;
       selectBox.alpha = 0;
       scene1_uIBoard.addChild(selectBox);
@@ -648,18 +668,19 @@ function SetObject() {
     B1O00.position.set(B1O00.width * i, 0);
     B1O00.index = i;
     B1O00.layerIndex = 0;
-    B1O00.imageWidth =  B1O00.width
+    B1O00.imageWidth = B1O00.width
     scene1_BGContainerA.addChild(B1O00);
     scene1_BGObjectGroup.push(B1O00);
 
-
+    scene1_setWidth = B1O00.width;
+    //console.log(scene1_setWidth);
     let B1O01 = new PIXI.Sprite(PIXI.Texture.from("B1L1" + i));
     B1O01.zIndex = 214;
     B1O01.scale.set(globalImageScale, globalImageScale);
     B1O01.position.set(B1O01.width * i, 0);
     B1O01.index = i;
     B1O01.layerIndex = 1;
-    B1O01.imageWidth =  B1O01.width
+    B1O01.imageWidth = B1O01.width
     scene1_BGContainerB.addChild(B1O01);
     scene1_BGObjectGroup.push(B1O01);
 
@@ -669,7 +690,7 @@ function SetObject() {
     B1O02.position.set(B1O02.width * i, 0);
     B1O02.index = i;
     B1O02.layerIndex = 2;
-    B1O02.imageWidth =  B1O02.width
+    B1O02.imageWidth = B1O02.width
     scene1_BGContainerC.addChild(B1O02);
     scene1_BGObjectGroup.push(B1O02);
 
@@ -1026,7 +1047,7 @@ function GameFunction() {
 
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerA.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
             scene1_BGObjectGroup[i].x += scene1_setWidth * 4;
-       
+
           }
         }
 
@@ -1034,10 +1055,10 @@ function GameFunction() {
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerB.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
 
             if (centerComponent.currentStage == 12) {
-              scene1_BGObjectGroup[i].x +=scene1_setWidth * 3;
+              scene1_BGObjectGroup[i].x += scene1_setWidth * 3;
             }
             else {
-              scene1_BGObjectGroup[i].x += scene1_setWidth* 4;
+              scene1_BGObjectGroup[i].x += scene1_setWidth * 4;
             }
 
           }
@@ -1045,7 +1066,7 @@ function GameFunction() {
 
         else if (scene1_BGObjectGroup[i].layerIndex == 2) {
           if (scene1_BGObjectGroup[i].x + (scene1_BGContainerC.x) <= -scene1_BGObjectGroup[i].width * 1.5) {
-            scene1_BGObjectGroup[i].x +=scene1_setWidth * 4;
+            scene1_BGObjectGroup[i].x += scene1_setWidth * 4;
           }
         }
 
@@ -1268,22 +1289,21 @@ function GameFunction() {
 
         addEnergy(+5);
       }
-      else if (id >=30 && id <=39) {
+      else if (id >= 30 && id <= 39) {
 
-        if(scene1_InvitedAmount == 0) return;
+        if (scene1_InvitedAmount == 0) return;
 
-        scene1_InvitedAmount -= 1 ;
-        scene1_SelectPeopleText.text ="尚須邀請的人數：" + (scene1_InvitedAmount);
+        scene1_InvitedAmount -= 1;
+        scene1_SelectPeopleText.text = "尚須邀請的人數：" + (scene1_InvitedAmount);
 
         scene1_InvitedPeopleList[scene1_InvitedAmount] = id % 10;
 
-        if(scene1_InvitedAmount == 0)
-        {
+        if (scene1_InvitedAmount == 0) {
           let timer = 0;
           app.ticker.add(function EndTimer(deltaTime) {
 
             timer++;
-        
+
             if (timer > 120) {
               app.ticker.remove(EndTimer);
               EndThisScene();

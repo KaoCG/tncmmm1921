@@ -436,13 +436,13 @@ function SetObject() {
           x = screenWidth / 2 - dialogBox.width / 2; y = -40;
         }
         else if (dir == 1) {
-          x = screenWidth - dialogBox.width - edge + 50; y = screenHeight / 2 - dialogBox.height / 2 - 20;
+          x = screenWidth - dialogBox.width - edge + 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
         }
         else if (dir == 2) {
-          x = screenWidth / 2 - dialogBox.width / 2; y = screenHeight - dialogBox.height;
+          x = screenWidth / 2 - dialogBox.width / 2; y = screenHeight - dialogBox.height - 20;
         }
         else if (dir == 3) {
-          x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 20;
+          x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
         }
         dialogBox.position.set(x, y);
 
@@ -469,13 +469,13 @@ function SetObject() {
           x = screenWidth / 2 - dialogBox.width / 2; y = -40;
         }
         else if (dir == 1) {
-          x = screenWidth - dialogBox.width - edge + 50; y = screenHeight / 2 - dialogBox.height / 2 - 20;
+          x = screenWidth - dialogBox.width - edge + 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
         }
         else if (dir == 2) {
-          x = screenWidth / 2 - dialogBox.width / 2; y = screenHeight - dialogBox.height;
+          x = screenWidth / 2 - dialogBox.width / 2; y = screenHeight - dialogBox.height - 20;
         }
         else if (dir == 3) {
-          x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 20;
+          x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
         }
         dialogBox.position.set(x, y);
 
@@ -537,22 +537,24 @@ function SetObject() {
     scene4_uIBoardSP.y = -12;
     sceneA.addChild(scene4_uIBoardSP);
 
+    moveDelta = 10;
+     
     Bridge_CharTilteUIDefault = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUIDefault'));
     scene4_uIBoardSP.addChild(Bridge_CharTilteUIDefault);
     Bridge_CharTilteUIDefault.x = 17;
-    Bridge_CharTilteUIDefault.y = 205;
+    Bridge_CharTilteUIDefault.y = 205 - moveDelta;
 
     Bridge_CharTilteUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUI'));
     Bridge_CharTilteUI.visible = false;
     scene4_uIBoardSP.addChild(Bridge_CharTilteUI);
     Bridge_CharTilteUI.x = 16;
-    Bridge_CharTilteUI.y = 204;
+    Bridge_CharTilteUI.y = 204 - moveDelta;
 
     Bridge_RadioUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_RadioUI'));
     Bridge_RadioUI.visible = true;
     scene4_uIBoardSP.addChild(Bridge_RadioUI);
     Bridge_RadioUI.x = 84;
-    Bridge_RadioUI.y = 209;
+    Bridge_RadioUI.y = 209 - moveDelta;
 
     scene4_CharTitleLList = [];
     for (let i = 0; i < 9; i++) {
@@ -562,7 +564,7 @@ function SetObject() {
       scene4_CharTitle.scale.set(0.079, 0.079);
       scene4_CharTitleLList.push(scene4_CharTitle);
       scene4_CharTitle.x = 52 - scene4_CharTitle.width / 2;
-      scene4_CharTitle.y = 212;
+      scene4_CharTitle.y = 212 - moveDelta;
       scene4_uIBoardSP.addChild(scene4_CharTitle);
 
     }
@@ -576,7 +578,7 @@ function SetObject() {
       scene4_Radio.scale.set(0.079, 0.079);
 
       scene4_Radio.x = 101;
-      scene4_Radio.y = 212.2;
+      scene4_Radio.y = 212.2 - moveDelta;
       scene4_RadioList.push(scene4_Radio);
 
       scene4_uIBoardSP.addChild(scene4_Radio);
@@ -639,7 +641,9 @@ function SetObject() {
     scene4_title = new PIXI.Sprite(PIXI.Texture.from("G2GameTitle"));
     scene4_title.zIndex = 120;
     scene4_title.scale.set(globalImageScale, globalImageScale);
-    scene4_title.position.set(screenWidth / 2 - scene4_title.width / 2, screenHeight / 2 - scene4_title.height / 2);
+    scene4_title.position.set
+    (screenWidth / 2 - scene4_title.width / 2,
+       screenHeight / 2 - scene4_title.height / 2 - 50);
     scene4.addChild(scene4_title);
   }
 }
@@ -933,7 +937,9 @@ function GameFunction() {
 
       if (scene4_startTimer <= 20) {
         scene4_title.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
-        scene4_title.position.set(screenWidth / 2 - scene4_title.width / 2, screenHeight / 2 - scene4_title.height / 2)
+        scene4_title.position.set
+        (screenWidth / 2 - scene4_title.width / 2, 
+          screenHeight / 2 - scene4_title.height / 2 - 20)
 
       }
       else if (scene4_startTimer <= 60) {
@@ -955,10 +961,6 @@ function GameFunction() {
 
           scene4_butTrue[scene4_answer].visible = true;
           scene4_butFalse[scene4_false].visible = true;
-        }
-
-        for (let i = 0; i < 9; i++) {
-          scene4_CharTitleLList[i].visible = false;
         }
 
         app.ticker.remove(TitleShowUp);

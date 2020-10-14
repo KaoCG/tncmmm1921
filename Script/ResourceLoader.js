@@ -80,8 +80,6 @@ async function LoadResourceLoader() {
   centerComponent.playAudio = 1;
   centerComponent.AudioVolume = 1;
 
- 
-
   centerComponent.HideEndingTriggerA = [false,false,false,false,false,false,false,false];
   centerComponent.HideEndingTriggerB = [false,false,false,false,false,false,false,false];
 
