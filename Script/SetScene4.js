@@ -538,7 +538,7 @@ function SetObject() {
     sceneA.addChild(scene4_uIBoardSP);
 
     moveDelta = 10;
-     
+
     Bridge_CharTilteUIDefault = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUIDefault'));
     scene4_uIBoardSP.addChild(Bridge_CharTilteUIDefault);
     Bridge_CharTilteUIDefault.x = 17;
@@ -642,8 +642,8 @@ function SetObject() {
     scene4_title.zIndex = 120;
     scene4_title.scale.set(globalImageScale, globalImageScale);
     scene4_title.position.set
-    (screenWidth / 2 - scene4_title.width / 2,
-       screenHeight / 2 - scene4_title.height / 2 - 50);
+      (screenWidth / 2 - scene4_title.width / 2,
+        screenHeight / 2 - scene4_title.height / 2 - 30);
     scene4.addChild(scene4_title);
   }
 }
@@ -937,9 +937,7 @@ function GameFunction() {
 
       if (scene4_startTimer <= 20) {
         scene4_title.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
-        scene4_title.position.set
-        (screenWidth / 2 - scene4_title.width / 2, 
-          screenHeight / 2 - scene4_title.height / 2 - 20)
+        //scene4_title.position.set(screenWidth / 2 - scene4_title.width / 2, screenHeight / 2 - scene4_title.height / 2 - 20)
 
       }
       else if (scene4_startTimer <= 60) {
@@ -1000,7 +998,8 @@ function DetectButtonInput(dir) {
     console.log(scene4_answer);
     if (scene4_answer == dir) {
 
-      AddScore(7);
+      PIXI.sound.play('small_game_click');
+      AddScore(8);
 
       scene4_butTrue[scene4_answer].visible = false;
       scene4_butFalse[scene4_false].visible = false;
@@ -1139,12 +1138,10 @@ function EndThisScene() {
     app.ticker.remove(scene4_tickerFunc[i]);
   }
 
-  if (scene4_currentScoreLevel >= 4) 
-  {
+  if (scene4_currentScoreLevel >= 4) {
     centerComponent.stageResult = 1;
   }
-  else
-  {
+  else {
     centerComponent.stageResult = 0;
   }
 
