@@ -150,11 +150,7 @@ function SetObject() {
     let bottomDetect = new PIXI.Graphics();
     bottomDetect.lineStyle(0, 0x82cd2e, 1);
     bottomDetect.beginFill(0x700028);
-    bottomDetect.drawRect(
-      0,
-      0,
-      10,
-      screenHeight);
+    bottomDetect.drawRect(0, 0, 10, screenHeight);
     bottomDetect.endFill();
     bottomDetect.zIndex = 100;
     bottomDetect.visible = true;
@@ -501,7 +497,7 @@ function detectMarkPos() {
   let lastMarkPos = lastMark.x;
 
   let highScore = 0;
-  scene2_totalScore += 10;
+  scene2_totalScore += 5;
 
   let perfectHit = false;
   var targetBook = -1;
@@ -518,8 +514,8 @@ function detectMarkPos() {
     if (dis < 0) dis *= -1;
 
     if (dis < 15) { thisScore = 10; perfectHit = true; PIXI.sound.play('stamp_good'); }
-    else if (dis < 35) { thisScore = 7; }
-    else if (dis < 60) { thisScore = 4; }
+    else if (dis < 35) { thisScore = 6; }
+    else if (dis < 60) { thisScore = 3; }
     else if (dis < 80) { thisScore = 0; }
 
     if (highScore < thisScore) {
@@ -598,6 +594,8 @@ function GameFunction() {
       //書本回收
       for (let i = scene2_bookGroup.length - 1; i >= 0; i--) {
         if (scene2_bookGroup[i].x + (scene2_movingDistant * -1) <= -scene2_bookGroup[i].width * 1.5) {
+
+          scene2_totalScore += 5;
           RecycleBook(scene2_bookGroup, i);
           //console.log("Book Recyle");
         }
@@ -728,10 +726,10 @@ async function EndThisScene() {
   }
 
   let rate = scene2_score / scene2_totalScore;
-  console.log(rate);
+  if (rate > 1)rate = 1;
 
-  centerComponent.G1Rate  = rate;
-  
+  centerComponent.G1Rate = rate;
+
   if (rate > 0.6) {
     centerComponent.stageResult = 1;
   }

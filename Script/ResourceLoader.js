@@ -463,6 +463,9 @@ async function SetLoader() {
   PIXI.loader.add("EndR01", "./Resource/Final/EndScene/EndR01.png");
   PIXI.loader.add("EndR02", "./Resource/Final/EndScene/EndR02.png");
   PIXI.loader.add("EndR03", "./Resource/Final/EndScene/EndR03.png");
+  for (let i = 0; i < 9; i++) {
+    PIXI.loader.add("EndTitle" + i, "./Resource/Final/EndScene/Title/EndTitle" + i + ".png");
+  }
 
   //元帥畫面
   for (let i = 0; i < 7; i++) {
@@ -543,12 +546,20 @@ async function SetLoader() {
     }
   }
   //跑步2的選擇物件
-  for (let i = 0; i < 4; i++) {
-    for (let j = 0; j < 2; j++) {
+  for (let i = 0; i < 6; i++) {
+    for (let j = 0; j < 3; j++) {
       PIXI.loader.add("B2S" + i + "" + j, "./Resource/Final/B2/B2select/B2S" + i + "" + j + ".png");
     }
   }
-  PIXI.loader.add("B2S32", "./Resource/Final/B2/B2select/B2S32.png");
+  PIXI.loader.add("B2S23", "./Resource/Final/B2/B2select/B2S23.png");
+  PIXI.loader.add("B2Poster", "./Resource/Final/B2/B2select/B2S24.png");
+
+  for (let i = 0; i < 4; i++) {
+    PIXI.loader.add("B2T" + i, "./Resource/Final/B2/B2select/B2T" + i + ".png");
+  }
+
+
+
   //跑步3的選擇物件
   for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 4; j++) {
@@ -707,7 +718,7 @@ async function CreateLoadingText(loader, resource) {
   app.stage.addChild(sceneLoading);
 
   sceneLoading_scoreText = new PIXI.Text("0", style);
-  sceneLoading_scoreText.scale.set(0.5,0.5);
+  sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2 - 140, screenHeight / 2 + 72);
   sceneLoading_scoreText.visible = true;
 

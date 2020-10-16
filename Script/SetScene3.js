@@ -1096,11 +1096,11 @@ async function SetObject() {
         scene5_CharTitleList = [];
         for (let i = 0; i < 9; i++) {
 
-          let scene5_CharTitle = new PIXI.Sprite(PIXI.Texture.from("CharTitle" + i));
+          let scene5_CharTitle = new PIXI.Sprite(PIXI.Texture.from("EndTitle" + i));
 
           scene5_CharTitle.visible = false;
 
-          scene5_CharTitle.scale.set(0.2, 0.2);
+          scene5_CharTitle.scale.set(0.2 * 1.63, 0.2 * 1.63);
 
           scene5_CharTitle.x = 1;
           scene5_CharTitleList.push(scene5_CharTitle);

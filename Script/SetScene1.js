@@ -30,19 +30,10 @@ async function ResetSetting() {
   // scene1.position.set(0,0);
 
   scene1_slime.position.set(135, 340);
-
-  for (let i = 0; i < scene1_selectableGroup.length; i++) {
-
-    scene1_selectableGroup[i].activate = true;
-    scene1_selectableGroup[i].visible = false;
-  }
   scene1_endChar.visible = false;
 
   //需要重新設定的參數
   {
-
-
-
     scene1_slimeInitY = scene1_slime.position.y;
     scene1_slimeJumpInitSpeed = 14;
     scene1_slimeJumpSpeed = 0;
@@ -72,46 +63,50 @@ async function ResetSetting() {
 
   }
 
-  //分層背景
-  for (let i = 0; i < scene1_BGObjectGroup.length; i++) {
-
-    scene1_BGObjectGroup[i].x = scene1_setWidth * scene1_BGObjectGroup[i].index;
-  }
-
-  //關卡時間
-  scene1_stageTimer = 40;
-  scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
-
+  //關閉所有選擇物件
   for (let i = 0; i < scene1_selectableGroup.length; i++) {
     scene1_selectableGroup[i].visible = false;
     scene1_selectableGroup[i].activate = false;
     scene1_selectableGroup[i].instance.stop();
   }
 
+  //開啟所有背景物件，並重置位置
   for (let i = 0; i < 4; i++) {
     scene1_BGObjectGroup[i * 3].visible = true;
     scene1_BGObjectGroup[i * 3 + 1].visible = true;
     scene1_BGObjectGroup[i * 3 + 2].visible = true;
   }
+  for (let i = 0; i < scene1_BGObjectGroup.length; i++) {
 
+    scene1_BGObjectGroup[i].x = scene1_setWidth * scene1_BGObjectGroup[i].index;
+  }
+
+  //關閉所有普通廣播/B3廣播
   for (let i = 0; i < scene1_RadioList.length; i++) {
     scene1_RadioList.visible = false;
   }
-
   for (let i = 0; i < scene1_B3RadioList.length; i++) {
     scene1_B3RadioList[i].visible = false;
   }
 
+  //關卡時間
+  scene1_stageTimer = 40;
+  scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
+
+  //根據關卡進行設定
   switch (centerComponent.currentStage) {
     case 4:
     default:
 
+      scene1_score = 0;
       scene1_energy = 0;
       addEnergy(0);
 
-      scene1_title = 4;
+
       scene1_radio = -1;
 
+      //稱號重置
+      scene1_title = 4;
       for (let i = 0; i < 9; i++) {
         if (i != scene1_title)
           scene1_CharTitleList[i].visible = false;
@@ -144,7 +139,7 @@ async function ResetSetting() {
       scene1_stageTimer = 40;
       //40秒的關卡大概是2350甄
       scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
-      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4) ;
+      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4);
 
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
@@ -161,15 +156,31 @@ async function ResetSetting() {
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B2L2" + (i % 2));
       }
 
-      scene1_finalDistant = 11800;
+      for (let i = 15; i < 21; i++) {
+        scene1_selectableGroup[i].visible = true;
+        scene1_selectableGroup[i].activate = true;
+        scene1_selectableGroup[i].instance.play();
+      }
+
+      scene1_selectableGroup[15].position.set(750, 165); //雕像
+      scene1_selectableGroup[20].position.set(750, 45);
+      scene1_selectableGroup[16].position.set(1748, 165);
+      scene1_selectableGroup[17].position.set(scene1_setWidth + 743, 110); //飛機
+      scene1_selectableGroup[18].position.set(scene1_setWidth * 2 + 2364, 208);
+      scene1_selectableGroup[19].position.set(scene1_setWidth * 3 + 1200, 19);
+
+      scene1_selectableGroup[20].activate = false;
+      scene1_selectableGroup[20].visible = false;
+      scene1_selectableGroup[20].instance.stop();
 
       scene1_stageTimer = 40;
-      //40秒的關卡大概是2350甄
+      scene1_finalDistant = 11800;
       scene1_itemList = [40, 5, 5, 5, 0, 5, 5, 5, 5, 5];
+      //40秒的關卡大概是2350甄
       scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4);
 
-      scene1_PlaneEventA = 0;
-      scene1_PlaneEventB = 0;
+      scene1_PlaneEventCounterA = 0;
+      scene1_PlaneEventCounterB = 0;
 
       scene1_currentAudio = 'run2';
 
@@ -194,19 +205,19 @@ async function ResetSetting() {
       scene1_selectableGroup[6].dialog.position.set(65, -50);
       scene1_selectableGroup[7].position.set(1863, 142.5);
       scene1_selectableGroup[7].dialog.position.set(40, -40);
-      scene1_selectableGroup[8].position.set(2688.5 + 268, 147);
+      scene1_selectableGroup[8].position.set(scene1_setWidth + 268, 147);
       scene1_selectableGroup[8].dialog.position.set(60, -52);
-      scene1_selectableGroup[9].position.set(2688.5 + 735, 152);
+      scene1_selectableGroup[9].position.set(scene1_setWidth + 735, 152);
       scene1_selectableGroup[9].dialog.position.set(-145, -55);
-      scene1_selectableGroup[10].position.set(2688.5 + 1390, 132);
+      scene1_selectableGroup[10].position.set(scene1_setWidth + 1390, 132);
       scene1_selectableGroup[10].dialog.position.set(125, -27);
-      scene1_selectableGroup[11].position.set(2688.5 * 2 + 292, 148);
+      scene1_selectableGroup[11].position.set(scene1_setWidth * 2 + 292, 148);
       scene1_selectableGroup[11].dialog.position.set(60, -50);
-      scene1_selectableGroup[12].position.set(2688.5 * 2 + 738, 146);
+      scene1_selectableGroup[12].position.set(scene1_setWidth * 2 + 738, 146);
       scene1_selectableGroup[12].dialog.position.set(-142, -42);
-      scene1_selectableGroup[13].position.set(2688.5 * 2 + 1340, 146);
+      scene1_selectableGroup[13].position.set(scene1_setWidth * 2 + 1340, 146);
       scene1_selectableGroup[13].dialog.position.set(56, -58);
-      scene1_selectableGroup[14].position.set(2688.5 * 2 + 1910, 148);
+      scene1_selectableGroup[14].position.set(scene1_setWidth * 2 + 1910, 148);
       scene1_selectableGroup[14].dialog.position.set(-75, -42);
 
       if (scene1_GhostEvent != 5) {
@@ -219,20 +230,13 @@ async function ResetSetting() {
 
       scene1_InvitedAmount = 3;
       scene1_B3RadioList[0].visible = true;
-     
+
       scene1_InvitedPeopleList = [-1, -1, -1];
 
       scene1_currentAudio = 'run3';
 
       break;
   }
-
-  //特殊背景
-  /*for (let i = 0; i < scene1_SPBGObjectGroup.length; i++) {
-
-    scene1_SPBGObjectGroup[i].x = scene1_SPBGAccuDistant;
-    scene1_SPBGAccuDistant += scene1_SPBGObjectGroup[i].width;
-  }*/
 
   for (let i = 0; i < scene1_tickerFunc.length; i++) {
     app.ticker.add(scene1_tickerFunc[i]);
@@ -606,7 +610,7 @@ function SetObject() {
       scene1_uIBoardSP.addChild(scene1_Radio);
 
     }
-   
+
     scene1_B3RadioList = [];
     for (let i = 0; i < 4; i++) {
 
@@ -616,7 +620,7 @@ function SetObject() {
       scene1_Radio.scale.set(0.189, 0.189);
 
       scene1_Radio.x = 101;
-      scene1_Radio.y = 212 - moveDelta  ;
+      scene1_Radio.y = 212 - moveDelta;
       scene1_B3RadioList.push(scene1_Radio);
 
       scene1_uIBoardSP.addChild(scene1_Radio);
@@ -687,11 +691,11 @@ function SetObject() {
     B1O00.position.set(B1O00.width * i, 0);
     B1O00.index = i;
     B1O00.layerIndex = 0;
-    B1O00.imageWidth = B1O00.width
     scene1_BGContainerA.addChild(B1O00);
     scene1_BGObjectGroup.push(B1O00);
 
     scene1_setWidth = B1O00.width;
+
     //console.log(scene1_setWidth);
     let B1O01 = new PIXI.Sprite(PIXI.Texture.from("B1L1" + i));
     B1O01.zIndex = 214;
@@ -699,7 +703,6 @@ function SetObject() {
     B1O01.position.set(B1O01.width * i, 0);
     B1O01.index = i;
     B1O01.layerIndex = 1;
-    B1O01.imageWidth = B1O01.width
     scene1_BGContainerB.addChild(B1O01);
     scene1_BGObjectGroup.push(B1O01);
 
@@ -709,7 +712,6 @@ function SetObject() {
     B1O02.position.set(B1O02.width * i, 0);
     B1O02.index = i;
     B1O02.layerIndex = 2;
-    B1O02.imageWidth = B1O02.width
     scene1_BGContainerC.addChild(B1O02);
     scene1_BGObjectGroup.push(B1O02);
 
@@ -729,7 +731,8 @@ function SetObject() {
   //選擇物件
   {
 
-    for (var i = 0; i < 15; i++) {
+
+    for (var i = 0; i < 21; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
       B1S00.activate = true;
@@ -738,6 +741,7 @@ function SetObject() {
       let tableframes = [];
       let whiteTexture = PIXI.Texture.from("B1S02")
       B1S00.id = 1;
+
 
       switch (i) {
 
@@ -750,7 +754,8 @@ function SetObject() {
           tableframes = [PIXI.Texture.from("B1S" + i + "0"), PIXI.Texture.from("B1S" + i + "1")];
           whiteTexture = PIXI.Texture.from("B1S" + i + "2");
           break;
-        //5~14
+
+        //5~14 場景三
         case 5:
         case 6:
         case 7:
@@ -761,14 +766,29 @@ function SetObject() {
         case 12:
         case 13:
         case 14:
-          tableframes = [PIXI.Texture.from("B3S" + (i - 5) + "0"), PIXI.Texture.from("B3S" + (i - 5) + "1")];
-          whiteTexture = PIXI.Texture.from("B3S" + (i - 5) + "2");
-          B1S00.id = 30 + i - 5;
+          let j = i - 5;
+          tableframes = [PIXI.Texture.from("B3S" + (j) + "0"), PIXI.Texture.from("B3S" + (j) + "1")];
+          whiteTexture = PIXI.Texture.from("B3S" + (j) + "2");
+          B1S00.id = 30 + j;
 
-          let dialog = new PIXI.Sprite(PIXI.Texture.from("B3S" + (i - 5) + "3"));
+          let dialog = new PIXI.Sprite(PIXI.Texture.from("B3S" + (j) + "3"));
           dialog.scale.set(0.3, 0.3);
           B1S00.addChild(dialog);
           B1S00.dialog = dialog;
+          break;
+
+        //15~20 場景二
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+          let k = i - 15;
+          tableframes = [PIXI.Texture.from("B2S" + (k) + "0"), PIXI.Texture.from("B2S" + (k) + "1")];
+          whiteTexture = PIXI.Texture.from("B2S" + (k) + "2");
+          B1S00.id = 20 + k;
+
           break;
       }
 
@@ -779,9 +799,9 @@ function SetObject() {
       tableInstance.tint = 0xFFFFFF;
 
       let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.4, tableInstance.height * 0.5).endFill();
+      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.5, tableInstance.height * 0.5).endFill();
       tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.4 / 2), tableInstance.height * (0.6));
+      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.5 / 2), tableInstance.height * (0.6));
 
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
@@ -855,7 +875,7 @@ function SetObject() {
     scene1_runnerS.y = 85;*/
     //scene1_gameBoard.addChild(scene1_runnerS);
 
-    scene1_runner_frame = [ PIXI.Texture.from("runner4"),PIXI.Texture.from("runner5"),PIXI.Texture.from("runner0"), PIXI.Texture.from("runner1"), PIXI.Texture.from("runner2"), PIXI.Texture.from("runner3")];
+    scene1_runner_frame = [PIXI.Texture.from("runner4"), PIXI.Texture.from("runner5"), PIXI.Texture.from("runner0"), PIXI.Texture.from("runner1"), PIXI.Texture.from("runner2"), PIXI.Texture.from("runner3")];
     scene1_runner_jumpframe = [PIXI.Texture.from("runnerJump")];
 
     let runner = new PIXI.AnimatedSprite(scene1_runner_frame);
@@ -1217,20 +1237,18 @@ function GameFunction() {
       else scene1_slimeJumping = true;
 
       scene1_runner.instance.stop();
-      console.log( );
-      if (scene1_runner.instance.currentFrame<3)
-      {
+      console.log();
+      if (scene1_runner.instance.currentFrame < 3) {
         scene1_runner_jumpframe[0] = PIXI.Texture.from("runnerS5")
       }
-      else
-      {
+      else {
         scene1_runner_jumpframe[0] = PIXI.Texture.from("runnerS2")
       }
-     
+
       scene1_runner.instance.textures = scene1_runner_jumpframe;
       //scene1_runnerS.visible = false;
-    
- 
+
+
 
       scene1_slimeJumpSpeed = scene1_slimeJumpInitSpeed;
       app.ticker.add(function SlimeJumpTicker(deltaTime) {
@@ -1317,15 +1335,25 @@ function GameFunction() {
 
         addEnergy(+5);
       }
+      //場景二的雕像
+      else if (id == 20) {
+
+
+      }
+      //場景二的飛機
+      else if (id == 22) {
+
+
+      }
       //B3的人物被選取了
       else if (id >= 30 && id <= 39) {
 
         if (scene1_InvitedAmount == 0) return;
 
-        scene1_B3RadioList[3-scene1_InvitedAmount].visible = false;
+        scene1_B3RadioList[3 - scene1_InvitedAmount].visible = false;
         scene1_InvitedAmount -= 1;
         scene1_InvitedPeopleList[scene1_InvitedAmount] = id % 10;
-        scene1_B3RadioList[3-scene1_InvitedAmount].visible = true;
+        scene1_B3RadioList[3 - scene1_InvitedAmount].visible = true;
 
         if (scene1_InvitedAmount == 0) {
           let timer = 0;
