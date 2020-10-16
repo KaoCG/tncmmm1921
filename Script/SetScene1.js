@@ -108,9 +108,9 @@ async function ResetSetting() {
       scene1_GentleMarkCounter = 0;
 
       centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
-      //【0】飛機【1】申章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】議會之父【7】六三法血量<30%
+      //【0】飛機【1】紳章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】議會之父【7】六三法血量<30%
       centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
-      //【0】旭日章【1】申章>3【2】錢袋>5【3】選擇長官銅像【4】紅隊三人【5】對話:寧做太平犬【6】台灣顏智【7】六三法血量>70%
+      //【0】旭日章(把書給警察)【1】紳章>3【2】錢袋>5【3】選擇長官銅像【4】紅隊三人【5】對話:寧做太平犬【6】台灣顏智【7】六三法血量>70%
 
       addEnergy(0);
 
