@@ -72,6 +72,13 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set1;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose1;
       scene3_sceneList[0].visible = true;
+
+      for(let i = 0 ; i <   scene3_sceneList[0].BD.length;i++)
+      {
+        scene3_sceneList[0].BD[i].visible = true;
+        scene3_sceneList[0].BD[i].interactive = true;
+        scene3_sceneList[0].BD[i].alpha = 1;
+      }
       break;
     //主角感嘆
     case 3:
@@ -335,7 +342,15 @@ async function ResetSetting() {
     //console.log(centerComponent.stageResult);
     if (centerComponent.stageResult == -1) {
 
-      GoToNextDialog();
+      if (centerComponent.currentStage != 2) {
+        GoToNextDialog();
+      }
+      else {
+        scene3_dialogContainer.visible = false;
+        scene3_charBoard.visible = false;
+        scene3_nameBoard.visible = false;
+      }
+
     }
     else {
       let stageResult = centerComponent.stageResult;
@@ -634,21 +649,21 @@ async function SetObject() {
     //padding可以處理字體顯示位置不正確的問題
     let style = new PIXI.TextStyle({
       fontFamily: "pixelSilver",
-      fontSize: 80,
+      fontSize: 64,
       fill: "#89623b",
       fontWeight: 'normal',
       stroke: '#89623b',
       strokeThickness: 0.2,
-      letterSpacing: 8,
+      letterSpacing: 6.5,
       align: "center",
       padding: 10,
-      lineHeight: 80
+      lineHeight: 64
     });
 
     let dialogBoxText = new PIXI.Text("1", style);
     scene3_endBoard.addChild(dialogBoxText);
     dialogBoxText.zIndex = 21;
-    dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, screenHeight / 2 - dialogBoxText.height / 2 - 115);
+    //dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, screenHeight / 2 - dialogBoxText.height / 2 - 125);
     dialogBoxText.scale.set(0.5, 0.5);
 
     scene3_ENDPic.text = dialogBoxText;
@@ -681,9 +696,7 @@ async function SetObject() {
       scene3_ScenePic2.zIndex = 0;
       scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
-      sceneA.addChild(scene3_ScenePic2)
-      sceneA.addChild(scene3_ScenePic1)
-      sceneA.addChild(scene3_ScenePic0)
+
 
       let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
       P0.zIndex = 1;
@@ -698,22 +711,83 @@ async function SetObject() {
       // console.log(P0.width);
       // console.log(P1.width);
 
-      sceneA.addChild(P0)
-      sceneA.addChild(P1)
+      let BD = new PIXI.Sprite(PIXI.Texture.from("BD00"));
+      BD.zIndex = 10;
+      BD.width = screenWidth; BD.height = screenHeight;
+      BD.interactive = true;
+      //BD.buttonMode = true;
+      BD.addListener("pointerdown", function () {
+       
+        BD.interactive = false;
+        let totalCounter = 100;
+        let counter =totalCounter;
+        app.ticker.add(function countdown()
+        {
+          counter--;
+          if(counter >0)
+          {
+           
+            BD.alpha = counter/totalCounter;
+          }       
+          else if(counter==0)
+          {
+            BD.visible = false;         
+          }
+          else if(counter==-100)
+          {
+            scene3_dialogContainer.visible = true;
+            scene3_charBoard.visible = true;
+            scene3_nameBoard.visible = true;
+            GoToNextDialog();
 
+            app.ticker.remove(countdown);
+          }
+        })
+    
+      })
+      let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
+      BD2.zIndex = 11;
+      BD2.width = screenWidth; BD2.height = screenHeight;
+      BD2.interactive = true;
+      //BD2.buttonMode = true;
+      BD2.addListener("pointerdown", function () {
+    
+        BD2.interactive = false;
+        let totalCounter = 100;
+        let counter =totalCounter;
+        app.ticker.add(function countdown()
+        {
+          counter--;
+          BD2.alpha = counter/totalCounter;
+          if(counter==0)
+          {
+            BD2.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      })
 
+      
+      sceneA.addChild(scene3_ScenePic2);
+      sceneA.addChild(scene3_ScenePic1);
+      sceneA.addChild(scene3_ScenePic0);
+      sceneA.addChild(P0);
+      sceneA.addChild(P1);
+      sceneA.addChild(BD);
+      sceneA.addChild(BD2);
 
-
-
-
+      sceneA.BD = [];
+      sceneA.BD .push(BD);
+      sceneA.BD .push(BD2);
 
       sceneA.char = [];
       sceneA.char.push(P0);
       sceneA.char.push(P1);
-      P0.jump = false;
-      P1.jump = false;
-      P0.initY = P0.position.y;
-      P1.initY = P1.position.y;
+      for (let i = 0; i < sceneA.char.length; i++) {
+        sceneA.char[i].jump = false;
+        sceneA.char[i].initY = sceneA.char[i].position.y;
+      }
+
 
       scene3_sceneList.push(sceneA);
 
@@ -1243,7 +1317,8 @@ async function SetObject() {
       }
 
       function buttonD() {
-
+        PIXI.sound.play('button_click');
+        window.open('https://www.facebook.com/TNCMMM');
       }
       function buttonE() {
 
@@ -2027,7 +2102,7 @@ async function GoToNextDialog_Ending() {
 
   var dialogBoxText = scene3_ENDPic.text;
   dialogBoxText.text = content;
-  let y = screenHeight / 2 - dialogBoxText.height / 2 - 104;
+  let y = screenHeight / 2 - dialogBoxText.height / 2 - 109;
   dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, y);
 
   let counter = 0;
@@ -2042,7 +2117,7 @@ async function GoToNextDialog_Ending() {
     if (counter <= counterLimit) {
 
       dialogBoxText.alpha = counter / counterLimit;
-      dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, y + (+20 * (1 - MoveTrackCompute(counter, counterLimit))));
+      dialogBoxText.y = y + (20 * (1 - MoveTrackCompute(counter, counterLimit)));
     }
     else {
 

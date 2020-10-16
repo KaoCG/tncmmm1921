@@ -101,8 +101,9 @@ async function ResetSetting() {
       scene1_score = 0;
       scene1_energy = 0;
       scene1_GhostEvent = 0;
-      scene1_PlaneEventCounterA = 0;
-      scene1_PlaneEventCounterB = 0;
+      scene1_PlaneEventCounterA = 0; //台字紋
+      scene1_PlaneEventCounterB = 0; //書籍
+      CheckPlaneEvent();
 
       addEnergy(0);
 
@@ -164,16 +165,21 @@ async function ResetSetting() {
         scene1_selectableGroup[i].instance.play();
       }
 
-      scene1_selectableGroup[15].position.set(750, 165); //雕像
-      scene1_selectableGroup[20].position.set(750, 45);
+      scene1_selectableGroup[15].position.set(1330, 165); //雕像(原本在750)
+      scene1_selectableGroup[20].position.set(1330, 45);
       scene1_selectableGroup[16].position.set(1748, 165);
       scene1_selectableGroup[17].position.set(scene1_setWidth + 743, 110); //飛機
       scene1_selectableGroup[18].position.set(scene1_setWidth * 2 + 2364, 208);
       scene1_selectableGroup[19].position.set(scene1_setWidth * 3 + 1200, 19);
 
+      //建好的雕像先隱藏+不啟動
       scene1_selectableGroup[20].activate = false;
       scene1_selectableGroup[20].visible = false;
       scene1_selectableGroup[20].instance.stop();
+
+       //飛機先不啟動
+      scene1_selectableGroup[17].activate = false;
+      CheckPlaneEvent();
 
       scene1_stageTimer = 40;
       scene1_finalDistant = 11800;
@@ -181,7 +187,7 @@ async function ResetSetting() {
       //40秒的關卡大概是2350甄
       scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4);
 
-    
+
 
       scene1_currentAudio = 'run2';
 
@@ -448,8 +454,8 @@ function LoadSetting() {
 
     //
     scene1_GhostEvent = 0;
-    scene1_PlaneEventA = 0;
-    scene1_PlaneEventB = 0;
+    scene1_PlaneEventCounterA = 0;
+    scene1_PlaneEventCounterB = 0;
 
     scene1_InvitedPeopleList = [0, 0, 0];
   }
@@ -805,6 +811,7 @@ function SetObject() {
 
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
+      white.visible = false;
 
       scene1_selectableBoard.addChild(B1S00);
       B1S00.addChild(tableInstance);
@@ -1038,6 +1045,26 @@ function ItemReset(item) {
 
 }
 
+function CheckPlaneEvent() {
+
+  if(scene1_PlaneEventCounterA >=5 || scene1_PlaneEventCounterB>=5)
+  {
+    scene1_selectableGroup[17].instance.textures = [PIXI.Texture.from("B2S20"),PIXI.Texture.from("B2S21")];
+    if(centerComponent.currentStage==8) scene1_selectableGroup[17].activate = true;
+    scene1_selectableGroup[17].instance.play();
+  }
+  else
+  {
+    scene1_selectableGroup[17].instance.textures = [PIXI.Texture.from("B2S24")];
+    scene1_selectableGroup[17].instance.stop();
+  }
+
+
+
+
+
+}
+
 function GameFunction() {
 
   //時間相關-(畫面移動、底部碰撞相關、史萊姆碰觸相關、隨機產生可碰觸的物件)
@@ -1146,12 +1173,16 @@ function GameFunction() {
           switch (scene1_itemGroup[i].id) {
             case 0:
               addEnergy(-2);
+              scene1_PlaneEventCounterB += 1; //書籍
+              CheckPlaneEvent();
               break;
             case 1:
               addEnergy(+1);
               break;
             case 2:
               addEnergy(+2);
+              scene1_PlaneEventCounterA += 1; //台字紋
+              CheckPlaneEvent();
               break;
             case 3:
               addEnergy(0);
@@ -1185,6 +1216,7 @@ function GameFunction() {
           //3符咒 4紳章 7錢袋
         }
       }
+
 
 
     }
@@ -1274,8 +1306,10 @@ function GameFunction() {
   {
     function SlimeSelect() {
 
+      if (scene1_slimeJumping) return;
+
       //當按下選擇按鈕時
-      let canSelect = false;
+      //let canSelect = false;
       let index = -1;
       let id = -1;
 
@@ -1284,26 +1318,14 @@ function GameFunction() {
 
         //當成功碰到的話
         if (scene1_selectableGroup[i].activate && hitTestRectangle(scene1_runner.detectArea, scene1_selectableGroup[i].detectArea)) {
+       
           //任意物件都只能啟動一次
           scene1_selectableGroup[i].activate = false;
           scene1_selectableGroup[i].instance.gotoAndStop(1);
-          canSelect = true;
+          //canSelect = true;
           index = i;
-
-          let counter = 0;
-          app.ticker.add(function ChooseShine(deltaTime) {
-            counter++;
-            if (counter <= 15) {
-              scene1_selectableGroup[i].white.alpha += 0.06;
-            }
-            else if (counter <= 30) {
-              scene1_selectableGroup[i].white.alpha -= 0.06;
-            }
-            else {
-              scene1_selectableGroup[i].white.alpha = 0;
-              app.ticker.remove(ChooseShine);
-            }
-          });
+          id = scene1_selectableGroup[index].id;         
+          //console.log(id); 
 
           break;
         }
@@ -1311,16 +1333,42 @@ function GameFunction() {
       }
 
       //如果都沒有人符合條件，則回歸
-      if (canSelect == false) return;
+      if (index == -1) return;
+
+      let counter = 0;
+      scene1_selectableGroup[index].white.visible = true;
+      app.ticker.add(function ChooseShine(deltaTime) {
+        counter++;
+        if (counter <= 15) {
+          scene1_selectableGroup[index].white.alpha += 0.06;
+        }
+        else if (counter <= 30) {
+          
+          if(id == 20)
+          {
+            scene1_selectableGroup[index].white.alpha = 0;
+            scene1_selectableGroup[index].visible = false;
+            index = 20;
+            id = 25;
+            scene1_selectableGroup[index].white.visible = true;
+            scene1_selectableGroup[index].white.alpha = 1;
+            scene1_selectableGroup[index].visible = true;
+          }        
+          scene1_selectableGroup[index].white.alpha -= 0.06;
+        }
+        else {
+          scene1_selectableGroup[index].white.alpha = 0;
+          scene1_selectableGroup[index].white.visible = false;
+          app.ticker.remove(ChooseShine);
+        }
+      });
 
       //結算觸發物件
       //根據此受選物件的編號不同產生結果
       PIXI.sound.play('choose_click');
 
       scene1_movingPauseTimer = 30;
-      id = scene1_selectableGroup[index].id;
 
-      console.log(id);
 
       if (id == 0) {
 

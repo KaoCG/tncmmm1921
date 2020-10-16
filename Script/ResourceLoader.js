@@ -552,7 +552,8 @@ async function SetLoader() {
     }
   }
   PIXI.loader.add("B2S23", "./Resource/Final/B2/B2select/B2S23.png");
-  PIXI.loader.add("B2Poster", "./Resource/Final/B2/B2select/B2S24.png");
+  PIXI.loader.add("B2S24", "./Resource/Final/B2/B2select/B2S24.png");
+  PIXI.loader.add("B2Poster", "./Resource/Final/B2/B2select/B2S25.png");
 
   for (let i = 0; i < 4; i++) {
     PIXI.loader.add("B2T" + i, "./Resource/Final/B2/B2select/B2T" + i + ".png");
@@ -639,6 +640,11 @@ async function SetLoader() {
     PIXI.loader.add("G2Talk0" + i, "./Resource/Final/G2_UI/Talk/G2Talk0" + i + ".png");
   }
   PIXI.loader.add("G2GameTitle", "./Resource/Final/G2_UI/G2GameTitle.png");
+
+  //黑色字卡
+  for (let i = 0; i < 8; i++) {
+    PIXI.loader.add("BD0" + i, "./Resource/Final/BlackDialog/BD0" + i + ".png");
+  }
 
   //結局畫面
   PIXI.loader.add("END1", "./Resource/Final/END1.png");
