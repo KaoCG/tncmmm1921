@@ -81,10 +81,6 @@ async function ResetSetting() {
   //關卡時間
   scene1_stageTimer = 40;
   scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
-  //scene1_setWidth = scene1_BGObjectGroup[0].width;
-  //scene1_itemTimer = scene1_stageTimer / (scene1_itemList[0]+5);
-
-  scene1_SelectPeopleText.visible = false;
 
   for (let i = 0; i < scene1_selectableGroup.length; i++) {
     scene1_selectableGroup[i].visible = false;
@@ -98,6 +94,14 @@ async function ResetSetting() {
     scene1_BGObjectGroup[i * 3 + 2].visible = true;
   }
 
+  for (let i = 0; i < scene1_RadioList.length; i++) {
+    scene1_RadioList.visible = false;
+  }
+
+  for (let i = 0; i < scene1_B3RadioList.length; i++) {
+    scene1_B3RadioList[i].visible = false;
+  }
+
   switch (centerComponent.currentStage) {
     case 4:
     default:
@@ -107,6 +111,7 @@ async function ResetSetting() {
 
       scene1_title = 4;
       scene1_radio = -1;
+
       for (let i = 0; i < 9; i++) {
         if (i != scene1_title)
           scene1_CharTitleList[i].visible = false;
@@ -139,7 +144,7 @@ async function ResetSetting() {
       scene1_stageTimer = 40;
       //40秒的關卡大概是2350甄
       scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
-      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 2);
+      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4) ;
 
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
@@ -161,7 +166,7 @@ async function ResetSetting() {
       scene1_stageTimer = 40;
       //40秒的關卡大概是2350甄
       scene1_itemList = [40, 5, 5, 5, 0, 5, 5, 5, 5, 5];
-      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 2);
+      scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4);
 
       scene1_PlaneEventA = 0;
       scene1_PlaneEventB = 0;
@@ -212,10 +217,9 @@ async function ResetSetting() {
       scene1_finalDistant = 8065.5;
       scene1_stageTimer = 40;
 
-      scene1_SelectPeopleText.visible = true;
-
       scene1_InvitedAmount = 3;
-      scene1_SelectPeopleText.text = "尚須邀請的人數：" + (scene1_InvitedAmount);
+      scene1_B3RadioList[0].visible = true;
+     
       scene1_InvitedPeopleList = [-1, -1, -1];
 
       scene1_currentAudio = 'run3';
@@ -602,6 +606,21 @@ function SetObject() {
       scene1_uIBoardSP.addChild(scene1_Radio);
 
     }
+   
+    scene1_B3RadioList = [];
+    for (let i = 0; i < 4; i++) {
+
+      let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("B3R0" + i));
+      scene1_Radio.visible = false;
+
+      scene1_Radio.scale.set(0.189, 0.189);
+
+      scene1_Radio.x = 101;
+      scene1_Radio.y = 212 - moveDelta  ;
+      scene1_B3RadioList.push(scene1_Radio);
+
+      scene1_uIBoardSP.addChild(scene1_Radio);
+    }
 
     //按鈕
     {
@@ -706,12 +725,6 @@ function SetObject() {
   });
 
   scene1_InvitedAmount = 0;
-  scene1_SelectPeopleText = new PIXI.Text("尚須邀請的人數：" + (3 - scene1_InvitedAmount), style);
-  scene1_SelectPeopleText.scale.set(0.5);
-  //scene1_SelectPeopleText.x = 450;
-  scene1_SelectPeopleText.x = 470;
-  scene1_SelectPeopleText.y = 37;
-  scene1_uIBoard.addChild(scene1_SelectPeopleText);
 
   //選擇物件
   {
@@ -829,7 +842,7 @@ function SetObject() {
 
   //runner
   {
-    let runnerS_frame = [PIXI.Texture.from("runnerS0"), PIXI.Texture.from("runnerS1"), PIXI.Texture.from("runnerS2"), PIXI.Texture.from("runnerS3"), PIXI.Texture.from("runnerS4"), PIXI.Texture.from("runnerS5")];
+    /*let runnerS_frame = [PIXI.Texture.from("runnerS0"), PIXI.Texture.from("runnerS1"), PIXI.Texture.from("runnerS2"), PIXI.Texture.from("runnerS3"), PIXI.Texture.from("runnerS4"), PIXI.Texture.from("runnerS5")];
     scene1_runnerS = new PIXI.AnimatedSprite(runnerS_frame);
     scene1_runnerS.animationSpeed = 0.15;
     scene1_runnerS.pivot.set(0, 0);
@@ -839,7 +852,7 @@ function SetObject() {
     scene1_runnerS.zIndex = -5;
     scene1_runnerS.alpha = 0.8;
     scene1_runnerS.x = -20;
-    scene1_runnerS.y = 85;
+    scene1_runnerS.y = 85;*/
     //scene1_gameBoard.addChild(scene1_runnerS);
 
     let runner_frame = [PIXI.Texture.from("runner0"), PIXI.Texture.from("runner1"), PIXI.Texture.from("runner2"), PIXI.Texture.from("runner3"), PIXI.Texture.from("runner4"), PIXI.Texture.from("runner5")];
@@ -1201,7 +1214,7 @@ function GameFunction() {
       if (scene1_slimeJumping) return;
       else scene1_slimeJumping = true;
 
-      scene1_runnerS.visible = false;
+      //scene1_runnerS.visible = false;
 
       scene1_slimeJumpSpeed = scene1_slimeJumpInitSpeed;
       app.ticker.add(function SlimeJumpTicker(deltaTime) {
@@ -1215,7 +1228,7 @@ function GameFunction() {
           scene1_runner.position.y = 0;
           scene1_slimeJumping = false;
 
-          scene1_runnerS.visible = true;
+          //scene1_runnerS.visible = true;
 
           app.ticker.remove(SlimeJumpTicker);
         }
@@ -1268,7 +1281,6 @@ function GameFunction() {
 
       //結算觸發物件
       //根據此受選物件的編號不同產生結果
-
       PIXI.sound.play('choose_click');
 
       scene1_movingPauseTimer = 30;
@@ -1289,14 +1301,15 @@ function GameFunction() {
 
         addEnergy(+5);
       }
+      //B3的人物被選取了
       else if (id >= 30 && id <= 39) {
 
         if (scene1_InvitedAmount == 0) return;
 
+        scene1_B3RadioList[3-scene1_InvitedAmount].visible = false;
         scene1_InvitedAmount -= 1;
-        scene1_SelectPeopleText.text = "尚須邀請的人數：" + (scene1_InvitedAmount);
-
         scene1_InvitedPeopleList[scene1_InvitedAmount] = id % 10;
+        scene1_B3RadioList[3-scene1_InvitedAmount].visible = true;
 
         if (scene1_InvitedAmount == 0) {
           let timer = 0;
@@ -1304,18 +1317,18 @@ function GameFunction() {
 
             timer++;
 
-            if (timer > 120) {
+            if (timer > 100) {
               app.ticker.remove(EndTimer);
               EndThisScene();
             }
           });
 
         }
+
       }
 
     }
   }
-
 
   // 鍵盤操作相關
   {
@@ -1340,7 +1353,6 @@ function GameFunction() {
     scene1_keyFuncroup.push(null);
 
   }
-
 
   //按鈕相關
   {

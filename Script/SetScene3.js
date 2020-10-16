@@ -118,6 +118,7 @@ async function ResetSetting() {
         for (let i = 0; i < scene1_InvitedPeopleList.length; i++) {
           let k = 2 - i;
           scene3_sceneList[3].char[k].texture = PIXI.Texture.from("SPPeople0" + scene1_InvitedPeopleList[i] % 10);
+          scene3_sceneList[3].char[k].y = 301.5 - scene3_sceneList[3].char[k].height / 2;
 
           switch (scene1_InvitedPeopleList[i] % 10) {
             case 0:
@@ -141,8 +142,9 @@ async function ResetSetting() {
               scene3_GroupTend--;
               break;
             case 5:
-              scene3_InvitedPeopleImageList[k] = 16
+              scene3_InvitedPeopleImageList[k] = 12
               sp = true;
+              centerComponent.seenGhost = true;
               break;
             case 6:
               scene3_InvitedPeopleImageList[k] = 17
@@ -168,11 +170,32 @@ async function ResetSetting() {
 
       if (sp == true) centerComponent.stageResult = 2;
 
-
       scene3_textInput = PIXI.loader.resources.textContent.data.set7;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose7;
       scene3_sceneList[3].visible = true;
       audio = 'plot';
+
+      scene3_dialogContainer.visible = false;
+      scene3_charBoard.visible = false;
+      scene3_nameBoard.visible = false;
+
+      let timer = 240;
+      let stageResult = centerComponent.stageResult;
+      app.ticker.add(function Wait() {
+        timer--;
+
+        if (timer <= 0) {
+          scene3_dialogContainer.visible = true;
+          scene3_charBoard.visible = true;
+          scene3_nameBoard.visible = true;
+
+          JumpResult(stageResult);
+          app.ticker.remove(Wait);
+        }
+
+      })
+
+
       break;
     //主角結局前獨白(飯店)
     case 14:
@@ -311,12 +334,15 @@ async function ResetSetting() {
 
     //console.log(centerComponent.stageResult);
     if (centerComponent.stageResult == -1) {
+
       GoToNextDialog();
     }
     else {
       let stageResult = centerComponent.stageResult;
       centerComponent.stageResult = -1;
-      JumpResult(stageResult);
+
+      if (centerComponent.currentStage != 13)
+        JumpResult(stageResult);
     }
 
   }
@@ -553,7 +579,7 @@ async function SetObject() {
     }
 
     //腳色和名字
-    for (let i = 0; i < 17; i++) {
+    for (let i = 0; i < 18; i++) {
 
       let char = new PIXI.Container();
       char.zIndex = 10;
@@ -811,26 +837,34 @@ async function SetObject() {
       scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
-      scene3_sceneBoard.addChild(sceneA);
-      scene3_sceneBoard.sortableChildren = true;
-      sceneA.addChild(scene3_ScenePic2)
-      sceneA.addChild(scene3_ScenePic1)
-      //sceneA.addChild(scene3_ScenePic0)
-
       let P1 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
       P1.scale.set(globalImageScale, globalImageScale);
-      P1.x = 68; P1.y = 120;
-      sceneA.addChild(P1);
+      P1.x = 68; P1.y = 301.5 - P1.height / 2;
 
       let P2 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
       P2.scale.set(globalImageScale, globalImageScale);
-      P2.x = 170; P2.y = 120;
-      sceneA.addChild(P2);
+      P2.x = 170; P2.y = 301.5 - P2.height / 2;
 
       let P3 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
       P3.scale.set(globalImageScale, globalImageScale);
-      P3.x = 380; P3.y = 120;
+      P3.x = 272; P3.y = 301.5 - P3.height / 2;
+
+      let P4 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
+      P4.scale.set(-globalImageScale * 0.0793, globalImageScale * 0.0793);
+      P4.x = 375 + P4.width; P4.y = 301.5 - P4.height / 2;
+
+
+      scene3_sceneBoard.addChild(sceneA);
+      scene3_sceneBoard.sortableChildren = true;
+      sceneA.addChild(scene3_ScenePic2)
+      sceneA.addChild(P1);
+      sceneA.addChild(P2);
       sceneA.addChild(P3);
+      sceneA.addChild(P4);
+      sceneA.addChild(scene3_ScenePic1)
+      //sceneA.addChild(scene3_ScenePic0)
+
+
 
       sceneA.char = [];
       sceneA.char.push(P1);
@@ -983,7 +1017,6 @@ async function SetObject() {
     // Scene7
     //結局畫面(場景)
     {
-
 
       scene5 = new PIXI.Container();
       scene5.scale.set(1);
@@ -1189,7 +1222,7 @@ async function SetObject() {
 
         ResetCenterComponent();
 
-        EndingFadeFunc(scene5, 'theme');
+        EndThisScene();
       }
 
       function buttonB() {
@@ -1199,7 +1232,18 @@ async function SetObject() {
 
       function buttonC() {
 
+        scene3_sceneList[9].visible = true;
 
+        scene9_itemIndex = 0;
+
+        scene9_itemBlockL.texture = scene9_itemTextureList[(scene9_itemIndex) % scene9_itemTextureList.length];
+        scene9_itemBlockC.texture = scene9_itemTextureList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_itemBlockR.texture = scene9_itemTextureList[(scene9_itemIndex + 2) % scene9_itemTextureList.length];
+
+        scene9_Title.text = scene9_itemTitleList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_Title.position.set(191 - scene9_Title.width / 2, 69);
+        scene9_Info.text = scene9_itemContentList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
 
       }
 
@@ -1207,7 +1251,45 @@ async function SetObject() {
 
       }
       function buttonE() {
+
+        PIXI.sound.play('button_click');
+
+        ghostFloatTimer = 0;
+        ghostFloatMult = 30;
+        ghostTalkTimer = 0;
+        ghostTalkCounter = -1;
+        app.ticker.add(GhostFloat);
+
+        //測試用
+        //centerComponent.seenGhost = true;
+
+        if (centerComponent.seenGhost == true) {
+          scene5_ghost.visible = true;
+          scene5_inputContainer.visible = true;
+          scene5_textEmpty.visible = false;
+
+          scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2 - 70, 360);
+          scene5_butS0.alpha = 1;
+
+          scene5_butS1.visible = true;
+          scene5_butS1.alpha = 1;
+          scene_butS3.visible = true;
+        }
+        else {
+          scene5_ghost.visible = false;
+          scene5_inputContainer.visible = false;
+          scene5_textEmpty.visible = true;
+
+          scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2, 360);
+          scene5_butS0.alpha = 1;
+
+          scene5_butS1.visible = false;
+          scene5_butS1.alpha = 1;
+          scene_butS3.visible = false;
+        }
+
         scene3_sceneList[8].visible = true;
+
       }
 
 
@@ -1220,57 +1302,125 @@ async function SetObject() {
       let sceneA = new PIXI.Container();
       sceneA.sortableChildren = true;
       scene3_sceneBoard.addChild(sceneA);
+      scene3_sceneList.push(sceneA);
 
-      let white = new PIXI.Sprite(PIXI.Texture.from("white"));
+      let white = new PIXI.Sprite(PIXI.Texture.from("Illustrat00"));
       sceneA.addChild(white);
       white.width = screenWidth;
       white.height = screenHeight;
-      white.tint = "0x000000";
       white.interactive = true;
 
-      let but0 = new PIXI.Sprite(PIXI.Texture.from("white"));
-      sceneA.addChild(but0);
-      but0.width = 100;
-      but0.height = 50;
-      but0.position.set(200, screenHeight - 70);
-      but0.tint = "0xFFFFFF";
-      but0.interactive = true;
-      but0.buttonMode = true;
-      but0.addListener("pointerdown", function () { scene3_sceneList[8].visible = false })
+      /* let but2 = new PIXI.Sprite(PIXI.Texture.from("SummonBut01"));
+       but2.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
+       but2.position.set(screenWidth / 2 - but2.width / 2 - 70, 360)
+       sceneA.addChild(but2);*/
 
-      let but1 = new PIXI.Sprite(PIXI.Texture.from("white"));
-      but1.width = 100;
-      but1.height = 50;
-      but1.position.set(screenWidth - 300, screenHeight - 70);
-      but1.tint = "0xFF00FF";
-      but1.interactive = true;
-      but1.buttonMode = true;
-      but1.addListener("pointerdown", function () { })
-      sceneA.addChild(but1);
+      scene_butS3 = new PIXI.Sprite(PIXI.Texture.from("SummonBut03"));
+      scene_butS3.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
+      scene_butS3.position.set(screenWidth / 2 - scene_butS3.width / 2 + 70, 360)
+      sceneA.addChild(scene_butS3);
+
+      scene5_butS0 = new PIXI.Sprite(PIXI.Texture.from("SummonBut00"));
+      scene5_butS0.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
+      scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2 - 70, 360)
+      sceneA.addChild(scene5_butS0);
+      scene5_butS0.interactive = true;
+      scene5_butS0.buttonMode = true;
+
+      //返回按鈕
+      scene5_butS0.addListener("pointerdown", function () {
+        PIXI.sound.play('button_click');
+        scene3_sceneList[8].visible = false;
+        scene5_butS0.alpha = 0;
+        //but0.visible = false;
+        app.ticker.remove(GhostFloat);
+      })
+      scene5_butS0.addListener("pointerup", function () {
+        scene5_butS0.alpha = 1;
+      })
+
+      scene5_butS1 = new PIXI.Sprite(PIXI.Texture.from("SummonBut02"));
+      scene5_butS1.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
+      scene5_butS1.position.set(screenWidth / 2 - scene5_butS1.width / 2 + 70, 360)
+      sceneA.addChild(scene5_butS1);
+      scene5_butS1.interactive = true;
+      scene5_butS1.buttonMode = true;
+
+      //送出按鈕
+      scene5_butS1.addListener("pointerdown",
+        function () {
+
+          PIXI.sound.play('button_click');
+          scene5_butS1.alpha = 0;
+
+          console.log(text.text);
+          switch (text.text) {
+            case "新文化運動月":
+              window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
+              break;
+            case "青年誕生":
+              window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
+              break;
+            case "百年催生":
+              window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
+              break;
+            case "文化自造夜":
+              window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
+              break;
+            case "倒數1921":
+              window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
+              break;
+            case "文協百年":
+              window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
+              break;
+          }
+
+        })
+      scene5_butS1.addListener("pointerup",
+        function () {
+          scene5_butS1.alpha = 1;
+        })
+
+
+
+      //鬼魂/輸入畫面
+
+      let IMAGED = new PIXI.Sprite(PIXI.Texture.from("Summon04"));
+      IMAGED.scale.set(globalImageScale, globalImageScale);
+      IMAGED.position.set(screenWidth / 2 - IMAGED.width / 2, 0)
+      sceneA.addChild(IMAGED);
 
       scene5_ghost = new PIXI.Container();
       sceneA.addChild(scene5_ghost);
-      let IMAGEA = new PIXI.Sprite(PIXI.Texture.from("Summon00"));
-      IMAGEA.scale.set(globalImageScale, globalImageScale);
-      IMAGEA.position.set(screenWidth / 2 - IMAGEA.width / 2, 0)
-      scene5_ghost.addChild(IMAGEA);
+      //scene5_ghost.visible = false;
+
+      scene5_inputContainer = new PIXI.Container();
+      sceneA.addChild(scene5_inputContainer);
+      //scene5_input.visible = false;
 
       let IMAGEB = new PIXI.Sprite(PIXI.Texture.from("Summon01"));
       IMAGEB.scale.set(globalImageScale, globalImageScale);
       IMAGEB.position.set(screenWidth / 2 - IMAGEB.width / 2, 0)
-      sceneA.addChild(IMAGEB);
+      scene5_inputContainer.addChild(IMAGEB);
 
       let IMAGEC = new PIXI.Sprite(PIXI.Texture.from("Summon02"));
       IMAGEC.scale.set(globalImageScale * 0.1264, globalImageScale * 0.1264);
       IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2, 0)
-      sceneA.addChild(IMAGEC);
+      scene5_inputContainer.addChild(IMAGEC);
 
+      let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
+      IMAGEE.scale.set(globalImageScale, globalImageScale);
+      IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2, 0)
+      scene5_ghost.addChild(IMAGEE);
+
+      scene5_ghostTalk = [];
       for (let i = 0; i < 3; i++) {
         let IMAGET = new PIXI.Sprite(PIXI.Texture.from("SummonTalk0" + i));
-        if (i != 0) IMAGET.visible = false;
-        IMAGET.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
-        IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 8, -37)
-        sceneA.addChild(IMAGET);
+        IMAGET.visible = false;
+        IMAGET.scale.set(globalImageScale * 0.24, globalImageScale * 0.24);
+        IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 18, -42)
+        scene5_ghostTalk.push(IMAGET)
+        scene5_ghost.addChild(IMAGET);
       }
 
       //輸入功能
@@ -1311,6 +1461,19 @@ async function SetObject() {
         letterSpacing: 2,
         padding: 36
       });
+      let style2 = new PIXI.TextStyle({
+        fontFamily: "pixelSilver",
+        fontSize: 48,
+        fill: "white",
+        letterSpacing: 2,
+        padding: 48
+      });
+
+      scene5_textEmpty = new PIXI.Text("傳說集得大明慈悲國的遺落物，即可召喚元帥", style2);
+      scene5_textEmpty.scale.set(0.5, 0.5);
+      //scene5_textEmpty.x = (screenWidth-scene5_textEmpty)/2; scene5_textEmpty.y = 320;
+      scene5_textEmpty.position.set((screenWidth - scene5_textEmpty.width) / 2, 312);
+      sceneA.addChild(scene5_textEmpty);
 
       let text = new PIXI.Text("", style);
       text.scale.set(0.5, 0.5);
@@ -1319,11 +1482,12 @@ async function SetObject() {
 
       scene5_input.on('input', keycode => {
         text.text = keycode;
-
         //console.log('key pressed:', keycode)
       })
       scene5_input.on('focus', function () {
         IMAGEC.visible = false;
+        scene5_input.text = "";
+        text.text = "";
         //console.log('focus',)
       })
       scene5_input.on('blur', function () {
@@ -1332,7 +1496,255 @@ async function SetObject() {
       })
 
 
+
+    }
+
+    function GhostFloat() {
+
+      ghostFloatTimer = (ghostFloatTimer + 1) % (360);
+      scene5_ghost.y = (Math.cos(ghostFloatTimer / ghostFloatMult) * -1 + 1) * 5;
+      //console.log(ghostFloatTimer);
+      if (ghostFloatTimer == 1) {
+        ghostTalkTimer++;
+        if (ghostTalkTimer == 1) {
+          ghostTalkTimer = 0;
+          ghostTalkCounter = (ghostTalkCounter + 1) % 6;
+
+          for (let i = 0; i < scene5_ghostTalk.length; i++) {
+            scene5_ghostTalk[i].visible = false;
+          }
+
+          if (ghostTalkCounter < 3) {
+            scene5_ghostTalk[ghostTalkCounter].visible = true;
+          }
+
+        }
+      }
+      //console.log(  scene5_ghost.y);
+    }
+
+    // Scene9
+    // 圖鑑畫面
+    {
+
+      let sceneA = new PIXI.Container();
+      sceneA.sortableChildren = true;
+      scene3_sceneBoard.addChild(sceneA);
       scene3_sceneList.push(sceneA);
+
+      {
+        let white = new PIXI.Sprite(PIXI.Texture.from("Illustrat00"));
+        sceneA.addChild(white);
+        white.width = screenWidth;
+        white.height = screenHeight;
+        white.interactive = true;
+
+        let A = new PIXI.Sprite(PIXI.Texture.from("Illustrat01"));
+        sceneA.addChild(A);
+        A.width = screenWidth;
+        A.height = screenHeight;
+        A.position.set(screenWidth / 2 - A.width / 2, 0);
+
+        let B = new PIXI.Sprite(PIXI.Texture.from("Illustrat02"));
+        //sceneA.addChild(B);
+        B.width = screenWidth;
+        B.height = screenHeight;
+        B.position.set(screenWidth / 2 - B.width / 2, 0);
+
+        let L = new PIXI.Sprite(PIXI.Texture.from("Illustrat04"));
+        sceneA.addChild(L);
+        L.pivot.set(L.width / 2, L.height / 2);
+        L.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+        L.rotation = 90 * (Math.PI / 180);
+        L.position.set(screenWidth / 2 - L.width / 2 - 235, 362);
+
+        //上一個
+        let LW = new PIXI.Sprite(PIXI.Texture.from("white"));
+        sceneA.addChild(LW);
+        LW.alpha = 0;
+        LW.width = 50; LW.height = 50;
+        LW.position.set(L.x - LW.width / 2, L.y - LW.height / 2);
+        LW.interactive = true;
+        LW.buttonMode = true;
+        LW.addListener("pointerdown", function () { nextItem(-1); })
+
+        let R = new PIXI.Sprite(PIXI.Texture.from("Illustrat04"));
+        sceneA.addChild(R);
+        R.pivot.set(R.width / 2, R.height / 2);
+        R.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+        R.rotation = -90 * (Math.PI / 180);
+        R.position.set(screenWidth / 2 - R.width / 2 + 258, 362);
+
+        let RW = new PIXI.Sprite(PIXI.Texture.from("white"));
+        sceneA.addChild(RW);
+        RW.width = 50; RW.height = 50;
+        RW.position.set(R.x - RW.width / 2, R.y - RW.height / 2);
+        RW.alpha = 0;
+        RW.interactive = true;
+        RW.buttonMode = true;
+        RW.addListener("pointerdown", function () { nextItem(1); })
+
+        let X = new PIXI.Sprite(PIXI.Texture.from("Illustrat03"));
+        sceneA.addChild(X);
+        X.pivot.set(X.width / 2, X.height / 2);
+        X.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+        X.position.set(667, 62);
+
+        let XW = new PIXI.Sprite(PIXI.Texture.from("white"));
+        sceneA.addChild(XW);
+        XW.width = 50; XW.height = 50;
+        XW.position.set(643, 40);
+        XW.alpha = 0;
+        XW.interactive = true;
+        XW.buttonMode = true;
+        XW.addListener("pointerdown", function () { scene3_sceneList[9].visible = false; })
+      }
+
+      scene9_itemIndex = 0;
+
+      scene9_itemTextureList = [];
+      scene9_itemTitleList = [];
+      scene9_itemContentList = [];
+      for (let i = 0; i < 15; i++) {
+        if (i < 10)
+          scene9_itemTextureList.push(PIXI.Texture.from("IllustratI0" + i));
+        else
+          scene9_itemTextureList.push(PIXI.Texture.from("IllustratI" + i));
+      }
+
+      {
+        //00
+        scene9_itemTitleList.push("天來劍");
+        scene9_itemContentList.push("余清芳的寶劍，據說拔劍一分可斬殺一萬人。");
+
+        //01
+        scene9_itemTitleList.push("書籍");
+        scene9_itemContentList.push("臺灣青年看《臺灣青年》。");
+
+        //02
+        scene9_itemTitleList.push("單光旭日章");
+        scene9_itemContentList.push("國家級勳章－凡人無法直視其耀眼無比的光芒。");
+
+        //03
+        scene9_itemTitleList.push("長官銅像");
+        scene9_itemContentList.push("為長官豎立銅像是仕商間流傳十種生存法則之一。");
+
+        //04
+        scene9_itemTitleList.push("甲長章");
+        scene9_itemContentList.push("精緻的徽章，戴上統御能力加倍。");
+
+        //05
+        scene9_itemTitleList.push("警帽");
+        scene9_itemContentList.push("警察大人必備，權力的象徵。");
+
+        //06
+        scene9_itemTitleList.push("茶葉");
+        scene9_itemContentList.push("一不小心就世界留名的臺灣名產。");
+
+        //07
+        scene9_itemTitleList.push("高砂木瓜糖");
+        scene9_itemContentList.push("曾經風靡萬千日本人的大稻埕特產。");
+
+        //08
+        scene9_itemTitleList.push("符咒");
+        scene9_itemContentList.push("依稀寫著「大明慈悲國…五福王爺　神諭」字樣。");
+
+        //09
+        scene9_itemTitleList.push("紳章");
+        scene9_itemContentList.push("總督府頒發給臺籍仕商的榮譽象徵。");
+
+        //10
+        scene9_itemTitleList.push("報紙");
+        scene9_itemContentList.push("今日頭條－新文化運動月火熱進行中！");
+
+        //11
+        scene9_itemTitleList.push("臺字紋章");
+        scene9_itemContentList.push("代表臺灣總督府的紋章。");
+
+        //12
+        scene9_itemTitleList.push("膠捲");
+        scene9_itemContentList.push("上面寫著：臺灣巡迴社教片　－文化協會");
+
+        //13
+        scene9_itemTitleList.push("鴉片");
+        scene9_itemContentList.push("民間傳說具有神秘的特殊功效，被稱為「帝國主義的麻醉劑」。");
+
+        //14
+        scene9_itemTitleList.push("議會請願傳單");
+        scene9_itemContentList.push("相傳會從天而降的傳單，據聞共有上萬張。");
+      }
+
+      let scene9_itemBlockSP = new PIXI.Sprite(PIXI.Texture.from("IllustratISP"));
+      sceneA.addChild(scene9_itemBlockSP);
+      scene9_itemBlockSP.scale.set(globalImageScale * 0.1, globalImageScale * 0.1);
+      scene9_itemBlockSP.position.set((screenWidth - scene9_itemBlockSP.width) / 2, 215 - scene9_itemBlockSP.height / 2);
+
+      scene9_itemBlockC = new PIXI.Sprite(PIXI.Texture.from("IllustratI00"));
+      sceneA.addChild(scene9_itemBlockC);
+      scene9_itemBlockC.scale.set(globalImageScale * 0.095, globalImageScale * 0.095);
+      scene9_itemBlockC.position.set((screenWidth - scene9_itemBlockC.width) / 2, 215 - scene9_itemBlockC.height / 2);
+
+      scene9_itemBlockR = new PIXI.Sprite(PIXI.Texture.from("IllustratI00"));
+      sceneA.addChild(scene9_itemBlockR);
+      scene9_itemBlockR.scale.set(globalImageScale * 0.08, globalImageScale * 0.08);
+      scene9_itemBlockR.position.set((screenWidth - scene9_itemBlockR.width) / 2 + 172, 215 - scene9_itemBlockR.height / 2 + 4);
+
+      scene9_itemBlockR.interactive = true;
+      scene9_itemBlockR.buttonMode = true;
+      scene9_itemBlockR.addListener("pointerdown", function () { nextItem(1); })
+
+      scene9_itemBlockL = new PIXI.Sprite(PIXI.Texture.from("IllustratI00"));
+      sceneA.addChild(scene9_itemBlockL);
+      scene9_itemBlockL.scale.set(globalImageScale * 0.08, globalImageScale * 0.08);
+      scene9_itemBlockL.position.set((screenWidth - scene9_itemBlockL.width) / 2 - 172, 215 - scene9_itemBlockL.height / 2 + 4);
+
+      scene9_itemBlockL.interactive = true;
+      scene9_itemBlockL.buttonMode = true;
+      scene9_itemBlockL.addListener("pointerdown", function () { nextItem(-1); })
+
+      function nextItem(input) {
+
+        PIXI.sound.play('button_click');
+        scene9_itemIndex = (scene9_itemIndex + input);
+        while (scene9_itemIndex < 0) scene9_itemIndex += scene9_itemTextureList.length;
+
+        scene9_itemBlockL.texture = scene9_itemTextureList[(scene9_itemIndex) % scene9_itemTextureList.length];
+        scene9_itemBlockC.texture = scene9_itemTextureList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_itemBlockR.texture = scene9_itemTextureList[(scene9_itemIndex + 2) % scene9_itemTextureList.length];
+
+        scene9_Title.text = scene9_itemTitleList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_Title.position.set(191 - scene9_Title.width / 2, 69);
+        scene9_Info.text = scene9_itemContentList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
+      }
+
+      //784b32
+      let style = new PIXI.TextStyle({
+        fontFamily: "pixelSilver",
+        fontSize: 48,
+        fill: "0x784b32",
+        letterSpacing: 2,
+        padding: 48
+      });
+
+      let style2 = new PIXI.TextStyle({
+        fontFamily: "pixelSilver",
+        fontSize: 64,
+        fill: "0x784b32",
+        letterSpacing: 2,
+        padding: 64
+      });
+
+      scene9_Title = new PIXI.Text("高砂木瓜糖", style2);
+      scene9_Title.scale.set(0.5, 0.5);
+      scene9_Title.position.set(190 - scene9_Title.width / 2, 69);
+      sceneA.addChild(scene9_Title);
+
+      scene9_Info = new PIXI.Text("曾經風靡萬千日本人的大稻埕特產", style);
+      scene9_Info.scale.set(0.5, 0.5);
+      scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
+      sceneA.addChild(scene9_Info);
+
     }
 
     //對話中出現的道具物件
@@ -1351,8 +1763,8 @@ async function SetObject() {
 
       let metal = new PIXI.Sprite(PIXI.Texture.from("spItem0"));
       metal.zIndex = 2;
-      metal.scale.set(2, 2);
-      metal.position.set(620, 295);
+      metal.scale.set(3 * 0.0417, 3 * 0.0417);
+      metal.position.set(620 - 30, 295 - 28);
 
       scene3_uIBoard.addChild(scene3_plotItemBlockContainer);
       //scene3_plotItemBlockContainer.addChild(block);
@@ -1420,8 +1832,8 @@ async function GoToNextDialog() {
       scene3_selectBoxes[i].text.x =
         scene3_selectBoxes[i].box.x +
         scene3_selectBoxes[i].box.width / 2 -
-        (scene3_selectBoxes[i].text.width) / 2 ;
-        
+        (scene3_selectBoxes[i].text.width) / 2;
+
       if (optionsNumber == 3)
         scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
       else
@@ -1573,7 +1985,7 @@ async function GoToNextDialog() {
       scene3_plotItemBlockContainer.visible = false;
       scene3_plotItemBlockContainer.metal.visible = false;
     }
-    //發書橋段後的對話隱藏旭日章ICON
+    //結局場景，結束後關閉對話框和人物
     else if (charIndex == 6) {
       scene3_dialogContainer.visible = false;
       scene3_charBoard.visible = false;

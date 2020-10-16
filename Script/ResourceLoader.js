@@ -56,13 +56,13 @@ async function LoadResourceLoader() {
     app.stage.addChild(blackrectangleB);
   }
 
+  //調整畫面大小
+  resize();
+  window.addEventListener('resize', resize);
+
   Scene0_TouchToStartBlack.addListener("pointerdown", function () {
     Scene0_TouchToStartBlack.visible = false;
     Scene0_TouchToStartText.visible = false;
-
-    //調整畫面大小
-    resize();
-    window.addEventListener('resize', resize);
 
     TouchToStart();
   });
@@ -79,12 +79,13 @@ async function LoadResourceLoader() {
   centerComponent.dialogResult = -1;
   centerComponent.playAudio = 1;
   centerComponent.AudioVolume = 1;
+  centerComponent.seenGhost = false;
 
-  centerComponent.HideEndingTriggerA = [false,false,false,false,false,false,false,false];
-  centerComponent.HideEndingTriggerB = [false,false,false,false,false,false,false,false];
+  centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
+  centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
 
   centerComponent.G1Rate = 0.6;
-  centerComponent.rate  = 30/90;
+  centerComponent.rate = 30 / 90;
 
   //靜音按鈕
   {
@@ -94,7 +95,7 @@ async function LoadResourceLoader() {
     audioButtonA.interactive = true;
     audioButtonA.buttonMode = true;
     audioButtonA.scale.set(globalImageScale * 1.2 * 0.1, globalImageScale * 1.2 * 0.1);
-    audioButtonA.position.set(720+30, 30-13)
+    audioButtonA.position.set(720 + 30, 30 - 13)
 
     let audioButtonB = new PIXI.Sprite.from("./Resource/Final/Brige_UIUX/But/Button_sound_close.png");
     audioButtonB.zIndex = 80;
@@ -102,7 +103,7 @@ async function LoadResourceLoader() {
     audioButtonB.interactive = true;
     audioButtonB.buttonMode = true;
     audioButtonB.scale.set(globalImageScale * 1.2 * 0.1, globalImageScale * 1.2 * 0.1);
-    audioButtonB.position.set(720+30, 30-13)
+    audioButtonB.position.set(720 + 30, 30 - 13)
 
     audioButtonA.addListener("pointerdown", function () {
       audioButtonA.visible = false;
@@ -170,7 +171,7 @@ async function LoadSetting() {
 //設定畫面容器
 async function SetContainer() {
 
-  app.renderer.backgroundColor = 0x30BCED;
+  app.renderer.backgroundColor = 0x000000;
 
   scene0 = new PIXI.Container();
   scene0.zIndex = 0;
@@ -241,7 +242,7 @@ async function SetObject() {
 
     scene0_but2.addListener("pointerup", function () {
       scene0_but.visible = true;
-  
+
     });
 
     scene0_but.visible = false;
@@ -391,7 +392,7 @@ async function SetLoader() {
   await PIXI.sound.add('small_game1', './Resource/Music/BGM/small_game1.mp3');
   await PIXI.sound.add('small_game2', './Resource/Music/BGM/small_game2.mp3');
   await PIXI.sound.add('theme', './Resource/Music/BGM/theme.mp3');
- 
+
 
   await PIXI.sound.add('button_click', './Resource/Music/SE/button_click.mp3');
   await PIXI.sound.add('choose_click', './Resource/Music/SE/choose_click.mp3');
@@ -432,7 +433,7 @@ async function SetLoader() {
   PIXI.loader.add("spItem0", "./Resource/Final/item/spItem0.png");
 
   //半身像與人名
-  for (let i = 0; i < 17; i++) {
+  for (let i = 0; i < 18; i++) {
     PIXI.loader.add("person" + i, "./Resource/Final/character/half/person" + i + ".png");
     PIXI.loader.add("name" + i, "./Resource/Final/character/name/name" + i + ".png");
   }
@@ -463,25 +464,45 @@ async function SetLoader() {
   PIXI.loader.add("EndR02", "./Resource/Final/EndScene/EndR02.png");
   PIXI.loader.add("EndR03", "./Resource/Final/EndScene/EndR03.png");
 
-  for (let i = 0; i < 3; i++) {
-    PIXI.loader.add("SummonTalk0" + i, "./Resource/Final/EndScene/Summon/SummonTalk0" + i + ".png");
+  //元帥畫面
+  for (let i = 0; i < 7; i++) {
     PIXI.loader.add("Summon0" + i, "./Resource/Final/EndScene/Summon/Summon0" + i + ".png");
   }
+  for (let i = 0; i < 3; i++) {
+
+    PIXI.loader.add("SummonTalk0" + i, "./Resource/Final/EndScene/Summon/SummonTalk0" + i + ".png");
+  }
+  for (let i = 0; i < 8; i++) {
+
+    PIXI.loader.add("SummonBut0" + i, "./Resource/Final/EndScene/Summon/SummonBut0" + i + ".png");
+  }
+
+  //圖鑑畫面
+  for (let i = 0; i < 5; i++) {
+    PIXI.loader.add("Illustrat0" + i, "./Resource/Final/EndScene/Illustrat/Illustrat0" + i + ".png");
+  }
+  for (let i = 0; i < 10; i++) {
+    PIXI.loader.add("IllustratI0" + i, "./Resource/Final/EndScene/Illustrat/IllustratI0" + i + ".png");
+  }
+  for (let i = 10; i < 15; i++) {
+    PIXI.loader.add("IllustratI" + i, "./Resource/Final/EndScene/Illustrat/IllustratI" + i + ".png");
+  }
+  PIXI.loader.add("IllustratISP", "./Resource/Final/EndScene/Illustrat/IllustratISP.png");
 
 
   //結尾數字
   for (let i = 0; i < 10; i++) {
     PIXI.loader.add("Number0" + i, "./Resource/Final/EndScene/Number/Number0" + i + ".png");
   }
-  PIXI.loader.add("Number10" , "./Resource/Final/EndScene/Number/Number10.png");
+  PIXI.loader.add("Number10", "./Resource/Final/EndScene/Number/Number10.png");
 
   //跑步的人
   for (let i = 0; i < 6; i++) {
-    PIXI.loader.add("runner" + i, "./Resource/Final/runner/runnerR" + i + ".png");
+    PIXI.loader.add("runner" + i, "./Resource/Final/runner/runnerRN" + i + ".png");
   }
-  for (let i = 0; i < 6; i++) {
+  /*for (let i = 0; i < 6; i++) {
     PIXI.loader.add("runnerS" + i, "./Resource/Final/runner/runnerRS" + i + ".png");
-  }
+  }*/
 
   //跑步1的場景背景
   for (let i = 0; i < 2; i++) {
@@ -509,6 +530,10 @@ async function SetLoader() {
   }
   PIXI.loader.add("B3L12", "./Resource/Final/B3/B3building/B3L12.png");
   PIXI.loader.add("B3Spe1", "./Resource/Final/B3/B3Spe1.png");
+  //場景三的廣播
+  for (let i = 0; i < 4; i++) {
+    PIXI.loader.add("B3R0" + i, "./Resource/Final/B3/B3R0" + i + ".png");
+  }
 
   //跑步1的選擇物件
   for (let i = 0; i < 5; i++) {
@@ -529,7 +554,6 @@ async function SetLoader() {
       PIXI.loader.add("B3S" + i + "" + j, "./Resource/Final/B3/B3select/S/B3S" + i + "" + j + "S.png");
     }
   }
-
   for (let i = 0; i < 3; i++) {
     PIXI.loader.add("B3S" + i + "0T", "./Resource/Final/B3/B3select/B3S" + i + "0.png");
   }
@@ -539,12 +563,12 @@ async function SetLoader() {
     PIXI.loader.add("Bridge_DefaultUI", "./Resource/Final/Brige_UIUX/Bridge_DefaultUI.png");
     PIXI.loader.add("Blood_Mask", "./Resource/Final/Brige_UIUX/Blood_Mask.png");
     PIXI.loader.add("Blood", "./Resource/Final/Brige_UIUX/Blood.png");
-  
+
     PIXI.loader.add("Bridge_CharTilteUI", "./Resource/Final/Brige_UIUX/Bridge_CharTilteUI.png");
     PIXI.loader.add("Bridge_CharTilteUIDefault", "./Resource/Final/Brige_UIUX/Bridge_CharTilteUIDefault.png");
     PIXI.loader.add("Bridge_RadioUI", "./Resource/Final/Brige_UIUX/Bridge_RadioUI.png");
-  
-  
+
+
     PIXI.loader.add("Button_choose", "./Resource/Final/Brige_UIUX/But/Button_choose.png");
     PIXI.loader.add("Button_choose_down", "./Resource/Final/Brige_UIUX/But/Button_choose_down.png");
     PIXI.loader.add("Button_jamp", "./Resource/Final/Brige_UIUX/But/Button_jamp.png");
@@ -553,17 +577,17 @@ async function SetLoader() {
     PIXI.loader.add("Button_sound_open", "./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
     PIXI.loader.add("Button_sound_stop", "./Resource/Final/Brige_UIUX/But/Button_sound_stop.png");
     PIXI.loader.add("Button_sound_play", "./Resource/Final/Brige_UIUX/But/Button_sound_play.png");
-  
+
   }
- 
+
   //稱號
   for (var i = 0; i < 9; i++) {
-    PIXI.loader.add("CharTitle" + i,"./Resource/Final/Brige_UIUX/Title/CharTitle" + i +".png");
+    PIXI.loader.add("CharTitle" + i, "./Resource/Final/Brige_UIUX/Title/CharTitle" + i + ".png");
   }
 
   //收音機
   for (var i = 0; i < 5; i++) {
-    PIXI.loader.add("Radio" + i,"./Resource/Final/Brige_UIUX/Radio/Radio" + i +".png");
+    PIXI.loader.add("Radio" + i, "./Resource/Final/Brige_UIUX/Radio/Radio" + i + ".png");
   }
 
   //過廠對話1的人物場景
@@ -573,11 +597,6 @@ async function SetLoader() {
 
   PIXI.loader.add("characterFull3", "./Resource/Final/character/full/characterFull3.png");
   PIXI.loader.add("characterFull10", "./Resource/Final/character/full/characterFull10.png");
-
-  //路人腳色
-  /*for (var i = 0; i < 6; i++) {
-    PIXI.loader.add("normalPeople" + i, "./Resource/Final/character/full/normal/normalPeople" + i + ".png");
-  }*/
 
   for (var i = 0; i < 10; i++) {
     PIXI.loader.add("SPPeople0" + i, "./Resource/Final/character/full/char/FullChar0" + i + ".png");
@@ -621,10 +640,6 @@ async function SetLoader() {
   await PIXI.loader.add("VideoSelect2", "./Resource/Final/Video/select2.png");
   await PIXI.loader.add("VideoTitle", "./Resource/Final/Video/title.png");
 
-  //結算
-  //await PIXI.loader.onProgress.add(loadProgressHandler);
-  //await loader.onComplete.add(onAssetsLoaded);
-  //await loader.onComplete.add(testInit);
   x = 0;
   await PIXI.loader.onLoad.add(loadProgressHandler);
   await PIXI.loader.onComplete.add(finishHandler);
@@ -662,7 +677,7 @@ function loadProgressHandler(loader, resource) {
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
-    sceneLoading_scoreText.position.set((screenWidth-sceneLoading_scoreText.width +20) / 2 , screenHeight / 2 + 65);
+    sceneLoading_scoreText.position.set((screenWidth - sceneLoading_scoreText.width + 20) / 2, screenHeight / 2 + 65);
     sceneLoading_scoreText2.text = "loading: " + resource.name;
   }
 
@@ -707,7 +722,7 @@ async function CreateLoadingText(loader, resource) {
 async function onAssetsLoaded() {
 
   sceneLoading_scoreText.text = "Progress: " + 100 + " %";
-  sceneLoading_scoreText.position.set((screenWidth-sceneLoading_scoreText.width +20) / 2 , screenHeight / 2 + 65);
+  sceneLoading_scoreText.position.set((screenWidth - sceneLoading_scoreText.width + 20) / 2, screenHeight / 2 + 65);
   sceneLoading_scoreText2.text = "Loading: " + "Finish";
 
 
