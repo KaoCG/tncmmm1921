@@ -115,8 +115,6 @@ function LoadSetting() {
 //設定容器
 function SetContainer() {
 
-  app.renderer.backgroundColor = 0x30BCED;
-
   scene2 = new PIXI.Container();
   scene2.scale.set(1);
   scene2.sortableChildren = true;

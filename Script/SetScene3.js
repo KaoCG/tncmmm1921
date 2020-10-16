@@ -347,12 +347,9 @@ async function ResetSetting() {
 
   }
 
-
-
   for (let i = 0; i < scene3_tickerFunc.length; i++) {
     app.ticker.add(scene3_tickerFunc[i]);
   }
-
 
   scene3_dialogBox.active = true;
   scene3_dialogBox.dialogEnd = false;
@@ -365,8 +362,6 @@ async function ResetSetting() {
 
 //設定容器
 async function SetContainer() {
-
-  app.renderer.backgroundColor = 0x30BCED;
 
   scene3 = new PIXI.Container();
   scene3.sortableChildren = true;

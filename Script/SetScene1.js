@@ -100,6 +100,10 @@ async function ResetSetting() {
 
       scene1_score = 0;
       scene1_energy = 0;
+      scene1_GhostEvent = 0;
+      scene1_PlaneEventCounterA = 0;
+      scene1_PlaneEventCounterB = 0;
+
       addEnergy(0);
 
 
@@ -144,8 +148,6 @@ async function ResetSetting() {
       scene1_endChar.visible = true;
       scene1_finalDistant = 11800;
 
-      scene1_GhostEvent = 0;
-
       scene1_currentAudio = 'run1';
 
       break;
@@ -179,8 +181,7 @@ async function ResetSetting() {
       //40秒的關卡大概是2350甄
       scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4);
 
-      scene1_PlaneEventCounterA = 0;
-      scene1_PlaneEventCounterB = 0;
+    
 
       scene1_currentAudio = 'run2';
 
@@ -258,7 +259,6 @@ async function ResetSetting() {
 
 //設定容器
 function SetContainer() {
-  app.renderer.backgroundColor = 0x30BCED;
 
   scene1 = new PIXI.Container();
   scene1.sortableChildren = true;
