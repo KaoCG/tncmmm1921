@@ -73,8 +73,7 @@ async function ResetSetting() {
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose1;
       scene3_sceneList[0].visible = true;
 
-      for(let i = 0 ; i <   scene3_sceneList[0].BD.length;i++)
-      {
+      for (let i = 0; i < scene3_sceneList[0].BD.length; i++) {
         scene3_sceneList[0].BD[i].visible = true;
         scene3_sceneList[0].BD[i].interactive = true;
         scene3_sceneList[0].BD[i].alpha = 1;
@@ -186,7 +185,7 @@ async function ResetSetting() {
       scene3_charBoard.visible = false;
       scene3_nameBoard.visible = false;
 
-      let timer = 240;
+      let timer = 200;
       let stageResult = centerComponent.stageResult;
       app.ticker.add(function Wait() {
         timer--;
@@ -221,10 +220,28 @@ async function ResetSetting() {
       if (centerComponent.rate < 0.5) {
         scene3_ENDPic.texture = PIXI.Texture.from("END2");
         centerComponent.stageResult = 1;
+       
+        for (let i = 0; i < scene3_endBoard.BDA.length; i++) {
+          scene3_endBoard.BDA[i].visible = true;
+          scene3_endBoard.BDA[i].interactive = true;
+          scene3_endBoard.BDA[i].alpha = 1;
+        }
+        for (let i = 0; i < scene3_endBoard.BDB.length; i++) {
+          scene3_endBoard.BDB[i].visible = false;
+        }
       }
       else {
         scene3_ENDPic.texture = PIXI.Texture.from("END1");
         centerComponent.stageResult = 0;
+
+        for (let i = 0; i < scene3_endBoard.BDB.length; i++) {
+          scene3_endBoard.BDB[i].visible = true;
+          scene3_endBoard.BDB[i].interactive = true;
+          scene3_endBoard.BDB[i].alpha = 1;
+        }
+        for (let i = 0; i < scene3_endBoard.BDA.length; i++) {
+          scene3_endBoard.BDA[i].visible = false;
+        }
       }
 
       scene3_textInput = PIXI.loader.resources.textContent.data.set9;
@@ -321,8 +338,8 @@ async function ResetSetting() {
   //如果結局
   if (centerComponent.currentStage == 15) {
 
-    scene3_ENDPic.visible = true;
-    scene3_ENDPic.text.visible = true;
+    scene3_endBoard.visible = true;
+    scene3_endBoard.text.visible = true;
 
     if (centerComponent.stageResult == -1) {
       GoToNextDialog();
@@ -336,8 +353,8 @@ async function ResetSetting() {
   //如果普通對話環節
   else {
 
-    scene3_ENDPic.visible = false;
-    scene3_ENDPic.text.visible = false;
+    scene3_endBoard.visible = false;
+    scene3_endBoard.text.visible = false;
 
     //console.log(centerComponent.stageResult);
     if (centerComponent.stageResult == -1) {
@@ -638,7 +655,6 @@ async function SetObject() {
     scene3_ENDPic = new PIXI.Sprite(PIXI.Texture.from("END1"));
     scene3_ENDPic.zIndex = 20;
     scene3_ENDPic.scale.set(1.59, 1.59);
-    scene3_ENDPic.position.set(0, 0);
     scene3_ENDPic.position.set(screenWidth / 2 - scene3_ENDPic.width / 2, screenHeight / 2 - scene3_ENDPic.height / 2 - 5);
     scene3_endBoard.addChild(scene3_ENDPic);
 
@@ -665,13 +681,219 @@ async function SetObject() {
     dialogBoxText.zIndex = 21;
     //dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, screenHeight / 2 - dialogBoxText.height / 2 - 125);
     dialogBoxText.scale.set(0.5, 0.5);
-
-    scene3_ENDPic.text = dialogBoxText;
+    scene3_endBoard.text = dialogBoxText;
 
     scene3_ENDPic.interactive = true;
-    scene3_ENDPic.buttonMode = true;
+
+    //BDA
+    {
+      let BD3 = new PIXI.Sprite(PIXI.Texture.from("BD03"));
+      BD3.zIndex = 31;
+      BD3.width = screenWidth; BD3.height = screenHeight;
+      BD3.interactive = true;
+      //BD.buttonMode = true;
+      BD3.addListener("pointerdown", function () {
+
+        BD3.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          if (counter > 0) {
+
+            BD3.alpha = counter / totalCounter;
+          }
+          else if (counter == 0) {
+            BD3.visible = false;
+            app.ticker.remove(countdown);
+          }
+          else if (counter == -100) {
+            scene3_dialogContainer.visible = true;
+            scene3_charBoard.visible = true;
+            scene3_nameBoard.visible = true;
+            //GoToNextDialog();
 
 
+          }
+        })
+
+      })
+
+      let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD02"));
+      BD2.zIndex = 32;
+      BD2.width = screenWidth; BD2.height = screenHeight;
+      BD2.interactive = true;
+      //BD2.buttonMode = true;
+      BD2.addListener("pointerdown", function () {
+
+        BD2.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          BD2.alpha = counter / totalCounter;
+          if (counter == 0) {
+            BD2.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      });
+
+      let BD1 = new PIXI.Sprite(PIXI.Texture.from("BD01"));
+      BD1.zIndex = 33;
+      BD1.width = screenWidth; BD1.height = screenHeight;
+      BD1.interactive = true;
+      BD1.addListener("pointerdown", function () {
+
+        BD1.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          BD1.alpha = counter / totalCounter;
+          if (counter == 0) {
+            BD1.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      })
+
+      let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
+      BD7.zIndex = 34;
+      BD7.width = screenWidth; BD7.height = screenHeight;
+      BD7.interactive = true;
+      BD7.addListener("pointerdown", function () {
+
+        BD7.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          BD7.alpha = counter / totalCounter;
+          if (counter == 0) {
+            BD7.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      })
+
+      scene3_endBoard.addChild(BD1);
+      scene3_endBoard.addChild(BD2);
+      scene3_endBoard.addChild(BD3);
+      scene3_endBoard.addChild(BD7);
+
+      scene3_endBoard.BDA = [];
+      scene3_endBoard.BDA.push(BD1);
+      scene3_endBoard.BDA.push(BD2);
+      scene3_endBoard.BDA.push(BD3);
+      scene3_endBoard.BDA.push(BD7);
+
+    }
+
+    //BDB
+    {
+      let BD3 = new PIXI.Sprite(PIXI.Texture.from("BD06"));
+      BD3.zIndex = 31;
+      BD3.width = screenWidth; BD3.height = screenHeight;
+      BD3.interactive = true;
+      //BD.buttonMode = true;
+      BD3.addListener("pointerdown", function () {
+
+        BD3.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          if (counter > 0) {
+
+            BD3.alpha = counter / totalCounter;
+          }
+          else if (counter == 0) {
+            BD3.visible = false;
+            app.ticker.remove(countdown);
+          }
+          else if (counter == -100) {
+            scene3_dialogContainer.visible = true;
+            scene3_charBoard.visible = true;
+            scene3_nameBoard.visible = true;
+            //GoToNextDialog();
+
+
+          }
+        })
+
+      })
+
+      let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD05"));
+      BD2.zIndex = 32;
+      BD2.width = screenWidth; BD2.height = screenHeight;
+      BD2.interactive = true;
+      //BD2.buttonMode = true;
+      BD2.addListener("pointerdown", function () {
+
+        BD2.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          BD2.alpha = counter / totalCounter;
+          if (counter == 0) {
+            BD2.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      });
+
+      let BD1 = new PIXI.Sprite(PIXI.Texture.from("BD04"));
+      BD1.zIndex = 33;
+      BD1.width = screenWidth; BD1.height = screenHeight;
+      BD1.interactive = true;
+      BD1.addListener("pointerdown", function () {
+
+        BD1.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          BD1.alpha = counter / totalCounter;
+          if (counter == 0) {
+            BD1.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      })
+
+      let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
+      BD7.zIndex = 34;
+      BD7.width = screenWidth; BD7.height = screenHeight;
+      BD7.interactive = true;
+      BD7.addListener("pointerdown", function () {
+
+        BD7.interactive = false;
+        let totalCounter = 100;
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
+          counter--;
+          BD7.alpha = counter / totalCounter;
+          if (counter == 0) {
+            BD7.visible = false;
+            app.ticker.remove(countdown);
+          }
+        })
+      })
+
+      scene3_endBoard.addChild(BD1);
+      scene3_endBoard.addChild(BD2);
+      scene3_endBoard.addChild(BD3);
+      scene3_endBoard.addChild(BD7);
+
+      scene3_endBoard.BDB = [];
+      scene3_endBoard.BDB.push(BD1);
+      scene3_endBoard.BDB.push(BD2);
+      scene3_endBoard.BDB.push(BD3);
+      scene3_endBoard.BDB.push(BD7);
+
+    }
   }
 
   //對話場景相關
@@ -717,24 +939,20 @@ async function SetObject() {
       BD.interactive = true;
       //BD.buttonMode = true;
       BD.addListener("pointerdown", function () {
-       
+
         BD.interactive = false;
         let totalCounter = 100;
-        let counter =totalCounter;
-        app.ticker.add(function countdown()
-        {
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
           counter--;
-          if(counter >0)
-          {
-           
-            BD.alpha = counter/totalCounter;
-          }       
-          else if(counter==0)
-          {
-            BD.visible = false;         
+          if (counter > 0) {
+
+            BD.alpha = counter / totalCounter;
           }
-          else if(counter==-100)
-          {
+          else if (counter == 0) {
+            BD.visible = false;
+          }
+          else if (counter == -100) {
             scene3_dialogContainer.visible = true;
             scene3_charBoard.visible = true;
             scene3_nameBoard.visible = true;
@@ -743,7 +961,7 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
-    
+
       })
       let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
       BD2.zIndex = 11;
@@ -751,23 +969,21 @@ async function SetObject() {
       BD2.interactive = true;
       //BD2.buttonMode = true;
       BD2.addListener("pointerdown", function () {
-    
+
         BD2.interactive = false;
         let totalCounter = 100;
-        let counter =totalCounter;
-        app.ticker.add(function countdown()
-        {
+        let counter = totalCounter;
+        app.ticker.add(function countdown() {
           counter--;
-          BD2.alpha = counter/totalCounter;
-          if(counter==0)
-          {
+          BD2.alpha = counter / totalCounter;
+          if (counter == 0) {
             BD2.visible = false;
             app.ticker.remove(countdown);
           }
         })
       })
 
-      
+
       sceneA.addChild(scene3_ScenePic2);
       sceneA.addChild(scene3_ScenePic1);
       sceneA.addChild(scene3_ScenePic0);
@@ -777,8 +993,8 @@ async function SetObject() {
       sceneA.addChild(BD2);
 
       sceneA.BD = [];
-      sceneA.BD .push(BD);
-      sceneA.BD .push(BD2);
+      sceneA.BD.push(BD);
+      sceneA.BD.push(BD2);
 
       sceneA.char = [];
       sceneA.char.push(P0);
@@ -2100,7 +2316,7 @@ async function GoToNextDialog_Ending() {
     return;
   }
 
-  var dialogBoxText = scene3_ENDPic.text;
+  var dialogBoxText = scene3_endBoard.text;
   dialogBoxText.text = content;
   let y = screenHeight / 2 - dialogBoxText.height / 2 - 109;
   dialogBoxText.position.set(screenWidth / 2 - dialogBoxText.width / 2, y);

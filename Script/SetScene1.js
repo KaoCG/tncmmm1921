@@ -1384,9 +1384,13 @@ function GameFunction() {
         addEnergy(+5);
       }
       //場景二的雕像
-      else if (id == 20) {
+      else if (id == 25|| id==20) {
 
+        addEnergy(+5);
+      }
+      else if (id == 21) {
 
+        addEnergy(-5);
       }
       //場景二的飛機
       else if (id == 22) {
