@@ -104,6 +104,13 @@ async function ResetSetting() {
       scene1_PlaneEventCounterA = 0; //台字紋
       scene1_PlaneEventCounterB = 0; //書籍
       CheckPlaneEvent();
+      scene1_MoneyCounter = 0;
+      scene1_GentleMarkCounter = 0;
+
+      centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
+      //【0】飛機【1】申章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】議會之父【7】六三法血量<30%
+      centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
+      //【0】旭日章【1】申章>3【2】錢袋>5【3】選擇長官銅像【4】紅隊三人【5】對話:寧做太平犬【6】台灣顏智【7】六三法血量>70%
 
       addEnergy(0);
 
@@ -129,6 +136,19 @@ async function ResetSetting() {
         scene1_selectableGroup[i].visible = true;
         scene1_selectableGroup[i].activate = true;
         scene1_selectableGroup[i].instance.play();
+      }
+
+      //教學畫面
+      if (centerComponent.readTutorial == false) {
+        scene1_runner.instance.stop();
+        for (let i = 0; i < scene1_Tutorial.length; i++) {
+          //console.log(scene1_Tutorial.length);
+          scene1_Tutorial[i].visible = true;
+        }
+      }
+      else {
+        SetTickerFunc();
+        scene1_runner.instance.play();
       }
 
       scene1_selectableGroup[4].position.set(2000, 39)
@@ -177,7 +197,7 @@ async function ResetSetting() {
       scene1_selectableGroup[20].visible = false;
       scene1_selectableGroup[20].instance.stop();
 
-       //飛機先不啟動
+      //飛機先不啟動
       scene1_selectableGroup[17].activate = false;
       CheckPlaneEvent();
 
@@ -245,8 +265,8 @@ async function ResetSetting() {
       break;
   }
 
-  for (let i = 0; i < scene1_tickerFunc.length; i++) {
-    app.ticker.add(scene1_tickerFunc[i]);
+  if (centerComponent.currentStage != 4) {
+    SetTickerFunc();
   }
 
   for (let i = 0; i < scene1_keyGroup.length; i++) {
@@ -261,6 +281,12 @@ async function ResetSetting() {
   scene1_movingBoard.position.set(0, 0);
 
   StartingFadeFunc(scene1, scene1_currentAudio);
+}
+
+function SetTickerFunc() {
+  for (let i = 0; i < scene1_tickerFunc.length; i++) {
+    app.ticker.add(scene1_tickerFunc[i]);
+  }
 }
 
 //設定容器
@@ -456,6 +482,8 @@ function LoadSetting() {
     scene1_GhostEvent = 0;
     scene1_PlaneEventCounterA = 0;
     scene1_PlaneEventCounterB = 0;
+    scene1_MoneyCounter = 0;
+    scene1_GentleMarkCounter = 0;
 
     scene1_InvitedPeopleList = [0, 0, 0];
   }
@@ -919,6 +947,35 @@ function SetObject() {
 
   }
 
+  //教學物件
+  {
+    scene1_Tutorial = [];
+    for (let i = 0; i < 5; i++) {
+      let B1O00 = new PIXI.Sprite(PIXI.Texture.from("Tutorial0" + (i)));
+      B1O00.zIndex = 250 - i;
+      B1O00.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
+      scene1.addChild(B1O00);
+      scene1_Tutorial.push(B1O00);
+      B1O00.x = (screenWidth - B1O00.width) / 2;
+      B1O00.y = -45;
+      B1O00.visible = false;
+      B1O00.interactive = true;
+
+      if (i == 4) {
+        B1O00.addListener("pointerdown", function () {
+          B1O00.visible = false;
+          scene1_runner.instance.play();
+          centerComponent.readTutorial = true;
+          SetTickerFunc();
+        })
+      }
+      else {
+        B1O00.addListener("pointerdown", function () { B1O00.visible = false; })
+      }
+
+    }
+  }
+
 }
 
 async function CreateItem(createInPool = true, name = -1) {
@@ -1047,14 +1104,12 @@ function ItemReset(item) {
 
 function CheckPlaneEvent() {
 
-  if(scene1_PlaneEventCounterA >=5 || scene1_PlaneEventCounterB>=5)
-  {
-    scene1_selectableGroup[17].instance.textures = [PIXI.Texture.from("B2S20"),PIXI.Texture.from("B2S21")];
-    if(centerComponent.currentStage==8) scene1_selectableGroup[17].activate = true;
+  if (scene1_PlaneEventCounterA >= 5 || scene1_PlaneEventCounterB >= 5) {
+    scene1_selectableGroup[17].instance.textures = [PIXI.Texture.from("B2S20"), PIXI.Texture.from("B2S21")];
+    if (centerComponent.currentStage == 8) scene1_selectableGroup[17].activate = true;
     scene1_selectableGroup[17].instance.play();
   }
-  else
-  {
+  else {
     scene1_selectableGroup[17].instance.textures = [PIXI.Texture.from("B2S24")];
     scene1_selectableGroup[17].instance.stop();
   }
@@ -1190,6 +1245,11 @@ function GameFunction() {
               break;
             case 4:
               addEnergy(0);
+              scene1_GentleMarkCounter += 1;
+              if (scene1_GentleMarkCounter >= 3) {
+                centerComponent.HideEndingTriggerA[1] = true;
+                centerComponent.HideEndingTriggerB[1] = true;
+              }
               break;
             case 5:
               addEnergy(-1);
@@ -1199,6 +1259,11 @@ function GameFunction() {
               break;
             case 7:
               addEnergy(0);
+              scene1_MoneyCounter += 1;
+              if (scene1_MoneyCounter >= 3) {
+                centerComponent.HideEndingTriggerA[2] = true;
+                centerComponent.HideEndingTriggerB[2] = true;
+              }
               break;
             case 8:
               addEnergy(+2);
@@ -1318,13 +1383,13 @@ function GameFunction() {
 
         //當成功碰到的話
         if (scene1_selectableGroup[i].activate && hitTestRectangle(scene1_runner.detectArea, scene1_selectableGroup[i].detectArea)) {
-       
+
           //任意物件都只能啟動一次
           scene1_selectableGroup[i].activate = false;
           scene1_selectableGroup[i].instance.gotoAndStop(1);
           //canSelect = true;
           index = i;
-          id = scene1_selectableGroup[index].id;         
+          id = scene1_selectableGroup[index].id;
           //console.log(id); 
 
           break;
@@ -1343,9 +1408,8 @@ function GameFunction() {
           scene1_selectableGroup[index].white.alpha += 0.06;
         }
         else if (counter <= 30) {
-          
-          if(id == 20)
-          {
+
+          if (id == 20) {
             scene1_selectableGroup[index].white.alpha = 0;
             scene1_selectableGroup[index].visible = false;
             index = 20;
@@ -1353,7 +1417,7 @@ function GameFunction() {
             scene1_selectableGroup[index].white.visible = true;
             scene1_selectableGroup[index].white.alpha = 1;
             scene1_selectableGroup[index].visible = true;
-          }        
+          }
           scene1_selectableGroup[index].white.alpha -= 0.06;
         }
         else {
@@ -1384,18 +1448,21 @@ function GameFunction() {
         addEnergy(+5);
       }
       //場景二的雕像
-      else if (id == 25|| id==20) {
+      else if (id == 25 || id == 20) {
 
+        centerComponent.HideEndingTriggerB[3] = true;
         addEnergy(+5);
       }
+      //場景二的掛號
       else if (id == 21) {
 
+        centerComponent.HideEndingTriggerA[3] = true;
         addEnergy(-5);
       }
       //場景二的飛機
       else if (id == 22) {
 
-
+        centerComponent.HideEndingTriggerA[0] = true;
       }
       //B3的人物被選取了
       else if (id >= 30 && id <= 39) {
@@ -1519,7 +1586,22 @@ function changeTitle(newTitle = 0) {
 
   if (newTitle == scene1_title) return;
 
+  if (newTitle == 0) {
+    centerComponent.HideEndingTriggerA[6] = true;
+  }
+  else {
+    centerComponent.HideEndingTriggerA[6] = false;
+  }
+
+  if (newTitle == 8) {
+    centerComponent.HideEndingTriggerB[6] = true;
+  }
+  else {
+    centerComponent.HideEndingTriggerB[6] = false;
+  }
+
   scene1_CharTitleList[scene1_title].visible = false;
+
 
   scene1_title = newTitle;
 
@@ -1593,6 +1675,11 @@ function showRadio(rate = 0) {
   }
   else return;
 
+  if(scene1_radio!=0)
+  {
+    scene1_RadioList[scene1_radio-1].visible = false;
+  }
+
   let timer = 0;
   let counter = 0;
   let counterLimit = 24;
@@ -1601,7 +1688,15 @@ function showRadio(rate = 0) {
   scene1_RadioList[scene1_radio].tint = "0x07ffa5";
 
   //07ffa5
+  let temp = scene1_radio;
   app.ticker.add(function TitleShine(deltaTime) {
+
+    if(scene1_RadioList[temp]===undefined)
+    {
+      scene1_RadioList[temp].visible = false;
+      app.ticker.remove(TitleShine);
+      return;
+    }
 
     timer++;
 
@@ -1610,14 +1705,15 @@ function showRadio(rate = 0) {
       counter++;
 
       if (counter % 2 == 0) {
-        scene1_RadioList[scene1_radio].tint = "0x07ffa5";
+      
+        scene1_RadioList[temp].tint = "0x07ffa5";
       }
       else if (counter % 2 == 1) {
-        scene1_RadioList[scene1_radio].tint = "0xFFFFFF";
+        scene1_RadioList[temp].tint = "0xFFFFFF";
       }
 
       if (counter >= counterLimit) {
-        scene1_RadioList[scene1_radio].visible = false;
+        scene1_RadioList[temp].visible = false;
         app.ticker.remove(TitleShine);
       }
     }

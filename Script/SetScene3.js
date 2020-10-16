@@ -170,8 +170,14 @@ async function ResetSetting() {
           }
         }
 
-      if (scene3_GroupTend >= 2) centerComponent.stageResult = 1;
-      else if (scene3_GroupTend <= -2) centerComponent.stageResult = 0;
+      if (scene3_GroupTend >= 2) {
+        centerComponent.stageResult = 1;
+        centerComponent.HideEndingTriggerB[4] = true;
+      }
+      else if (scene3_GroupTend <= -2) {
+        centerComponent.stageResult = 0;
+        centerComponent.HideEndingTriggerA[4] = true;
+      }
       else centerComponent.stageResult = 2;
 
       if (sp == true) centerComponent.stageResult = 2;
@@ -258,8 +264,10 @@ async function ResetSetting() {
         else if (centerComponent.rate < 0.5) { centerComponent.stageResult = 1; scene5_End0.texture = PIXI.Texture.from("EndR01"); }
         else if (centerComponent.rate < 0.75) { centerComponent.stageResult = 2; scene5_End0.texture = PIXI.Texture.from("EndR02"); }
         else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR03"); }
-
       }
+
+      if(centerComponent.rate<=0.3)   centerComponent.HideEndingTriggerA[7] = true;
+      else if(centerComponent.rate >=0.7)   centerComponent.HideEndingTriggerB[7] = true;
 
       //兩種隱藏結局
       {
@@ -1375,6 +1383,32 @@ async function SetObject() {
           scene5_End0.height = screenHeight;
           uIBoard.addChild(scene5_End0);
 
+          let Pen = new PIXI.Sprite(PIXI.Texture.from("Pen"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          Pen.width = screenWidth;
+          Pen.height = screenHeight;
+          //uIBoard.addChild(Pen);
+          //
+          //
+
+          let Pen2 = new PIXI.Sprite(PIXI.Texture.from("Pen2"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          Pen2.width = screenWidth * 0.214;
+          Pen2.height = screenHeight * 0.262;
+          uIBoard.addChild(Pen2);
+          Pen2.interactive = true;
+          Pen2.addListener("pointerdown",function(){Worker.visible = true;})
+          Pen2.position.set(28,210);
+
+          let Worker = new PIXI.Sprite(PIXI.Texture.from("Worker"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          Worker.width = screenWidth;
+          Worker.height = screenHeight;
+          Worker.visible = false;
+          uIBoard.addChild(Worker);
+
+          Worker.interactive = true;
+          Worker.addListener("pointerdown",function(){Worker.visible = false;})
         }
 
         //稱號
@@ -2263,6 +2297,8 @@ async function GoToNextDialog() {
     }
     //發書橋段後的對話出現旭日章ICON
     else if (charIndex == 4) {
+      centerComponent.HideEndingTriggerB[0] = true;
+
       scene3_plotItemBlockContainer.visible = true;
       scene3_plotItemBlockContainer.metal.visible = true;
     }
@@ -2277,6 +2313,14 @@ async function GoToNextDialog() {
       scene3_charBoard.visible = false;
       scene3_nameBoard.visible = false;
       return;
+    }
+    //台灣是台灣人的台灣
+    else if (charIndex == 7) {
+      centerComponent.HideEndingTriggerA[4] = true;
+    }
+    //寧做太平犬，不做亂世人
+    else if (charIndex == 8) {
+      centerComponent.HideEndingTriggerB[4] = true;
     }
 
     //自動跳到下一句話

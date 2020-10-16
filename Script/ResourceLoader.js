@@ -14,32 +14,15 @@ async function LoadResourceLoader() {
   app.renderer.backgroundColor = 0x000000;
 
 
-  Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/White.png");
+  Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/Final/TOUCHTOSTART.png");
   Scene0_TouchToStartBlack.zIndex = 100;
   Scene0_TouchToStartBlack.width = screenWidth;
   Scene0_TouchToStartBlack.height = screenHeight;
-  Scene0_TouchToStartBlack.tint = 0x000000;
   Scene0_TouchToStartBlack.position.set(0, 0);
-
-  let style = new PIXI.TextStyle({
-    fontFamily: "pixelSliver",
-    fontSize: 96,
-    fill: "white",
-    stroke: '#000000',
-    strokeThickness: 0,
-    letterSpacing: 9,
-    padding: 100
-  });
-
-  Scene0_TouchToStartText = new PIXI.Text("Touch To Start", style);
-  Scene0_TouchToStartText.scale.set(0.5, 0.5);
-  Scene0_TouchToStartText.position.set(screenWidth / 2 - Scene0_TouchToStartText.width / 2, screenHeight / 2 - Scene0_TouchToStartText.height / 2);
-  Scene0_TouchToStartText.zIndex = 100;
   Scene0_TouchToStartBlack.interactive = true;
-  Scene0_TouchToStartBlack.buttonMode = true;
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  app.stage.addChild(Scene0_TouchToStartText);
+  //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
   {
@@ -62,7 +45,6 @@ async function LoadResourceLoader() {
 
   Scene0_TouchToStartBlack.addListener("pointerdown", function () {
     Scene0_TouchToStartBlack.visible = false;
-    Scene0_TouchToStartText.visible = false;
 
     TouchToStart();
   });
@@ -80,7 +62,7 @@ async function LoadResourceLoader() {
   centerComponent.playAudio = 1;
   centerComponent.AudioVolume = 1;
   centerComponent.seenGhost = false;
-
+  centerComponent.readTutorial = false;
   centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
   centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
 
@@ -419,6 +401,7 @@ async function SetLoader() {
     .add("fade", "./Resource/Fade.png");
 
   //其他物件
+  PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
   PIXI.loader.add("dialogBox", "./Resource/Final/dialogBox.png");
   PIXI.loader.add("arrow", "./Resource/Final/arrow.png");
 
@@ -455,6 +438,11 @@ async function SetLoader() {
     PIXI.loader.add("Hotel0" + i, "./Resource/Final/HotelScene/hotel0" + i + ".png");
   }
 
+  //教學畫面
+  for (let i = 0; i < 5; i++) {
+    PIXI.loader.add("Tutorial0" + i, "./Resource/Final/Tutorial/Tutorial0" + i + ".png");
+  }
+
   //結尾畫面
   for (let i = 0; i < 3; i++) {
     PIXI.loader.add("End" + i, "./Resource/Final/EndScene/End0" + i + ".png");
@@ -463,6 +451,9 @@ async function SetLoader() {
   PIXI.loader.add("EndR01", "./Resource/Final/EndScene/EndR01.png");
   PIXI.loader.add("EndR02", "./Resource/Final/EndScene/EndR02.png");
   PIXI.loader.add("EndR03", "./Resource/Final/EndScene/EndR03.png");
+  PIXI.loader.add("Pen", "./Resource/Final/EndScene/Pen.png");
+  PIXI.loader.add("Pen2", "./Resource/Final/EndScene/Pen2.png");
+  PIXI.loader.add("Worker", "./Resource/Final/EndScene/Worker.png");
   for (let i = 0; i < 9; i++) {
     PIXI.loader.add("EndTitle" + i, "./Resource/Final/EndScene/Title/EndTitle" + i + ".png");
   }

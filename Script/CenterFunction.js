@@ -151,7 +151,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
- // centerComponent.currentStage = 13;
+  //centerComponent.currentStage = 4;
   //loadScript("Script/SetScene3.js");
   //return;
 
@@ -191,8 +191,7 @@ async function GoToNextScene() {
 }
 
 function ResetCenterComponent() {
-  centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
-  centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
+
 
   centerComponent.G1Rate = 0.6;
   centerComponent.rate = 30 / 90;
