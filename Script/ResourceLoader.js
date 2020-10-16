@@ -500,9 +500,10 @@ async function SetLoader() {
   for (let i = 0; i < 6; i++) {
     PIXI.loader.add("runner" + i, "./Resource/Final/runner/runnerRN" + i + ".png");
   }
-  /*for (let i = 0; i < 6; i++) {
-    PIXI.loader.add("runnerS" + i, "./Resource/Final/runner/runnerRS" + i + ".png");
-  }*/
+  PIXI.loader.add("runnerJump", "./Resource/Final/runner/runnerJump.png");
+  for (let i = 0; i < 6; i++) {
+    PIXI.loader.add("runnerS" + i, "./Resource/Final/runner/runnerR" + i + ".png");
+  }
 
   //跑步1的場景背景
   for (let i = 0; i < 2; i++) {
@@ -677,7 +678,7 @@ function loadProgressHandler(loader, resource) {
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
-    sceneLoading_scoreText.position.set((screenWidth - sceneLoading_scoreText.width + 20) / 2, screenHeight / 2 + 65);
+    sceneLoading_scoreText.x = (screenWidth - sceneLoading_scoreText.width + 20) / 2;
     sceneLoading_scoreText2.text = "loading: " + resource.name;
   }
 
@@ -688,12 +689,12 @@ async function CreateLoadingText(loader, resource) {
   //padding可以處理字體顯示位置不正確的問題
   let style = new PIXI.TextStyle({
     fontFamily: "pixelFont",
-    fontSize: 36,
+    fontSize: 49,
     fill: "white",
     stroke: '#000000',
-    strokeThickness: 5,
+    strokeThickness: 6,
     letterSpacing: 0,
-    padding: 10
+    padding: 49
     //dropShadow: true,
     //dropShadowColor: "#000000",
     //dropShadowBlur: 4,
@@ -706,7 +707,8 @@ async function CreateLoadingText(loader, resource) {
   app.stage.addChild(sceneLoading);
 
   sceneLoading_scoreText = new PIXI.Text("0", style);
-  sceneLoading_scoreText.position.set(screenWidth / 2 - 140, screenHeight / 2 + 65);
+  sceneLoading_scoreText.scale.set(0.5,0.5);
+  sceneLoading_scoreText.position.set(screenWidth / 2 - 140, screenHeight / 2 + 72);
   sceneLoading_scoreText.visible = true;
 
   sceneLoading_scoreText2 = new PIXI.Text("0", style);
@@ -722,7 +724,7 @@ async function CreateLoadingText(loader, resource) {
 async function onAssetsLoaded() {
 
   sceneLoading_scoreText.text = "Progress: " + 100 + " %";
-  sceneLoading_scoreText.position.set((screenWidth - sceneLoading_scoreText.width + 20) / 2, screenHeight / 2 + 65);
+  sceneLoading_scoreText.x = (screenWidth - sceneLoading_scoreText.width + 20) / 2;
   sceneLoading_scoreText2.text = "Loading: " + "Finish";
 
 

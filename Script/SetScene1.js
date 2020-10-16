@@ -855,9 +855,10 @@ function SetObject() {
     scene1_runnerS.y = 85;*/
     //scene1_gameBoard.addChild(scene1_runnerS);
 
-    let runner_frame = [PIXI.Texture.from("runner0"), PIXI.Texture.from("runner1"), PIXI.Texture.from("runner2"), PIXI.Texture.from("runner3"), PIXI.Texture.from("runner4"), PIXI.Texture.from("runner5")];
+    scene1_runner_frame = [ PIXI.Texture.from("runner4"),PIXI.Texture.from("runner5"),PIXI.Texture.from("runner0"), PIXI.Texture.from("runner1"), PIXI.Texture.from("runner2"), PIXI.Texture.from("runner3")];
+    scene1_runner_jumpframe = [PIXI.Texture.from("runnerJump")];
 
-    let runner = new PIXI.AnimatedSprite(runner_frame);
+    let runner = new PIXI.AnimatedSprite(scene1_runner_frame);
     runner.animationSpeed = 0.15;
     runner.pivot.set(0, 0);
     runner.test = false;
@@ -867,6 +868,7 @@ function SetObject() {
     //1000->-200
     //runner.zIndex = 1;
     scene1_runner.addChild(runner);
+    scene1_runner.instance = runner;
     runner.x = -20;
     runner.y = 85;
 
@@ -1214,7 +1216,21 @@ function GameFunction() {
       if (scene1_slimeJumping) return;
       else scene1_slimeJumping = true;
 
+      scene1_runner.instance.stop();
+      console.log( );
+      if (scene1_runner.instance.currentFrame<3)
+      {
+        scene1_runner_jumpframe[0] = PIXI.Texture.from("runnerS5")
+      }
+      else
+      {
+        scene1_runner_jumpframe[0] = PIXI.Texture.from("runnerS2")
+      }
+     
+      scene1_runner.instance.textures = scene1_runner_jumpframe;
       //scene1_runnerS.visible = false;
+    
+ 
 
       scene1_slimeJumpSpeed = scene1_slimeJumpInitSpeed;
       app.ticker.add(function SlimeJumpTicker(deltaTime) {
@@ -1228,8 +1244,8 @@ function GameFunction() {
           scene1_runner.position.y = 0;
           scene1_slimeJumping = false;
 
-          //scene1_runnerS.visible = true;
-
+          scene1_runner.instance.textures = scene1_runner_frame;
+          scene1_runner.instance.play();
           app.ticker.remove(SlimeJumpTicker);
         }
       });
