@@ -1551,7 +1551,12 @@ async function SetObject() {
         //可行，但會取代當前葉面
         //window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
        
-        window.location.assign('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
+        var a = document.createElement("a");
+        a.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse");
+        a.setAttribute("target", "_blank");
+        a.setAttribute("id", "openwin");
+        document.body.appendChild(a);
+        a.click();
 
         //document.getElementById("btnClickB").click();
 
