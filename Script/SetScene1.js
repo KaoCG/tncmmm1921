@@ -210,6 +210,7 @@ async function ResetSetting() {
 
       //特殊飛機隱藏
       scene1_SPPlane.visible = false;
+      scene1_SPPlane.scale.set(globalImageScale,globalImageScale);
       scene1_SPPlane.position.set(scene1_setWidth + 743, 120);
       //scene1_SPPlane.position.set(0,-120);
 
