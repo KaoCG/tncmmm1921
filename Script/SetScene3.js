@@ -1743,7 +1743,7 @@ async function SetObject() {
       scene5_inputContainer.addChild(IMAGEC);
 
       let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
-      IMAGEE.scale.set(globalImageScale, globalImageScale);
+      IMAGEE.scale.set(globalImageScale*0.2, globalImageScale*0.2);
       IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2, 0)
       scene5_ghost.addChild(IMAGEE);
 
