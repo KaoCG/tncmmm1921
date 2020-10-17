@@ -43,21 +43,21 @@ async function LoadResourceLoader() {
   resize();
   window.addEventListener('resize', resize);
 
-  Scene0_TouchToStartBlack.addListener("pointerdown",  ()=> {
-  
-    var audio = new Audio('./Resource/Music/SE/button_click.mp3');
-audio.play();
+  Scene0_TouchToStartBlack.addListener("pointerdown", () => {
 
-    PIXI.sound.Sound.from({
+    var audio = new Audio('./Resource/Music/SE/button_click.mp3');
+    audio.play();
+
+    /*PIXI.sound.Sound.from({
       url: './Resource/Music/SE/button_click.mp3',
       autoPlay: true,
-      complete: function() {
-          console.log('Sound finished');
+      complete: function () {
+        console.log('Sound finished');
       }
-  });
-   
+    });*/
+
     Scene0_TouchToStartBlack.visible = false;
-   
+
     openFullscreen();
 
     TouchToStart();
@@ -125,7 +125,7 @@ audio.play();
 }
 
 async function TouchToStart() {
- 
+
 
 
   await LoadScene0();
@@ -371,9 +371,9 @@ async function ResetSetting() {
   // console.log( PIXI.sound.volumeAll );
   // StartingFadeFunc(scene0,'theme')
   //PIXI.Texture.from('theme').sound.play();
-  
-  
- // PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
+
+
+  // PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
 
 
   //PIXI.sound.volumeAll = 1;
@@ -422,7 +422,7 @@ async function SetLoader() {
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
 
-    PIXI.loader
+  PIXI.loader
     .add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3')
     .add('plot', './Resource/Music/BGM/plot.mp3')
     .add('run1', './Resource/Music/BGM/run1.mp3')
@@ -431,8 +431,8 @@ async function SetLoader() {
     .add('small_game1', './Resource/Music/BGM/small_game1.mp3')
     .add('small_game2', './Resource/Music/BGM/small_game2.mp3')
     .add('theme', './Resource/Music/BGM/theme.mp3')
-  
-  
+
+
     .add('button_click', './Resource/Music/SE/button_click.mp3')
     .add('choose_click', './Resource/Music/SE/choose_click.mp3')
     .add('get_something', './Resource/Music/SE/get_something.mp3')
@@ -477,7 +477,7 @@ async function SetLoader() {
   PIXI.loader.add("StartDialog", "./Resource/Final/StartScene/StartDialog.png");
 
   //飯店的畫面
-  for (let i = 0; i <5; i++) {
+  for (let i = 0; i < 5; i++) {
     PIXI.loader.add("Hotel0" + i, "./Resource/Final/HotelScene/hotel0" + i + ".png");
   }
 
@@ -716,7 +716,7 @@ function finishHandler(loader, resource) {
 
 function loadProgressHandler(loader, resource) {
 
-   console.log(resource.name);
+  console.log(resource.name);
   // console.log(loader.progress.toFixed(2));
 
   //x++;
@@ -729,7 +729,7 @@ function loadProgressHandler(loader, resource) {
     scene0_but.visible = true;
     //sceneLoading_scoreText.visible = false;
     sceneLoading_scoreText.y = 10;
-    sceneLoading_scoreText.text = "09:28";
+    sceneLoading_scoreText.text = "09:39";
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
