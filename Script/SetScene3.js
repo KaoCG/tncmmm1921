@@ -930,7 +930,7 @@ async function SetObject() {
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
       let scene3_ScenePic3 = new PIXI.Sprite(PIXI.Texture.from("Hotel03"));
-      scene3_ScenePic3.zIndex = 0;
+      scene3_ScenePic3.zIndex = 1;
       scene3_ScenePic3.width = screenWidth;scene3_ScenePic3.height = screenHeight;
       //scene3_ScenePic3.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 - 5);
@@ -981,6 +981,8 @@ async function SetObject() {
 
       })
    
+      sceneA.sortableChildren = true;
+      sceneA.addChild(scene3_ScenePic3);
       sceneA.addChild(scene3_ScenePic2);
       //sceneA.addChild(scene3_ScenePic1);
       sceneA.addChild(scene3_ScenePic0);
