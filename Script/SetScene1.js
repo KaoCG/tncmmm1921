@@ -1558,21 +1558,20 @@ function GameFunction() {
               tableInstance.x = scene1_SPPlane.x + scene1_SPPlane.width / 2 - tableInstance.width / 2;
               tableInstance.y = scene1_SPPlane.y + scene1_SPPlane.height / 2 - tableInstance.height / 2 + 10;
 
-              let posterTimer = 0;
+              let posterTimer = 0;         
               app.ticker.add(function PosterDrop() {
                 tableInstance.y += 1.2;
                 posterTimer++;
                 if (posterTimer > 50) {
                   tableInstance.alpha -= 0.06;
 
-                  if(tableInstance.alpha == 0)
+                  if(tableInstance.alpha <= 0)
                   {
                     app.ticker.remove(PosterDrop);
                   }
                 }
-
-                //tableInstance.y += 4;
               })
+
             }
 
             if (timer == 50) {
