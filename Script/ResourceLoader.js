@@ -21,7 +21,29 @@ async function LoadResourceLoader() {
   Scene0_TouchToStartBlack.position.set(0, 0);
   Scene0_TouchToStartBlack.interactive = true;
 
+  //padding可以處理字體顯示位置不正確的問題
+  let style = new PIXI.TextStyle({
+    fontFamily: "pixelFont",
+    fontSize: 80,
+    fill: "white",
+    stroke: '#000000',
+    strokeThickness: 6,
+    letterSpacing: 8,
+    padding: 80
+  });
+
+  sceneLoading = new PIXI.Container();
+  sceneLoading.zIndex = 250;
+  app.stage.addChild(sceneLoading);
+
+  let sceneLoading_scoreText = new PIXI.Text("09:42", style);
+  sceneLoading_scoreText.zIndex = 200;
+  sceneLoading_scoreText.scale.set(0.5, 0.5);
+  sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
+  sceneLoading_scoreText.visible = true;
+
   app.stage.addChild(Scene0_TouchToStartBlack);
+  app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -727,7 +749,7 @@ function loadProgressHandler(loader, resource) {
     // onAssetsLoaded();
 
     scene0_but.visible = true;
-    //sceneLoading_scoreText.visible = false;
+    sceneLoading_scoreText.visible = false;
     sceneLoading_scoreText.y = 10;
     sceneLoading_scoreText.text = "09:39";
   }
