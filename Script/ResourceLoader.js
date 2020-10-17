@@ -45,7 +45,9 @@ async function LoadResourceLoader() {
 
   Scene0_TouchToStartBlack.addListener("pointerdown",  ()=> {
   
-  
+    var audio = new Audio('./Resource/Music/SE/button_click.mp3');
+audio.play();
+
     PIXI.sound.Sound.from({
       url: './Resource/Music/SE/button_click.mp3',
       autoPlay: true,
@@ -727,7 +729,7 @@ function loadProgressHandler(loader, resource) {
     scene0_but.visible = true;
     //sceneLoading_scoreText.visible = false;
     sceneLoading_scoreText.y = 10;
-    sceneLoading_scoreText.text = "09:22";
+    sceneLoading_scoreText.text = "09:28";
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
