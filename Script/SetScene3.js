@@ -930,7 +930,7 @@ async function SetObject() {
       scene3_ScenePic2.zIndex = 0;
       //scene3_ScenePic2.width = screenWidth;
       //scene3_ScenePic2.height = screenHeight;
-      scene3_ScenePic2.scale.set((globalImageScale - 0.12)*0.102, (globalImageScale - 0.12)*0.102);
+      scene3_ScenePic2.scale.set((globalImageScale - 0.12) * 0.102, (globalImageScale - 0.12) * 0.102);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
       let k = 0.9;
@@ -1432,7 +1432,7 @@ async function SetObject() {
 
           scene5_N2 = new PIXI.Sprite(PIXI.Texture.from("Number02"));
           scene5_N2.scale.set(0.12, 0.12);
-          scene5_N2.x = 380 + 8 + 1 - moveDeltaTemp -moveDeltaTemp2;
+          scene5_N2.x = 380 + 8 + 1 - moveDeltaTemp - moveDeltaTemp2;
           scene5_N2.y = 156.6;
           uIBoard.addChild(scene5_N2);
 
@@ -1559,7 +1559,22 @@ async function SetObject() {
 
       function buttonB() {
         PIXI.sound.play('button_click');
-        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', 'Share tncmmm1921');
+
+        let mywin = window;
+        let windowReference = mywin.open();
+        let url = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse';
+        windowReference.location = url;
+        windowReference.target = "_blank";
+     
+
+        /*
+       
+        let someCallback = function () {
+          mywin.open(url, "redirect");
+        };
+        someCallback();*/
+
+        //window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', 'Share tncmmm1921');
       }
 
       function buttonC() {
@@ -1596,7 +1611,7 @@ async function SetObject() {
 
         //測試用
         //centerComponent.seenGhost = true;
-        centerComponent.seenGhost  = true;
+        centerComponent.seenGhost = true;
         if (centerComponent.seenGhost == true) {
           scene5_ghost.visible = true;
           scene5_inputContainer.visible = true;
@@ -1743,7 +1758,7 @@ async function SetObject() {
       scene5_inputContainer.addChild(IMAGEC);
 
       let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
-      IMAGEE.scale.set(globalImageScale*0.2, globalImageScale*0.2);
+      IMAGEE.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
       IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2, 0)
       scene5_ghost.addChild(IMAGEE);
 
