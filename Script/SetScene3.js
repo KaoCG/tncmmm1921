@@ -915,33 +915,33 @@ async function SetObject() {
       scene3_sceneBoard.sortableChildren = true;
 
       let scene3_ScenePic0 = new PIXI.Sprite(PIXI.Texture.from("Hotel00"));
-      scene3_ScenePic0.zIndex = 2;
+      scene3_ScenePic0.zIndex = 4;
       scene3_ScenePic0.visible = true;
       scene3_ScenePic0.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic0.position.set(screenWidth / 2 - scene3_ScenePic0.width / 2, screenHeight / 2 - scene3_ScenePic0.height / 2 - 5);
 
       let scene3_ScenePic1 = new PIXI.Sprite(PIXI.Texture.from("Hotel01"));
-      scene3_ScenePic1.zIndex = 1;
+      scene3_ScenePic1.zIndex = 2;
       scene3_ScenePic1.visible = true;
       scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
 
-      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel03"));
-      scene3_ScenePic2.zIndex = 0;
-      //scene3_ScenePic2.width = screenWidth;
-      //scene3_ScenePic2.height = screenHeight;
-      scene3_ScenePic2.scale.set((globalImageScale - 0.12) * 0.102, (globalImageScale - 0.12) * 0.102);
+      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel04"));
+      scene3_ScenePic2.zIndex = 1;
+      scene3_ScenePic2.width = screenWidth;
+      scene3_ScenePic2.height = screenHeight;
+      //scene3_ScenePic2.scale.set((globalImageScale - 0.12) * 0.102, (globalImageScale - 0.12) * 0.102);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
       let k = 0.9;
       let a = 50;
       let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
-      P0.zIndex = 1;
+      P0.zIndex = 3;
       P0.jumpSpeed = 0;
       P0.scale.set(0.24 * k, 0.24 * k);
       P0.position.set(-45 - 20, 22 + a);
       let P1 = new PIXI.Sprite(PIXI.Texture.from("policeSmall"));
-      P1.zIndex = 1;
+      P1.zIndex = 3;
       P1.jumpSpeed = 0;
       P1.scale.set(-(globalImageScale + 1) * k, (globalImageScale + 1) * k);
       P1.position.set(835 + 20, 34 + a);
@@ -978,29 +978,9 @@ async function SetObject() {
         })
 
       })
-      let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
-      BD2.zIndex = 11;
-      BD2.width = screenWidth; BD2.height = screenHeight;
-      BD2.interactive = true;
-      //BD2.buttonMode = true;
-      BD2.addListener("pointerdown", function () {
-
-        BD2.interactive = false;
-        let totalCounter = 100;
-        let counter = totalCounter;
-        app.ticker.add(function countdown() {
-          counter--;
-          BD2.alpha = counter / totalCounter;
-          if (counter == 0) {
-            BD2.visible = false;
-            app.ticker.remove(countdown);
-          }
-        })
-      })
-
-
+   
       sceneA.addChild(scene3_ScenePic2);
-      sceneA.addChild(scene3_ScenePic1);
+      //sceneA.addChild(scene3_ScenePic1);
       sceneA.addChild(scene3_ScenePic0);
       sceneA.addChild(P0);
       sceneA.addChild(P1);
@@ -1009,7 +989,6 @@ async function SetObject() {
 
       sceneA.BD = [];
       sceneA.BD.push(BD);
-      //sceneA.BD.push(BD2);
 
       sceneA.char = [];
       sceneA.char.push(P0);

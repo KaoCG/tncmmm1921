@@ -442,7 +442,7 @@ async function SetLoader() {
   PIXI.loader.add("StartDialog", "./Resource/Final/StartScene/StartDialog.png");
 
   //飯店的畫面
-  for (let i = 0; i <4; i++) {
+  for (let i = 0; i <5; i++) {
     PIXI.loader.add("Hotel0" + i, "./Resource/Final/HotelScene/hotel0" + i + ".png");
   }
 
