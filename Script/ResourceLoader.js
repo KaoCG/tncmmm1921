@@ -45,7 +45,7 @@ async function LoadResourceLoader() {
 
   Scene0_TouchToStartBlack.addListener("pointerdown", function () {
     Scene0_TouchToStartBlack.visible = false;
-    full();
+    screenfull.request();
     TouchToStart();
   });
 
@@ -546,7 +546,7 @@ async function SetLoader() {
   PIXI.loader.add("B2S24", "./Resource/Final/B2/B2select/B2S24.png");
   PIXI.loader.add("B2Poster", "./Resource/Final/B2/B2select/B2S25.png");
   PIXI.loader.add("B2R00", "./Resource/Final/B2/B2R00.png");
-  
+
   for (let i = 0; i < 4; i++) {
     PIXI.loader.add("B2T" + i, "./Resource/Final/B2/B2select/B2T" + i + ".png");
   }
