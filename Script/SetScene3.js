@@ -673,15 +673,15 @@ async function SetObject() {
     //padding可以處理字體顯示位置不正確的問題
     let style = new PIXI.TextStyle({
       fontFamily: "pixelSilver",
-      fontSize: 64,
+      fontSize: 58,
       fill: "#89623b",
       fontWeight: 'normal',
       stroke: '#89623b',
       strokeThickness: 0.2,
-      letterSpacing: 6.5,
+      letterSpacing: 5.8,
       align: "center",
       padding: 10,
-      lineHeight: 64
+      lineHeight: 58
     });
 
     let dialogBoxText = new PIXI.Text("1", style);
@@ -703,7 +703,7 @@ async function SetObject() {
       BD3.addListener("pointerdown", function () {
 
         BD3.interactive = false;
-        let totalCounter = 100;
+        let totalCounter = 100 * 0.4;
         let counter = totalCounter;
         app.ticker.add(function countdown() {
           counter--;
@@ -735,7 +735,7 @@ async function SetObject() {
       BD2.addListener("pointerdown", function () {
 
         BD2.interactive = false;
-        let totalCounter = 100;
+        let totalCounter = 100 * 0.4;
         let counter = totalCounter;
         app.ticker.add(function countdown() {
           counter--;
@@ -754,7 +754,7 @@ async function SetObject() {
       BD1.addListener("pointerdown", function () {
 
         BD1.interactive = false;
-        let totalCounter = 100;
+        let totalCounter = 100 * 0.4;
         let counter = totalCounter;
         app.ticker.add(function countdown() {
           counter--;
@@ -808,7 +808,7 @@ async function SetObject() {
       BD3.addListener("pointerdown", function () {
 
         BD3.interactive = false;
-        let totalCounter = 100;
+        let totalCounter = 100 * 0.4;
         let counter = totalCounter;
         app.ticker.add(function countdown() {
           counter--;
@@ -840,7 +840,7 @@ async function SetObject() {
       BD2.addListener("pointerdown", function () {
 
         BD2.interactive = false;
-        let totalCounter = 100;
+        let totalCounter = 100 * 0.4;
         let counter = totalCounter;
         app.ticker.add(function countdown() {
           counter--;
@@ -859,7 +859,7 @@ async function SetObject() {
       BD1.addListener("pointerdown", function () {
 
         BD1.interactive = false;
-        let totalCounter = 100;
+        let totalCounter = 100 * 0.4;
         let counter = totalCounter;
         app.ticker.add(function countdown() {
           counter--;
@@ -1422,51 +1422,53 @@ async function SetObject() {
 
         //數字
         {
+          let moveDeltaTemp = 7;
+          let moveDeltaTemp2 = 4;
           scene5_N1 = new PIXI.Sprite(PIXI.Texture.from("Number01"));
           scene5_N1.scale.set(0.12, 0.12);
-          scene5_N1.x = 380;
+          scene5_N1.x = 380 + 2 - moveDeltaTemp - moveDeltaTemp2;
           scene5_N1.y = 156.6;
           uIBoard.addChild(scene5_N1);
 
           scene5_N2 = new PIXI.Sprite(PIXI.Texture.from("Number02"));
           scene5_N2.scale.set(0.12, 0.12);
-          scene5_N2.x = 380 + 8;
+          scene5_N2.x = 380 + 8 + 1 - moveDeltaTemp -moveDeltaTemp2;
           scene5_N2.y = 156.6;
           uIBoard.addChild(scene5_N2);
 
           scene5_N3 = new PIXI.Sprite(PIXI.Texture.from("Number03"));
           scene5_N3.scale.set(0.12, 0.12);
-          scene5_N3.x = 380 + 16;
+          scene5_N3.x = 380 + 16 - moveDeltaTemp - moveDeltaTemp2;
           scene5_N3.y = 156.6;
           uIBoard.addChild(scene5_N3);
 
           scene5_N4 = new PIXI.Sprite(PIXI.Texture.from("Number10"));
           scene5_N4.scale.set(0.12, 0.12);
-          scene5_N4.x = 380 + 24;
+          scene5_N4.x = 380 + 24 + 1 - moveDeltaTemp - moveDeltaTemp2;
           scene5_N4.y = 156.6;
           uIBoard.addChild(scene5_N4);
 
           scene5_N5 = new PIXI.Sprite(PIXI.Texture.from("Number01"));
           scene5_N5.scale.set(0.12, 0.12);
-          scene5_N5.x = 390;
+          scene5_N5.x = 390 + 2 - moveDeltaTemp;
           scene5_N5.y = 174.5;
           uIBoard.addChild(scene5_N5);
 
           scene5_N6 = new PIXI.Sprite(PIXI.Texture.from("Number02"));
           scene5_N6.scale.set(0.12, 0.12);
-          scene5_N6.x = 390 + 8;
+          scene5_N6.x = 390 + 8 + 1 - moveDeltaTemp;
           scene5_N6.y = 174.5;
           uIBoard.addChild(scene5_N6);
 
           scene5_N7 = new PIXI.Sprite(PIXI.Texture.from("Number03"));
           scene5_N7.scale.set(0.12, 0.12);
-          scene5_N7.x = 390 + 16;
+          scene5_N7.x = 390 + 16 - moveDeltaTemp;
           scene5_N7.y = 174.5;
           uIBoard.addChild(scene5_N7);
 
           scene5_N8 = new PIXI.Sprite(PIXI.Texture.from("Number10"));
           scene5_N8.scale.set(0.12, 0.12);
-          scene5_N8.x = 390 + 24;
+          scene5_N8.x = 390 + 24 + 1 - moveDeltaTemp;
           scene5_N8.y = 174.5;
           uIBoard.addChild(scene5_N8);
 
@@ -1979,7 +1981,7 @@ async function SetObject() {
 
         //08
         scene9_itemTitleList.push("符咒");
-        scene9_itemContentList.push("依稀寫著「大明慈悲國…五福王爺　神諭」字樣。");
+        scene9_itemContentList.push("依稀寫著「大明慈悲國…五福王爺 神諭」 字樣。");
 
         //09
         scene9_itemTitleList.push("紳章");
@@ -1995,7 +1997,7 @@ async function SetObject() {
 
         //12
         scene9_itemTitleList.push("膠捲");
-        scene9_itemContentList.push("上面寫著：臺灣巡迴社教片　－文化協會");
+        scene9_itemContentList.push("上面寫著： 臺灣巡迴社教片 －文化協會");
 
         //13
         scene9_itemTitleList.push("鴉片");
@@ -2045,7 +2047,7 @@ async function SetObject() {
         scene9_itemBlockR.texture = scene9_itemTextureList[(scene9_itemIndex + 2) % scene9_itemTextureList.length];
 
         scene9_Title.text = scene9_itemTitleList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
-        scene9_Title.position.set(191 - scene9_Title.width / 2, 69);
+        scene9_Title.position.set(192.2 - scene9_Title.width / 2, 69);
         scene9_Info.text = scene9_itemContentList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
         scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
       }
@@ -2061,15 +2063,15 @@ async function SetObject() {
 
       let style2 = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
-        fontSize: 64,
+        fontSize: 60,
         fill: "0x784b32",
-        letterSpacing: 2,
-        padding: 64
+        letterSpacing: 5,
+        padding: 60
       });
 
       scene9_Title = new PIXI.Text("高砂木瓜糖", style2);
       scene9_Title.scale.set(0.5, 0.5);
-      scene9_Title.position.set(190 - scene9_Title.width / 2, 69);
+      scene9_Title.position.set(192.2 - scene9_Title.width / 2, 69);
       sceneA.addChild(scene9_Title);
 
       scene9_Info = new PIXI.Text("曾經風靡萬千日本人的大稻埕特產", style);

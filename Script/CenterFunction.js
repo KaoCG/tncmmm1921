@@ -57,7 +57,7 @@ async function CreateCenterComponent() {
 
   //設置開始的位置測試用
   //centerComponent.stageResult = 1;
-  //centerComponent.currentStage = 7;
+  //centerComponent.currentStage = 14;
 
   centerComponent.fadeFrame = 20;
 
@@ -151,7 +151,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  centerComponent.currentStage = 8;
+  centerComponent.currentStage = 16;
   //loadScript("Script/SetScene3.js");
   //return;
 

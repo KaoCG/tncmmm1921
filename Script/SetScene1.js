@@ -247,7 +247,7 @@ async function ResetSetting() {
       scene1_selectableGroup[14].position.set(scene1_setWidth * 2 + 1910, 148);
       scene1_selectableGroup[14].dialog.position.set(-75, -42);
 
-      if (scene1_GhostEvent != 5) {
+      if (scene1_GhostEvent == 5) {
         scene1_selectableGroup[10].visible = false;
         scene1_selectableGroup[10].activate = false;
       }
