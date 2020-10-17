@@ -1527,8 +1527,15 @@ async function SetObject() {
       selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
       selectBoxes[1].addListener("pointerdown", () => {
         PIXI.sound.play('button_click');
-        window.location.replace("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse");
-        //window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
+      
+        var a = document.createElement("a");
+        a.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse");
+        a.setAttribute("target", "_blank");
+        a.setAttribute("id", "openwin");
+        document.body.appendChild(a);
+        a.click();
+        
+
       });
       selectBoxes[2].addListener("pointerdown", () => { buttonC(); });
       selectBoxes[3].addListener("pointerdown", () => { buttonD(); });
