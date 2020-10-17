@@ -70,6 +70,8 @@ async function LoadResourceLoader() {
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
 
+    //screen.lockOrientation('landscape');
+
     Scene0_TouchToStartBlack.visible = false;
 
     openFullscreen();

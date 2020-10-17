@@ -20,8 +20,8 @@ async function resize() {
 
   var dir = 1;
 
-  phoneHeight = parseInt(window.innerHeight) ;
-  phoneWidth = parseInt(window.innerWidth) ;
+  phoneHeight = parseInt(window.innerHeight);
+  phoneWidth = parseInt(window.innerWidth);
 
 
   if (window.matchMedia("(orientation: portrait)").matches) {
@@ -38,7 +38,7 @@ async function resize() {
   }
 
   if (dir == 1) {
-   
+
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
     globalScale = 1; //外面會用到
@@ -46,7 +46,7 @@ async function resize() {
 
     if (globalScale_w > globalScale_h) {
       //console.log("LONG");
-    
+
       globalScale = globalScale_h;
       deltaDis = phoneWidth - screenWidth * globalScale;
       app.stage.x = deltaDis / 2;
@@ -82,11 +82,11 @@ async function resize() {
     app.stage.scale.set(globalScale, globalScale);
 
     app.stage.rotation = 0;
-    
+
 
   }
   else if (dir == 0) {
-  
+
     var globalScale_w = phoneWidth / screenWidth;
     var globalScale_h = phoneHeight / screenHeight;
     globalScale = 1;//外面會用到
@@ -102,11 +102,11 @@ async function resize() {
       app.stage.y = deltaDis / 2;
 
       blackrectangleA.width = deltaDis / 2 + 400;
-      blackrectangleA.height = (phoneWidth + 400)*2;
+      blackrectangleA.height = (phoneWidth + 400) * 2;
       blackrectangleA.position.set(-deltaDis / 2 - 400, -200);
 
       blackrectangleB.width = deltaDis / 2 + 400;
-      blackrectangleB.height = (phoneWidth + 400)*2;
+      blackrectangleB.height = (phoneWidth + 400) * 2;
       blackrectangleB.position.set(screenWidth, -200);
     }
     else {
@@ -117,11 +117,11 @@ async function resize() {
       app.stage.x = deltaDis / 2;//不同
       app.stage.y = 0;
 
-      blackrectangleA.width = (phoneHeight + 400)*2;
+      blackrectangleA.width = (phoneHeight + 400) * 2;
       blackrectangleA.height = deltaDis / 2 + 400;
       blackrectangleA.position.set(-200, -deltaDis / 2 - 400);
 
-      blackrectangleB.width = (phoneHeight + 400)*2;
+      blackrectangleB.width = (phoneHeight + 400) * 2;
       blackrectangleB.height = deltaDis / 2 + 400;
       blackrectangleB.position.set(-200, screenHeight);
     }
@@ -135,7 +135,7 @@ async function resize() {
   }
 
   screenDir = dir;
-  
+
 
 }
 
@@ -202,10 +202,12 @@ function openFullscreen() {
   } else if (elem.msRequestFullscreen) { /* IE/Edge */
     elem.msRequestFullscreen();
   }
+
+  resize();
+
 }
 
-async function full()
-{
+async function full() {
   if (screenfull.isEnabled) {
     screenfull.request();
   }
@@ -277,4 +279,3 @@ else {
       app.stage.y = deltaDis / 2;
     }*/
 
-    
