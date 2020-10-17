@@ -107,10 +107,10 @@ async function ResetSetting() {
       scene1_MoneyCounter = 0;
       scene1_GentleMarkCounter = 0;
 
-      centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
-      //【0】飛機【1】紳章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】議會之父【7】六三法血量<30%
-      centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
-      //【0】旭日章(把書給警察)【1】紳章>3【2】錢袋>5【3】選擇長官銅像【4】紅隊三人【5】對話:寧做太平犬【6】台灣顏智【7】六三法血量>70%
+      centerComponent.HideEndingTriggerA = [false, false, false, false, false, false,  false];
+      //【0】飛機【1】紳章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】六三法血量<30%
+      centerComponent.HideEndingTriggerB = [false, false, false, false, false, false,  false];
+      //【0】旭日章(把書給警察)【1】紳章>3【2】錢袋>5【3】選擇長官銅像【4】紅隊三人【5】對話:寧做太平犬【6】六三法血量>70%
 
       addEnergy(0);
 
@@ -1450,19 +1450,16 @@ function GameFunction() {
       }
       //場景二的雕像
       else if (id == 25 || id == 20) {
-
         centerComponent.HideEndingTriggerB[3] = true;
         addEnergy(+5);
       }
       //場景二的掛號
       else if (id == 21) {
-
         centerComponent.HideEndingTriggerA[3] = true;
         addEnergy(-5);
       }
       //場景二的飛機
       else if (id == 22) {
-
         centerComponent.HideEndingTriggerA[0] = true;
       }
       //B3的人物被選取了
@@ -1586,20 +1583,6 @@ function addExp(addScore = 0) {
 function changeTitle(newTitle = 0) {
 
   if (newTitle == scene1_title) return;
-
-  if (newTitle == 0) {
-    centerComponent.HideEndingTriggerA[6] = true;
-  }
-  else {
-    centerComponent.HideEndingTriggerA[6] = false;
-  }
-
-  if (newTitle == 8) {
-    centerComponent.HideEndingTriggerB[6] = true;
-  }
-  else {
-    centerComponent.HideEndingTriggerB[6] = false;
-  }
 
   scene1_CharTitleList[scene1_title].visible = false;
 

@@ -45,7 +45,7 @@ async function LoadResourceLoader() {
 
   Scene0_TouchToStartBlack.addListener("pointerdown", function () {
     Scene0_TouchToStartBlack.visible = false;
-
+    full();
     TouchToStart();
   });
 
@@ -768,7 +768,7 @@ function testInit() {
 async function EndThisScene() {
 
   //設置好畫面和中央變數後，重新調整螢幕大小
-  //await full();
+
   //await resize();
 
   await CreateCenterComponent();

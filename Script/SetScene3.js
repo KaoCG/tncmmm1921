@@ -266,8 +266,8 @@ async function ResetSetting() {
         else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR03"); }
       }
 
-      if (centerComponent.rate <= 0.3) centerComponent.HideEndingTriggerA[7] = true;
-      else if (centerComponent.rate >= 0.7) centerComponent.HideEndingTriggerB[7] = true;
+      if (centerComponent.rate <= 0.3) centerComponent.HideEndingTriggerA[6] = true;
+      else if (centerComponent.rate >= 0.7) centerComponent.HideEndingTriggerB[6] = true;
 
       //兩種隱藏結局
       {
@@ -1596,7 +1596,7 @@ async function SetObject() {
 
         //測試用
         //centerComponent.seenGhost = true;
-
+        centerComponent.seenGhost  = true;
         if (centerComponent.seenGhost == true) {
           scene5_ghost.visible = true;
           scene5_inputContainer.visible = true;
@@ -1751,8 +1751,8 @@ async function SetObject() {
       for (let i = 0; i < 3; i++) {
         let IMAGET = new PIXI.Sprite(PIXI.Texture.from("SummonTalk0" + i));
         IMAGET.visible = false;
-        IMAGET.scale.set(globalImageScale * 0.24, globalImageScale * 0.24);
-        IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 18, -42)
+        IMAGET.scale.set(globalImageScale * 0.22, globalImageScale * 0.22);
+        IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 12, -52)
         scene5_ghostTalk.push(IMAGET)
         scene5_ghost.addChild(IMAGET);
       }
@@ -2330,11 +2330,11 @@ async function GoToNextDialog() {
     }
     //台灣是台灣人的台灣
     else if (charIndex == 7) {
-      centerComponent.HideEndingTriggerA[4] = true;
+      centerComponent.HideEndingTriggerA[5] = true;
     }
     //寧做太平犬，不做亂世人
     else if (charIndex == 8) {
-      centerComponent.HideEndingTriggerB[4] = true;
+      centerComponent.HideEndingTriggerB[5] = true;
     }
 
     //自動跳到下一句話
