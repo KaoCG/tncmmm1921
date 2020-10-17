@@ -204,15 +204,14 @@ async function ResetSetting() {
       scene1_selectableGroup[20].instance.stop();
 
       //飛機先不啟動
-      //scene1_selectableGroup[17].activate = false;
-      scene1_selectableGroup[17].activate = true;
+      scene1_selectableGroup[17].activate = false;
+      //scene1_selectableGroup[17].activate = true;
       CheckPlaneEvent();
 
       //特殊飛機隱藏
       scene1_SPPlane.visible = false;
-      scene1_SPPlane.scale.set(globalImageScale,globalImageScale);
+      scene1_SPPlane.scale.set(globalImageScale, globalImageScale);
       scene1_SPPlane.position.set(scene1_setWidth + 743, 120);
-      //scene1_SPPlane.position.set(0,-120);
 
       scene1_stageTimer = 40;
       scene1_finalDistant = 11800;
@@ -576,9 +575,6 @@ function SetObject() {
     let buttonBoxSize = [115, 68];
     let buttonBoxEdgeDistant = [18, 15];
 
-
-    let barSize = [115, 30];
-
     let scene1_uIBoardSP = new PIXI.Container();
     scene1_uIBoardSP.scale.set(globalImageScale + 0.1, globalImageScale + 0.1);
     scene1_uIBoardSP.y = -12;
@@ -653,6 +649,10 @@ function SetObject() {
 
 
     scene1_RadioList = [];
+    scene1_RadioContainer = new PIXI.Container();
+    scene1_uIBoardSP.addChild(scene1_RadioContainer);
+
+    //廣播
     for (let i = 0; i < 5; i++) {
 
       let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("Radio" + i));
@@ -664,10 +664,23 @@ function SetObject() {
       scene1_Radio.y = 212.2 - moveDelta;
       scene1_RadioList.push(scene1_Radio);
 
-      scene1_uIBoardSP.addChild(scene1_Radio);
+      scene1_RadioContainer.addChild(scene1_Radio);
 
     }
 
+    //B2的特殊廣播
+    {
+      let rr = PIXI.Texture.from("B2R00");
+      let rrI = new PIXI.Sprite(rr);
+      rrI.scale.set(0.079*2.375, 0.079*2.375);
+      rrI.visible = false;
+      rrI.x = 101;
+      rrI.y = 212.2 - moveDelta;
+      scene1_uIBoardSP.addChild(rrI);
+      scene1_B2R00 = rrI;
+    }
+
+    //B3的特殊廣播
     scene1_B3RadioList = [];
     for (let i = 0; i < 4; i++) {
 
@@ -788,7 +801,6 @@ function SetObject() {
   //選擇物件
   {
 
-
     for (var i = 0; i < 21; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
@@ -879,6 +891,45 @@ function SetObject() {
 
     }
 
+  }
+
+  //場景一終點的人
+  {
+    scene1_endChar = new PIXI.Container();
+    scene1_endChar.position.set(1000, 85);
+    scene1_endChar.activate = true;
+    scene1_endChar.zIndex = 1;
+
+    let tableframes = PIXI.Texture.from("B1C2");
+
+    let tableInstance = new PIXI.Sprite(tableframes);
+    tableInstance.scale.set(globalImageScale, globalImageScale);
+
+    //padding可以處理字體顯示位置不正確的問題
+    let style = new PIXI.TextStyle({
+      fontFamily: "pixelFont",
+      fontSize: 36,
+      fill: "white",
+      stroke: '#000000',
+      strokeThickness: 5,
+      letterSpacing: 0,
+      padding: 10
+      //dropShadow: true,
+      //dropShadowColor: "#000000",
+      //dropShadowBlur: 4,
+      //dropShadowAngle: Math.PI / 6,
+      //dropShadowDistance: 6,
+    });
+
+    scene1_selectableBoard.addChild(scene1_endChar);
+    scene1_endChar.addChild(tableInstance);
+
+    scene1_endChar.instance = tableInstance;
+
+  }
+
+  //場景二的特殊物件
+  {
     // 飛機(特殊)
     {
       let B1S00 = new PIXI.Container();
@@ -905,7 +956,7 @@ function SetObject() {
       for (let i = 0; i < 10; i++) {
         let tableframes = PIXI.Texture.from("B2Poster");
         let tableInstance = new PIXI.Sprite(tableframes);
-        tableInstance.scale.set(globalImageScale * globalImageScale , globalImageScale * globalImageScale);
+        tableInstance.scale.set(globalImageScale * globalImageScale, globalImageScale * globalImageScale);
         tableInstance.visible = false;
         //tableInstance.x = scene1_SPPlane.x + scene1_SPPlane.width / 2 - tableInstance.width / 2;
         //tableInstance.y = scene1_SPPlane.y + scene1_SPPlane.height / 2 - tableInstance.height / 2 + 10;
@@ -915,40 +966,8 @@ function SetObject() {
     }
 
 
-    {
-      scene1_endChar = new PIXI.Container();
-      scene1_endChar.position.set(1000, 85);
-      scene1_endChar.activate = true;
-      scene1_endChar.zIndex = 1;
-
-      let tableframes = PIXI.Texture.from("B1C2");
-
-      let tableInstance = new PIXI.Sprite(tableframes);
-      tableInstance.scale.set(globalImageScale, globalImageScale);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 36,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        padding: 10
-        //dropShadow: true,
-        //dropShadowColor: "#000000",
-        //dropShadowBlur: 4,
-        //dropShadowAngle: Math.PI / 6,
-        //dropShadowDistance: 6,
-      });
-
-      scene1_selectableBoard.addChild(scene1_endChar);
-      scene1_endChar.addChild(tableInstance);
-
-      scene1_endChar.instance = tableInstance;
-
-    }
   }
+
 
   //runner
   {
@@ -1501,89 +1520,8 @@ function GameFunction() {
       }
       //場景二的飛機
       else if (id == 22) {
-        centerComponent.HideEndingTriggerA[0] = true;
 
-        let timer = 0;
-        let totaltimer = 1000;
-        let timerLimit = 245;
-        let stage = 0;
-        let totalX = 100000;
-        let totalY = 180000;
-        let scene1_SPPlaneInitX = scene1_SPPlane.x;
-        let scene1_SPPlaneInitY = scene1_SPPlane.y;
-        let posterIndex = 0;
-        let dt = 0;
-        let dty = 0;
-        app.ticker.add(function PlaneTakeOff() {
-
-          timer++;
-          if (stage == 0 && timer > 150) {
-            scene1_SPPlane.visible = true;
-            stage = 1
-            timer = 0;
-          }
-          else if (stage == 1) {
-
-            dt = (1 - timer / totaltimer);
-            if (dt > 1) dt = 1;
-            scene1_SPPlane.x = scene1_SPPlaneInitX + totalX * (1 - (dt * dt * dt - 3 * dt * dt + 3 * dt));
-
-            if (timer >= timerLimit) {
-              dty = (1 - (timer - timerLimit) / (totaltimer - timerLimit));
-              scene1_SPPlane.y = scene1_SPPlaneInitY - totalY * (1 - (dty * dty * dty - 3 * dty * dty + 3 * dty));
-            }
-
-            if (timer == 350) {
-
-              timer = 0;
-              scene1_SPPlane.y = -160;
-              scene1_SPPlane.scale.set(-1 * globalImageScale * globalImageScale, globalImageScale * globalImageScale);
-              stage = 2;
-
-            }
-          }
-          else if (stage == 2) {
-
-            scene1_SPPlane.x -= 40;
-
-            if (timer % 7 == 0) {
-
-              //////////////////
-              console.log(posterIndex);
-              let tableInstance = scene1_PosterList[posterIndex];
-              posterIndex++;
-
-              tableInstance.alpha = 1;
-              tableInstance.visible = true;
-              tableInstance.x = scene1_SPPlane.x + scene1_SPPlane.width / 2 - tableInstance.width / 2;
-              tableInstance.y = scene1_SPPlane.y + scene1_SPPlane.height / 2 - tableInstance.height / 2 + 10;
-
-              let posterTimer = 0;         
-              app.ticker.add(function PosterDrop() {
-                tableInstance.y += 1.2;
-                posterTimer++;
-                if (posterTimer > 50) {
-                  tableInstance.alpha -= 0.06;
-
-                  if(tableInstance.alpha <= 0)
-                  {
-                    app.ticker.remove(PosterDrop);
-                  }
-                }
-              })
-
-            }
-
-            if (timer == 50) {
-              app.ticker.remove(PlaneTakeOff);
-            }
-
-          }
-
-
-
-
-        })
+        PlaneAnimate();
       }
       //B3的人物被選取了
       else if (id >= 30 && id <= 39) {
@@ -1611,6 +1549,135 @@ function GameFunction() {
 
       }
 
+    }
+
+    function PlaneAnimate() {
+
+      let timer = 0;
+      let totaltimer = 1000;
+      let timerLimit = 245;
+      let stage = 0;
+      let totalX = 100000;
+      let totalY = 180000;
+      let scene1_SPPlaneInitX = scene1_SPPlane.x;
+      let scene1_SPPlaneInitY = scene1_SPPlane.y;
+      let posterIndex = 0;
+      let dt = 0;
+      let dty = 0;
+
+      app.ticker.add(function PlaneTakeOff() {
+
+        timer++;
+
+        if (stage == 0 && timer > 150) {
+          scene1_SPPlane.visible = true;
+          stage = 1
+          timer = 0;
+        }
+        else if (stage == 1) {
+
+          dt = (1 - timer / totaltimer);
+          if (dt > 1) dt = 1;
+          scene1_SPPlane.x = scene1_SPPlaneInitX + totalX * (1 - (dt * dt * dt - 3 * dt * dt + 3 * dt));
+
+          if (timer >= timerLimit) {
+            dty = (1 - (timer - timerLimit) / (totaltimer - timerLimit));
+            scene1_SPPlane.y = scene1_SPPlaneInitY - totalY * (1 - (dty * dty * dty - 3 * dty * dty + 3 * dty));
+          }
+
+          if (timer == 350) {
+
+            timer = 0;
+            scene1_SPPlane.y = -160;
+            scene1_SPPlane.scale.set(-1 * globalImageScale * globalImageScale, globalImageScale * globalImageScale);
+            stage = 2;
+
+            //獲得海報的時間點
+            GetPoster();
+          }
+        }
+        else if (stage == 2) {
+
+          scene1_SPPlane.x -= 40;
+
+          if (timer % 7 == 0) {
+
+            let tableInstance = scene1_PosterList[posterIndex];
+            posterIndex++;
+
+            tableInstance.alpha = 1;
+            tableInstance.visible = true;
+            tableInstance.x = scene1_SPPlane.x + scene1_SPPlane.width / 2 - tableInstance.width / 2;
+            tableInstance.y = scene1_SPPlane.y + scene1_SPPlane.height / 2 - tableInstance.height / 2 + 10;
+
+            let posterTimer = 0;
+            app.ticker.add(function PosterDrop() {
+
+              tableInstance.y += 1.2;
+              posterTimer++;
+
+              if (posterTimer > 50) {
+                tableInstance.alpha -= 0.06;
+                if (tableInstance.alpha <= 0) {
+                  app.ticker.remove(PosterDrop);
+                }
+              }
+            });
+
+          }
+
+          if (timer == 50) {
+            app.ticker.remove(PlaneTakeOff);
+          }
+
+        }
+      });
+
+    }
+
+
+    function GetPoster() {
+      centerComponent.HideEndingTriggerA[0] = true;
+
+      let timer = 0;
+      let counter = 0;
+      let counterLimit = 24;
+      let temp = scene1_B2R00;
+      temp.visible = true;
+      temp.tint = "0x07ffa5";
+
+      app.ticker.add(function TitleShine(deltaTime) {
+
+        if (temp === undefined) {
+
+          scene1_RadioContainer.visible = false;
+
+          temp.visible = false;
+          app.ticker.remove(TitleShine);
+          return;
+        }
+
+        timer++;
+
+        if (timer > 15) {
+          timer = 0;
+          counter++;
+
+          if (counter % 2 == 0) {
+
+            temp.tint = "0x07ffa5";
+          }
+          else if (counter % 2 == 1) {
+            temp.tint = "0xFFFFFF";
+          }
+
+          if (counter >= counterLimit) {
+            temp.visible = false;
+            scene1_RadioContainer.visible = true;
+            app.ticker.remove(TitleShine);
+          }
+        }
+      });
     }
   }
 

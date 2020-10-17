@@ -143,6 +143,10 @@ function StartingFade(deltaTime) {
 
   }
 }
+function ResetCenterComponent() {
+  centerComponent.G1Rate = 0.6;
+  centerComponent.rate = 30 / 90;
+}
 
 async function GoToNextScene() {
 
@@ -151,7 +155,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  centerComponent.currentStage = 8;
+  //centerComponent.currentStage = 8;
   //loadScript("Script/SetScene3.js");
   //return;
 
@@ -189,16 +193,7 @@ async function GoToNextScene() {
   }
 }
 
-function ResetCenterComponent() {
 
-
-  centerComponent.G1Rate = 0.6;
-  centerComponent.rate = 30 / 90;
-
-
-
-
-}
 
 
 // ALT+SHIFT+F 全部整齊化
