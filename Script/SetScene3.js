@@ -928,9 +928,9 @@ async function SetObject() {
 
       let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel03"));
       scene3_ScenePic2.zIndex = 0;
-      scene3_ScenePic2.width = screenWidth;
-      scene3_ScenePic2.height = screenHeight;
-      //scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      //scene3_ScenePic2.width = screenWidth;
+      //scene3_ScenePic2.height = screenHeight;
+      scene3_ScenePic2.scale.set((globalImageScale - 0.12)*0.102, (globalImageScale - 0.12)*0.102);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
       let k = 0.9;
