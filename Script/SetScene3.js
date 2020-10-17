@@ -931,7 +931,7 @@ async function SetObject() {
 
       let scene3_ScenePic3 = new PIXI.Sprite(PIXI.Texture.from("Hotel03"));
       scene3_ScenePic3.zIndex = 1;
-      scene3_ScenePic3.width = screenWidth;scene3_ScenePic3.height = screenHeight;
+      scene3_ScenePic3.width = screenWidth; scene3_ScenePic3.height = screenHeight;
       //scene3_ScenePic3.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 - 5);
 
@@ -980,7 +980,7 @@ async function SetObject() {
         })
 
       })
-   
+
       sceneA.sortableChildren = true;
       sceneA.addChild(scene3_ScenePic3);
       sceneA.addChild(scene3_ScenePic2);
@@ -1525,7 +1525,11 @@ async function SetObject() {
       }
 
       selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
-      selectBoxes[1].addListener("pointerdown", () => { buttonB(); });
+      selectBoxes[1].addListener("pointerdown", () => {
+        PIXI.sound.play('button_click');
+
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
+      });
       selectBoxes[2].addListener("pointerdown", () => { buttonC(); });
       selectBoxes[3].addListener("pointerdown", () => { buttonD(); });
       selectBoxes[4].addListener("pointerdown", () => { buttonE(); });
@@ -1541,13 +1545,13 @@ async function SetObject() {
       }
 
       function buttonB() {
-       
+
         PIXI.sound.play('button_click');
 
         window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
 
         //document.getElementById("btnClickB").click();
-        
+
         //window.open("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse", '_system', 'location=yes');
       }
 
@@ -1574,7 +1578,7 @@ async function SetObject() {
 
         window.open('https://www.facebook.com/TNCMMM');
 
-       // document.getElementById("btnClickD").click();
+        // document.getElementById("btnClickD").click();
 
       }
       function buttonE() {
@@ -1700,7 +1704,7 @@ async function SetObject() {
               window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
               break;
           }
-       
+
         })
       scene5_butS1.addListener("pointerup",
         function () {
@@ -1735,7 +1739,7 @@ async function SetObject() {
       scene5_inputContainer.addChild(IMAGEC);
 
       let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
-      IMAGEE.scale.set(globalImageScale , globalImageScale );
+      IMAGEE.scale.set(globalImageScale, globalImageScale);
       IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2, 0)
       scene5_ghost.addChild(IMAGEE);
 
