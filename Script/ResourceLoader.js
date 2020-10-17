@@ -46,12 +46,6 @@ async function LoadResourceLoader() {
   Scene0_TouchToStartBlack.addListener("pointerdown", function () {
     Scene0_TouchToStartBlack.visible = false;
    
-   /* if (screenfull.isEnabled) {
-      screenfull.request();
-    } else {
-      console.log("Can't FullScreen");
-      // Ignore or do something else
-    }*/
     openFullscreen();
 
     TouchToStart();
@@ -361,8 +355,13 @@ async function ResetSetting() {
 
   // console.log( PIXI.sound.volumeAll );
   // StartingFadeFunc(scene0,'theme')
-  PIXI.sound.play('theme', { loop: true });
-  // PIXI.sound.volumeAll = 1;
+  //PIXI.Texture.from('theme').sound.play();
+  
+  
+ // PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
+
+
+  //PIXI.sound.volumeAll = 1;
 
 
 }
@@ -374,7 +373,7 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
 
   //音樂載入
-  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
+  /*await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
   await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
   await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
   await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
@@ -392,7 +391,7 @@ async function SetLoader() {
   await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
   await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
   await PIXI.sound.add('stamp_good', './Resource/Music/SE/stamp_good.mp3');
-  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');
+  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
 
   //團片載入
   await PIXI.loader.onComplete.add(finishHandler);
@@ -407,6 +406,27 @@ async function SetLoader() {
     .add("video", "./Resource/video.webm")
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
+
+    PIXI.loader
+    .add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3')
+    .add('plot', './Resource/Music/BGM/plot.mp3')
+    .add('run1', './Resource/Music/BGM/run1.mp3')
+    .add('run2', './Resource/Music/BGM/run2.mp3')
+    .add('run3', './Resource/Music/BGM/run3.mp3')
+    .add('small_game1', './Resource/Music/BGM/small_game1.mp3')
+    .add('small_game2', './Resource/Music/BGM/small_game2.mp3')
+    .add('theme', './Resource/Music/BGM/theme.mp3')
+  
+  
+    .add('button_click', './Resource/Music/SE/button_click.mp3')
+    .add('choose_click', './Resource/Music/SE/choose_click.mp3')
+    .add('get_something', './Resource/Music/SE/get_something.mp3')
+    .add('jump', './Resource/Music/SE/jump.mp3')
+    .add('option_click', './Resource/Music/SE/option_click.mp3')
+    .add('small_game_click', './Resource/Music/SE/small_game_click.mp3')
+    .add('stamp', './Resource/Music/SE/stamp.mp3')
+    .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
+    .add('talking_click', './Resource/Music/SE/talking_click.mp3');
 
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
@@ -673,9 +693,11 @@ async function SetLoader() {
 function finishHandler(loader, resource) {
 
   //onAssetsLoaded();
+  PIXI.sound.play('theme', { loop: true });
   scene0_but.visible = true;
   scene0_but2.visible = true;
-  sceneLoading_scoreText.visible = false;
+  sceneLoading_scoreText.test = "08:57";
+  //sceneLoading_scoreText.visible = false;
 }
 
 function loadProgressHandler(loader, resource) {
@@ -691,7 +713,9 @@ function loadProgressHandler(loader, resource) {
     // onAssetsLoaded();
 
     scene0_but.visible = true;
-    sceneLoading_scoreText.visible = false;
+    //sceneLoading_scoreText.visible = false;
+    sceneLoading_scoreText.y = 10;
+    sceneLoading_scoreText.text = "08:57";
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
@@ -740,7 +764,7 @@ async function CreateLoadingText(loader, resource) {
 
 async function onAssetsLoaded() {
 
-  sceneLoading_scoreText.text = "Progress: " + 100 + " %";
+  //sceneLoading_scoreText.text = "Progress: " + 100 + " %";
   sceneLoading_scoreText.x = (screenWidth - sceneLoading_scoreText.width + 20) / 2;
   sceneLoading_scoreText2.text = "Loading: " + "Finish";
 
@@ -770,7 +794,7 @@ async function onAssetsLoaded() {
 
 function testInit() {
 
-  sceneLoading_scoreText.text = "Progress: 100 %";
+  //sceneLoading_scoreText.text = "Progress: 100 %";
   sceneLoading_scoreText2.text = "Loading: Finish";
 }
 
