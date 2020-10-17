@@ -36,7 +36,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("10:30", style);
+  let sceneLoading_scoreText = new PIXI.Text("10:32", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
@@ -70,11 +70,22 @@ async function LoadResourceLoader() {
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
 
+    var elem = document.documentElement;
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+      elem.msRequestFullscreen();
+    }
+
     //screen.lockOrientation('landscape');
 
     Scene0_TouchToStartBlack.visible = false;
 
-    openFullscreen();
+    //openFullscreen();
 
     TouchToStart();
   });
