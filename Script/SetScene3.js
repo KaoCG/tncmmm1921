@@ -926,7 +926,7 @@ async function SetObject() {
       scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
 
-      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel04"));
+      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel02"));
       scene3_ScenePic2.zIndex = 1;
       scene3_ScenePic2.width = screenWidth;
       scene3_ScenePic2.height = screenHeight;
