@@ -1585,7 +1585,9 @@ async function SetObject() {
 
       function buttonD() {
         PIXI.sound.play('button_click');
-        window.open('https://www.facebook.com/TNCMMM');
+
+        document.getElementById("btnClickD").click();
+
       }
       function buttonE() {
 
@@ -1688,30 +1690,11 @@ async function SetObject() {
         function () {
 
           PIXI.sound.play('button_click');
-          scene5_butS1.alpha = 0;
+          //scene5_butS1.alpha = 0;
 
-          console.log(text.text);
-          switch (text.text) {
-            case "新文化運動月":
-              window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
-              break;
-            case "青年誕生":
-              window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
-              break;
-            case "百年催生":
-              window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
-              break;
-            case "文化自造夜":
-              window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
-              break;
-            case "倒數1921":
-              window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
-              break;
-            case "文協百年":
-              window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
-              break;
-          }
-
+          //console.log(text.text);
+          GhostInput(text.text);
+       
         })
       scene5_butS1.addListener("pointerup",
         function () {
@@ -1836,6 +1819,30 @@ async function SetObject() {
 
     }
 
+    function GhostInput(input)
+    {
+      switch (input) {
+        case "新文化運動月":
+          document.getElementById("btnClickG1").click();
+          break;
+        case "青年誕生":
+          document.getElementById("btnClickG2").click();
+          break;
+        case "百年催生":
+          document.getElementById("btnClickG3").click();
+          break;
+        case "文化自造夜":
+          document.getElementById("btnClickG4").click();     
+          break;
+        case "倒數1921":
+          document.getElementById("btnClickG5").click();       
+          break;
+        case "文協百年":
+          document.getElementById("btnClickG6").click();  
+          break;
+      }
+
+    }
     function GhostFloat() {
 
       ghostFloatTimer = (ghostFloatTimer + 1) % (360);
