@@ -565,9 +565,10 @@ function SetObject() {
     //let default_UI = new PIXI.Sprite(PIXI.Texture.from('Bridge_DefaultUI'));
     //scene1_uIBoardSP.addChild(default_UI);
 
+    let moveDeltaTemp = 3;
     let Blood = new PIXI.Sprite(PIXI.Texture.from('Blood'));
     Blood.x = 16;
-    Blood.y = 14;
+    Blood.y = 14 + moveDeltaTemp;
     scene1_uIBoardSP.addChild(Blood);
 
     let Blood_Mask = new PIXI.Graphics();
@@ -575,7 +576,7 @@ function SetObject() {
     Blood_Mask.drawRect(42, 23, 156.5, 9);
     Blood_Mask.endFill();
     Blood_Mask.visible = true;
-    Blood_Mask.position.set(0, 0);
+    Blood_Mask.position.set(0, moveDeltaTemp);
     scene1_uIBoardSP.addChild(Blood_Mask);
 
     let Blood_MaskW = new PIXI.Graphics();
@@ -583,7 +584,7 @@ function SetObject() {
     Blood_MaskW.drawRect(42, 23, 156.5, 9);
     Blood_MaskW.endFill();
     Blood_MaskW.visible = true;
-    Blood_MaskW.position.set(0, 0);
+    Blood_MaskW.position.set(0, moveDeltaTemp);
     Blood_MaskW.mask = Blood_Mask;
     scene1_energyBar = Blood_MaskW;
     scene1_uIBoardSP.addChild(Blood_MaskW);
