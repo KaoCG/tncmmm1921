@@ -705,7 +705,7 @@ function finishHandler(loader, resource) {
   PIXI.sound.play('theme', { loop: true });
   scene0_but.visible = true;
   scene0_but2.visible = true;
-  sceneLoading_scoreText.test = "08:57";
+  sceneLoading_scoreText.test = "09:22";
   //sceneLoading_scoreText.visible = false;
 }
 
