@@ -1558,23 +1558,11 @@ async function SetObject() {
       }
 
       function buttonB() {
+       
         PIXI.sound.play('button_click');
 
-        let mywin = window;
-        let windowReference = mywin.open();
-        let url = 'https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse';
-        windowReference.location = url;
-        windowReference.target = "_blank";
-     
-
-        /*
-       
-        let someCallback = function () {
-          mywin.open(url, "redirect");
-        };
-        someCallback();*/
-
-        //window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', 'Share tncmmm1921');
+        document.getElementById("btnClickB").click();
+        
       }
 
       function buttonC() {
@@ -1758,7 +1746,7 @@ async function SetObject() {
       scene5_inputContainer.addChild(IMAGEC);
 
       let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
-      IMAGEE.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
+      IMAGEE.scale.set(globalImageScale , globalImageScale );
       IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2, 0)
       scene5_ghost.addChild(IMAGEE);
 
