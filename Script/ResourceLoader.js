@@ -36,7 +36,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("09:49", style);
+  let sceneLoading_scoreText = new PIXI.Text("09:54", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
@@ -70,13 +70,6 @@ async function LoadResourceLoader() {
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
 
-    /*PIXI.sound.Sound.from({
-      url: './Resource/Music/SE/button_click.mp3',
-      autoPlay: true,
-      complete: function () {
-        console.log('Sound finished');
-      }
-    });*/
 
     Scene0_TouchToStartBlack.visible = false;
 
@@ -395,7 +388,7 @@ async function ResetSetting() {
   //PIXI.Texture.from('theme').sound.play();
 
 
-  // PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
+   PIXI.sound.play('theme', { loop: true });
 
 
   //PIXI.sound.volumeAll = 1;
@@ -738,7 +731,7 @@ function finishHandler(loader, resource) {
 
 function loadProgressHandler(loader, resource) {
 
-  console.log(resource.name);
+  //console.log(resource.name);
   // console.log(loader.progress.toFixed(2));
 
   //x++;
