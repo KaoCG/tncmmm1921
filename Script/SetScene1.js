@@ -89,6 +89,12 @@ async function ResetSetting() {
     scene1_B3RadioList[i].visible = false;
   }
 
+  for (let i = 0; i < scene1_PosterList.length; i++) {
+    scene1_PosterList[i].visible = false;
+  }
+
+
+
   //關卡時間
   scene1_stageTimer = 40;
   scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
@@ -100,6 +106,7 @@ async function ResetSetting() {
 
       scene1_score = 0;
       scene1_energy = 0;
+      addEnergy(0);
       scene1_GhostEvent = 0;
       scene1_PlaneEventCounterA = 0; //台字紋
       scene1_PlaneEventCounterB = 0; //書籍
@@ -107,14 +114,12 @@ async function ResetSetting() {
       scene1_MoneyCounter = 0;
       scene1_GentleMarkCounter = 0;
 
-      centerComponent.HideEndingTriggerA = [false, false, false, false, false, false,  false];
+      centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false];
       //【0】飛機【1】紳章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】六三法血量<30%
-      centerComponent.HideEndingTriggerB = [false, false, false, false, false, false,  false];
+      centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false];
       //【0】旭日章(把書給警察)【1】紳章>3【2】錢袋>5【3】選擇長官銅像【4】紅隊三人【5】對話:寧做太平犬【6】六三法血量>70%
 
-      addEnergy(0);
-
-
+      //廣播重置
       scene1_radio = -1;
 
       //稱號重置
@@ -126,12 +131,12 @@ async function ResetSetting() {
           scene1_CharTitleList[i].visible = true;
       }
 
+      //背景畫面安排
       for (let i = 0; i < 4; i++) {
         scene1_BGObjectGroup[i * 3].texture = PIXI.Texture.from("B1L0" + (i % 2));
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B1L1" + (i));
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B1L2" + (i % 2));
       }
-
       for (let i = 0; i < 5; i++) {
         scene1_selectableGroup[i].visible = true;
         scene1_selectableGroup[i].activate = true;
@@ -189,6 +194,7 @@ async function ResetSetting() {
       scene1_selectableGroup[20].position.set(1330, 45);
       scene1_selectableGroup[16].position.set(1748, 165);
       scene1_selectableGroup[17].position.set(scene1_setWidth + 743, 110); //飛機
+      //scene1_selectableGroup[17].position.set(500, 110); //飛機
       scene1_selectableGroup[18].position.set(scene1_setWidth * 2 + 2364, 208);
       scene1_selectableGroup[19].position.set(scene1_setWidth * 3 + 1200, 19);
 
@@ -198,8 +204,14 @@ async function ResetSetting() {
       scene1_selectableGroup[20].instance.stop();
 
       //飛機先不啟動
-      scene1_selectableGroup[17].activate = false;
+      //scene1_selectableGroup[17].activate = false;
+      scene1_selectableGroup[17].activate = true;
       CheckPlaneEvent();
+
+      //特殊飛機隱藏
+      scene1_SPPlane.visible = false;
+      scene1_SPPlane.position.set(scene1_setWidth + 743, 120);
+      //scene1_SPPlane.position.set(0,-120);
 
       scene1_stageTimer = 40;
       scene1_finalDistant = 11800;
@@ -354,6 +366,9 @@ function SetContainer() {
 
     scene1.scene1_itemBoard = scene1_itemBoard;
 
+
+
+
   }
 
   {
@@ -374,6 +389,7 @@ function SetContainer() {
     scene1.scene1_prepareBoard = scene1_prepareBoard;
   }
 
+
   scene1_BGContainerA = new PIXI.Container();
   scene1_BGContainerA.zIndex = -3;
   scene1_BGContainerA.sortableChildren = true;
@@ -388,6 +404,11 @@ function SetContainer() {
   scene1_BGContainerC.zIndex = -10;
   scene1_BGContainerC.sortableChildren = true;
   scene1_gameBoard.addChild(scene1_BGContainerC);
+
+  /*scene1_BGContainerQQ = new PIXI.Container();
+    scene1_BGContainerQQ.zIndex = 50;
+    scene1_BGContainerQQ.sortableChildren = true;
+    scene1_gameBoard.addChild(scene1_BGContainerQQ);*/
 
 }
 
@@ -857,8 +878,40 @@ function SetObject() {
 
     }
 
+    // 飛機(特殊)
+    {
+      let B1S00 = new PIXI.Container();
+      B1S00.position.set(2000, 100);
+      B1S00.zIndex = 1;
+      B1S00.visible = false;
 
+      let tableframes = PIXI.Texture.from("B2S23");
 
+      let tableInstance = new PIXI.Sprite(tableframes);
+      //tableInstance
+      B1S00.instance = tableInstance;
+
+      scene1_selectableBoard.addChild(B1S00);
+      B1S00.addChild(tableInstance);
+
+      scene1_SPPlane = B1S00;
+      scene1_SPPlane.scale.set(globalImageScale, globalImageScale);
+    }
+
+    scene1_PosterList = [];
+    //POSTER
+    {
+      for (let i = 0; i < 10; i++) {
+        let tableframes = PIXI.Texture.from("B2Poster");
+        let tableInstance = new PIXI.Sprite(tableframes);
+        tableInstance.scale.set(globalImageScale * globalImageScale , globalImageScale * globalImageScale);
+        tableInstance.visible = false;
+        //tableInstance.x = scene1_SPPlane.x + scene1_SPPlane.width / 2 - tableInstance.width / 2;
+        //tableInstance.y = scene1_SPPlane.y + scene1_SPPlane.height / 2 - tableInstance.height / 2 + 10;
+        scene1_selectableBoard.addChild(tableInstance);
+        scene1_PosterList.push(tableInstance);
+      }
+    }
 
 
     {
@@ -898,18 +951,6 @@ function SetObject() {
 
   //runner
   {
-    /*let runnerS_frame = [PIXI.Texture.from("runnerS0"), PIXI.Texture.from("runnerS1"), PIXI.Texture.from("runnerS2"), PIXI.Texture.from("runnerS3"), PIXI.Texture.from("runnerS4"), PIXI.Texture.from("runnerS5")];
-    scene1_runnerS = new PIXI.AnimatedSprite(runnerS_frame);
-    scene1_runnerS.animationSpeed = 0.15;
-    scene1_runnerS.pivot.set(0, 0);
-    scene1_runnerS.play();
-    scene1_runnerS.scale.set(globalImageScale, globalImageScale);
-    //1000->-200
-    scene1_runnerS.zIndex = -5;
-    scene1_runnerS.alpha = 0.8;
-    scene1_runnerS.x = -20;
-    scene1_runnerS.y = 85;*/
-    //scene1_gameBoard.addChild(scene1_runnerS);
 
     scene1_runner_frame = [PIXI.Texture.from("runner4"), PIXI.Texture.from("runner5"), PIXI.Texture.from("runner0"), PIXI.Texture.from("runner1"), PIXI.Texture.from("runner2"), PIXI.Texture.from("runner3")];
     scene1_runner_jumpframe = [PIXI.Texture.from("runnerJump")];
@@ -943,8 +984,8 @@ function SetObject() {
     scene1_runner.addChild(runnerDetectBox);
     scene1_runner.detectArea = runnerDetectBox;
 
-
-
+    scene1_runner.y = -2;
+    scene1_runnerInitY = scene1_runner.y;
 
   }
 
@@ -1335,7 +1376,7 @@ function GameFunction() {
       else scene1_slimeJumping = true;
 
       scene1_runner.instance.stop();
-      console.log();
+
       if (scene1_runner.instance.currentFrame < 3) {
         scene1_runner_jumpframe[0] = PIXI.Texture.from("runnerS5")
       }
@@ -1357,7 +1398,7 @@ function GameFunction() {
 
         if (scene1_slime.position.y > scene1_slimeInitY) {
           scene1_slime.position.y = scene1_slimeInitY;
-          scene1_runner.position.y = 0;
+          scene1_runner.position.y = scene1_runnerInitY;
           scene1_slimeJumping = false;
 
           scene1_runner.instance.textures = scene1_runner_frame;
@@ -1434,7 +1475,6 @@ function GameFunction() {
 
       scene1_movingPauseTimer = 30;
 
-
       if (id == 0) {
 
       }
@@ -1461,6 +1501,89 @@ function GameFunction() {
       //場景二的飛機
       else if (id == 22) {
         centerComponent.HideEndingTriggerA[0] = true;
+
+        let timer = 0;
+        let totaltimer = 1000;
+        let timerLimit = 245;
+        let stage = 0;
+        let totalX = 100000;
+        let totalY = 180000;
+        let scene1_SPPlaneInitX = scene1_SPPlane.x;
+        let scene1_SPPlaneInitY = scene1_SPPlane.y;
+        let posterIndex = 0;
+        let dt = 0;
+        let dty = 0;
+        app.ticker.add(function PlaneTakeOff() {
+
+          timer++;
+          if (stage == 0 && timer > 150) {
+            scene1_SPPlane.visible = true;
+            stage = 1
+            timer = 0;
+          }
+          else if (stage == 1) {
+
+            dt = (1 - timer / totaltimer);
+            if (dt > 1) dt = 1;
+            scene1_SPPlane.x = scene1_SPPlaneInitX + totalX * (1 - (dt * dt * dt - 3 * dt * dt + 3 * dt));
+
+            if (timer >= timerLimit) {
+              dty = (1 - (timer - timerLimit) / (totaltimer - timerLimit));
+              scene1_SPPlane.y = scene1_SPPlaneInitY - totalY * (1 - (dty * dty * dty - 3 * dty * dty + 3 * dty));
+            }
+
+            if (timer == 350) {
+
+              timer = 0;
+              scene1_SPPlane.y = -160;
+              scene1_SPPlane.scale.set(-1 * globalImageScale * globalImageScale, globalImageScale * globalImageScale);
+              stage = 2;
+
+            }
+          }
+          else if (stage == 2) {
+
+            scene1_SPPlane.x -= 40;
+
+            if (timer % 7 == 0) {
+
+              //////////////////
+              console.log(posterIndex);
+              let tableInstance = scene1_PosterList[posterIndex];
+              posterIndex++;
+
+              tableInstance.alpha = 1;
+              tableInstance.visible = true;
+              tableInstance.x = scene1_SPPlane.x + scene1_SPPlane.width / 2 - tableInstance.width / 2;
+              tableInstance.y = scene1_SPPlane.y + scene1_SPPlane.height / 2 - tableInstance.height / 2 + 10;
+
+              let posterTimer = 0;
+              app.ticker.add(function PosterDrop() {
+                tableInstance.y += 1.2;
+                posterTimer++;
+                if (posterTimer > 50) {
+                  tableInstance.alpha -= 0.06;
+
+                  if(tableInstance.alpha == 0)
+                  {
+                    app.ticker.remove(PosterDrop);
+                  }
+                }
+
+                //tableInstance.y += 4;
+              })
+            }
+
+            if (timer == 50) {
+              app.ticker.remove(PlaneTakeOff);
+            }
+
+          }
+
+
+
+
+        })
       }
       //B3的人物被選取了
       else if (id >= 30 && id <= 39) {
@@ -1659,9 +1782,8 @@ function showRadio(rate = 0) {
   }
   else return;
 
-  if(scene1_radio!=0)
-  {
-    scene1_RadioList[scene1_radio-1].visible = false;
+  if (scene1_radio != 0) {
+    scene1_RadioList[scene1_radio - 1].visible = false;
   }
 
   let timer = 0;
@@ -1675,8 +1797,7 @@ function showRadio(rate = 0) {
   let temp = scene1_radio;
   app.ticker.add(function TitleShine(deltaTime) {
 
-    if(scene1_RadioList[temp]===undefined)
-    {
+    if (scene1_RadioList[temp] === undefined) {
       scene1_RadioList[temp].visible = false;
       app.ticker.remove(TitleShine);
       return;
@@ -1689,7 +1810,7 @@ function showRadio(rate = 0) {
       counter++;
 
       if (counter % 2 == 0) {
-      
+
         scene1_RadioList[temp].tint = "0x07ffa5";
       }
       else if (counter % 2 == 1) {
