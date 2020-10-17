@@ -46,12 +46,13 @@ async function LoadResourceLoader() {
   Scene0_TouchToStartBlack.addListener("pointerdown", function () {
     Scene0_TouchToStartBlack.visible = false;
    
-    if (screenfull.isEnabled) {
+   /* if (screenfull.isEnabled) {
       screenfull.request();
     } else {
       console.log("Can't FullScreen");
       // Ignore or do something else
-    }
+    }*/
+    openFullscreen();
 
     TouchToStart();
   });
