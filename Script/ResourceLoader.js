@@ -113,6 +113,15 @@ async function LoadResourceLoader() {
 }
 
 async function TouchToStart() {
+ 
+  PIXI.sound.Sound.from({
+    url: './Resource/Music/SE/button_click.mp3',
+    autoPlay: true,
+    complete: function() {
+        console.log('Sound finished');
+    }
+});
+
   await LoadScene0();
 
   await SetLoader();
