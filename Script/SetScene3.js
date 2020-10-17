@@ -1542,7 +1542,9 @@ async function SetObject() {
        
         PIXI.sound.play('button_click');
 
-        document.getElementById("btnClickB").click();
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
+
+        //document.getElementById("btnClickB").click();
         
         //window.open("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse", '_system', 'location=yes');
       }
@@ -1568,7 +1570,9 @@ async function SetObject() {
       function buttonD() {
         PIXI.sound.play('button_click');
 
-        document.getElementById("btnClickD").click();
+        window.open('https://www.facebook.com/TNCMMM');
+
+       // document.getElementById("btnClickD").click();
 
       }
       function buttonE() {
