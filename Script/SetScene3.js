@@ -915,23 +915,25 @@ async function SetObject() {
       scene3_sceneBoard.sortableChildren = true;
 
       let scene3_ScenePic0 = new PIXI.Sprite(PIXI.Texture.from("Hotel00"));
-      scene3_ScenePic0.zIndex = 4;
-      scene3_ScenePic0.visible = true;
+      scene3_ScenePic0.zIndex = 8;
       scene3_ScenePic0.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic0.position.set(screenWidth / 2 - scene3_ScenePic0.width / 2, screenHeight / 2 - scene3_ScenePic0.height / 2 - 5);
 
       let scene3_ScenePic1 = new PIXI.Sprite(PIXI.Texture.from("Hotel01"));
-      scene3_ScenePic1.zIndex = 2;
-      scene3_ScenePic1.visible = true;
+      scene3_ScenePic1.zIndex = 4;
       scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
 
       let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel02"));
-      scene3_ScenePic2.zIndex = 1;
-      scene3_ScenePic2.width = screenWidth;
-      scene3_ScenePic2.height = screenHeight;
-      //scene3_ScenePic2.scale.set((globalImageScale - 0.12) * 0.102, (globalImageScale - 0.12) * 0.102);
+      scene3_ScenePic2.zIndex = 0;
+      scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
+
+      let scene3_ScenePic3 = new PIXI.Sprite(PIXI.Texture.from("Hotel03"));
+      scene3_ScenePic3.zIndex = 0;
+      scene3_ScenePic3.width = screenWidth;scene3_ScenePic3.height = screenHeight;
+      //scene3_ScenePic3.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 - 5);
 
       let k = 0.9;
       let a = 50;
@@ -1671,9 +1673,27 @@ async function SetObject() {
 
           PIXI.sound.play('button_click');
           //scene5_butS1.alpha = 0;
-
           //console.log(text.text);
-          GhostInput(text.text);
+          switch (text.text) {
+            case "新文化運動月":
+              window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
+              break;
+            case "青年誕生":
+              window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
+              break;
+            case "百年催生":
+              window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
+              break;
+            case "文化自造夜":
+              window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
+              break;
+            case "倒數1921":
+              window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
+              break;
+            case "文協百年":
+              window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
+              break;
+          }
        
         })
       scene5_butS1.addListener("pointerup",
@@ -1799,30 +1819,7 @@ async function SetObject() {
 
     }
 
-    function GhostInput(input)
-    {
-      switch (input) {
-        case "新文化運動月":
-          document.getElementById("btnClickG1").click();
-          break;
-        case "青年誕生":
-          document.getElementById("btnClickG2").click();
-          break;
-        case "百年催生":
-          document.getElementById("btnClickG3").click();
-          break;
-        case "文化自造夜":
-          document.getElementById("btnClickG4").click();     
-          break;
-        case "倒數1921":
-          document.getElementById("btnClickG5").click();       
-          break;
-        case "文協百年":
-          document.getElementById("btnClickG6").click();  
-          break;
-      }
 
-    }
     function GhostFloat() {
 
       ghostFloatTimer = (ghostFloatTimer + 1) % (360);

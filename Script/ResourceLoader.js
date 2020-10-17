@@ -654,9 +654,9 @@ async function SetLoader() {
   //其他
   await PIXI.loader.add("block", "./Resource/Final/block.png");
 
-  await PIXI.loader.add("VideoSelect", "./Resource/Final/Video/select.png");
+  /*await PIXI.loader.add("VideoSelect", "./Resource/Final/Video/select.png");
   await PIXI.loader.add("VideoSelect2", "./Resource/Final/Video/select2.png");
-  await PIXI.loader.add("VideoTitle", "./Resource/Final/Video/title.png");
+  await PIXI.loader.add("VideoTitle", "./Resource/Final/Video/title.png");*/
 
   x = 0;
   await PIXI.loader.onLoad.add(loadProgressHandler);
@@ -680,7 +680,7 @@ function finishHandler(loader, resource) {
 
 function loadProgressHandler(loader, resource) {
 
-  // console.log(resource.name);
+   console.log(resource.name);
   // console.log(loader.progress.toFixed(2));
 
   //x++;
