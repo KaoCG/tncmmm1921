@@ -36,7 +36,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("09:54", style);
+  let sceneLoading_scoreText = new PIXI.Text("09:59", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
@@ -69,7 +69,6 @@ async function LoadResourceLoader() {
 
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
-
 
     Scene0_TouchToStartBlack.visible = false;
 
@@ -384,7 +383,7 @@ async function ResetSetting() {
   // PIXI.sound.volumeAll = 1;
 
   // console.log( PIXI.sound.volumeAll );
-  // StartingFadeFunc(scene0,'theme')
+  //StartingFadeFunc(scene0,'theme')
   //PIXI.Texture.from('theme').sound.play();
 
 
@@ -403,7 +402,7 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
 
   //音樂載入
-  /*await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
+  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
   await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
   await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
   await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
@@ -421,7 +420,7 @@ async function SetLoader() {
   await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
   await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
   await PIXI.sound.add('stamp_good', './Resource/Music/SE/stamp_good.mp3');
-  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
+  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');
 
   //團片載入
   await PIXI.loader.onComplete.add(finishHandler);
@@ -437,7 +436,7 @@ async function SetLoader() {
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
 
-  PIXI.loader
+  /*PIXI.loader
     .add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3')
     .add('plot', './Resource/Music/BGM/plot.mp3')
     .add('run1', './Resource/Music/BGM/run1.mp3')
@@ -456,7 +455,7 @@ async function SetLoader() {
     .add('small_game_click', './Resource/Music/SE/small_game_click.mp3')
     .add('stamp', './Resource/Music/SE/stamp.mp3')
     .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
-    .add('talking_click', './Resource/Music/SE/talking_click.mp3');
+    .add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
 
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
@@ -723,7 +722,7 @@ async function SetLoader() {
 function finishHandler(loader, resource) {
 
   //onAssetsLoaded();
-  PIXI.sound.play('theme', { loop: true });
+  //PIXI.sound.play('theme', { loop: true });
   scene0_but.visible = true;
   scene0_but2.visible = true;
   //sceneLoading_scoreText.visible = false;
