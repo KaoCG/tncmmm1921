@@ -43,7 +43,17 @@ async function LoadResourceLoader() {
   resize();
   window.addEventListener('resize', resize);
 
-  Scene0_TouchToStartBlack.addListener("pointerdown", function () {
+  Scene0_TouchToStartBlack.addListener("pointerdown",  ()=> {
+  
+  
+    PIXI.sound.Sound.from({
+      url: './Resource/Music/SE/button_click.mp3',
+      autoPlay: true,
+      complete: function() {
+          console.log('Sound finished');
+      }
+  });
+   
     Scene0_TouchToStartBlack.visible = false;
    
     openFullscreen();
@@ -114,13 +124,7 @@ async function LoadResourceLoader() {
 
 async function TouchToStart() {
  
-  PIXI.sound.Sound.from({
-    url: './Resource/Music/SE/button_click.mp3',
-    autoPlay: true,
-    complete: function() {
-        console.log('Sound finished');
-    }
-});
+
 
   await LoadScene0();
 
@@ -705,7 +709,6 @@ function finishHandler(loader, resource) {
   PIXI.sound.play('theme', { loop: true });
   scene0_but.visible = true;
   scene0_but2.visible = true;
-  sceneLoading_scoreText.test = "09:22";
   //sceneLoading_scoreText.visible = false;
 }
 
@@ -724,7 +727,7 @@ function loadProgressHandler(loader, resource) {
     scene0_but.visible = true;
     //sceneLoading_scoreText.visible = false;
     sceneLoading_scoreText.y = 10;
-    sceneLoading_scoreText.text = "08:57";
+    sceneLoading_scoreText.text = "09:22";
   }
   else {
     sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
