@@ -226,7 +226,7 @@ async function ResetSetting() {
       if (centerComponent.rate < 0.5) {
         scene3_ENDPic.texture = PIXI.Texture.from("END2");
         centerComponent.stageResult = 1;
-       
+
         for (let i = 0; i < scene3_endBoard.BDA.length; i++) {
           scene3_endBoard.BDA[i].visible = true;
           scene3_endBoard.BDA[i].interactive = true;
@@ -266,8 +266,8 @@ async function ResetSetting() {
         else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR03"); }
       }
 
-      if(centerComponent.rate<=0.3)   centerComponent.HideEndingTriggerA[7] = true;
-      else if(centerComponent.rate >=0.7)   centerComponent.HideEndingTriggerB[7] = true;
+      if (centerComponent.rate <= 0.3) centerComponent.HideEndingTriggerA[7] = true;
+      else if (centerComponent.rate >= 0.7) centerComponent.HideEndingTriggerB[7] = true;
 
       //兩種隱藏結局
       {
@@ -328,7 +328,7 @@ async function ResetSetting() {
 
       }
 
-      audio = 'for_conclusion';
+      audio = 'theme';
       break;
   }
 
@@ -766,7 +766,7 @@ async function SetObject() {
         })
       })
 
-      let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
+      /*let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
       BD7.zIndex = 34;
       BD7.width = screenWidth; BD7.height = screenHeight;
       BD7.interactive = true;
@@ -783,18 +783,18 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
-      })
+      })*/
 
       scene3_endBoard.addChild(BD1);
       scene3_endBoard.addChild(BD2);
       scene3_endBoard.addChild(BD3);
-      scene3_endBoard.addChild(BD7);
+      //scene3_endBoard.addChild(BD7);
 
       scene3_endBoard.BDA = [];
       scene3_endBoard.BDA.push(BD1);
       scene3_endBoard.BDA.push(BD2);
       scene3_endBoard.BDA.push(BD3);
-      scene3_endBoard.BDA.push(BD7);
+      //scene3_endBoard.BDA.push(BD7);
 
     }
 
@@ -871,7 +871,7 @@ async function SetObject() {
         })
       })
 
-      let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
+      /*let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
       BD7.zIndex = 34;
       BD7.width = screenWidth; BD7.height = screenHeight;
       BD7.interactive = true;
@@ -888,18 +888,18 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
-      })
+      })*/
 
       scene3_endBoard.addChild(BD1);
       scene3_endBoard.addChild(BD2);
       scene3_endBoard.addChild(BD3);
-      scene3_endBoard.addChild(BD7);
+      // scene3_endBoard.addChild(BD7);
 
       scene3_endBoard.BDB = [];
       scene3_endBoard.BDB.push(BD1);
       scene3_endBoard.BDB.push(BD2);
       scene3_endBoard.BDB.push(BD3);
-      scene3_endBoard.BDB.push(BD7);
+      // scene3_endBoard.BDB.push(BD7);
 
     }
   }
@@ -916,28 +916,35 @@ async function SetObject() {
 
       let scene3_ScenePic0 = new PIXI.Sprite(PIXI.Texture.from("Hotel00"));
       scene3_ScenePic0.zIndex = 2;
+      scene3_ScenePic0.visible = true;
       scene3_ScenePic0.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic0.position.set(screenWidth / 2 - scene3_ScenePic0.width / 2, screenHeight / 2 - scene3_ScenePic0.height / 2 - 5);
+
       let scene3_ScenePic1 = new PIXI.Sprite(PIXI.Texture.from("Hotel01"));
       scene3_ScenePic1.zIndex = 1;
+      scene3_ScenePic1.visible = true;
       scene3_ScenePic1.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic1.position.set(screenWidth / 2 - scene3_ScenePic1.width / 2, screenHeight / 2 - scene3_ScenePic1.height / 2 - 5);
-      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel02"));
+
+      let scene3_ScenePic2 = new PIXI.Sprite(PIXI.Texture.from("Hotel03"));
       scene3_ScenePic2.zIndex = 0;
-      scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
+      scene3_ScenePic2.width = screenWidth;
+      scene3_ScenePic2.height = screenHeight;
+      //scene3_ScenePic2.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
       scene3_ScenePic2.position.set(screenWidth / 2 - scene3_ScenePic2.width / 2, screenHeight / 2 - scene3_ScenePic2.height / 2 - 5);
 
-
+      let k = 0.9;
+      let a = 50;
       let P0 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
       P0.zIndex = 1;
       P0.jumpSpeed = 0;
-      P0.scale.set(0.24, 0.24);
-      P0.position.set(-45, 36);
+      P0.scale.set(0.24 * k, 0.24 * k);
+      P0.position.set(-45 - 20, 22 + a);
       let P1 = new PIXI.Sprite(PIXI.Texture.from("policeSmall"));
       P1.zIndex = 1;
       P1.jumpSpeed = 0;
-      P1.scale.set(-(globalImageScale + 1), globalImageScale + 1);
-      P1.position.set(835, 48);
+      P1.scale.set(-(globalImageScale + 1) * k, (globalImageScale + 1) * k);
+      P1.position.set(835 + 20, 34 + a);
       // console.log(P0.width);
       // console.log(P1.width);
 
@@ -998,11 +1005,11 @@ async function SetObject() {
       sceneA.addChild(P0);
       sceneA.addChild(P1);
       sceneA.addChild(BD);
-      sceneA.addChild(BD2);
+      //sceneA.addChild(BD2);
 
       sceneA.BD = [];
       sceneA.BD.push(BD);
-      sceneA.BD.push(BD2);
+      //sceneA.BD.push(BD2);
 
       sceneA.char = [];
       sceneA.char.push(P0);
@@ -1391,24 +1398,7 @@ async function SetObject() {
           //
           //
 
-          let Pen2 = new PIXI.Sprite(PIXI.Texture.from("Pen2"));
-          //End2.scale.set(globalImageScale, globalImageScale);
-          Pen2.width = screenWidth * 0.214;
-          Pen2.height = screenHeight * 0.262;
-          uIBoard.addChild(Pen2);
-          Pen2.interactive = true;
-          Pen2.addListener("pointerdown",function(){Worker.visible = true;})
-          Pen2.position.set(28,210);
 
-          let Worker = new PIXI.Sprite(PIXI.Texture.from("Worker"));
-          //End2.scale.set(globalImageScale, globalImageScale);
-          Worker.width = screenWidth;
-          Worker.height = screenHeight;
-          Worker.visible = false;
-          uIBoard.addChild(Worker);
-
-          Worker.interactive = true;
-          Worker.addListener("pointerdown",function(){Worker.visible = false;})
         }
 
         //稱號
@@ -1526,6 +1516,27 @@ async function SetObject() {
             selectBoxes.push(selectBox);
           }
         }
+
+        {
+          let Pen2 = new PIXI.Sprite(PIXI.Texture.from("Pen2"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          Pen2.width = screenWidth * 0.214;
+          Pen2.height = screenHeight * 0.262;
+          uIBoard.addChild(Pen2);
+          Pen2.interactive = true;
+          Pen2.addListener("pointerdown", function () { Worker.visible = true; })
+          Pen2.position.set(28, 210);
+
+          let Worker = new PIXI.Sprite(PIXI.Texture.from("Worker"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          Worker.width = screenWidth;
+          Worker.height = screenHeight;
+          Worker.visible = false;
+          uIBoard.addChild(Worker);
+
+          Worker.interactive = true;
+          Worker.addListener("pointerdown", function () { Worker.visible = false; })
+        }
       }
 
       selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
@@ -1551,6 +1562,7 @@ async function SetObject() {
 
       function buttonC() {
 
+        PIXI.sound.play('button_click');
         scene3_sceneList[9].visible = true;
 
         scene9_itemIndex = 0;
@@ -1917,7 +1929,7 @@ async function SetObject() {
         XW.alpha = 0;
         XW.interactive = true;
         XW.buttonMode = true;
-        XW.addListener("pointerdown", function () { scene3_sceneList[9].visible = false; })
+        XW.addListener("pointerdown", function () { scene3_sceneList[9].visible = false; PIXI.sound.play('button_click'); })
       }
 
       scene9_itemIndex = 0;

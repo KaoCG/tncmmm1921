@@ -192,7 +192,7 @@ async function SetObject() {
     start0.scale.set(globalImageScale, globalImageScale);
     start0.zIndex = 4;
     scene0.addChild(start0);
-    start0.y = -30;
+    start0.y = -35;
 
     scene0_but2 = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut01.png");
     scene0_but2.width = 806.74;
@@ -434,7 +434,7 @@ async function SetLoader() {
   PIXI.loader.add("StartDialog", "./Resource/Final/StartScene/StartDialog.png");
 
   //飯店的畫面
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i <4; i++) {
     PIXI.loader.add("Hotel0" + i, "./Resource/Final/HotelScene/hotel0" + i + ".png");
   }
 

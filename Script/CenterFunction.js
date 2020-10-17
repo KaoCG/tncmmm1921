@@ -155,7 +155,6 @@ async function GoToNextScene() {
   //loadScript("Script/SetScene3.js");
   //return;
 
-
   switch (centerComponent.currentStage) {
     case 1:
     case 14:

@@ -74,9 +74,11 @@ async function ResetSetting() {
     scene4_butFalse[i].visible = false;
   }
 
-
-
   //開場開一個稱號
+  for (let i = 0; i < scene4_CharTitleLList.length; i++) {
+    scene4_CharTitleLList[i].visible = false;
+  }
+
   if (centerComponent.sceneExist[1])
     scene4_CharTitleLList[scene1_title].visible = true;
   else

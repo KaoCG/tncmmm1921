@@ -1104,7 +1104,7 @@ function ItemReset(item) {
 
 function CheckPlaneEvent() {
 
-  if (scene1_PlaneEventCounterA >= 5 || scene1_PlaneEventCounterB >= 5) {
+  if (scene1_PlaneEventCounterA >= 5 && scene1_PlaneEventCounterB >= 5) {
     scene1_selectableGroup[17].instance.textures = [PIXI.Texture.from("B2S20"), PIXI.Texture.from("B2S21")];
     if (centerComponent.currentStage == 8) scene1_selectableGroup[17].activate = true;
     scene1_selectableGroup[17].instance.play();
