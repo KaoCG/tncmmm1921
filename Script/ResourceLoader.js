@@ -16,8 +16,6 @@ async function LoadResourceLoader() {
   app.stage.sortableChildren = true;
   app.renderer.backgroundColor = 0x000000;
 
-
-
   Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/Final/TOUCHTOSTART.png");
   Scene0_TouchToStartBlack.zIndex = 100;
   Scene0_TouchToStartBlack.width = screenWidth;
@@ -47,7 +45,7 @@ async function LoadResourceLoader() {
   sceneLoading_scoreText.visible = true;
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  app.stage.addChild(sceneLoading_scoreText);
+  //app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -78,11 +76,7 @@ async function LoadResourceLoader() {
     //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
     //screenfull.request();
 
-    //screen.lockOrientation('landscape');
-
     Scene0_TouchToStartBlack.visible = false;
-
-    //openFullscreen();
 
     TouchToStart();
   });
@@ -412,7 +406,7 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
 
   //音樂載入
-  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
+/*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
   await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
   await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
   await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
@@ -430,7 +424,7 @@ async function SetLoader() {
   await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
   await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
   await PIXI.sound.add('stamp_good', './Resource/Music/SE/stamp_good.mp3');
-  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');
+  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
 
   //團片載入
   await PIXI.loader.onComplete.add(finishHandler);
@@ -446,7 +440,7 @@ async function SetLoader() {
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
 
-  /*PIXI.loader
+  PIXI.loader
     .add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3')
     .add('plot', './Resource/Music/BGM/plot.mp3')
     .add('run1', './Resource/Music/BGM/run1.mp3')
@@ -465,7 +459,7 @@ async function SetLoader() {
     .add('small_game_click', './Resource/Music/SE/small_game_click.mp3')
     .add('stamp', './Resource/Music/SE/stamp.mp3')
     .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
-    .add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
+    .add('talking_click', './Resource/Music/SE/talking_click.mp3');
 
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
