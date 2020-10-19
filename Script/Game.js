@@ -17,13 +17,7 @@ movingDistant = 0;
   app.ticker.add(function slimeMove(deltaTime) {
 
     tick += 1;
-    /*  slime.x += slimeMoveSpeed * deltaTime;
 
-      if (tick == 200) {
-        tick = 0;
-        slimeInstance.scale.x *= -1;
-        slimeMoveSpeed *= -1;
-      }*/
     movingDistant -= 5;
     movingBoard.x = movingDistant;
   });

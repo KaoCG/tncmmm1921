@@ -1528,12 +1528,7 @@ async function SetObject() {
       selectBoxes[1].addListener("pointerdown", () => {
         PIXI.sound.play('button_click');
       
-        var a = document.createElement("a");
-        a.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse");
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "openwin");
-        document.body.appendChild(a);
-        a.click();
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
         
 
       });
@@ -1556,14 +1551,14 @@ async function SetObject() {
         PIXI.sound.play('button_click');
 
         //可行，但會取代當前葉面
-        //window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
        
-        var a = document.createElement("a");
+        /*var a = document.createElement("a");
         a.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse");
         a.setAttribute("target", "_blank");
         a.setAttribute("id", "openwin");
         document.body.appendChild(a);
-        a.click();
+        a.click();*/
 
         //document.getElementById("btnClickB").click();
 
