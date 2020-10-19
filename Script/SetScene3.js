@@ -1527,13 +1527,14 @@ async function SetObject() {
       //手機上外聯網址要用 on tap
       //電腦上用 on click
       //才能被偵測到是 user gesture ，而不被視為是垃圾彈出視窗。
+      console.log(isMobile);
       if (isMobile) {
 
-        selectBoxes[1].on("tap", (event) => { buttonB; });
+        selectBoxes[1].on("tap", (event) => { buttonB(); console.log("HI");});
         selectBoxes[3].on("tap", (event) => { buttonD(); });
       }
       else {
-        selectBoxes[1].on("click:", (event) => { buttonB; });
+        selectBoxes[1].on("click", (event) => { buttonB();console.log("HO"); });
         selectBoxes[3].on("click", (event) => { buttonD(); });
       }
 
