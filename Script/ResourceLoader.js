@@ -14,6 +14,8 @@ async function LoadResourceLoader() {
   app.stage.sortableChildren = true;
   app.renderer.backgroundColor = 0x000000;
 
+  const isMobile = 'ontouchstart' in window;
+  console.log(isMobile);
 
   Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/Final/TOUCHTOSTART.png");
   Scene0_TouchToStartBlack.zIndex = 100;
@@ -37,7 +39,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("12:57", style);
+  let sceneLoading_scoreText = new PIXI.Text("01:03", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
@@ -71,7 +73,7 @@ async function LoadResourceLoader() {
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
 
-    screenfull.request();
+    //screenfull.request();
 
     //screen.lockOrientation('landscape');
 
@@ -79,7 +81,7 @@ async function LoadResourceLoader() {
 
     //openFullscreen();
 
-    TouchToStart();
+    //TouchToStart();
   });
 
 
