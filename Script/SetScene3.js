@@ -1546,7 +1546,12 @@ async function SetObject() {
 
 
       selectBoxes[2].addListener("pointerdown", () => { buttonC(); });
-      selectBoxes[3].addListener("pointerdown", () => { buttonD(); });
+
+      selectBoxes[3].on("tap", (event) => {
+        //PIXI.sound.play('button_click');
+        window.open('https://www.facebook.com/TNCMMM', '_blank');
+      });
+
       selectBoxes[4].addListener("pointerdown", () => { buttonE(); });
 
       function buttonA() {
