@@ -1,4 +1,6 @@
 
+const isMobile = 'ontouchstart' in window;
+console.log(isMobile);
 
 LoadResourceLoader();
 
@@ -14,8 +16,7 @@ async function LoadResourceLoader() {
   app.stage.sortableChildren = true;
   app.renderer.backgroundColor = 0x000000;
 
-  const isMobile = 'ontouchstart' in window;
-  console.log(isMobile);
+
 
   Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/Final/TOUCHTOSTART.png");
   Scene0_TouchToStartBlack.zIndex = 100;
@@ -42,7 +43,7 @@ async function LoadResourceLoader() {
   let sceneLoading_scoreText = new PIXI.Text("01:24", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
-  sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
+  sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2);
   sceneLoading_scoreText.visible = true;
 
   app.stage.addChild(Scene0_TouchToStartBlack);
@@ -73,6 +74,8 @@ async function LoadResourceLoader() {
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
 
+    //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
+    //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
     //screenfull.request();
 
     //screen.lockOrientation('landscape');
@@ -394,7 +397,7 @@ async function ResetSetting() {
   //PIXI.Texture.from('theme').sound.play();
 
 
-   PIXI.sound.play('theme', { loop: true });
+  PIXI.sound.play('theme', { loop: true });
 
 
   //PIXI.sound.volumeAll = 1;

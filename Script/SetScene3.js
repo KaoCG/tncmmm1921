@@ -1524,33 +1524,22 @@ async function SetObject() {
         }
       }
 
+      //手機上外聯網址要用 on tap
+      //電腦上用 on click
+      //才能被偵測到是 user gesture ，而不被視為是垃圾彈出視窗。
+      if (isMobile) {
+
+        selectBoxes[1].on("tap", (event) => { buttonB; });
+        selectBoxes[3].on("tap", (event) => { buttonD(); });
+      }
+      else {
+        selectBoxes[1].on("click:", (event) => { buttonB; });
+        selectBoxes[3].on("click", (event) => { buttonD(); });
+      }
+
       selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
 
-      /*selectBoxes[1].addListener("click", () => {
-        PIXI.sound.play('button_click');
-        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', '_blank');
-      });*/
-
-      selectBoxes[1].on("click", (event) => {
-        PIXI.sound.play('button_click');
-        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', '_blank');
-      });
-
-      /*selectBoxes[1].onClick = () => {
-        console.log("HI");
-        PIXI.sound.play('button_click');
-        //window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
-        window.open('https://www.dot.gov.taipei/', '_blank');
-      };*/
-
-
-
       selectBoxes[2].addListener("pointerdown", () => { buttonC(); });
-
-      selectBoxes[3].on("tap", (event) => {
-        //PIXI.sound.play('button_click');
-        window.open('https://www.facebook.com/TNCMMM', '_blank');
-      });
 
       selectBoxes[4].addListener("pointerdown", () => { buttonE(); });
 
@@ -1563,26 +1552,13 @@ async function SetObject() {
 
         EndThisScene();
       }
-
       function buttonB() {
 
         PIXI.sound.play('button_click');
 
-        //可行，但會取代當前葉面
-        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', '_blank');
 
-        /*var a = document.createElement("a");
-        a.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse");
-        a.setAttribute("target", "_blank");
-        a.setAttribute("id", "openwin");
-        document.body.appendChild(a);
-        a.click();*/
-
-        //document.getElementById("btnClickB").click();
-
-        //window.open("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse", '_system', 'location=yes');
       }
-
       function buttonC() {
 
         PIXI.sound.play('button_click');
@@ -1600,11 +1576,10 @@ async function SetObject() {
         scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
 
       }
-
       function buttonD() {
         PIXI.sound.play('button_click');
 
-        window.open('https://www.facebook.com/TNCMMM');
+        window.open('https://www.facebook.com/TNCMMM', '_blank');
 
         // document.getElementById("btnClickD").click();
 
@@ -1706,34 +1681,67 @@ async function SetObject() {
       scene5_butS1.buttonMode = true;
 
       //送出按鈕
-      scene5_butS1.addListener("pointerdown",
-        function () {
+      if (isMobile) {
+        scene5_butS1.on("tap",
+          function () {
 
-          PIXI.sound.play('button_click');
-          //scene5_butS1.alpha = 0;
-          //console.log(text.text);
-          switch (text.text) {
-            case "新文化運動月":
-              window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
-              break;
-            case "青年誕生":
-              window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
-              break;
-            case "百年催生":
-              window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
-              break;
-            case "文化自造夜":
-              window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
-              break;
-            case "倒數1921":
-              window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
-              break;
-            case "文協百年":
-              window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
-              break;
-          }
+            PIXI.sound.play('button_click');
+            //scene5_butS1.alpha = 0;
+            //console.log(text.text);
+            switch (text.text) {
+              case "新文化運動月":
+                window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
+                break;
+              case "青年誕生":
+                window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
+                break;
+              case "百年催生":
+                window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
+                break;
+              case "文化自造夜":
+                window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
+                break;
+              case "倒數1921":
+                window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
+                break;
+              case "文協百年":
+                window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
+                break;
+            }
 
-        })
+          })
+      }
+      else {
+        scene5_butS1.on("click",
+          function () {
+
+            PIXI.sound.play('button_click');
+            //scene5_butS1.alpha = 0;
+            //console.log(text.text);
+            switch (text.text) {
+              case "新文化運動月":
+                window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
+                break;
+              case "青年誕生":
+                window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
+                break;
+              case "百年催生":
+                window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
+                break;
+              case "文化自造夜":
+                window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
+                break;
+              case "倒數1921":
+                window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
+                break;
+              case "文協百年":
+                window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
+                break;
+            }
+
+          })
+      }
+
       scene5_butS1.addListener("pointerup",
         function () {
           scene5_butS1.alpha = 1;
