@@ -1526,7 +1526,12 @@ async function SetObject() {
 
       selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
 
-      selectBoxes[1].addListener("pointerdown", () => {
+      /*selectBoxes[1].addListener("click", () => {
+        PIXI.sound.play('button_click');
+        window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', '_blank');
+      });*/
+
+      selectBoxes[1].on("tap", (event) => {
         PIXI.sound.play('button_click');
         window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse', '_blank');
       });
