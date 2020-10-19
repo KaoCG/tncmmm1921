@@ -39,7 +39,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("01:04", style);
+  let sceneLoading_scoreText = new PIXI.Text("01:24", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2 );
@@ -68,7 +68,7 @@ async function LoadResourceLoader() {
   resize();
   window.addEventListener('resize', resize);
 
-  Scene0_TouchToStartBlack.on("tap", (event) => {
+  Scene0_TouchToStartBlack.addListener("pointerdown", (event) => {
 
     var audio = new Audio('./Resource/Music/SE/fake.mp3');
     audio.play();
