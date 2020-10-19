@@ -1525,13 +1525,12 @@ async function SetObject() {
       }
 
       selectBoxes[0].addListener("pointerdown", () => { buttonA(); });
+      
       selectBoxes[1].addListener("pointerdown", () => {
         PIXI.sound.play('button_click');
-      
         window.open('https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ftncmmm1921.vercel.app%2F&amp;src=sdkpreparse');
-        
-
       });
+
       selectBoxes[2].addListener("pointerdown", () => { buttonC(); });
       selectBoxes[3].addListener("pointerdown", () => { buttonD(); });
       selectBoxes[4].addListener("pointerdown", () => { buttonE(); });
