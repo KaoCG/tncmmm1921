@@ -2,6 +2,8 @@
 const isMobile = 'ontouchstart' in window;
 console.log(isMobile);
 
+document.body.parentNode.style.overflowY = "hidden";
+
 LoadResourceLoader();
 
 async function LoadResourceLoader() {
@@ -66,6 +68,7 @@ async function LoadResourceLoader() {
   //調整畫面大小
   resize();
   window.addEventListener('resize', resize);
+  window.addEventListener("orientationchange", resize, false);
 
   Scene0_TouchToStartBlack.addListener("pointerdown", (event) => {
 
@@ -390,8 +393,9 @@ async function ResetSetting() {
   //StartingFadeFunc(scene0,'theme')
   //PIXI.Texture.from('theme').sound.play();
 
-
-  PIXI.sound.play('theme', { loop: true });
+  const sound = PIXI.sound.Sound.from('./Resource/Music/BGM/theme.mp3');
+  sound.play();
+ // PIXI.sound.play('theme', { loop: true });
 
 
   //PIXI.sound.volumeAll = 1;
@@ -406,25 +410,25 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
 
   //音樂載入
-/*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
-  await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
-  await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
-  await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
-  await PIXI.sound.add('run3', './Resource/Music/BGM/run3.mp3');
-  await PIXI.sound.add('small_game1', './Resource/Music/BGM/small_game1.mp3');
-  await PIXI.sound.add('small_game2', './Resource/Music/BGM/small_game2.mp3');
-  await PIXI.sound.add('theme', './Resource/Music/BGM/theme.mp3');
-
-
-  await PIXI.sound.add('button_click', './Resource/Music/SE/button_click.mp3');
-  await PIXI.sound.add('choose_click', './Resource/Music/SE/choose_click.mp3');
-  await PIXI.sound.add('get_something', './Resource/Music/SE/get_something.mp3');
-  await PIXI.sound.add('jump', './Resource/Music/SE/jump.mp3');
-  await PIXI.sound.add('option_click', './Resource/Music/SE/option_click.mp3');
-  await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
-  await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
-  await PIXI.sound.add('stamp_good', './Resource/Music/SE/stamp_good.mp3');
-  await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
+  /*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
+    await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
+    await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
+    await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
+    await PIXI.sound.add('run3', './Resource/Music/BGM/run3.mp3');
+    await PIXI.sound.add('small_game1', './Resource/Music/BGM/small_game1.mp3');
+    await PIXI.sound.add('small_game2', './Resource/Music/BGM/small_game2.mp3');
+    await PIXI.sound.add('theme', './Resource/Music/BGM/theme.mp3');
+  
+  
+    await PIXI.sound.add('button_click', './Resource/Music/SE/button_click.mp3');
+    await PIXI.sound.add('choose_click', './Resource/Music/SE/choose_click.mp3');
+    await PIXI.sound.add('get_something', './Resource/Music/SE/get_something.mp3');
+    await PIXI.sound.add('jump', './Resource/Music/SE/jump.mp3');
+    await PIXI.sound.add('option_click', './Resource/Music/SE/option_click.mp3');
+    await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
+    await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
+    await PIXI.sound.add('stamp_good', './Resource/Music/SE/stamp_good.mp3');
+    await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
 
   //團片載入
   await PIXI.loader.onComplete.add(finishHandler);
@@ -495,7 +499,7 @@ async function SetLoader() {
   PIXI.loader.add("StartDialog", "./Resource/Final/StartScene/StartDialog.png");
 
   //飯店的畫面
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 4; i++) {
     PIXI.loader.add("Hotel0" + i, "./Resource/Final/HotelScene/hotel0" + i + ".png");
   }
 

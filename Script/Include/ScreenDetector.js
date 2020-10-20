@@ -54,11 +54,11 @@ async function resize() {
 
       blackrectangleA.width = deltaDis / 2 + 400;
       blackrectangleA.height = phoneHeight + 400;
-      blackrectangleA.position.set(-deltaDis / 2 - 400, -200);
+      blackrectangleA.position.set(-deltaDis / 2 - 400, 0);
 
       blackrectangleB.width = deltaDis / 2 + 400;
       blackrectangleB.height = phoneHeight + 400;
-      blackrectangleB.position.set(screenWidth, -200);
+      blackrectangleB.position.set(screenWidth, 0);
       //console.log(   blackrectangleA.position);
       //console.log(   blackrectangleB.position);
     }
@@ -71,11 +71,11 @@ async function resize() {
 
       blackrectangleA.width = phoneWidth + 400;
       blackrectangleA.height = deltaDis / 2 + 400;
-      blackrectangleA.position.set(-200, -deltaDis / 2 - 400);
+      blackrectangleA.position.set(0, -deltaDis / 2 - 400);
 
       blackrectangleB.width = phoneWidth + 400;
       blackrectangleB.height = deltaDis / 2 + 400;
-      blackrectangleB.position.set(-200, screenHeight);
+      blackrectangleB.position.set(0, screenHeight);
     }
 
     app.renderer.resize(phoneWidth, phoneHeight);
@@ -103,11 +103,11 @@ async function resize() {
 
       blackrectangleA.width = deltaDis / 2 + 400;
       blackrectangleA.height = (phoneWidth + 400) * 2;
-      blackrectangleA.position.set(-deltaDis / 2 - 400, -200);
+      blackrectangleA.position.set(-deltaDis / 2 - 400, 0);
 
       blackrectangleB.width = deltaDis / 2 + 400;
       blackrectangleB.height = (phoneWidth + 400) * 2;
-      blackrectangleB.position.set(screenWidth, -200);
+      blackrectangleB.position.set(screenWidth, 0);
     }
     else {
       //console.log("Long");
@@ -119,11 +119,11 @@ async function resize() {
 
       blackrectangleA.width = (phoneHeight + 400) * 2;
       blackrectangleA.height = deltaDis / 2 + 400;
-      blackrectangleA.position.set(-200, -deltaDis / 2 - 400);
+      blackrectangleA.position.set(0, -deltaDis / 2 - 400);
 
       blackrectangleB.width = (phoneHeight + 400) * 2;
       blackrectangleB.height = deltaDis / 2 + 400;
-      blackrectangleB.position.set(-200, screenHeight);
+      blackrectangleB.position.set(0, screenHeight);
     }
 
     app.renderer.resize(phoneHeight, phoneWidth); //不同
@@ -136,7 +136,7 @@ async function resize() {
 
   screenDir = dir;
 
-
+  window.scrollBy(0,-10);
 }
 
 

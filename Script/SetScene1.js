@@ -89,11 +89,11 @@ async function ResetSetting() {
     scene1_B3RadioList[i].visible = false;
   }
 
+  //橋段二特殊道具的傳單/飛機關閉
   for (let i = 0; i < scene1_PosterList.length; i++) {
     scene1_PosterList[i].visible = false;
   }
-
-
+  scene1_SPPlane.visible = false;
 
   //關卡時間
   scene1_stageTimer = 40;

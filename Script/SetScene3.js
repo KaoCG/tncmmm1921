@@ -933,7 +933,7 @@ async function SetObject() {
       scene3_ScenePic3.zIndex = 1;
       scene3_ScenePic3.width = screenWidth; scene3_ScenePic3.height = screenHeight;
       //scene3_ScenePic3.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
-      scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 - 5);
+      scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 +3);
 
       let k = 0.9;
       let a = 50;
