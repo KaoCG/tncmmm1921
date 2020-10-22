@@ -116,6 +116,11 @@ function EndingFade(deltaTime) {
       centerComponent.AudioVolume = 0;
       PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
       PIXI.sound.stop(centerComponent.currentAudio);
+
+      if(scene0_sound.playing)
+      {
+        scene0_sound.stop();
+      }
     }
 
     if (centerComponent.currentScene != null) centerComponent.currentScene.visible = false;
@@ -155,7 +160,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  //centerComponent.currentStage = 16;
+  centerComponent.currentStage =13;
   //loadScript("Script/SetScene3.js");
   //return;
 

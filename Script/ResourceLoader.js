@@ -393,9 +393,12 @@ async function ResetSetting() {
   //StartingFadeFunc(scene0,'theme')
   //PIXI.Texture.from('theme').sound.play();
 
-  const sound = PIXI.sound.Sound.from('./Resource/Music/BGM/theme.mp3');
-  sound.play();
- // PIXI.sound.play('theme', { loop: true });
+  //PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
+
+  scene0_sound = PIXI.sound.Sound.from('./Resource/Music/BGM/theme.mp3');
+  scene0_sound.play();
+  scene0_sound.playing = true;
+
 
 
   //PIXI.sound.volumeAll = 1;
@@ -408,6 +411,9 @@ async function SetLoader() {
 
   await document.fonts.load('16px pixelFont');
   await document.fonts.load('8px pixelSilver');
+  await document.fonts.load('16px NotoSansCJKtc-Light');
+ 
+  //await document.fonts.load('16px NISC18030');
 
   //音樂載入
   /*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
@@ -463,7 +469,10 @@ async function SetLoader() {
     .add('small_game_click', './Resource/Music/SE/small_game_click.mp3')
     .add('stamp', './Resource/Music/SE/stamp.mp3')
     .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
-    .add('talking_click', './Resource/Music/SE/talking_click.mp3');
+    .add('talking_click', './Resource/Music/SE/talking_click.mp3')
+    .add('error', './Resource/Music/SE/error.mp3');
+
+    //PIXI.sound.play('theme', { loop: true });
 
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
@@ -683,9 +692,8 @@ async function SetLoader() {
 
   //小遊戲2 的場景背景/物件
   PIXI.loader.add("policeSmall", "./Resource/Final/M2/police.png");
-  for (let i = 0; i < 4; i++) {
-    PIXI.loader.add("G2But0" + i, "./Resource/Final/G2_UI/But/but0" + i + ".png");
-    PIXI.loader.add("G2ButE0" + i, "./Resource/Final/G2_UI/ButE/butE0" + i + ".png");
+  for (let i = 0; i < 2; i++) {
+    PIXI.loader.add("G2But0" + i, "./Resource/Final/G2_UI/butN0" + i + ".png");
   }
   for (let i = 0; i < 6; i++) {
     PIXI.loader.add("G2People0" + i, "./Resource/Final/G2_UI/People/people0" + i + ".png");

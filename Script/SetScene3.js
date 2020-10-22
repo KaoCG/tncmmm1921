@@ -193,6 +193,7 @@ async function ResetSetting() {
 
       let timer = 200;
       let stageResult = centerComponent.stageResult;
+     
       app.ticker.add(function Wait() {
         timer--;
 
@@ -466,7 +467,7 @@ async function SetObject() {
       scene3_dialogBox.buttonMode = true;
 
       //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
+      /*let style = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
         fontSize: 54,
         fill: "white",
@@ -478,7 +479,23 @@ async function SetObject() {
         align: "left",
         padding: 10,
         lineHeight: 54
+      });*/
+
+      let style = new PIXI.TextStyle({
+        fontFamily: "NotoSansCJKtc-Light",
+        fontSize: 36,
+        fill: "white",
+        fontStyle: "normal",
+        fontWeight: "lighter",
+        //stroke: '#000000',
+        //strokeThickness: 0,
+        letterSpacing:5,
+        align: "left",
+        padding: 10,
+        lineHeight: 48
       });
+
+
 
       //新版文字框
       {
@@ -1122,19 +1139,23 @@ async function SetObject() {
 
       let P1 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
       P1.scale.set(globalImageScale, globalImageScale);
-      P1.x = 68; P1.y = 301.5 - P1.height / 2;
+      P1.x = 68; P1.y = 325 - P1.height / 2;
 
       let P2 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
-      P2.scale.set(globalImageScale, globalImageScale);
-      P2.x = 170; P2.y = 301.5 - P2.height / 2;
+      P2.scale.set(-1*globalImageScale, globalImageScale);
+      P2.x = 170+103+P2.width; P2.y = 325 - P2.height / 2;
 
       let P3 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
-      P3.scale.set(globalImageScale, globalImageScale);
-      P3.x = 272; P3.y = 301.5 - P3.height / 2;
+      P3.scale.set(-1*globalImageScale, globalImageScale);
+      P3.x = 272+104+P3.width; P3.y = 325 - P3.height / 2;
 
       let P4 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
-      P4.scale.set(-globalImageScale * 0.0793, globalImageScale * 0.0793);
-      P4.x = 375 + P4.width; P4.y = 301.5 - P4.height / 2;
+      P4.scale.set(globalImageScale * 0.1, globalImageScale * 0.1);
+      P4.x = -70; P4.y = 340 - P4.height / 2;
+
+      let P5 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
+      P5.scale.set(-globalImageScale*1.2 , globalImageScale*1.2 );
+      P5.x = 430+P5.width; P5.y = 345 - P5.height / 2;
 
 
       scene3_sceneBoard.addChild(sceneA);
@@ -1143,9 +1164,11 @@ async function SetObject() {
       sceneA.addChild(P1);
       sceneA.addChild(P2);
       sceneA.addChild(P3);
-      sceneA.addChild(P4);
+   
       sceneA.addChild(scene3_ScenePic1)
-      //sceneA.addChild(scene3_ScenePic0)
+      sceneA.addChild(P4);
+      sceneA.addChild(P5);
+      sceneA.addChild(scene3_ScenePic0)
 
 
 
@@ -1153,6 +1176,8 @@ async function SetObject() {
       sceneA.char.push(P1);
       sceneA.char.push(P2);
       sceneA.char.push(P3);
+      sceneA.char.push(P4);
+      sceneA.char.push(P5);
 
       for (let i = 0; i < sceneA.char.length; i++) {
         sceneA.char[i].jumpSpeed = 0;

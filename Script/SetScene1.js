@@ -168,7 +168,7 @@ async function ResetSetting() {
       scene1_endChar.x = 12250;
       scene1_stageTimer = 40;
       //40秒的關卡大概是2350甄
-      scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
+      scene1_itemList = [40, 5, 6, 5, 5, 0, 4, 4, 5, 6];
       scene1_randomAddItemTimeLimit = 2350 / 40 * scene1_stageTimer / (scene1_itemList[0] + 4);
 
       scene1_endChar.visible = true;

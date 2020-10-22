@@ -9,3 +9,11 @@
   font-weight: normal;
   src: url(../../Resource/Silver.ttf);
 }
+
+
+@font-face {
+  font-family: 'NotoSansCJKtc-Light';
+  font-weight: normal;
+  src: url(../../Resource/NotoSansCJKtc-Light.otf);
+}
+

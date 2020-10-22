@@ -19,24 +19,29 @@ async function LoadScene4() {
 
 async function ResetSetting() {
 
+  //增加所有按鍵
   for (let i = 0; i < scene4_keyGroup.length; i++) {
     scene4_keyGroup[i].press = scene4_keyFuncroup[i];
   }
 
+  //增加所有時間功能
   for (let i = 0; i < scene4_tickerFunc.length; i++) {
     app.ticker.add(scene4_tickerFunc[i]);
   }
 
+  //關閉所有畫面對話和人物
   scene4_TalkList[0].visible = true;
   for (let i = 1; i < scene4_slimeGroup.length; i++) {
     scene4_slimeGroup[i].visible = false;
     scene4_TalkList[i].visible = false;
   }
 
+  //重置所有按鈕(舊版)
   for (let i = scene4_buttonGroup.length - 1; i >= 0; i--) {
     RecyleButton(scene4_buttonGroup, i);
   }
 
+  //原本要做陣營交換，但後來沒用到的地方
   if (centerComponent.dialogResult == 0) {
     centerComponent.dialogResult = -1;
   }
@@ -44,6 +49,7 @@ async function ResetSetting() {
     centerComponent.dialogResult = -1;
   }
 
+  //重置參數
   scene4_score = 0;
   scene4_scoreUI.text.text = scene4_score.toFixed(0);
   scene4_energyBar.width = scene4_score * 3;
@@ -62,27 +68,30 @@ async function ResetSetting() {
   scene4_title.alpha = 1;
 
   //讓按鈕不會重複位置
-  scene4_lastButDir = -1;
-  scene4_lastButDir = -1;
+  scene4_lastTrueButDir = -1;
+  scene4_lastFalseButDir = -1;
 
   //廣播功能
   scene4_radio = -1;
 
   //先把所有按鈕關掉
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < scene4_butTrue.length; i++) {
     scene4_butTrue[i].visible = false;
     scene4_butFalse[i].visible = false;
   }
 
   //開場開一個稱號
-  for (let i = 0; i < scene4_CharTitleLList.length; i++) {
-    scene4_CharTitleLList[i].visible = false;
+  {
+    for (let i = 0; i < scene4_CharTitleLList.length; i++) {
+      scene4_CharTitleLList[i].visible = false;
+    }
+
+    if (centerComponent.sceneExist[1])
+      scene4_CharTitleLList[scene1_title].visible = true;
+    else
+      scene4_CharTitleLList[4].visible = true;
   }
 
-  if (centerComponent.sceneExist[1])
-    scene4_CharTitleLList[scene1_title].visible = true;
-  else
-    scene4_CharTitleLList[4].visible = true;
 
   scene4.visible = true;
 
@@ -344,95 +353,138 @@ function SetObject() {
 
     }
 
-    //按鈕位置
+    //按鈕位置(觸控感應)
     {
       let edge = 20;
 
-      let dialogBoxA = new PIXI.Graphics();
-      dialogBoxA.beginFill(0xFFFFFF);
-      dialogBoxA.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
-      dialogBoxA.endFill();
-      dialogBoxA.zIndex = 10;
-      dialogBoxA.alpha = 0;
-      x = screenWidth / 2 - dialogBoxA.width / 2; y = 10;
-      dialogBoxA.position.set(x, y);
-      scene4_uIBoard.addChild(dialogBoxA);
-      dialogBoxA.interactive = true;
-      dialogBoxA.buttonMode = true;
-      dialogBoxA.on("pointerdown", function () {
-        DetectButtonInput(0);
-      });
+      for (let i = 0; i < 5; i++) {
 
-      let dialogBoxB = new PIXI.Graphics();
-      dialogBoxB.beginFill(0xFFFFFF);
-      dialogBoxB.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
-      dialogBoxB.endFill();
-      dialogBoxB.zIndex = 10;
-      dialogBoxB.alpha = 0;
-      x = screenWidth - dialogBoxB.width - edge; y = screenHeight / 2 - dialogBoxB.height / 2;
-      dialogBoxB.position.set(x, y);
-      scene4_uIBoard.addChild(dialogBoxB);
-      dialogBoxB.interactive = true;
-      dialogBoxB.buttonMode = true;
-      dialogBoxB.on("pointerdown", function () {
-        DetectButtonInput(1);
-      });
+        let dialogBoxA = new PIXI.Graphics();
+        dialogBoxA.beginFill(0xFFFFFF);
+        dialogBoxA.drawRect(0, 0, scene4_buttonBoxSize[0] * 1.2, scene4_buttonBoxSize[1] * 1.2);
+        dialogBoxA.endFill();
+        dialogBoxA.zIndex = 10;
+        dialogBoxA.alpha = 0;
 
-      let dialogBoxC = new PIXI.Graphics();
-      dialogBoxC.beginFill(0xFFFFFF);
-      dialogBoxC.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
-      dialogBoxC.endFill();
-      dialogBoxC.zIndex = 10;
-      dialogBoxC.alpha = 0;
-      x = screenWidth / 2 - dialogBoxC.width / 2; y = screenHeight - dialogBoxC.height - 10;
-      dialogBoxC.position.set(x, y);
-      scene4_uIBoard.addChild(dialogBoxC);
-      dialogBoxC.interactive = true;
-      dialogBoxC.buttonMode = true;
-      dialogBoxC.on("pointerdown", function () {
-        DetectButtonInput(2);
-      });
 
-      let dialogBoxD = new PIXI.Graphics();
-      dialogBoxD.beginFill(0xFFFFFF);
-      dialogBoxD.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
-      dialogBoxD.endFill();
-      dialogBoxD.zIndex = 10;
-      dialogBoxD.alpha = 0;
-      x = edge; y = screenHeight / 2 - dialogBoxB.height / 2;
-      dialogBoxD.position.set(x, y);
-      scene4_uIBoard.addChild(dialogBoxD);
-      dialogBoxD.interactive = true;
-      dialogBoxD.buttonMode = true;
-      dialogBoxD.on("pointerdown", function () {
-        DetectButtonInput(3);
-      });
+        //x = screenWidth / 2 - dialogBoxA.width / 2; y = 10;
+        y = screenHeight / 2 - dialogBoxA.height / 2 - 10;
+        var k = 130;
 
+        if (i == 0) {
+          x = screenWidth / 2 - dialogBoxA.width / 2 - k * 2;
+        }
+        else if (i == 1) {
+          x = screenWidth / 2 - dialogBoxA.width / 2 - k;
+        }
+        else if (i == 2) {
+          x = screenWidth / 2 - dialogBoxA.width / 2;
+        }
+        else if (i == 3) {
+          x = screenWidth / 2 - dialogBoxA.width / 2 + k;
+        }
+        else if (i == 4) {
+          x = screenWidth / 2 - dialogBoxA.width / 2 + k * 2;
+        }
+
+
+
+
+        dialogBoxA.position.set(x, y);
+        scene4_uIBoard.addChild(dialogBoxA);
+        dialogBoxA.interactive = true;
+        dialogBoxA.buttonMode = true;
+        dialogBoxA.on("pointerdown", function () {
+          DetectButtonInput(i);
+        });
+
+      }
+      /*  
+       let dialogBoxA = new PIXI.Graphics();
+         dialogBoxA.beginFill(0xFFFFFF);
+         dialogBoxA.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
+         dialogBoxA.endFill();
+         dialogBoxA.zIndex = 10;
+         dialogBoxA.alpha = 0;
+         x = screenWidth / 2 - dialogBoxA.width / 2; y = 10;
+         dialogBoxA.position.set(x, y);
+         scene4_uIBoard.addChild(dialogBoxA);
+         dialogBoxA.interactive = true;
+         dialogBoxA.buttonMode = true;
+         dialogBoxA.on("pointerdown", function () {
+           DetectButtonInput(0);
+         });
+   
+         let dialogBoxB = new PIXI.Graphics();
+         dialogBoxB.beginFill(0xFFFFFF);
+         dialogBoxB.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
+         dialogBoxB.endFill();
+         dialogBoxB.zIndex = 10;
+         dialogBoxB.alpha = 0;
+         x = screenWidth - dialogBoxB.width - edge; y = screenHeight / 2 - dialogBoxB.height / 2;
+         dialogBoxB.position.set(x, y);
+         scene4_uIBoard.addChild(dialogBoxB);
+         dialogBoxB.interactive = true;
+         dialogBoxB.buttonMode = true;
+         dialogBoxB.on("pointerdown", function () {
+           DetectButtonInput(1);
+         });
+   
+         let dialogBoxC = new PIXI.Graphics();
+         dialogBoxC.beginFill(0xFFFFFF);
+         dialogBoxC.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
+         dialogBoxC.endFill();
+         dialogBoxC.zIndex = 10;
+         dialogBoxC.alpha = 0;
+         x = screenWidth / 2 - dialogBoxC.width / 2; y = screenHeight - dialogBoxC.height - 10;
+         dialogBoxC.position.set(x, y);
+         scene4_uIBoard.addChild(dialogBoxC);
+         dialogBoxC.interactive = true;
+         dialogBoxC.buttonMode = true;
+         dialogBoxC.on("pointerdown", function () {
+           DetectButtonInput(2);
+         });
+   
+         let dialogBoxD = new PIXI.Graphics();
+         dialogBoxD.beginFill(0xFFFFFF);
+         dialogBoxD.drawRect(0, 0, scene4_buttonBoxSize[0] * 2, scene4_buttonBoxSize[1] * 2);
+         dialogBoxD.endFill();
+         dialogBoxD.zIndex = 10;
+         dialogBoxD.alpha = 0;
+         x = edge; y = screenHeight / 2 - dialogBoxB.height / 2;
+         dialogBoxD.position.set(x, y);
+         scene4_uIBoard.addChild(dialogBoxD);
+         dialogBoxD.interactive = true;
+         dialogBoxD.buttonMode = true;
+         dialogBoxD.on("pointerdown", function () {
+           DetectButtonInput(3);
+         });
+   */
     }
 
-    //按鈕
+    //按鈕(圖片)
     {
       scene4_butTrue = [];
       scene4_butFalse = [];
       scene4_answer = -1;
 
       //真按鈕
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5; i++) {
         let edge = 18;
 
-        let dialogBox = new PIXI.Sprite(PIXI.Texture.from("G2But0" + i));
-        dialogBox.scale.set(globalImageScale * 1.5, globalImageScale * 1.5);
+        let dialogBox = new PIXI.Sprite(PIXI.Texture.from("G2But00"));
+        dialogBox.scale.set(globalImageScale * 1.5 * 0.0633, globalImageScale * 1.5 * 0.0633);
         dialogBox.zIndex = 60;
         scene4_uIBoard.addChild(dialogBox);
         scene4_butTrue.push(dialogBox);
-        dialogBox.visible = false;
+        dialogBox.visible = true;
         //padding可以處理字體顯示位置不正確的問題   
         let dir = i;
 
         let x = 0;
         let y = 0;
 
-        if (dir == 0) {
+        /*if (dir == 0) {
           x = screenWidth / 2 - dialogBox.width / 2; y = -40;
         }
         else if (dir == 1) {
@@ -444,17 +496,40 @@ function SetObject() {
         else if (dir == 3) {
           x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
         }
+        else if (dir == 4) {
+          x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
+        }*/
+
+        y = screenHeight / 2 - dialogBox.height / 2 - 10;
+        var k = 130;
+
+        if (dir == 0) {
+          x = screenWidth / 2 - dialogBox.width / 2 - k * 2;
+        }
+        else if (dir == 1) {
+          x = screenWidth / 2 - dialogBox.width / 2 - k;
+        }
+        else if (dir == 2) {
+          x = screenWidth / 2 - dialogBox.width / 2;
+        }
+        else if (dir == 3) {
+          x = screenWidth / 2 - dialogBox.width / 2 + k;
+        }
+        else if (dir == 4) {
+          x = screenWidth / 2 - dialogBox.width / 2 + k * 2;
+        }
+
         dialogBox.position.set(x, y);
 
         dialogBox.dir = dir;
       }
 
       //假按鈕
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 5; i++) {
         let edge = 18;
 
-        let dialogBox = new PIXI.Sprite(PIXI.Texture.from("G2ButE0" + i));
-        dialogBox.scale.set(globalImageScale * 1.5, globalImageScale * 1.5);
+        let dialogBox = new PIXI.Sprite(PIXI.Texture.from("G2But01"));
+        dialogBox.scale.set(globalImageScale * 1.5 * 0.0633, globalImageScale * 1.5 * 0.0633);
         dialogBox.zIndex = 60;
         scene4_uIBoard.addChild(dialogBox);
         scene4_butFalse.push(dialogBox);
@@ -465,18 +540,25 @@ function SetObject() {
         let x = 0;
         let y = 0;
 
+        y = screenHeight / 2 - dialogBox.height / 2 - 10;
+        var k = 130;
+
         if (dir == 0) {
-          x = screenWidth / 2 - dialogBox.width / 2; y = -40;
+          x = screenWidth / 2 - dialogBox.width / 2 - k * 2;
         }
         else if (dir == 1) {
-          x = screenWidth - dialogBox.width - edge + 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
+          x = screenWidth / 2 - dialogBox.width / 2 - k;
         }
         else if (dir == 2) {
-          x = screenWidth / 2 - dialogBox.width / 2; y = screenHeight - dialogBox.height - 20;
+          x = screenWidth / 2 - dialogBox.width / 2;
         }
         else if (dir == 3) {
-          x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
+          x = screenWidth / 2 - dialogBox.width / 2 + k;
         }
+        else if (dir == 4) {
+          x = screenWidth / 2 - dialogBox.width / 2 + k * 2;
+        }
+
         dialogBox.position.set(x, y);
 
         dialogBox.dir = dir;
@@ -710,15 +792,15 @@ async function ReuseButton(dir) {
 
   await scene4_buttonGroup.push(reuseItem);
 
-  if (dir == -1) dir = Math.floor(Math.random() * 4);
+  if (dir == -1) dir = Math.floor(Math.random() * scene4_butTrue.length);
 
   //讓新的按鈕位置不會和上次一樣
-  while (dir == scene4_lastButDir) dir = Math.floor(Math.random() * 4);
-  scene4_lastButDir = dir;
+  while (dir == scene4_lastTrueButDir) dir = Math.floor(Math.random() * scene4_butTrue.length);
+  scene4_lastTrueButDir = dir;
 
   if (scene4_buttonGroup.length != 1) {
     while (dir == scene4_buttonGroup[0].dir) {
-      dir = Math.floor(Math.random() * 4);
+      dir = Math.floor(Math.random() * scene4_butTrue.length);
     }
   }
 
@@ -893,7 +975,7 @@ function GameFunction() {
 
       if (timer == 1) {
         timer = 0;
-        AddScore(-0.05);
+        AddScore(-0.04);
       }
 
       if (buttonTimer >= 30 && scene4_gameMode == 0) {
@@ -930,32 +1012,37 @@ function GameFunction() {
 
     }
 
-    //標題消失(和遊戲開始)
+    //標題消失(和遊戲開始)(新版，重點幾乎都在這！！！！)
     scene4_tickerFunc.push(TitleShowUp);
     function TitleShowUp(deltaTime) {
       scene4_startTimer++;
 
+      //標題出現
       if (scene4_startTimer <= 20) {
         scene4_title.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
         //scene4_title.position.set(screenWidth / 2 - scene4_title.width / 2, screenHeight / 2 - scene4_title.height / 2 - 20)
 
       }
+      //等待
       else if (scene4_startTimer <= 60) {
       }
+      //標題消失
       else if (scene4_startTimer <= 100) {
         scene4_title.alpha = (1 - (scene4_startTimer - 60) / 40);
       }
+      //開始遊戲
       else {
 
         //開場時放一個按鈕
         if (scene4_gameMode == 1) {
 
-          scene4_answer = Math.floor(Math.random() * 4);
-          scene4_lastButDir = scene4_answer;
+          scene4_answer = Math.floor(Math.random() * scene4_butTrue.length);
+          scene4_lastTrueButDir = scene4_answer;
 
-          scene4_false = Math.floor(Math.random() * 4);
-          //讓新的按鈕位置不會和上次一樣
-          while (scene4_false == scene4_answer) scene4_false = Math.floor(Math.random() * 4);
+          scene4_false = Math.floor(Math.random() * scene4_butTrue.length);
+          //讓新的按鈕位置不會和前一個一樣
+          while (scene4_false == scene4_answer) scene4_false = Math.floor(Math.random() * scene4_butTrue.length);
+          scene4_lastFalseButDir = scene4_false;
 
           scene4_butTrue[scene4_answer].visible = true;
           scene4_butFalse[scene4_false].visible = true;
@@ -971,6 +1058,24 @@ function GameFunction() {
 
 
 
+}
+
+function SetNextButtonSet() {
+  scene4_butTrue[scene4_answer].visible = false;
+  scene4_butFalse[scene4_false].visible = false;
+
+  scene4_answer = Math.floor(Math.random() * scene4_butTrue.length);
+
+  //讓新的按鈕位置不會和上次一樣
+  while (scene4_answer == scene4_lastTrueButDir) scene4_answer = Math.floor(Math.random() * scene4_butTrue.length);
+  scene4_lastTrueButDir = scene4_answer;
+
+  scene4_false = Math.floor(Math.random() * scene4_butTrue.length);
+  while (scene4_false == scene4_answer || scene4_false == scene4_lastFalseButDir) scene4_false = Math.floor(Math.random() * scene4_butTrue.length);
+  scene4_lastFalseButDir = scene4_false;
+
+  scene4_butTrue[scene4_answer].visible = true;
+  scene4_butFalse[scene4_false].visible = true;
 }
 
 //鍵盤按下對應按鈕 (GAMEMODE = 0)
@@ -1001,20 +1106,7 @@ function DetectButtonInput(dir) {
       PIXI.sound.play('small_game_click');
       AddScore(8);
 
-      scene4_butTrue[scene4_answer].visible = false;
-      scene4_butFalse[scene4_false].visible = false;
-
-      scene4_answer = Math.floor(Math.random() * 4);
-
-      //讓新的按鈕位置不會和上次一樣
-      while (scene4_answer == scene4_lastButDir) scene4_answer = Math.floor(Math.random() * 4);
-      scene4_lastButDir = scene4_answer;
-
-      scene4_false = Math.floor(Math.random() * 4);
-      while (scene4_false == scene4_answer) scene4_false = Math.floor(Math.random() * 4);
-
-      scene4_butTrue[scene4_answer].visible = true;
-      scene4_butFalse[scene4_false].visible = true;
+      SetNextButtonSet();
 
       //RecyleButton(scene4_buttonGroup, 0);
       //ReuseButton(-1);
@@ -1022,7 +1114,10 @@ function DetectButtonInput(dir) {
       //PIXI.sound.play('small_game_click');
 
     } else {
-      AddScore(-18);
+      PIXI.sound.play('error');
+      AddScore(-20);
+
+      SetNextButtonSet();
     }
   }
 }
