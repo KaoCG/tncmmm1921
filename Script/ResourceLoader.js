@@ -439,11 +439,7 @@ async function SetLoader() {
   PIXI.loader
     .add("slime", "./Resource/slimeSpriteSheet.json")
     .add("apple", "./Resource/apple.json")
-    .add("statue", "./Resource/statue.png")
-    .add("sight", "./Resource/sight.png")
     .add("textContent", "./Resource/textContent.json")
-    .add("paper", "./Resource/paper.png")
-    .add("video", "./Resource/video.webm")
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
 
@@ -538,7 +534,7 @@ async function SetLoader() {
 
     PIXI.loader.add("SummonTalk0" + i, "./Resource/Final/EndScene/Summon/SummonTalk0" + i + ".png");
   }
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 4; i++) {
 
     PIXI.loader.add("SummonBut0" + i, "./Resource/Final/EndScene/Summon/SummonBut0" + i + ".png");
   }
@@ -566,7 +562,7 @@ async function SetLoader() {
   for (let i = 0; i < 6; i++) {
     PIXI.loader.add("runner" + i, "./Resource/Final/runner/runnerRN" + i + ".png");
   }
-  PIXI.loader.add("runnerJump", "./Resource/Final/runner/runnerJump.png");
+  //PIXI.loader.add("runnerJump", "./Resource/Final/runner/runnerJump.png");
   for (let i = 0; i < 6; i++) {
     PIXI.loader.add("runnerS" + i, "./Resource/Final/runner/runnerR" + i + ".png");
   }
@@ -615,11 +611,17 @@ async function SetLoader() {
   }
 
   //跑步2的選擇物件
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     for (let j = 0; j < 3; j++) {
       PIXI.loader.add("B2S" + i + "" + j, "./Resource/Final/B2/B2select/B2S" + i + "" + j + ".png");
     }
   }
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 2; j++) {
+      PIXI.loader.add("B2SA" + i + "" + (j * 2), "./Resource/Final/B2/B2select/B2S" + (i+5) + "" + (j * 2) + ".png");
+    }
+  }
+
   PIXI.loader.add("B2S23", "./Resource/Final/B2/B2select/B2S23.png");
   PIXI.loader.add("B2S24", "./Resource/Final/B2/B2select/B2S24.png");
   PIXI.loader.add("B2Poster", "./Resource/Final/B2/B2select/B2S25.png");
@@ -660,6 +662,9 @@ async function SetLoader() {
     PIXI.loader.add("Button_sound_open", "./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
     PIXI.loader.add("Button_sound_stop", "./Resource/Final/Brige_UIUX/But/Button_sound_stop.png");
     PIXI.loader.add("Button_sound_play", "./Resource/Final/Brige_UIUX/But/Button_sound_play.png");
+
+    PIXI.loader.add("select00", "./Resource/Final/Brige_UIUX/select00.png");
+    PIXI.loader.add("select01", "./Resource/Final/Brige_UIUX/select01.png");
 
   }
 
@@ -716,8 +721,8 @@ async function SetLoader() {
   PIXI.loader.add("GamePass01", "./Resource/Final/G2_UI/GamePass01.png");
 
   //黑色字卡
-  for (let i = 0; i < 8; i++) {
-    PIXI.loader.add("BD0" + i, "./Resource/Final/BlackDialog/BD0" + i + ".png");
+  for (let i = 0; i < 6; i++) {
+    PIXI.loader.add("BD0" + i, "./Resource/Final/BlackDialog/BD0" + i + ".jpg");
   }
 
   //結局畫面
@@ -733,7 +738,8 @@ async function SetLoader() {
   await PIXI.loader.add("VideoTitle", "./Resource/Final/Video/title.png");*/
 
   x = 0;
-  await PIXI.loader.onLoad.add(loadProgressHandler);
+  //await PIXI.loader.onLoad.add(loadProgressHandler);
+  await PIXI.loader.onProgress.add(loadProgressHandler);
   await PIXI.loader.onComplete.add(finishHandler);
 
   await PIXI.loader.load();

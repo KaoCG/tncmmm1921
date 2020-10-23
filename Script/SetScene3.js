@@ -411,7 +411,7 @@ async function SetContainer() {
   app.stage.addChild(scene3);
 
   scene3_gameBoardGroup = new PIXI.Container();
-  scene3_gameBoardGroup.visible = true;
+  scene3_gameBoardGroup.visible = true; 
   scene3_gameBoardGroup.scale.set(1);
   scene3_gameBoardGroup.sortableChildren = true;
   scene3.addChild(scene3_gameBoardGroup);
@@ -645,6 +645,7 @@ async function SetObject() {
       let black = new PIXI.Sprite(PIXI.Texture.from("white"));
       black.width = screenWidth;
       black.height = screenHeight;
+      black.interactive = true;
       black.position.set(-char.position.x, -char.position.y);
       black.tint = "0x000000";
       black.zIndex = -10;
@@ -818,7 +819,7 @@ async function SetObject() {
 
     //BDB
     {
-      let BD3 = new PIXI.Sprite(PIXI.Texture.from("BD06"));
+      let BD3 = new PIXI.Sprite(PIXI.Texture.from("BD03"));
       BD3.zIndex = 31;
       BD3.width = screenWidth; BD3.height = screenHeight;
       BD3.interactive = true;

@@ -272,10 +272,10 @@ function SetObject() {
       scene2_scoreUI.sortableChildren = true;
       scene2_scoreUI.visible = false;
 
-      var scoreUIInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
+      /*var scoreUIInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
       scoreUIInstance.width = 40;
       scoreUIInstance.height = 40;
-      scoreUIInstance.pivot.set(0.5, 0.5);
+      scoreUIInstance.pivot.set(0.5, 0.5);*/
 
       //padding可以處理字體顯示位置不正確的問題
       let style = new PIXI.TextStyle({
@@ -300,7 +300,7 @@ function SetObject() {
       scene2_scoreUI.position.set(screenWidth - 45 - scene2_scoreUI.text.width - 15, 10);
 
       scene2_uIBoard.addChild(scene2_scoreUI);
-      scene2_scoreUI.addChild(scoreUIInstance);
+      //scene2_scoreUI.addChild(scoreUIInstance);
       scene2_scoreUI.addChild(scoreCounterText);
     }
 

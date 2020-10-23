@@ -97,7 +97,7 @@ async function ResetSetting() {
   scene4_endtitleFail.alpha = 1;
   scene4_endtitlePass.alpha = 1;
 
-  scene4_gamePause =true;
+  scene4_gamePause = true;
 
   scene4.visible = true;
 
@@ -112,7 +112,7 @@ function LoadSetting() {
   scene4_energyBar = null;
 
   scene4_gameMode = 1; //0依序 1隨機
-  scene4_gamePause  = true;
+  scene4_gamePause = true;
   scene4_score = 0;
   scene4_buttonGroup = [];
   scene4_totalButtonConnter = 0;
@@ -238,10 +238,10 @@ function SetObject() {
       scene4_scoreUI.sortableChildren = true;
       scene4_scoreUI.visible = false;
 
-      let scoreUIInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
+      /*let scoreUIInstance = new PIXI.Sprite(PIXI.Texture.from("statue"));
       scoreUIInstance.width = 40;
       scoreUIInstance.height = 40;
-      scoreUIInstance.pivot.set(0.5, 0.5);
+      scoreUIInstance.pivot.set(0.5, 0.5);*/
 
       //padding可以處理字體顯示位置不正確的問題
       let style = new PIXI.TextStyle({
@@ -266,7 +266,7 @@ function SetObject() {
       scene4_scoreUI.position.set(screenWidth - 45 - scene4_scoreUI.text.width - 15, 10);
 
       scene4_uIBoard.addChild(scene4_scoreUI);
-      scene4_scoreUI.addChild(scoreUIInstance);
+      //scene4_scoreUI.addChild(scoreUIInstance);
       scene4_scoreUI.addChild(scoreCounterText);
     }
 
@@ -375,7 +375,7 @@ function SetObject() {
 
 
         //x = screenWidth / 2 - dialogBoxA.width / 2; y = 10;
-        y = screenHeight / 2 - dialogBoxA.height / 2 - 10;
+        y = screenHeight / 2 - dialogBoxA.height / 2 - 10  + 65;
         var k = 130;
 
         if (i == 0) {
@@ -507,7 +507,7 @@ function SetObject() {
           x = edge - 50; y = screenHeight / 2 - dialogBox.height / 2 - 30;
         }*/
 
-        y = screenHeight / 2 - dialogBox.height / 2 - 10;
+        y = screenHeight / 2 - dialogBox.height / 2 - 10 + 65;
         var k = 130;
 
         if (dir == 0) {
@@ -547,7 +547,7 @@ function SetObject() {
         let x = 0;
         let y = 0;
 
-        y = screenHeight / 2 - dialogBox.height / 2 - 10;
+        y = screenHeight / 2 - dialogBox.height / 2 - 10 + 65;
         var k = 130;
 
         if (dir == 0) {
@@ -753,7 +753,7 @@ function SetObject() {
     scene4_endtitlePass.position.set
       (screenWidth / 2 - scene4_endtitlePass.width / 2,
         screenHeight / 2 - scene4_endtitlePass.height / 2 - 30);
-      
+
     scene4.addChild(scene4_endtitlePass);
   }
 }
@@ -1019,28 +1019,28 @@ function GameFunction() {
       }
 
       if (scene4_stageTimer > 0) {
-         scene4_countDownTimer += deltaTime;
-         if (scene4_countDownTimer > scene4_countDownTick) {
-           scene4_countDownTimer = 0;
-           scene4_stageTimer -= 1;
-           scene4_uIGroup[0].text.text = scene4_stageTimer;
- 
-           if (scene4_stageTimer == scene4_stageTotalTime - 5 && scene4_radio == -1) {
-             scene4_radio++;
-             showRadio(scene4_radio);
-           }
-           else if (scene4_stageTimer == scene4_stageTotalTime - 18 && scene4_radio == 0) {
-             scene4_radio++;
-             showRadio(scene4_radio);
-           }
-         }
+        scene4_countDownTimer += deltaTime;
+        if (scene4_countDownTimer > scene4_countDownTick) {
+          scene4_countDownTimer = 0;
+          scene4_stageTimer -= 1;
+          scene4_uIGroup[0].text.text = scene4_stageTimer;
+
+          if (scene4_stageTimer == scene4_stageTotalTime - 5 && scene4_radio == -1) {
+            scene4_radio++;
+            showRadio(scene4_radio);
+          }
+          else if (scene4_stageTimer == scene4_stageTotalTime - 18 && scene4_radio == 0) {
+            scene4_radio++;
+            showRadio(scene4_radio);
+          }
+        }
       }
       else if (scene4_stageTimer == 0) {
 
         scene4_gamePause = true;
 
         scene4_stageTimer -= 1;
-        console.log("GAME OVER");
+        //console.log("GAME OVER");
 
         if (scene4_currentScoreLevel >= 4) {
           centerComponent.stageResult = 1;
@@ -1056,7 +1056,7 @@ function GameFunction() {
         app.ticker.add(
           function EndTitleShowUp(deltaTime) {
             scene4_startTimer++;
-            
+
             //結尾標題出現
             if (scene4_startTimer <= 20) {
               scene4_endTitle.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
@@ -1070,7 +1070,7 @@ function GameFunction() {
               app.ticker.remove(EndTitleShowUp);
               EndThisScene();
             }
-          })          ;
+          });
 
 
       }
@@ -1114,6 +1114,9 @@ function GameFunction() {
 
           scene4_butTrue[scene4_answer].visible = true;
           scene4_butFalse[scene4_false].visible = true;
+
+          scene4_buttonResetTimer = 0;
+          app.ticker.add(ButtonResetTimer);
         }
 
         app.ticker.remove(TitleShowUp);
@@ -1126,6 +1129,17 @@ function GameFunction() {
 
 
 
+}
+
+function ButtonResetTimer()
+{
+
+  scene4_buttonResetTimer++;
+  if(scene4_buttonResetTimer == 120)
+  {
+    app.ticker.remove(ButtonResetTimer);
+    SetNextButtonSet();
+  }
 }
 
 function SetNextButtonSet() {
@@ -1144,6 +1158,10 @@ function SetNextButtonSet() {
 
   scene4_butTrue[scene4_answer].visible = true;
   scene4_butFalse[scene4_false].visible = true;
+
+  app.ticker.remove(ButtonResetTimer);
+  scene4_buttonResetTimer = 0;
+  app.ticker.add(ButtonResetTimer);
 }
 
 //鍵盤按下對應按鈕 (GAMEMODE = 0)
@@ -1310,6 +1328,8 @@ function EndThisScene() {
   else {
     centerComponent.stageResult = 0;
   }
+
+  app.ticker.remove(ButtonResetTimer);
 
   console.log(centerComponent.stageResult);
 
