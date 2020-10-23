@@ -45,6 +45,10 @@ async function ResetSetting() {
     scene1_movingSpeed = 4.5;
     scene1_movingPauseTimer = 0;
 
+    scene1_BGContainerA.x = 0;
+    scene1_BGContainerB.x = 0;
+    scene1_BGContainerC.x =0;
+
     //物件的位置
     scene1_itemFrame = 0;
     scene1_SPBGAccuDistant = 0;
@@ -60,6 +64,8 @@ async function ResetSetting() {
     //時間倒數
     scene1_countDownTimer = 0;
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
+
+
 
   }
 
@@ -101,6 +107,8 @@ async function ResetSetting() {
   scene1_stageTimer = 40;
   scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
 
+  scene1_runner.instance.x = -20;
+
   //根據關卡進行設定
   switch (centerComponent.currentStage) {
     case 4:
@@ -140,18 +148,6 @@ async function ResetSetting() {
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B1L2" + (i % 2));
       }
 
-      //教學畫面
-      if (centerComponent.readTutorial == false) {
-        scene1_runner.instance.stop();
-        for (let i = 0; i < scene1_Tutorial.length; i++) {
-          //console.log(scene1_Tutorial.length);
-          scene1_Tutorial[i].visible = true;
-        }
-      }
-      else {
-        SetTickerFunc();
-        scene1_runner.instance.play();
-      }
 
       //選擇物件擺放
       for (let i = 0; i < 5; i++) {
@@ -196,6 +192,10 @@ async function ResetSetting() {
 
       scene1_currentAudio = 'run1';
 
+      scene1_runner.instance.x = -20 - 200;
+
+      //console.log(scene1_runner.instance.position);
+
       break;
     case 8:
       for (let i = 0; i < 4; i++) {
@@ -220,13 +220,13 @@ async function ResetSetting() {
       scene1_selectableGroup[16].selectIcon.y = -30;
       scene1_selectableGroup[27].position.set(1748, 125);
 
-     
+
 
       scene1_selectableGroup[17].position.set(scene1_setWidth + 743, 110); //飛機 //scene1_setWidth + 743
       scene1_selectableGroup[17].selectIcon.y = 0;
 
       scene1_selectableGroup[18].position.set(scene1_setWidth * 2 + 2364, 208); //
-      scene1_selectableGroup[28].position.set(scene1_setWidth * 2 + 2364-100+89, 165);
+      scene1_selectableGroup[28].position.set(scene1_setWidth * 2 + 2364 - 100 + 89, 165);
       scene1_selectableGroup[18].selectIcon.y = -50;
       //scene1_selectableGroup[28].visible = true;
 
@@ -313,9 +313,40 @@ async function ResetSetting() {
       break;
   }
 
-  if (centerComponent.currentStage != 4) {
+  /*if (centerComponent.currentStage != 4) {
     SetTickerFunc();
+  }*/
+
+  //教學畫面
+  if (centerComponent.currentStage == 4 && centerComponent.readTutorial == false) {
+    scene1_runner.instance.stop();
+    for (let i = 0; i < scene1_Tutorial.length; i++) {
+      //console.log(scene1_Tutorial.length);
+      scene1_Tutorial[i].visible = true;
+    }
   }
+  //跑步進入遊戲中
+  else {
+
+    let timer = 100;
+    app.ticker.add(function runIn() {
+
+      //runner.x = -20;
+      //runner.y = 85;
+      timer -= 1;
+      scene1_runner.instance.x = -20 + timer / 100 * -500;
+
+      if (timer == 0) {
+        app.ticker.remove(runIn);
+        SetTickerFunc();
+      }
+
+
+    })
+
+    scene1_runner.instance.play();
+  }
+
 
   for (let i = 0; i < scene1_keyGroup.length; i++) {
     scene1_keyGroup[i].press = scene1_keyFuncroup[i];
@@ -328,7 +359,17 @@ async function ResetSetting() {
 
   scene1_movingBoard.position.set(0, 0);
 
+  /*let timer = 30;
+  app.ticker.add(function startCountDown() {
+    timer -= 1;
+    if (timer == 0) {
+      app.ticker.remove(startCountDown);
+      
+    }
+  });*/
+
   StartingFadeFunc(scene1, scene1_currentAudio);
+  
 }
 
 function SetTickerFunc() {
@@ -848,7 +889,7 @@ function SetObject() {
       let whiteTexture = PIXI.Texture.from("B1S02")
       B1S00.id = -1;
 
-      let selectFrames = [PIXI.Texture.from("select00"),PIXI.Texture.from("select01")];
+      let selectFrames = [PIXI.Texture.from("select00"), PIXI.Texture.from("select01")];
       let selectInstance = new PIXI.AnimatedSprite(selectFrames);
       selectInstance.scale.set(globalImageScale, globalImageScale);
       selectInstance.animationSpeed = 0.05;
@@ -962,7 +1003,7 @@ function SetObject() {
       white.alpha = 0;
       white.visible = false;
 
-      selectInstance.x = (tableInstance.width -selectInstance.width) /2;
+      selectInstance.x = (tableInstance.width - selectInstance.width) / 2;
 
       scene1_selectableBoard.addChild(B1S00);
       B1S00.addChild(tableInstance);
@@ -1070,6 +1111,8 @@ function SetObject() {
     runner.test = false;
     runner.play();
 
+
+
     runner.scale.set(globalImageScale, globalImageScale);
     //1000->-200
     //runner.zIndex = 1;
@@ -1098,7 +1141,7 @@ function SetObject() {
 
   }
 
-  //教學物件
+  //教學物件 (場景一從這邊開始)
   {
     scene1_Tutorial = [];
     for (let i = 0; i < 5; i++) {
@@ -1113,12 +1156,36 @@ function SetObject() {
       B1O00.interactive = true;
 
       if (i == 4) {
+
         B1O00.addListener("pointerdown", function () {
+
           B1O00.visible = false;
           scene1_runner.instance.play();
           centerComponent.readTutorial = true;
-          SetTickerFunc();
+
+          let timer = 40;
+          app.ticker.add(function runIn() {
+
+            //runner.x = -20;
+            //runner.y = 85;
+            timer -= 1;
+            scene1_runner.instance.x = -20 + timer / 40 * -200;
+
+            if (timer == 0) {
+              app.ticker.remove(runIn);
+              SetTickerFunc();
+            }
+
+
+          })
+
+
+
+
+
+
         })
+
       }
       else {
         B1O00.addListener("pointerdown", function () { B1O00.visible = false; })
@@ -1444,9 +1511,9 @@ function GameFunction() {
     function RandomAddItem(deltaTime) {
 
       if (centerComponent.currentStage != 12) {
-        
-        if(scene1_movingPauseTimer>0) return;
-        
+
+        if (scene1_movingPauseTimer > 0) return;
+
         scene1_randomAddItemTimer += 1;
         if (scene1_randomAddItemTimer >= scene1_randomAddItemTimeLimit + 15) {
           ReuseItem();
