@@ -193,7 +193,7 @@ async function ResetSetting() {
 
       let timer = 200;
       let stageResult = centerComponent.stageResult;
-     
+
       app.ticker.add(function Wait() {
         timer--;
 
@@ -489,7 +489,7 @@ async function SetObject() {
         fontWeight: "lighter",
         //stroke: '#000000',
         //strokeThickness: 0,
-        letterSpacing:5,
+        letterSpacing: 5,
         align: "left",
         padding: 10,
         lineHeight: 48
@@ -950,7 +950,7 @@ async function SetObject() {
       scene3_ScenePic3.zIndex = 1;
       scene3_ScenePic3.width = screenWidth; scene3_ScenePic3.height = screenHeight;
       //scene3_ScenePic3.scale.set(globalImageScale - 0.12, globalImageScale - 0.12);
-      scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 +3);
+      scene3_ScenePic3.position.set(screenWidth / 2 - scene3_ScenePic3.width / 2, screenHeight / 2 - scene3_ScenePic3.height / 2 + 3);
 
       let k = 0.9;
       let a = 50;
@@ -1142,20 +1142,20 @@ async function SetObject() {
       P1.x = 68; P1.y = 325 - P1.height / 2;
 
       let P2 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
-      P2.scale.set(-1*globalImageScale, globalImageScale);
-      P2.x = 170+103+P2.width; P2.y = 325 - P2.height / 2;
+      P2.scale.set(-1 * globalImageScale, globalImageScale);
+      P2.x = 170 + 103 + P2.width; P2.y = 325 - P2.height / 2;
 
       let P3 = new PIXI.Sprite(PIXI.Texture.from("SPPeople00"));
-      P3.scale.set(-1*globalImageScale, globalImageScale);
-      P3.x = 272+104+P3.width; P3.y = 325 - P3.height / 2;
+      P3.scale.set(-1 * globalImageScale, globalImageScale);
+      P3.x = 272 + 104 + P3.width; P3.y = 325 - P3.height / 2;
 
       let P4 = new PIXI.Sprite(PIXI.Texture.from("characterFull3"));
       P4.scale.set(globalImageScale * 0.1, globalImageScale * 0.1);
       P4.x = -70; P4.y = 340 - P4.height / 2;
 
       let P5 = new PIXI.Sprite(PIXI.Texture.from("characterFull10"));
-      P5.scale.set(-globalImageScale*1.2 , globalImageScale*1.2 );
-      P5.x = 430+P5.width; P5.y = 345 - P5.height / 2;
+      P5.scale.set(-globalImageScale * 1.2, globalImageScale * 1.2);
+      P5.x = 430 + P5.width; P5.y = 345 - P5.height / 2;
 
 
       scene3_sceneBoard.addChild(sceneA);
@@ -1164,7 +1164,7 @@ async function SetObject() {
       sceneA.addChild(P1);
       sceneA.addChild(P2);
       sceneA.addChild(P3);
-   
+
       sceneA.addChild(scene3_ScenePic1)
       sceneA.addChild(P4);
       sceneA.addChild(P5);
@@ -1555,11 +1555,11 @@ async function SetObject() {
       console.log(isMobile);
       if (isMobile) {
 
-        selectBoxes[1].on("tap", (event) => { buttonB(); console.log("HI");});
+        selectBoxes[1].on("tap", (event) => { buttonB(); console.log("HI"); });
         selectBoxes[3].on("tap", (event) => { buttonD(); });
       }
       else {
-        selectBoxes[1].on("click", (event) => { buttonB();console.log("HO"); });
+        selectBoxes[1].on("click", (event) => { buttonB(); console.log("HO"); });
         selectBoxes[3].on("click", (event) => { buttonD(); });
       }
 
@@ -1711,28 +1711,41 @@ async function SetObject() {
         scene5_butS1.on("tap",
           function () {
 
-            PIXI.sound.play('button_click');
-            //scene5_butS1.alpha = 0;
-            //console.log(text.text);
+         
+            var result = false;
             switch (text.text) {
               case "新文化運動月":
                 window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
+                result = true;
                 break;
               case "青年誕生":
                 window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
+                result = true;
                 break;
               case "百年催生":
                 window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
+                result = true;
                 break;
               case "文化自造夜":
                 window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
+                result = true;
                 break;
               case "倒數1921":
                 window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
+                result = true;
                 break;
               case "文協百年":
                 window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
+                result = true;
                 break;
+            }
+            if(result)
+            {
+              PIXI.sound.play('button_click');
+            }
+            else
+            {
+              PIXI.sound.play('error');
             }
 
           })
@@ -1741,28 +1754,42 @@ async function SetObject() {
         scene5_butS1.on("click",
           function () {
 
-            PIXI.sound.play('button_click');
-            //scene5_butS1.alpha = 0;
-            //console.log(text.text);
+            var result = false;
+
             switch (text.text) {
               case "新文化運動月":
                 window.open('https://drive.google.com/file/d/15z4ziM5IcppO7ZoAHIhTXIRLTmj5b9mp/view?usp=sharing');
+                result = true;
                 break;
               case "青年誕生":
                 window.open('https://drive.google.com/file/d/1PdqR_mAQHq5UI5xgSJc9Nf1vumdUUFh4/view?usp=sharing');
+                result = true;
                 break;
               case "百年催生":
                 window.open('https://drive.google.com/file/d/1BEMsESFgA6SxTT1PXBksa4J8vaP27KpO/view?usp=sharing');
+                result = true;
                 break;
               case "文化自造夜":
                 window.open('https://drive.google.com/file/d/1ed-L3fTLM4hECY5b96XXImDwim6lQNna/view?usp=sharin');
+                result = true;
                 break;
               case "倒數1921":
                 window.open('https://drive.google.com/file/d/1BnR0SstNkTZlRQ0tsEZh_Q36g-tQWpD3/view?usp=sharing');
+                result = true;
                 break;
               case "文協百年":
                 window.open('https://drive.google.com/file/d/1Cdcsj0GEpzOb28uwLKMhjKpT7xioLFkl/view?usp=sharing');
+                result = true;
                 break;
+            }
+
+            if(result)
+            {
+              PIXI.sound.play('button_click');
+            }
+            else
+            {
+              PIXI.sound.play('error');
             }
 
           })
@@ -1779,38 +1806,119 @@ async function SetObject() {
 
       let IMAGED = new PIXI.Sprite(PIXI.Texture.from("Summon04"));
       IMAGED.scale.set(globalImageScale, globalImageScale);
-      IMAGED.position.set(screenWidth / 2 - IMAGED.width / 2, 0)
+      IMAGED.position.set(screenWidth / 2 - IMAGED.width / 2 - 5, 0)
       sceneA.addChild(IMAGED);
 
-      scene5_ghost = new PIXI.Container();
-      sceneA.addChild(scene5_ghost);
-      //scene5_ghost.visible = false;
+
 
       scene5_inputContainer = new PIXI.Container();
       sceneA.addChild(scene5_inputContainer);
       //scene5_input.visible = false;
 
-      let IMAGEB = new PIXI.Sprite(PIXI.Texture.from("Summon01"));
+      scene5_ghost = new PIXI.Container();
+      sceneA.addChild(scene5_ghost);
+      //scene5_ghost.visible = false;
+
+      let IMAGEB = new PIXI.Sprite(PIXI.Texture.from("Summon07"));
       IMAGEB.scale.set(globalImageScale, globalImageScale);
-      IMAGEB.position.set(screenWidth / 2 - IMAGEB.width / 2, 0)
+      IMAGEB.position.set(screenWidth / 2 - IMAGEB.width / 2 + 5, 0)
       scene5_inputContainer.addChild(IMAGEB);
 
-      let IMAGEC = new PIXI.Sprite(PIXI.Texture.from("Summon02"));
-      IMAGEC.scale.set(globalImageScale * 0.1264, globalImageScale * 0.1264);
-      IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2, 0)
+      let IMAGEC = new PIXI.Sprite(PIXI.Texture.from("Summon08"));
+      IMAGEC.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+      IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2 + 5, -61)
       scene5_inputContainer.addChild(IMAGEC);
 
       let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
       IMAGEE.scale.set(globalImageScale, globalImageScale);
-      IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2, 0)
+      IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2 - 5, 0)
       scene5_ghost.addChild(IMAGEE);
+
+      let IMAGEF = new PIXI.Sprite(PIXI.Texture.from("Summon09"));
+      IMAGEF.scale.set(globalImageScale * 0.16, globalImageScale * 0.16);
+      IMAGEF.position.set(screenWidth / 2 - IMAGEF.width / 2, 15)
+      scene5_inputContainer.addChild(IMAGEF);
+
+      scene5_password = [-1, -1, -1, -1, -1, -1];
+      scene5_passwordIndex = 0;
+   
+      //輸入元帥密碼的按鈕
+      {
+        for (let i = 0; i < 15; i++) {
+          let AA = new PIXI.Graphics();
+          AA.beginFill(0x700028).drawRect(0, 0, 280, 100).endFill();
+          AA.visible = true;
+          AA.alpha = 0;
+          AA.id = i;
+          switch (i) {
+            case 0:
+              AA.position.set(85, 205);
+              break;
+            case 1:
+              AA.position.set(460, 205);
+              break;
+            case 2:
+              AA.position.set(280, 350);
+              break;
+            case 3:
+              AA.position.set(85, 500);
+              break;
+            case 4:
+              AA.position.set(460, 500);
+              break;
+            case 5:
+              AA.position.set(280, 660);
+              break;
+            case 6:
+              AA.position.set(85, 820);
+              break;
+
+            case 7:
+              AA.position.set(85 + 1640, 205);
+              break;
+            case 8:
+              AA.position.set(460 + 1640, 205);
+              break;
+            case 9:
+              AA.position.set(280 + 1640, 350);
+              break;
+            case 10:
+              AA.position.set(85 + 1640, 500);
+              break;
+            case 11:
+              AA.position.set(460 + 1640, 500);
+              break;
+            case 12:
+              AA.position.set(280 + 1640, 660);
+              break;
+            case 13:
+              AA.position.set(85 + 1640 + 375, 820);
+              break;
+
+            case 14:
+              AA.width = 80;
+              AA.id = -1;
+              AA.position.set(85 + 1640, 940);
+              break;
+          }
+
+          AA.interactive = true;
+
+          AA.addListener("pointerdown", function () { GhostPasswordInput(AA.id); })
+
+
+          IMAGEF.addChild(AA);
+        }
+
+
+      }
 
       scene5_ghostTalk = [];
       for (let i = 0; i < 3; i++) {
         let IMAGET = new PIXI.Sprite(PIXI.Texture.from("SummonTalk0" + i));
         IMAGET.visible = false;
         IMAGET.scale.set(globalImageScale * 0.22, globalImageScale * 0.22);
-        IMAGET.position.set(screenWidth / 2 - IMAGET.width / 2 - 12, -52)
+        IMAGET.position.set(270 - 5, 50)
         scene5_ghostTalk.push(IMAGET)
         scene5_ghost.addChild(IMAGET);
       }
@@ -1842,16 +1950,16 @@ async function SetObject() {
         scene5_input.visible = true;
         scene5_input.alpha = 0;
 
-        sceneA.addChild(scene5_input)
+        //sceneA.addChild(scene5_input)
       }
 
       //padding可以處理字體顯示位置不正確的問題
       let style = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
-        fontSize: 36,
+        fontSize: 42,
         fill: "white",
         letterSpacing: 2,
-        padding: 36
+        padding: 42
       });
       let style2 = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
@@ -1869,7 +1977,7 @@ async function SetObject() {
 
       let text = new PIXI.Text("", style);
       text.scale.set(0.5, 0.5);
-      text.x = 263; text.y = 320;
+      text.x = 245; text.y = 318;
       sceneA.addChild(text);
 
       scene5_input.on('input', keycode => {
@@ -1888,6 +1996,114 @@ async function SetObject() {
       })
 
 
+      function GhostPasswordInput(index) {
+
+        console.log(index);
+        //scene5_password = [-1, -1, -1, -1, -1, -1, -1, -1];
+        //scene5_passwordIndex = 0;
+  
+        if (index == -1 ) {
+  
+          if( scene5_passwordIndex > 0)
+          {
+            PIXI.sound.play('button_click');
+            scene5_passwordIndex -=1;
+            scene5_password[scene5_passwordIndex] = -1;
+            GhostSetPasswordText();
+          }
+      
+        }
+        else
+        {
+          if (scene5_passwordIndex >= scene5_password.length) {
+            PIXI.sound.play('error');
+            return;
+          }
+          else
+          {
+            PIXI.sound.play('button_click');
+            scene5_password[scene5_passwordIndex] =index;
+            scene5_passwordIndex +=1;
+            GhostSetPasswordText();
+          }
+        }
+  
+         
+      }
+  
+      function GhostSetPasswordText() {
+      
+        if(scene5_passwordIndex>0)
+        {
+          IMAGEC.visible = false;
+        }
+        else
+        {
+          IMAGEC.visible = true;
+          
+        }
+        text.text = "";
+        for(let i =0 ; i< scene5_passwordIndex;i++)
+        {
+          if(scene5_password[i] == -1)
+          {
+            break;
+          }
+          else
+          {
+            let nextWord = "";
+            switch (scene5_password[i]) {
+              case 0:
+                nextWord = "新";
+                break;
+              case 1:
+                nextWord = "倒數";
+                break;
+              case 2:
+                nextWord = "誕生";
+                break;
+              case 3:
+                nextWord = "自造";
+                break;
+              case 4:
+                nextWord = "1921";
+                break;
+              case 5:
+                nextWord = "文協";
+                break;
+              case 6:
+                nextWord = "運動月";
+                break;
+  
+              case 7:
+                nextWord = "青年";
+                break;
+              case 8:
+                nextWord = "催生";
+                break;
+              case 9:
+                nextWord = "2021";
+                break;
+              case 10:
+                nextWord = "文化";
+                break;
+              case 11:
+                nextWord = "夜";
+                break;
+              case 12:
+                nextWord = "百年";
+                break;
+              case 13:
+                nextWord = "耶";
+                break;
+            }
+
+            text.text = text.text + nextWord;
+          }
+      
+        }
+
+      }
 
     }
 

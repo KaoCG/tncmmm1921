@@ -1580,6 +1580,11 @@ function GameFunction() {
           if (dt > 1) dt = 1;
           scene1_SPPlane.x = scene1_SPPlaneInitX + totalX * (1 - (dt * dt * dt - 3 * dt * dt + 3 * dt));
 
+          if(timer == 237)
+          {
+            PIXI.sound.play('jet_fly');
+          }
+
           if (timer >= timerLimit) {
             dty = (1 - (timer - timerLimit) / (totaltimer - timerLimit));
             scene1_SPPlane.y = scene1_SPPlaneInitY - totalY * (1 - (dty * dty * dty - 3 * dty * dty + 3 * dty));

@@ -65,6 +65,11 @@ function ResetSetting() {
     scene2_platforms[i].x = scene2_platforms[i].width * i;
   }
 
+  scene2_endtitleFail.visible = false;
+  scene2_endtitlePass.visible = false;
+  scene2_endtitleFail.alpha = 1;
+  scene2_endtitlePass.alpha = 1;
+
   //顯示畫面
   scene2.visible = true;
 
@@ -106,6 +111,7 @@ function LoadSetting() {
   scene2_randomAddItemTimeLimit = 80;
 
   //時間倒數
+  scene2_gamePause = true;
   scene2_stageTimer = 25;
   scene2_countDownTimer = 0;
   scene2_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
@@ -368,6 +374,27 @@ function SetObject() {
     }
 
   }
+
+  //結尾標題
+  {
+    scene2_endtitleFail = new PIXI.Sprite(PIXI.Texture.from("GameFail00"));
+    scene2_endtitleFail.zIndex = 120;
+    scene2_endtitleFail.scale.set(globalImageScale, globalImageScale);
+    scene2_endtitleFail.position.set
+      (screenWidth / 2 - scene2_endtitleFail.width / 2,
+        screenHeight / 2 - scene2_endtitleFail.height / 2 - 30);
+
+    scene2.addChild(scene2_endtitleFail);
+
+    scene2_endtitlePass = new PIXI.Sprite(PIXI.Texture.from("GamePass00"));
+    scene2_endtitlePass.zIndex = 120;
+    scene2_endtitlePass.scale.set(globalImageScale, globalImageScale);
+    scene2_endtitlePass.position.set
+      (screenWidth / 2 - scene2_endtitlePass.width / 2,
+        screenHeight / 2 - scene2_endtitlePass.height / 2 - 30);
+
+    scene2.addChild(scene2_endtitlePass);
+  }
 }
 
 function CreateBook() {
@@ -565,6 +592,9 @@ function detectMarkPos() {
 }
 
 function addScore(delta) {
+
+  if (scene2_gamePause) return;
+
   scene2_score += delta;
   if (scene2_score < 0) scene2_score = 0;
   scene2_scoreUI.text.text = scene2_score;
@@ -593,7 +623,10 @@ function GameFunction() {
       for (let i = scene2_bookGroup.length - 1; i >= 0; i--) {
         if (scene2_bookGroup[i].x + (scene2_movingDistant * -1) <= -scene2_bookGroup[i].width * 1.5) {
 
-          scene2_totalScore += 5;
+          if (scene2_gamePause == false) {
+            scene2_totalScore += 5;
+          }
+
           RecycleBook(scene2_bookGroup, i);
           //console.log("Book Recyle");
         }
@@ -643,6 +676,8 @@ function GameFunction() {
     scene2_tickerFunc.push(TimerCountDown);
     function TimerCountDown(deltaTime) {
 
+      if (scene2_gamePause) return;
+
       if (scene2_stageTimer > 0) {
         scene2_countDownTimer += 1;
         if (scene2_countDownTimer > scene2_countDownTick) {
@@ -652,9 +687,48 @@ function GameFunction() {
         }
       }
       else if (scene2_stageTimer == 0) {
+
         scene2_stageTimer -= 1;
+
         console.log("GAME OVER");
-        EndThisScene();
+
+        //EndThisScene();
+        let rate = scene2_score / scene2_totalScore;
+        if (rate > 1) rate = 1;
+      
+        centerComponent.G1Rate = rate;
+      
+        if (rate > 0.6) {
+          centerComponent.stageResult = 1;
+          scene2_endTitle = scene2_endtitlePass;
+        }
+        else {
+          centerComponent.stageResult = 0;
+          scene2_endTitle = scene2_endtitleFail;
+        }
+        scene2_endTitle.visible = true;
+
+        scene2_startTimer = 0;
+        app.ticker.add(
+          function EndTitleShowUp(deltaTime) {
+            scene2_startTimer++;
+
+            //結尾標題出現
+            if (scene2_startTimer <= 20) {
+              scene2_endTitle.scale.set(((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale);
+              scene2_endTitle.position.set(screenWidth / 2 - scene2_endTitle.width / 2, screenHeight / 2 - scene2_endTitle.height / 2 - 20)
+            }
+            //等待
+            else if (scene2_startTimer < 100) {
+            }
+            //結束遊戲
+            else if (scene2_startTimer == 100) {
+              app.ticker.remove(EndTitleShowUp);
+              EndThisScene();
+            }
+          });
+
+
       }
 
       if (scene2_hand.timer != -1) {
@@ -682,7 +756,7 @@ function GameFunction() {
       else {
         scene2_stampBox.visible = true;
         scene2_stampBox2.visible = true;
-
+        scene2_gamePause = false;
         app.ticker.remove(TitleShowUp);
       }
 
@@ -724,7 +798,7 @@ async function EndThisScene() {
   }
 
   let rate = scene2_score / scene2_totalScore;
-  if (rate > 1)rate = 1;
+  if (rate > 1) rate = 1;
 
   centerComponent.G1Rate = rate;
 

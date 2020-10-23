@@ -92,6 +92,12 @@ async function ResetSetting() {
       scene4_CharTitleLList[4].visible = true;
   }
 
+  scene4_endtitleFail.visible = false;
+  scene4_endtitlePass.visible = false;
+  scene4_endtitleFail.alpha = 1;
+  scene4_endtitlePass.alpha = 1;
+
+  scene4_gamePause =true;
 
   scene4.visible = true;
 
@@ -106,6 +112,7 @@ function LoadSetting() {
   scene4_energyBar = null;
 
   scene4_gameMode = 1; //0依序 1隨機
+  scene4_gamePause  = true;
   scene4_score = 0;
   scene4_buttonGroup = [];
   scene4_totalButtonConnter = 0;
@@ -728,6 +735,27 @@ function SetObject() {
         screenHeight / 2 - scene4_title.height / 2 - 30);
     scene4.addChild(scene4_title);
   }
+
+  //結尾標題
+  {
+    scene4_endtitleFail = new PIXI.Sprite(PIXI.Texture.from("GameFail00"));
+    scene4_endtitleFail.zIndex = 120;
+    scene4_endtitleFail.scale.set(globalImageScale, globalImageScale);
+    scene4_endtitleFail.position.set
+      (screenWidth / 2 - scene4_endtitleFail.width / 2,
+        screenHeight / 2 - scene4_endtitleFail.height / 2 - 30);
+
+    scene4.addChild(scene4_endtitleFail);
+
+    scene4_endtitlePass = new PIXI.Sprite(PIXI.Texture.from("GamePass00"));
+    scene4_endtitlePass.zIndex = 120;
+    scene4_endtitlePass.scale.set(globalImageScale, globalImageScale);
+    scene4_endtitlePass.position.set
+      (screenWidth / 2 - scene4_endtitlePass.width / 2,
+        screenHeight / 2 - scene4_endtitlePass.height / 2 - 30);
+      
+    scene4.addChild(scene4_endtitlePass);
+  }
 }
 
 function showRadio(radio = 0) {
@@ -783,6 +811,8 @@ async function ReuseButton(dir) {
 
     return;
   }
+
+  scene4_gamePause = true;
 
   scene4_totalButtonConnter++;
 
@@ -970,6 +1000,8 @@ function GameFunction() {
     scene4_tickerFunc.push(gameTimer);
     function gameTimer(deltaTime) {
 
+      if (scene4_gamePause) return;
+
       timer += 1;
       buttonTimer += 1;
 
@@ -987,26 +1019,60 @@ function GameFunction() {
       }
 
       if (scene4_stageTimer > 0) {
-        scene4_countDownTimer += deltaTime;
-        if (scene4_countDownTimer > scene4_countDownTick) {
-          scene4_countDownTimer = 0;
-          scene4_stageTimer -= 1;
-          scene4_uIGroup[0].text.text = scene4_stageTimer;
-
-          if (scene4_stageTimer == scene4_stageTotalTime - 5 && scene4_radio == -1) {
-            scene4_radio++;
-            showRadio(scene4_radio);
-          }
-          else if (scene4_stageTimer == scene4_stageTotalTime - 18 && scene4_radio == 0) {
-            scene4_radio++;
-            showRadio(scene4_radio);
-          }
-        }
+         scene4_countDownTimer += deltaTime;
+         if (scene4_countDownTimer > scene4_countDownTick) {
+           scene4_countDownTimer = 0;
+           scene4_stageTimer -= 1;
+           scene4_uIGroup[0].text.text = scene4_stageTimer;
+ 
+           if (scene4_stageTimer == scene4_stageTotalTime - 5 && scene4_radio == -1) {
+             scene4_radio++;
+             showRadio(scene4_radio);
+           }
+           else if (scene4_stageTimer == scene4_stageTotalTime - 18 && scene4_radio == 0) {
+             scene4_radio++;
+             showRadio(scene4_radio);
+           }
+         }
       }
       else if (scene4_stageTimer == 0) {
+
+        scene4_gamePause = true;
+
         scene4_stageTimer -= 1;
         console.log("GAME OVER");
-        EndThisScene();
+
+        if (scene4_currentScoreLevel >= 4) {
+          centerComponent.stageResult = 1;
+          scene4_endTitle = scene4_endtitlePass;
+        }
+        else {
+          centerComponent.stageResult = 0;
+          scene4_endTitle = scene4_endtitleFail;
+        }
+        scene4_endTitle.visible = true;
+
+        scene4_startTimer = 0;
+        app.ticker.add(
+          function EndTitleShowUp(deltaTime) {
+            scene4_startTimer++;
+            
+            //結尾標題出現
+            if (scene4_startTimer <= 20) {
+              scene4_endTitle.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
+              scene4_endTitle.position.set(screenWidth / 2 - scene4_endTitle.width / 2, screenHeight / 2 - scene4_endTitle.height / 2 - 20)
+            }
+            //等待
+            else if (scene4_startTimer < 100) {
+            }
+            //結束遊戲
+            else if (scene4_startTimer == 100) {
+              app.ticker.remove(EndTitleShowUp);
+              EndThisScene();
+            }
+          })          ;
+
+
       }
 
 
@@ -1032,6 +1098,8 @@ function GameFunction() {
       }
       //開始遊戲
       else {
+
+        scene4_gamePause = false;
 
         //開場時放一個按鈕
         if (scene4_gameMode == 1) {
@@ -1160,6 +1228,9 @@ function ButtonMoveLeft() {
 }
 
 function AddScore(delta) {
+
+  if (scene4_gamePause) return;
+
   scene4_score += delta;
   if (scene4_score < 0) scene4_score = 0;
   scene4_scoreUI.text.text = scene4_score.toFixed(0);

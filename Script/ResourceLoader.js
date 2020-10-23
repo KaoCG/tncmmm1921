@@ -470,6 +470,7 @@ async function SetLoader() {
     .add('stamp', './Resource/Music/SE/stamp.mp3')
     .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
     .add('talking_click', './Resource/Music/SE/talking_click.mp3')
+    .add('jet_fly', './Resource/Music/SE/jet_fly.mp3')
     .add('error', './Resource/Music/SE/error.mp3');
 
     //PIXI.sound.play('theme', { loop: true });
@@ -533,7 +534,7 @@ async function SetLoader() {
   }
 
   //元帥畫面
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 10; i++) {
     PIXI.loader.add("Summon0" + i, "./Resource/Final/EndScene/Summon/Summon0" + i + ".png");
   }
   for (let i = 0; i < 3; i++) {
@@ -705,6 +706,11 @@ async function SetLoader() {
     PIXI.loader.add("G2Talk0" + i, "./Resource/Final/G2_UI/Talk/G2Talk0" + i + ".png");
   }
   PIXI.loader.add("G2GameTitle", "./Resource/Final/G2_UI/G2GameTitle.png");
+
+  PIXI.loader.add("GameFail00", "./Resource/Final/G2_UI/GameFail00.png");
+  PIXI.loader.add("GameFail01", "./Resource/Final/G2_UI/GameFail01.png");
+  PIXI.loader.add("GamePass00", "./Resource/Final/G2_UI/GamePass00.png");
+  PIXI.loader.add("GamePass01", "./Resource/Final/G2_UI/GamePass01.png");
 
   //黑色字卡
   for (let i = 0; i < 8; i++) {
