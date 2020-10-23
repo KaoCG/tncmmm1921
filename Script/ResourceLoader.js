@@ -416,7 +416,7 @@ async function SetLoader() {
   //await document.fonts.load('16px NISC18030');
 
   //音樂載入
-  /*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
+    await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
     await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
     await PIXI.sound.add('run1', './Resource/Music/BGM/run1.mp3');
     await PIXI.sound.add('run2', './Resource/Music/BGM/run2.mp3');
@@ -434,7 +434,7 @@ async function SetLoader() {
     await PIXI.sound.add('small_game_click', './Resource/Music/SE/small_game_click.mp3');
     await PIXI.sound.add('stamp', './Resource/Music/SE/stamp.mp3');
     await PIXI.sound.add('stamp_good', './Resource/Music/SE/stamp_good.mp3');
-    await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');*/
+    await PIXI.sound.add('talking_click', './Resource/Music/SE/talking_click.mp3');
 
   //團片載入
   await PIXI.loader.onComplete.add(finishHandler);
@@ -450,7 +450,7 @@ async function SetLoader() {
     .add("white", "./Resource/White.png")
     .add("fade", "./Resource/Fade.png");
 
-  PIXI.loader
+  /*PIXI.loader
     .add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3')
     .add('plot', './Resource/Music/BGM/plot.mp3')
     .add('run1', './Resource/Music/BGM/run1.mp3')
@@ -471,7 +471,7 @@ async function SetLoader() {
     .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
     .add('talking_click', './Resource/Music/SE/talking_click.mp3')
     .add('jet_fly', './Resource/Music/SE/jet_fly.mp3')
-    .add('error', './Resource/Music/SE/error.mp3');
+    .add('error', './Resource/Music/SE/error.mp3');*/
 
   //PIXI.sound.play('theme', { loop: true });
 
