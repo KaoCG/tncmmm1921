@@ -47,7 +47,7 @@ async function LoadResourceLoader() {
   sceneLoading_scoreText.visible = true;
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  app.stage.addChild(sceneLoading_scoreText);
+  //app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -147,14 +147,11 @@ async function LoadResourceLoader() {
 
 async function TouchToStart() {
 
-
-
   await LoadScene0();
 
   await SetLoader();
 
   await ResetSetting();
-
 
   //等一下要打開
   //screenfull.request();
@@ -803,17 +800,18 @@ async function CreateLoadingText(loader, resource) {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  sceneLoading_scoreText = new PIXI.Text("0", style);
+  sceneLoading_scoreText = new PIXI.Text("Loading...", style);
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2 - 140, screenHeight / 2 + 72);
   sceneLoading_scoreText.visible = true;
 
-  sceneLoading_scoreText2 = new PIXI.Text("0", style);
+  sceneLoading_scoreText2 = new PIXI.Text("Loading...", style);
+  sceneLoading_scoreText2.scale.set(0.5, 0.5);
   sceneLoading_scoreText2.position.set(screenWidth / 2 - 150, screenHeight / 2 + 50);
   sceneLoading_scoreText2.visible = true;
 
   sceneLoading.addChild(sceneLoading_scoreText);
-  //sceneLoading.addChild(sceneLoading_scoreText2);
+  sceneLoading.addChild(sceneLoading_scoreText2);
 
 
 }
