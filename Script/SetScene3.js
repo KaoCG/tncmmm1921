@@ -484,7 +484,7 @@ async function SetObject() {
 
       let style = new PIXI.TextStyle({
         fontFamily: "NotoSansCJKtc-Regular",
-        fontSize: 32,
+        fontSize: 32, //36
         fill: "white",
         fontStyle: "normal",
         fontWeight: "lighter",
@@ -515,7 +515,7 @@ async function SetObject() {
         dialogBoxText.scale.set(1 / scale * 0.5, 1 / scale * 0.5);
         //dialogBoxText.position.set(64, 32);
         //dialogBoxText.position.set(44, 141);
-        dialogBoxText.position.set(44, 143-2);
+        dialogBoxText.position.set(44 - 2, 143-2);
         scene3_dialogBox.text = dialogBoxText;
         scene3_dialogBox.active = true;
         scene3_dialogBox.dialogEnd = false;
