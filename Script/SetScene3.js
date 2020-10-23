@@ -259,6 +259,7 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set10;
       scene3_sceneList[7].visible = true;
 
+
       //兩種底板
       {
         if (centerComponent.rate < 0.25) { centerComponent.stageResult = 0; scene5_End0.texture = PIXI.Texture.from("EndR00"); }
@@ -482,14 +483,14 @@ async function SetObject() {
       });*/
 
       let style = new PIXI.TextStyle({
-        fontFamily: "NotoSansCJKtc-Light",
-        fontSize: 36,
+        fontFamily: "NotoSansCJKtc-Regular",
+        fontSize: 32,
         fill: "white",
         fontStyle: "normal",
         fontWeight: "lighter",
         //stroke: '#000000',
         //strokeThickness: 0,
-        letterSpacing: 5,
+        letterSpacing: 4,
         align: "left",
         padding: 10,
         lineHeight: 48
@@ -514,7 +515,7 @@ async function SetObject() {
         dialogBoxText.scale.set(1 / scale * 0.5, 1 / scale * 0.5);
         //dialogBoxText.position.set(64, 32);
         //dialogBoxText.position.set(44, 141);
-        dialogBoxText.position.set(44, 143);
+        dialogBoxText.position.set(44, 143-2);
         scene3_dialogBox.text = dialogBoxText;
         scene3_dialogBox.active = true;
         scene3_dialogBox.dialogEnd = false;
@@ -1622,13 +1623,13 @@ async function SetObject() {
 
         //測試用
         //centerComponent.seenGhost = true;
-        centerComponent.seenGhost = true;
+
         if (centerComponent.seenGhost == true) {
           scene5_ghost.visible = true;
           scene5_inputContainer.visible = true;
           scene5_textEmpty.visible = false;
 
-          scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2 - 70, 360);
+          scene5_butS0.x = screenWidth / 2 - scene5_butS0.width / 2 - 70;
           scene5_butS0.alpha = 1;
 
           scene5_butS1.visible = true;
@@ -1640,7 +1641,7 @@ async function SetObject() {
           scene5_inputContainer.visible = false;
           scene5_textEmpty.visible = true;
 
-          scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2, 360);
+          scene5_butS0.x =screenWidth / 2 - scene5_butS0.width / 2;
           scene5_butS0.alpha = 1;
 
           scene5_butS1.visible = false;
@@ -1675,14 +1676,16 @@ async function SetObject() {
        but2.position.set(screenWidth / 2 - but2.width / 2 - 70, 360)
        sceneA.addChild(but2);*/
 
+       let deltaY = 10;
+
       scene_butS3 = new PIXI.Sprite(PIXI.Texture.from("SummonBut03"));
       scene_butS3.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
-      scene_butS3.position.set(screenWidth / 2 - scene_butS3.width / 2 + 70, 360)
+      scene_butS3.position.set(screenWidth / 2 - scene_butS3.width / 2 + 70, 360 + deltaY + 5)
       sceneA.addChild(scene_butS3);
 
       scene5_butS0 = new PIXI.Sprite(PIXI.Texture.from("SummonBut00"));
       scene5_butS0.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
-      scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2 - 70, 360)
+      scene5_butS0.position.set(screenWidth / 2 - scene5_butS0.width / 2 - 70, 360 + deltaY + 5)
       sceneA.addChild(scene5_butS0);
       scene5_butS0.interactive = true;
       scene5_butS0.buttonMode = true;
@@ -1701,7 +1704,7 @@ async function SetObject() {
 
       scene5_butS1 = new PIXI.Sprite(PIXI.Texture.from("SummonBut02"));
       scene5_butS1.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
-      scene5_butS1.position.set(screenWidth / 2 - scene5_butS1.width / 2 + 70, 360)
+      scene5_butS1.position.set(screenWidth / 2 - scene5_butS1.width / 2 + 70, 360 + deltaY + 5)
       sceneA.addChild(scene5_butS1);
       scene5_butS1.interactive = true;
       scene5_butS1.buttonMode = true;
@@ -1806,7 +1809,7 @@ async function SetObject() {
 
       let IMAGED = new PIXI.Sprite(PIXI.Texture.from("Summon04"));
       IMAGED.scale.set(globalImageScale, globalImageScale);
-      IMAGED.position.set(screenWidth / 2 - IMAGED.width / 2 - 5, 0)
+      IMAGED.position.set(screenWidth / 2 - IMAGED.width / 2 - 5, 0 + deltaY)
       sceneA.addChild(IMAGED);
 
 
@@ -1821,22 +1824,22 @@ async function SetObject() {
 
       let IMAGEB = new PIXI.Sprite(PIXI.Texture.from("Summon07"));
       IMAGEB.scale.set(globalImageScale, globalImageScale);
-      IMAGEB.position.set(screenWidth / 2 - IMAGEB.width / 2 + 5, 0)
+      IMAGEB.position.set(screenWidth / 2 - IMAGEB.width / 2 + 5, 0 + deltaY)
       scene5_inputContainer.addChild(IMAGEB);
 
       let IMAGEC = new PIXI.Sprite(PIXI.Texture.from("Summon08"));
       IMAGEC.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
-      IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2 + 5, -61)
+      IMAGEC.position.set(screenWidth / 2 - IMAGEC.width / 2 + 5, -61 + deltaY)
       scene5_inputContainer.addChild(IMAGEC);
 
       let IMAGEE = new PIXI.Sprite(PIXI.Texture.from("Summon05"));
       IMAGEE.scale.set(globalImageScale, globalImageScale);
-      IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2 - 5, 0)
+      IMAGEE.position.set(screenWidth / 2 - IMAGEE.width / 2 - 5, 0 + deltaY)
       scene5_ghost.addChild(IMAGEE);
 
       let IMAGEF = new PIXI.Sprite(PIXI.Texture.from("Summon09"));
       IMAGEF.scale.set(globalImageScale * 0.16, globalImageScale * 0.16);
-      IMAGEF.position.set(screenWidth / 2 - IMAGEF.width / 2, 15)
+      IMAGEF.position.set(screenWidth / 2 - IMAGEF.width / 2, 15 + deltaY)
       scene5_inputContainer.addChild(IMAGEF);
 
       scene5_password = [-1, -1, -1, -1, -1, -1];

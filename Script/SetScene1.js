@@ -137,11 +137,6 @@ async function ResetSetting() {
         scene1_BGObjectGroup[i * 3 + 1].texture = PIXI.Texture.from("B1L1" + (i));
         scene1_BGObjectGroup[i * 3 + 2].texture = PIXI.Texture.from("B1L2" + (i % 2));
       }
-      for (let i = 0; i < 5; i++) {
-        scene1_selectableGroup[i].visible = true;
-        scene1_selectableGroup[i].activate = true;
-        scene1_selectableGroup[i].instance.play();
-      }
 
       //教學畫面
       if (centerComponent.readTutorial == false) {
@@ -156,14 +151,27 @@ async function ResetSetting() {
         scene1_runner.instance.play();
       }
 
-      scene1_selectableGroup[4].position.set(2000, 39)
-      scene1_selectableGroup[0].position.set(3870, 105);
-      scene1_selectableGroup[3].position.set(4500, 178);
-      scene1_selectableGroup[1].position.set(7600, 200);
-      scene1_selectableGroup[2].position.set(9500, 40);
+      //選擇物件擺放
+      for (let i = 0; i < 5; i++) {
+        scene1_selectableGroup[i].visible = true;
+        scene1_selectableGroup[i].activate = true;
+        scene1_selectableGroup[i].instance.play();
+      }
 
-      scene1_selectableGroup[0].id = 10;
-      scene1_selectableGroup[1].id = 11;
+      scene1_selectableGroup[4].position.set(2000, 40); //2000
+      scene1_selectableGroup[4 + 21].position.set(205 + 2000, 62);
+
+      scene1_selectableGroup[0].position.set(3870, 103);//3870
+      scene1_selectableGroup[0 + 21].position.set(24 + 3870, 68);
+
+      scene1_selectableGroup[3].position.set(4500, 180); //4500
+      scene1_selectableGroup[3 + 21].position.set(71 + 4500, 165);
+
+      scene1_selectableGroup[1].position.set(7600, 200);//7600
+      scene1_selectableGroup[1 + 21].position.set(17 + 7600, 218);
+
+      scene1_selectableGroup[2].position.set(9500, 40); 
+      scene1_selectableGroup[2 + 21].position.set(53+9500, 25);
 
       scene1_endChar.x = 12250;
       scene1_stageTimer = 40;
@@ -672,7 +680,7 @@ function SetObject() {
     {
       let rr = PIXI.Texture.from("B2R00");
       let rrI = new PIXI.Sprite(rr);
-      rrI.scale.set(0.079*2.375, 0.079*2.375);
+      rrI.scale.set(0.079 * 2.375, 0.079 * 2.375);
       rrI.visible = false;
       rrI.x = 101;
       rrI.y = 212.2 - moveDelta;
@@ -801,7 +809,7 @@ function SetObject() {
   //選擇物件
   {
 
-    for (var i = 0; i < 21; i++) {
+    for (var i = 0; i < 26; i++) {
       let B1S00 = new PIXI.Container();
       B1S00.position.set(2000, 100);
       B1S00.activate = true;
@@ -809,7 +817,7 @@ function SetObject() {
 
       let tableframes = [];
       let whiteTexture = PIXI.Texture.from("B1S02")
-      B1S00.id = 1;
+      B1S00.id = -1;
 
 
       switch (i) {
@@ -822,6 +830,7 @@ function SetObject() {
         case 4:
           tableframes = [PIXI.Texture.from("B1S" + i + "0"), PIXI.Texture.from("B1S" + i + "1")];
           whiteTexture = PIXI.Texture.from("B1S" + i + "2");
+          B1S00.id = 10 + i;
           break;
 
         //5~14 場景三
@@ -857,7 +866,24 @@ function SetObject() {
           tableframes = [PIXI.Texture.from("B2S" + (k) + "0"), PIXI.Texture.from("B2S" + (k) + "1")];
           whiteTexture = PIXI.Texture.from("B2S" + (k) + "2");
           B1S00.id = 20 + k;
+          break;
 
+        //21~25 場景一(選擇後)
+        case 21:
+        case 22:
+        case 24:
+        case 25:
+          let r = i - 21;
+          tableframes = [PIXI.Texture.from("B1SA" + (r) + "0")];
+          whiteTexture = PIXI.Texture.from("B1SA" + (r) + "2");
+          B1S00.id = 40 + r;
+          B1S00.scale.set(0.31268, 0.31268);
+          break;
+        case 23:
+          let rr = i - 21;
+          tableframes = [PIXI.Texture.from("B1SA" + (rr) + "0")];
+          whiteTexture = PIXI.Texture.from("B1SA" + (rr) + "2");
+          B1S00.id = 40 + rr;
           break;
       }
 
@@ -1480,6 +1506,16 @@ function GameFunction() {
             scene1_selectableGroup[index].white.alpha = 1;
             scene1_selectableGroup[index].visible = true;
           }
+          else if (id >= 10 && id < 20) {
+            scene1_selectableGroup[index].white.alpha = 0;
+            scene1_selectableGroup[index].visible = false;
+            index = 21 + id - 10;
+            id = id - 10 + 40;
+            scene1_selectableGroup[index].white.visible = true;
+            scene1_selectableGroup[index].white.alpha = 1;
+            scene1_selectableGroup[index].visible = true;
+          }
+
           scene1_selectableGroup[index].white.alpha -= 0.06;
         }
         else {
@@ -1495,19 +1531,14 @@ function GameFunction() {
 
       scene1_movingPauseTimer = 30;
 
-      if (id == 0) {
-
-      }
-      else if (id == 1) {
-
-      }
-      else if (id == 10) {
+      if (id == 10 || id == 40) {
         addEnergy(-5);
       }
-      else if (id == 11) {
+      else if (id == 11 || id == 41) {
 
         addEnergy(+5);
       }
+
       //場景二的雕像
       else if (id == 25 || id == 20) {
         centerComponent.HideEndingTriggerB[3] = true;
@@ -1580,8 +1611,7 @@ function GameFunction() {
           if (dt > 1) dt = 1;
           scene1_SPPlane.x = scene1_SPPlaneInitX + totalX * (1 - (dt * dt * dt - 3 * dt * dt + 3 * dt));
 
-          if(timer == 237)
-          {
+          if (timer == 237) {
             PIXI.sound.play('jet_fly');
           }
 

@@ -411,8 +411,8 @@ async function SetLoader() {
 
   await document.fonts.load('16px pixelFont');
   await document.fonts.load('8px pixelSilver');
-  await document.fonts.load('16px NotoSansCJKtc-Light');
- 
+  await document.fonts.load('16px NotoSansCJKtc-Regular');
+
   //await document.fonts.load('16px NISC18030');
 
   //音樂載入
@@ -473,7 +473,7 @@ async function SetLoader() {
     .add('jet_fly', './Resource/Music/SE/jet_fly.mp3')
     .add('error', './Resource/Music/SE/error.mp3');
 
-    //PIXI.sound.play('theme', { loop: true });
+  //PIXI.sound.play('theme', { loop: true });
 
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
@@ -611,6 +611,12 @@ async function SetLoader() {
       PIXI.loader.add("B1S" + i + "" + j, "./Resource/Final/B1/B1select/B1S" + i + "" + j + ".png");
     }
   }
+  for (let i = 0; i < 5; i++) {
+    for (let j = 0; j < 2; j++) {
+      PIXI.loader.add("B1SA" + i + "" + (j * 2), "./Resource/Final/B1/B1select/B1S" + (i + 5) + "" + (j * 2) + ".png");
+    }
+  }
+
   //跑步2的選擇物件
   for (let i = 0; i < 6; i++) {
     for (let j = 0; j < 3; j++) {
