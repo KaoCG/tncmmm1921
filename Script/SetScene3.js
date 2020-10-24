@@ -507,7 +507,7 @@ async function SetObject() {
         let dialogBoxText = new PIXI.Text(scene3_textInput[scene3_textIndex], style);
         dialogBoxText.scale.set(1 / scale * 0.5, 1 / scale * 0.5);
         dialogBoxText.zIndex = 1;
-        dialogBoxText.position.set(44 - 2, 143 - 2);
+        dialogBoxText.position.set(44 - 2, 143 - 1);
         scene3_dialogBox.text = dialogBoxText;
         scene3_dialogBox.active = true;
         scene3_dialogBox.dialogEnd = false;

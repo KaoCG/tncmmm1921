@@ -96,7 +96,10 @@ async function ResetSetting() {
   for (let i = 0; i < scene1_B3RadioList.length; i++) {
     scene1_B3RadioList[i].visible = false;
   }
-
+  for (let i = 0; i < scene1_NewsList.length; i++) {
+    scene1_NewsList[i].visible = false;
+  }
+  
   //橋段二特殊道具的傳單/飛機關閉
   for (let i = 0; i < scene1_PosterList.length; i++) {
     scene1_PosterList[i].visible = false;
@@ -317,10 +320,6 @@ async function ResetSetting() {
       break;
   }
 
-  /*if (centerComponent.currentStage != 4) {
-    SetTickerFunc();
-  }*/
-
   //教學畫面
   if (centerComponent.currentStage == 4 && centerComponent.readTutorial == false) {
     scene1_runner.instance.stop();
@@ -329,7 +328,7 @@ async function ResetSetting() {
       scene1_Tutorial[i].visible = true;
     }
   }
-  //跑步進入遊戲中
+  //跑步進入遊戲中，然後開始遊戲
   else {
 
     let timer = 100;
@@ -362,15 +361,6 @@ async function ResetSetting() {
   }
 
   scene1_movingBoard.position.set(0, 0);
-
-  /*let timer = 30;
-  app.ticker.add(function startCountDown() {
-    timer -= 1;
-    if (timer == 0) {
-      app.ticker.remove(startCountDown);
-      
-    }
-  });*/
 
   StartingFadeFunc(scene1, scene1_currentAudio);
 
@@ -705,13 +695,11 @@ function SetObject() {
     Bridge_RadioUI.x = 84;
     Bridge_RadioUI.y = 209 - moveDelta;
 
-    let Bridge_RadioUIMask = new PIXI.Graphics();
-    Bridge_RadioUIMask.beginFill(0xFFFFFF).drawRect(84 + 13, 207 - moveDelta, 115, 9).endFill();
-    Bridge_RadioUIMask.alpha = 0;
-    Bridge_RadioUIMask.visible = true;
-    Bridge_RadioUIMask.position.set(0, moveDeltaTemp);
-    //Bridge_RadioUI.mask = Bridge_RadioUIMask;
-    scene1_uIBoardSP.addChild(Bridge_RadioUIMask);
+    let Bridge_NewsMask = new PIXI.Graphics();
+    Bridge_NewsMask.beginFill(0xFFFFFF).drawRect(84 + 13, 207 - moveDelta, 115, 9).endFill();
+    Bridge_NewsMask.visible = true;
+    Bridge_NewsMask.position.set(0, moveDeltaTemp);
+    scene1_uIBoardSP.addChild(Bridge_NewsMask);
 
     scene1_CharTitleList = [];
     for (let i = 0; i < 9; i++) {
@@ -780,21 +768,23 @@ function SetObject() {
 
     //新聞跑馬燈
     scene1_NewsList = [];
+    scene1_NewsContainer = new PIXI.Container();
+    scene1_uIBoardSP.addChild(scene1_NewsContainer);
     for (let i = 0; i < 5; i++) {
 
       let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("News" + i));
       scene1_Radio.visible = false;
 
       scene1_Radio.scale.set(0.079 * 2.8, 0.079* 2.8);
-
+      scene1_Radio.mask = Bridge_NewsMask;
       scene1_Radio.x = 101;
       scene1_Radio.y = 212 - moveDelta;
       scene1_NewsList.push(scene1_Radio);
 
-      scene1_RadioContainer.addChild(scene1_Radio);
+      scene1_NewsContainer.addChild(scene1_Radio);
 
     }
-
+    //scene1_NewsList[0].visible = true;
 
     //按鈕
     {
@@ -2041,16 +2031,16 @@ function showRadio(rate = 0) {
   if (rate >= 0.4 && scene1_radio == -1) {
     scene1_radio = 0;
   }
-  else if (rate >= 0.5 && scene1_radio == 0) {
+  else if (rate >= 0.4+0.125*1 && scene1_radio == 0) {
     scene1_radio = 1;
   }
-  else if (rate >= 0.6 && scene1_radio == 1) {
+  else if (rate >= 0.4+0.125*2 && scene1_radio == 1) {
     scene1_radio = 2;
   }
-  else if (rate >= 0.7 && scene1_radio == 2) {
+  else if (rate >= 0.4+0.125*3 && scene1_radio == 2) {
     scene1_radio = 3;
   }
-  else if (rate >= 0.8 && scene1_radio == 3) {
+  else if (rate >= 0.9 && scene1_radio == 3) {
     scene1_radio = 4;
   }
   else return;
@@ -2068,6 +2058,8 @@ function showRadio(rate = 0) {
 
   //07ffa5
   let temp = scene1_radio;
+  scene1_NewsContainer.visible = false;
+
   app.ticker.add(function TitleShine(deltaTime) {
 
     if (scene1_RadioList[temp] === undefined) {
@@ -2078,7 +2070,7 @@ function showRadio(rate = 0) {
 
     timer++;
 
-    if (timer > 15) {
+    if (timer > 8) {
       timer = 0;
       counter++;
 
@@ -2093,6 +2085,29 @@ function showRadio(rate = 0) {
       if (counter >= counterLimit) {
         scene1_RadioList[temp].visible = false;
         app.ticker.remove(TitleShine);
+
+        let totalTimer = 400;
+        let timer = totalTimer;
+        scene1_NewsContainer.visible = true;
+        scene1_NewsList[temp].visible = true;
+        scene1_NewsList[temp].x = 230;
+        app.ticker.add(function newsCountDown() {
+
+          if (scene1_NewsList[temp] === undefined) {
+            scene1_NewsList[temp].visible = false;
+            app.ticker.remove(newsCountDown);
+            return;
+          }
+
+          timer -= 1;
+          scene1_NewsList[temp].x = -10 + 240 * timer/totalTimer;
+          if (timer == 0) {
+            scene1_NewsList[temp].visible = false;
+            app.ticker.remove(newsCountDown);     
+          }
+        });
+
+      
       }
     }
   });

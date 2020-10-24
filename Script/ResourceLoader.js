@@ -797,9 +797,9 @@ function loadProgressHandler(loader, resource) {
     sceneLoading_scoreText.text = "09:39";
   }
   else {
-    sceneLoading_scoreText.text = "progress: " + loader.progress.toFixed(2) + "%";
+    sceneLoading_scoreText.text = "Progress: " + loader.progress.toFixed(2) + "%";
     sceneLoading_scoreText.x = (screenWidth - sceneLoading_scoreText.width + 20) / 2;
-    sceneLoading_scoreText2.text = "loading: " + resource.name;
+    sceneLoading_scoreText2.text = "Loading: " + resource.name;
   }
 
 }
@@ -828,12 +828,12 @@ async function CreateLoadingText(loader, resource) {
 
   sceneLoading_scoreText = new PIXI.Text("Loading...", style);
   sceneLoading_scoreText.scale.set(0.5, 0.5);
-  sceneLoading_scoreText.position.set(screenWidth / 2 - 140, screenHeight / 2 + 72);
+  sceneLoading_scoreText.position.set(screenWidth / 2 - sceneLoading_scoreText.width/2, screenHeight / 2 + 72);
   sceneLoading_scoreText.visible = true;
 
   sceneLoading_scoreText2 = new PIXI.Text("Loading...", style);
   sceneLoading_scoreText2.scale.set(0.5, 0.5);
-  sceneLoading_scoreText2.position.set(screenWidth / 2 - 150, screenHeight / 2 + 50);
+  sceneLoading_scoreText2.position.set(screenWidth / 2- sceneLoading_scoreText2.width/2, screenHeight / 2 + 50);
   sceneLoading_scoreText2.visible = true;
 
   sceneLoading.addChild(sceneLoading_scoreText);
