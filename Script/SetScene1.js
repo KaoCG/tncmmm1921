@@ -1163,7 +1163,7 @@ function SetObject() {
       let tempContainer = new PIXI.Container();
       scene1.addChild(tempContainer);
       scene1_Tutorial.push(tempContainer);
-      
+
       tempContainer.zIndex = 250 - i;
       tempContainer.visible = false;
 
@@ -1171,23 +1171,23 @@ function SetObject() {
       tempContainer.addChild(B1O00);
       B1O00.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
       B1O00.x = (screenWidth - B1O00.width) / 2;
-      B1O00.y = -45;  
- 
-      let arrow  = new PIXI.AnimatedSprite([PIXI.Texture.from("TutorialArrow"),PIXI.Texture.from("TutorialArrow2")]);
-      
+      B1O00.y = -45;
+
+      let arrow = new PIXI.AnimatedSprite([PIXI.Texture.from("TutorialArrow"), PIXI.Texture.from("TutorialArrow2")]);
+
       arrow.animationSpeed = 0.05;
       arrow.play();
 
       tempContainer.addChild(arrow);
       arrow.scale.set(globalImageScale, globalImageScale);
-      arrow.position.set(597 -arrow.width/2 ,(screenHeight-arrow.height)/2);
+      arrow.position.set(597 - arrow.width / 2, (screenHeight - arrow.height) / 2);
       arrow.interactive = true;
       tempContainer.arrow = arrow;
 
       if (i == 4) {
 
         arrow.addListener("pointerdown", function () {
-
+          PIXI.sound.play('button_click');
           tempContainer.visible = false;
           scene1_runner.instance.play();
           centerComponent.readTutorial = true;
@@ -1205,16 +1205,16 @@ function SetObject() {
               app.ticker.remove(runIn);
               SetTickerFunc();
             }
-
-
           })
-
-
         })
 
       }
       else {
-        arrow.addListener("pointerdown", function () { tempContainer.visible = false;arrow.stop(); })
+        arrow.addListener("pointerdown", function () {
+          PIXI.sound.play('button_click');
+          tempContainer.visible = false;
+          arrow.stop();
+        })
       }
 
     }
@@ -1926,7 +1926,7 @@ function GameFunction() {
   //按鈕相關
   {
     scene1_buttonGroup[0].addListener("pointerdown", function () {
-    
+
       Button_jamp.visible = false;
       Button_jamp_down.visible = true;
       PIXI.sound.play('jump');
@@ -2087,7 +2087,7 @@ function showRadio(rate = 0) {
   app.ticker.add(function TitleShine(deltaTime) {
 
     if (scene1_RadioList[temp] === undefined) {
- 
+
       scene1_RadioList[temp].visible = false;
       scene1_radioPlaying = false;
       app.ticker.remove(TitleShine);
