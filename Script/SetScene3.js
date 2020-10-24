@@ -502,14 +502,11 @@ async function SetObject() {
         let dialogBox = new PIXI.Sprite(PIXI.Texture.from("dialogBox"));
         dialogBox.scale.set(scale, scale);
         dialogBox.position.set(screenWidth / 2 - dialogBox.width / 2, -36);
-        dialogBox.zIndex = -1;
+        dialogBox.zIndex = 0;
 
         let dialogBoxText = new PIXI.Text(scene3_textInput[scene3_textIndex], style);
-
-
         dialogBoxText.scale.set(1 / scale * 0.5, 1 / scale * 0.5);
-        //dialogBoxText.position.set(64, 32);
-        //dialogBoxText.position.set(44, 141);
+        dialogBoxText.zIndex = 1;
         dialogBoxText.position.set(44 - 2, 143 - 2);
         scene3_dialogBox.text = dialogBoxText;
         scene3_dialogBox.active = true;
@@ -520,6 +517,7 @@ async function SetObject() {
         scene1_arrow.scale.set(1.2, 1.2);
         scene1_arrow.position.set(145, 159);
 
+        scene3_dialogContainer.sortableChildren = true;
         scene3_uIBoard.addChild(scene3_dialogContainer);
         scene3_dialogContainer.addChild(scene3_dialogBox);
         scene3_dialogContainer.addChild(dialogBox);
@@ -541,10 +539,20 @@ async function SetObject() {
         dialogBoxS1.visible = false;
         dialogBoxS1.zIndex = -1;
 
+        let black = new PIXI.Sprite(PIXI.Texture.from("white"));
+        black.width = screenWidth;
+        black.height = screenHeight;
+        black.visible = false;
+        black.tint = "0x000000";
+        black.zIndex = -10;
+        black.alpha = 0.5;
+        scene3_dialogContainer.addChild(black);
+
         scene3_dialogContainer.addChild(dialogBoxS0);
         scene3_dialogContainer.addChild(dialogBoxS1);
         scene3_dialogContainer.dialogBoxS0 = dialogBoxS0;
         scene3_dialogContainer.dialogBoxS1 = dialogBoxS1;
+        scene3_dialogContainer.dialogBoxSB = black;
       }
     }
 
@@ -2403,6 +2411,7 @@ async function GoToNextDialog() {
 
     var optionsNumber = scene3_selectTextInput[scene3_selectIndex].length
 
+    scene3_dialogContainer.dialogBoxSB.visible = true;
     if (optionsNumber == 2) {
       scene3_dialogContainer.dialogBoxS0.visible = true;
     }
@@ -2414,7 +2423,8 @@ async function GoToNextDialog() {
 
       scene3_selectBoxes[i].visible = true;
 
-      scene3_selectBoxes[i].box.width =400;
+      scene3_selectBoxes[i].box.width =500;
+      scene3_selectBoxes[i].box.alpha = 0;
       scene3_selectBoxes[i].box.x = (scene3_selectBoxes[i].box.width) / 2;
       scene3_selectBoxes[i].x = (screenWidth - scene3_selectBoxes[i].box.width) / 2;
 
@@ -2422,9 +2432,13 @@ async function GoToNextDialog() {
       scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + (scene3_selectBoxes[i].box.width - scene3_selectBoxes[i].text.width) / 2;
 
       if (optionsNumber == 3)
-        scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
+       {
+        scene3_selectBoxes[i].y = 147 + 66 * (i - 1);
+       } //scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
       else
-        scene3_selectBoxes[i].y = 343 + 22 * (i * 2 - 1);
+       {
+        scene3_selectBoxes[i].y = 147+33 + 66* (i  - 1);
+       } //scene3_selectBoxes[i].y = 343 + 22 
     }
   }
   //End/結尾
@@ -2735,13 +2749,13 @@ async function JumpResult_End(result) {
   GoToNextDialog_Ending();
 }
 
-
 function clickSelectBox(a) {
 
   //console.log(scene3_selectIndex + " " + a);
 
   scene3_dialogContainer.dialogBoxS0.visible = false;
   scene3_dialogContainer.dialogBoxS1.visible = false;
+  scene3_dialogContainer.dialogBoxSB.visible = false;
 
   for (let i = 0; i < scene3_selectBoxes.length; i++) {
     scene3_selectBoxes[i].visible = false;

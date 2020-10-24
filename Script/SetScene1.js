@@ -299,8 +299,7 @@ async function ResetSetting() {
         scene1_selectableGroup[10].visible = true;
         scene1_selectableGroup[10].activate = true;
       }
-      else
-      {
+      else {
         scene1_selectableGroup[10].visible = false;
         scene1_selectableGroup[10].activate = false;
       }
@@ -593,10 +592,10 @@ function LoadSetting() {
 
 }
 
-//動畫製作
+//物件製作
 function SetObject() {
 
-  //史萊姆Sprite
+  //史萊姆Sprite 
   {
     scene1_slime.position.set(135, 340);
     scene1_slimeInitY = scene1_slime.position.y;
@@ -680,9 +679,7 @@ function SetObject() {
     scene1_uIBoardSP.addChild(Blood_Mask);
 
     let Blood_MaskW = new PIXI.Graphics();
-    Blood_MaskW.beginFill(0xFFFFFF);
-    Blood_MaskW.drawRect(42, 23, 156.5, 9);
-    Blood_MaskW.endFill();
+    Blood_MaskW.beginFill(0xFFFFFF).drawRect(42, 23, 156.5, 9).endFill();
     Blood_MaskW.visible = true;
     Blood_MaskW.position.set(0, moveDeltaTemp);
     Blood_MaskW.mask = Blood_Mask;
@@ -708,8 +705,15 @@ function SetObject() {
     Bridge_RadioUI.x = 84;
     Bridge_RadioUI.y = 209 - moveDelta;
 
-    scene1_CharTitleList = [];
+    let Bridge_RadioUIMask = new PIXI.Graphics();
+    Bridge_RadioUIMask.beginFill(0xFFFFFF).drawRect(84 + 13, 207 - moveDelta, 115, 9).endFill();
+    Bridge_RadioUIMask.alpha = 0;
+    Bridge_RadioUIMask.visible = true;
+    Bridge_RadioUIMask.position.set(0, moveDeltaTemp);
+    //Bridge_RadioUI.mask = Bridge_RadioUIMask;
+    scene1_uIBoardSP.addChild(Bridge_RadioUIMask);
 
+    scene1_CharTitleList = [];
     for (let i = 0; i < 9; i++) {
 
       let scene1_CharTitle = new PIXI.Sprite(PIXI.Texture.from("CharTitle" + i));
@@ -729,12 +733,10 @@ function SetObject() {
 
     }
 
-
+    //廣播
     scene1_RadioList = [];
     scene1_RadioContainer = new PIXI.Container();
     scene1_uIBoardSP.addChild(scene1_RadioContainer);
-
-    //廣播
     for (let i = 0; i < 5; i++) {
 
       let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("Radio" + i));
@@ -749,7 +751,6 @@ function SetObject() {
       scene1_RadioContainer.addChild(scene1_Radio);
 
     }
-
     //B2的特殊廣播
     {
       let rr = PIXI.Texture.from("B2R00");
@@ -761,7 +762,6 @@ function SetObject() {
       scene1_uIBoardSP.addChild(rrI);
       scene1_B2R00 = rrI;
     }
-
     //B3的特殊廣播
     scene1_B3RadioList = [];
     for (let i = 0; i < 4; i++) {
@@ -777,6 +777,24 @@ function SetObject() {
 
       scene1_uIBoardSP.addChild(scene1_Radio);
     }
+
+    //新聞跑馬燈
+    scene1_NewsList = [];
+    for (let i = 0; i < 5; i++) {
+
+      let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("News" + i));
+      scene1_Radio.visible = false;
+
+      scene1_Radio.scale.set(0.079 * 2.8, 0.079* 2.8);
+
+      scene1_Radio.x = 101;
+      scene1_Radio.y = 212 - moveDelta;
+      scene1_NewsList.push(scene1_Radio);
+
+      scene1_RadioContainer.addChild(scene1_Radio);
+
+    }
+
 
     //按鈕
     {

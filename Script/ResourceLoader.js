@@ -40,7 +40,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("06:58", style);
+  let sceneLoading_scoreText = new PIXI.Text("03:58", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2);
@@ -430,8 +430,6 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
   await document.fonts.load('16px NotoSansCJKtc-Regular');
 
-  //await document.fonts.load('16px NISC18030');
-
   //音樂載入
   /*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
     await PIXI.sound.add('plot', './Resource/Music/BGM/plot.mp3');
@@ -697,6 +695,9 @@ async function SetLoader() {
   //收音機
   for (var i = 0; i < 5; i++) {
     PIXI.loader.add("Radio" + i, "./Resource/Final/Brige_UIUX/Radio/Radio" + i + ".png");
+  }
+  for (var i = 0; i < 5; i++) {
+    PIXI.loader.add("News" + i, "./Resource/Final/Brige_UIUX/Radio/News" + i + ".png");
   }
 
   //過廠對話1的人物場景
