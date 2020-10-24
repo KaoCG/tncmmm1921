@@ -66,7 +66,8 @@ async function ResetSetting() {
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
     scene1_radioPlaying = false;
-
+    scene1_RadioContainer.visible = true;
+    scene1_NewsContainer.visible = true;
   }
 
   //關閉所有選擇物件
@@ -1842,16 +1843,20 @@ function GameFunction() {
       temp.visible = true;
       temp.tint = "0x07ffa5";
 
+      scene1_RadioContainer.visible = false;
+      scene1_NewsContainer.visible = false;
+
       app.ticker.add(function TitleShine(deltaTime) {
 
         if (temp === undefined) {
 
-          scene1_RadioContainer.visible = false;
-          scene1_NewsContainer.visible = false;
-
           temp.visible = false;
+          scene1_RadioContainer.visible = true;
+          if (scene1_radioPlaying == false)
+            scene1_NewsContainer.visible = true;
           app.ticker.remove(TitleShine);
           return;
+
         }
 
         timer++;
@@ -1869,11 +1874,13 @@ function GameFunction() {
           }
 
           if (counter >= counterLimit) {
+
             temp.visible = false;
             scene1_RadioContainer.visible = true;
             if (scene1_radioPlaying == false)
               scene1_NewsContainer.visible = true;
             app.ticker.remove(TitleShine);
+
           }
         }
       });
@@ -2067,6 +2074,7 @@ function showRadio(rate = 0) {
   app.ticker.add(function TitleShine(deltaTime) {
 
     if (scene1_RadioList[temp] === undefined) {
+ 
       scene1_RadioList[temp].visible = false;
       scene1_radioPlaying = false;
       app.ticker.remove(TitleShine);

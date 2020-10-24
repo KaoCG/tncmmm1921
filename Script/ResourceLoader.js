@@ -40,14 +40,14 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("03:58", style);
+  let sceneLoading_scoreText = new PIXI.Text("06:16", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2);
   sceneLoading_scoreText.visible = true;
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  //app.stage.addChild(sceneLoading_scoreText);
+  app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
