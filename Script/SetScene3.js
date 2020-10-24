@@ -585,7 +585,7 @@ async function SetObject() {
         selectBox.addChild(selectBox2);*/
 
         //padding可以處理字體顯示位置不正確的問題
-        let style = new PIXI.TextStyle({
+       /* let style = new PIXI.TextStyle({
           fontFamily: "pixelSilver",
           fontSize: 96,
           fill: "black",
@@ -595,10 +595,22 @@ async function SetObject() {
           align: "left",
           padding: 100,
           lineHeight: 96
+        });*/
+
+        let style = new PIXI.TextStyle({
+          fontFamily: "NotoSansCJKtc-Regular",
+          fontSize: 64,
+          fill: "black",
+          fontStyle: "normal",
+          fontWeight: "lighter",
+          letterSpacing: 16,
+          align: "left",
+          padding: 100,
+          lineHeight: 64
         });
 
         let selectBoxText = new PIXI.Text(scene3_selectTextInput[scene3_selectIndex][i], style);
-        selectBoxText.position.set(edge - 5, 20.5);
+        selectBoxText.position.set(edge - 5 , 20.5 - 11);
         selectBoxText.scale.set(0.5, 0.5);
 
         select.text = selectBoxText;
@@ -2429,7 +2441,7 @@ async function GoToNextDialog() {
       scene3_selectBoxes[i].x = (screenWidth - scene3_selectBoxes[i].box.width) / 2;
 
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
-      scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + (scene3_selectBoxes[i].box.width - scene3_selectBoxes[i].text.width) / 2;
+      scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + (scene3_selectBoxes[i].box.width - scene3_selectBoxes[i].text.width) / 2 + 5;
 
       if (optionsNumber == 3)
        {
