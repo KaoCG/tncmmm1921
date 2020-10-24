@@ -117,10 +117,10 @@ function EndingFade(deltaTime) {
       PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
       PIXI.sound.stop(centerComponent.currentAudio);
 
-     /* if(scene0_sound.playing)
+      if(scene0_sound.isPlaying )
       {
         scene0_sound.stop();
-      }*/
+      }
     }
 
     if (centerComponent.currentScene != null) centerComponent.currentScene.visible = false;

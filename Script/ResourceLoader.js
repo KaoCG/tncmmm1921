@@ -392,9 +392,9 @@ async function ResetSetting() {
 
   //PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
 
-  scene0_sound = PIXI.sound.Sound.from('./Resource/Music/BGM/theme.mp3');
+  scene0_sound = PIXI.sound.Sound.from({url: './Resource/Music/BGM/theme.mp3',loop:true});
   scene0_sound.play();
-  scene0_sound.playing = true;
+  //scene0_sound.playing = true;
 
 
 
