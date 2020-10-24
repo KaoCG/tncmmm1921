@@ -70,19 +70,39 @@ async function LoadResourceLoader() {
   window.addEventListener('resize', resize);
   window.addEventListener("orientationchange", resize, false);
 
-  Scene0_TouchToStartBlack.addListener("pointerdown", (event) => {
+  if(isMobile)
+  {
+    Scene0_TouchToStartBlack.on("tap", (event) => {
 
-    //var audio = new Audio('./Resource/Music/SE/fake.mp3');
-    //audio.play();
+      var audio = new Audio('./Resource/Music/SE/fake.mp3');
+      audio.play();
+  
+      //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
+      //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
+      //screenfull.request();
+  
+      Scene0_TouchToStartBlack.visible = false;
+  
+      TouchToStart();
+    });
+  }
+  else
+  {
+    Scene0_TouchToStartBlack.on("click", (event) => {
 
-    //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
-    //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
-    //screenfull.request();
-
-    Scene0_TouchToStartBlack.visible = false;
-
-    TouchToStart();
-  });
+      var audio = new Audio('./Resource/Music/SE/fake.mp3');
+      audio.play();
+  
+      //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
+      //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
+      //screenfull.request();
+  
+      Scene0_TouchToStartBlack.visible = false;
+  
+      TouchToStart();
+    });
+  }
+ 
 
 
   centerComponent = new PIXI.Container();

@@ -2414,8 +2414,9 @@ async function GoToNextDialog() {
 
       scene3_selectBoxes[i].visible = true;
 
-      scene3_selectBoxes[i].box.width = 314 + 30;
-      scene3_selectBoxes[i].box.x = (screenWidth - scene3_selectBoxes[i].box.width) / 2;
+      scene3_selectBoxes[i].box.width =400;
+      scene3_selectBoxes[i].box.x = (scene3_selectBoxes[i].box.width) / 2;
+      scene3_selectBoxes[i].x = (screenWidth - scene3_selectBoxes[i].box.width) / 2;
 
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
       scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + (scene3_selectBoxes[i].box.width - scene3_selectBoxes[i].text.width) / 2;
