@@ -111,7 +111,7 @@ async function ResetSetting() {
   scene1_stageTimer = 40;
   scene1_itemList = [40, 3, 6, 5, 5, 0, 5, 5, 5, 6];
 
-  scene1_runner.instance.x = -20;
+  scene1_runner.instance.x = -540;
 
   //根據關卡進行設定
   switch (centerComponent.currentStage) {
@@ -196,7 +196,7 @@ async function ResetSetting() {
 
       scene1_currentAudio = 'run1';
 
-      scene1_runner.instance.x = -20 - 200;
+      scene1_runner.instance.x = -20 - 220;
 
       //console.log(scene1_runner.instance.position);
 
@@ -338,7 +338,7 @@ async function ResetSetting() {
       //runner.x = -20;
       //runner.y = 85;
       timer -= 1;
-      scene1_runner.instance.x = -20 + timer / 100 * -500;
+      scene1_runner.instance.x = -20 + timer / 100 * -520;
 
       if (timer == 0) {
         app.ticker.remove(runIn);
@@ -1159,23 +1159,39 @@ function SetObject() {
   {
     scene1_Tutorial = [];
     for (let i = 0; i < 5; i++) {
+
+      let tempContainer = new PIXI.Container();
+      scene1.addChild(tempContainer);
+      scene1_Tutorial.push(tempContainer);
+      
+      tempContainer.zIndex = 250 - i;
+      tempContainer.visible = false;
+
       let B1O00 = new PIXI.Sprite(PIXI.Texture.from("Tutorial0" + (i)));
-      B1O00.zIndex = 250 - i;
+      tempContainer.addChild(B1O00);
       B1O00.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
-      scene1.addChild(B1O00);
-      scene1_Tutorial.push(B1O00);
       B1O00.x = (screenWidth - B1O00.width) / 2;
-      B1O00.y = -45;
-      B1O00.visible = false;
-      B1O00.interactive = true;
+      B1O00.y = -45;  
+ 
+      let arrow  = new PIXI.AnimatedSprite([PIXI.Texture.from("TutorialArrow"),PIXI.Texture.from("TutorialArrow2")]);
+      
+      arrow.animationSpeed = 0.05;
+      arrow.play();
+
+      tempContainer.addChild(arrow);
+      arrow.scale.set(globalImageScale, globalImageScale);
+      arrow.position.set(597 -arrow.width/2 ,(screenHeight-arrow.height)/2);
+      arrow.interactive = true;
+      tempContainer.arrow = arrow;
 
       if (i == 4) {
 
-        B1O00.addListener("pointerdown", function () {
+        arrow.addListener("pointerdown", function () {
 
-          B1O00.visible = false;
+          tempContainer.visible = false;
           scene1_runner.instance.play();
           centerComponent.readTutorial = true;
+          arrow.stop();
 
           let timer = 40;
           app.ticker.add(function runIn() {
@@ -1194,15 +1210,11 @@ function SetObject() {
           })
 
 
-
-
-
-
         })
 
       }
       else {
-        B1O00.addListener("pointerdown", function () { B1O00.visible = false; })
+        arrow.addListener("pointerdown", function () { tempContainer.visible = false;arrow.stop(); })
       }
 
     }
@@ -1914,6 +1926,7 @@ function GameFunction() {
   //按鈕相關
   {
     scene1_buttonGroup[0].addListener("pointerdown", function () {
+    
       Button_jamp.visible = false;
       Button_jamp_down.visible = true;
       PIXI.sound.play('jump');

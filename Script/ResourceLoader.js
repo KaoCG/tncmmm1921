@@ -531,6 +531,9 @@ async function SetLoader() {
     PIXI.loader.add("Tutorial0" + i, "./Resource/Final/Tutorial/Tutorial0" + i + ".png");
   }
 
+  PIXI.loader.add("TutorialArrow", "./Resource/Final/Tutorial/arrow.png");
+  PIXI.loader.add("TutorialArrow2", "./Resource/Final/Tutorial/arrow2.png");
+
   //結尾畫面
   for (let i = 0; i < 3; i++) {
     PIXI.loader.add("End" + i, "./Resource/Final/EndScene/End0" + i + ".png");
