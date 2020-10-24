@@ -1971,12 +1971,12 @@ async function SetObject() {
       scene5_textEmpty = new PIXI.Text("傳說集得大明慈悲國的遺落物，即可召喚元帥", style2);
       scene5_textEmpty.scale.set(0.5, 0.5);
       //scene5_textEmpty.x = (screenWidth-scene5_textEmpty)/2; scene5_textEmpty.y = 320;
-      scene5_textEmpty.position.set((screenWidth - scene5_textEmpty.width) / 2, 312);
+      scene5_textEmpty.position.set((screenWidth - scene5_textEmpty.width) / 2, 312 + deltaY);
       sceneA.addChild(scene5_textEmpty);
 
       let text = new PIXI.Text("", style);
       text.scale.set(0.5, 0.5);
-      text.x = 245; text.y = 318;
+      text.x = 245; text.y = 318+ deltaY;
       sceneA.addChild(text);
 
       scene5_input.on('input', keycode => {
@@ -2382,8 +2382,6 @@ async function SetObject() {
     }
   }
 }
-
-
 
 function CharJump(P) {
 

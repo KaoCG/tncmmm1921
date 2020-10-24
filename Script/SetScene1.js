@@ -65,7 +65,7 @@ async function ResetSetting() {
     scene1_countDownTimer = 0;
     scene1_countDownTick = PIXI.settings.TARGET_FPMS * 1000;
 
-
+    scene1_radioPlaying = false;
 
   }
 
@@ -99,7 +99,7 @@ async function ResetSetting() {
   for (let i = 0; i < scene1_NewsList.length; i++) {
     scene1_NewsList[i].visible = false;
   }
-  
+
   //橋段二特殊道具的傳單/飛機關閉
   for (let i = 0; i < scene1_PosterList.length; i++) {
     scene1_PosterList[i].visible = false;
@@ -775,7 +775,7 @@ function SetObject() {
       let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("News" + i));
       scene1_Radio.visible = false;
 
-      scene1_Radio.scale.set(0.079 * 2.8, 0.079* 2.8);
+      scene1_Radio.scale.set(0.079 * 2.8, 0.079 * 2.8);
       scene1_Radio.mask = Bridge_NewsMask;
       scene1_Radio.x = 101;
       scene1_Radio.y = 212 - moveDelta;
@@ -1847,6 +1847,7 @@ function GameFunction() {
         if (temp === undefined) {
 
           scene1_RadioContainer.visible = false;
+          scene1_NewsContainer.visible = false;
 
           temp.visible = false;
           app.ticker.remove(TitleShine);
@@ -1870,6 +1871,8 @@ function GameFunction() {
           if (counter >= counterLimit) {
             temp.visible = false;
             scene1_RadioContainer.visible = true;
+            if (scene1_radioPlaying == false)
+              scene1_NewsContainer.visible = true;
             app.ticker.remove(TitleShine);
           }
         }
@@ -2031,13 +2034,13 @@ function showRadio(rate = 0) {
   if (rate >= 0.4 && scene1_radio == -1) {
     scene1_radio = 0;
   }
-  else if (rate >= 0.4+0.125*1 && scene1_radio == 0) {
+  else if (rate >= 0.4 + 0.125 * 1 && scene1_radio == 0) {
     scene1_radio = 1;
   }
-  else if (rate >= 0.4+0.125*2 && scene1_radio == 1) {
+  else if (rate >= 0.4 + 0.125 * 2 && scene1_radio == 1) {
     scene1_radio = 2;
   }
-  else if (rate >= 0.4+0.125*3 && scene1_radio == 2) {
+  else if (rate >= 0.4 + 0.125 * 3 && scene1_radio == 2) {
     scene1_radio = 3;
   }
   else if (rate >= 0.9 && scene1_radio == 3) {
@@ -2058,12 +2061,14 @@ function showRadio(rate = 0) {
 
   //07ffa5
   let temp = scene1_radio;
+  scene1_radioPlaying = true;
   scene1_NewsContainer.visible = false;
 
   app.ticker.add(function TitleShine(deltaTime) {
 
     if (scene1_RadioList[temp] === undefined) {
       scene1_RadioList[temp].visible = false;
+      scene1_radioPlaying = false;
       app.ticker.remove(TitleShine);
       return;
     }
@@ -2088,9 +2093,11 @@ function showRadio(rate = 0) {
 
         let totalTimer = 400;
         let timer = totalTimer;
+        scene1_radioPlaying = false;
         scene1_NewsContainer.visible = true;
         scene1_NewsList[temp].visible = true;
         scene1_NewsList[temp].x = 230;
+
         app.ticker.add(function newsCountDown() {
 
           if (scene1_NewsList[temp] === undefined) {
@@ -2100,14 +2107,14 @@ function showRadio(rate = 0) {
           }
 
           timer -= 1;
-          scene1_NewsList[temp].x = -10 + 240 * timer/totalTimer;
+          scene1_NewsList[temp].x = -10 + 240 * timer / totalTimer;
           if (timer == 0) {
             scene1_NewsList[temp].visible = false;
-            app.ticker.remove(newsCountDown);     
+            app.ticker.remove(newsCountDown);
           }
         });
 
-      
+
       }
     }
   });
