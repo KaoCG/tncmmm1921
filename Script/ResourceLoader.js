@@ -247,7 +247,7 @@ async function SetObject() {
     start0.scale.set(globalImageScale, globalImageScale);
     start0.zIndex = 4;
     scene0.addChild(start0);
-    start0.y = -35;
+    start0.y = -33;
 
     scene0_but2 = new PIXI.Sprite.from("./Resource/Final/StartScene/StartBut01.png");
     scene0_but2.width = 806.74;
@@ -304,7 +304,7 @@ async function SetObject() {
     //1000->-200
     cat.zIndex = 3.5;
     cat.x = 1500;
-    cat.y = 300;
+    cat.y = 300-18;
     scene0.addChild(cat);
 
     let counter = 0;
