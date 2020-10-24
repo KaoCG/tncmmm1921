@@ -471,6 +471,8 @@ async function SetLoader() {
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
   PIXI.loader.add("dialogBox", "./Resource/Final/dialogBox.png");
+  PIXI.loader.add("dialogBoxS0", "./Resource/Final/dialogBoxSelect00.png");
+  PIXI.loader.add("dialogBoxS1", "./Resource/Final/dialogBoxSelect01.png");
   PIXI.loader.add("arrow", "./Resource/Final/arrow.png");
 
   //可撿取物件
@@ -531,7 +533,6 @@ async function SetLoader() {
     PIXI.loader.add("Summon0" + i, "./Resource/Final/EndScene/Summon/Summon0" + i + ".png");
   }
   for (let i = 0; i < 3; i++) {
-
     PIXI.loader.add("SummonTalk0" + i, "./Resource/Final/EndScene/Summon/SummonTalk0" + i + ".png");
   }
   for (let i = 0; i < 4; i++) {
@@ -733,9 +734,7 @@ async function SetLoader() {
   //其他
   await PIXI.loader.add("block", "./Resource/Final/block.png");
 
-  /*await PIXI.loader.add("VideoSelect", "./Resource/Final/Video/select.png");
-  await PIXI.loader.add("VideoSelect2", "./Resource/Final/Video/select2.png");
-  await PIXI.loader.add("VideoTitle", "./Resource/Final/Video/title.png");*/
+
 
   x = 0;
   //await PIXI.loader.onLoad.add(loadProgressHandler);

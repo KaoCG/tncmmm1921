@@ -47,7 +47,7 @@ async function ResetSetting() {
 
     scene1_BGContainerA.x = 0;
     scene1_BGContainerB.x = 0;
-    scene1_BGContainerC.x =0;
+    scene1_BGContainerC.x = 0;
 
     //物件的位置
     scene1_itemFrame = 0;
@@ -295,7 +295,12 @@ async function ResetSetting() {
       scene1_selectableGroup[14].position.set(scene1_setWidth * 2 + 1910, 148);
       scene1_selectableGroup[14].dialog.position.set(-75, -42);
 
-      if (scene1_GhostEvent == 5) {
+      if (scene1_GhostEvent >= 5) {
+        scene1_selectableGroup[10].visible = true;
+        scene1_selectableGroup[10].activate = true;
+      }
+      else
+      {
         scene1_selectableGroup[10].visible = false;
         scene1_selectableGroup[10].activate = false;
       }
@@ -369,7 +374,7 @@ async function ResetSetting() {
   });*/
 
   StartingFadeFunc(scene1, scene1_currentAudio);
-  
+
 }
 
 function SetTickerFunc() {
@@ -1305,6 +1310,8 @@ function ItemReset(item) {
   scene1_itemList[itemIndex + 1] -= 1;
   scene1_itemList[0] -= 1;
 
+  console.log(scene1_itemList[0]);
+
   item.id = itemIndex;
 
   //item.instance.texture = scene1_itemTextures[itemIndex * 3];
@@ -1554,6 +1561,7 @@ function GameFunction() {
 
     function SlimeJump() {
       if (scene1_slimeJumping) return;
+      if (scene1_movingPauseTimer > 0) return;
       else scene1_slimeJumping = true;
 
       scene1_runner.instance.stop();

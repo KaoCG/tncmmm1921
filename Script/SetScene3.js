@@ -396,7 +396,7 @@ async function ResetSetting() {
   scene3_dialogBox.active = true;
   scene3_dialogBox.dialogEnd = false;
 
-  scene3_nameBox[0].visible = true;
+  //scene3_nameBox[0].visible = true;
 
   scene3_thisAudio = audio;
   StartingFadeFunc(scene3, audio);
@@ -411,8 +411,8 @@ async function SetContainer() {
   app.stage.addChild(scene3);
 
   scene3_gameBoardGroup = new PIXI.Container();
-  scene3_gameBoardGroup.visible = true; 
-  scene3_gameBoardGroup.scale.set(1);
+  scene3_gameBoardGroup.visible = true;
+  //scene3_gameBoardGroup.scale.set(1);
   scene3_gameBoardGroup.sortableChildren = true;
   scene3.addChild(scene3_gameBoardGroup);
 
@@ -430,7 +430,6 @@ async function SetContainer() {
   scene3_uIBoard.zIndex = 100;
   scene3_uIBoard.sortableChildren = true;
   scene3_gameBoardGroup.addChild(scene3_uIBoard);
-
 
   scene3_nameBoard = new PIXI.Container();
   scene3_nameBoard.zIndex = 101;
@@ -497,17 +496,13 @@ async function SetObject() {
       });
 
 
-
+      let scale = 2.55;
       //新版文字框
       {
-        let scale = 2.55;
-
         let dialogBox = new PIXI.Sprite(PIXI.Texture.from("dialogBox"));
         dialogBox.scale.set(scale, scale);
         dialogBox.position.set(screenWidth / 2 - dialogBox.width / 2, -36);
         dialogBox.zIndex = -1;
-
-
 
         let dialogBoxText = new PIXI.Text(scene3_textInput[scene3_textIndex], style);
 
@@ -515,7 +510,7 @@ async function SetObject() {
         dialogBoxText.scale.set(1 / scale * 0.5, 1 / scale * 0.5);
         //dialogBoxText.position.set(64, 32);
         //dialogBoxText.position.set(44, 141);
-        dialogBoxText.position.set(44 - 2, 143-2);
+        dialogBoxText.position.set(44 - 2, 143 - 2);
         scene3_dialogBox.text = dialogBoxText;
         scene3_dialogBox.active = true;
         scene3_dialogBox.dialogEnd = false;
@@ -532,41 +527,25 @@ async function SetObject() {
         dialogBox.addChild(scene1_arrow);
       }
 
-    }
+      //新版選擇框
+      {
+        let dialogBoxS0 = new PIXI.Sprite(PIXI.Texture.from("dialogBoxS0"));
+        dialogBoxS0.scale.set(scale, scale);
+        dialogBoxS0.position.set(screenWidth / 2 - dialogBoxS0.width / 2, -15);
+        dialogBoxS0.visible = false;
+        dialogBoxS0.zIndex = -1;
 
-    //文字對話框上的名字A
-    {
-      var scene3_NameBoxA = new PIXI.Graphics();
-      scene3_NameBoxA.beginFill(0xFFFFFF);
-      scene3_NameBoxA.drawRect(0, 0, 130, 40).endFill();
-      //圖案沒有position數值，一定要用X和Y
-      scene3_NameBoxA.x = 0;
-      scene3_NameBoxA.y = - scene3_NameBoxA.height;
-      scene3_NameBoxA.alpha = 1;
+        let dialogBoxS1 = new PIXI.Sprite(PIXI.Texture.from("dialogBoxS1"));
+        dialogBoxS1.scale.set(scale, scale);
+        dialogBoxS1.position.set(screenWidth / 2 - dialogBoxS1.width / 2, -15);
+        dialogBoxS1.visible = false;
+        dialogBoxS1.zIndex = -1;
 
-      scene3_dialogBox.addChild(scene3_NameBoxA);
-
-      //padding可以處理字體顯示位置不正確的問題
-      let style = new PIXI.TextStyle({
-        fontFamily: "pixelFont",
-        fontSize: 32,
-        fill: "white",
-        stroke: '#000000',
-        strokeThickness: 5,
-        letterSpacing: 0,
-        align: "left",
-        padding: 10,
-        lineHeight: 50
-      });
-
-      let dialogBoxText = new PIXI.Text("Name", style);
-
-      scene3_NameBoxA.addChild(dialogBoxText);
-      dialogBoxText.position.set(
-        (scene3_NameBoxA.width - dialogBoxText.width - 10) / 2,
-        (scene3_NameBoxA.height - dialogBoxText.height + 6) / 2);
-      scene3_NameBoxA.text = dialogBoxText;
-      scene3_nameBox.push(scene3_NameBoxA);
+        scene3_dialogContainer.addChild(dialogBoxS0);
+        scene3_dialogContainer.addChild(dialogBoxS1);
+        scene3_dialogContainer.dialogBoxS0 = dialogBoxS0;
+        scene3_dialogContainer.dialogBoxS1 = dialogBoxS1;
+      }
     }
 
     //選擇UI
@@ -1642,7 +1621,7 @@ async function SetObject() {
           scene5_inputContainer.visible = false;
           scene5_textEmpty.visible = true;
 
-          scene5_butS0.x =screenWidth / 2 - scene5_butS0.width / 2;
+          scene5_butS0.x = screenWidth / 2 - scene5_butS0.width / 2;
           scene5_butS0.alpha = 1;
 
           scene5_butS1.visible = false;
@@ -1677,7 +1656,7 @@ async function SetObject() {
        but2.position.set(screenWidth / 2 - but2.width / 2 - 70, 360)
        sceneA.addChild(but2);*/
 
-       let deltaY = 10;
+      let deltaY = 10;
 
       scene_butS3 = new PIXI.Sprite(PIXI.Texture.from("SummonBut03"));
       scene_butS3.scale.set(globalImageScale * 0.1287, globalImageScale * 0.1287);
@@ -1715,7 +1694,7 @@ async function SetObject() {
         scene5_butS1.on("tap",
           function () {
 
-         
+
             var result = false;
             switch (text.text) {
               case "新文化運動月":
@@ -1743,12 +1722,10 @@ async function SetObject() {
                 result = true;
                 break;
             }
-            if(result)
-            {
+            if (result) {
               PIXI.sound.play('button_click');
             }
-            else
-            {
+            else {
               PIXI.sound.play('error');
             }
 
@@ -1787,12 +1764,10 @@ async function SetObject() {
                 break;
             }
 
-            if(result)
-            {
+            if (result) {
               PIXI.sound.play('button_click');
             }
-            else
-            {
+            else {
               PIXI.sound.play('error');
             }
 
@@ -1845,7 +1820,7 @@ async function SetObject() {
 
       scene5_password = [-1, -1, -1, -1, -1, -1];
       scene5_passwordIndex = 0;
-   
+
       //輸入元帥密碼的按鈕
       {
         for (let i = 0; i < 15; i++) {
@@ -2005,56 +1980,48 @@ async function SetObject() {
         console.log(index);
         //scene5_password = [-1, -1, -1, -1, -1, -1, -1, -1];
         //scene5_passwordIndex = 0;
-  
-        if (index == -1 ) {
-  
-          if( scene5_passwordIndex > 0)
-          {
+
+        if (index == -1) {
+
+          if (scene5_passwordIndex > 0) {
             PIXI.sound.play('button_click');
-            scene5_passwordIndex -=1;
+            scene5_passwordIndex -= 1;
             scene5_password[scene5_passwordIndex] = -1;
             GhostSetPasswordText();
           }
-      
+
         }
-        else
-        {
+        else {
           if (scene5_passwordIndex >= scene5_password.length) {
             PIXI.sound.play('error');
             return;
           }
-          else
-          {
+          else {
             PIXI.sound.play('button_click');
-            scene5_password[scene5_passwordIndex] =index;
-            scene5_passwordIndex +=1;
+            scene5_password[scene5_passwordIndex] = index;
+            scene5_passwordIndex += 1;
             GhostSetPasswordText();
           }
         }
-  
-         
+
+
       }
-  
+
       function GhostSetPasswordText() {
-      
-        if(scene5_passwordIndex>0)
-        {
+
+        if (scene5_passwordIndex > 0) {
           IMAGEC.visible = false;
         }
-        else
-        {
+        else {
           IMAGEC.visible = true;
-          
+
         }
         text.text = "";
-        for(let i =0 ; i< scene5_passwordIndex;i++)
-        {
-          if(scene5_password[i] == -1)
-          {
+        for (let i = 0; i < scene5_passwordIndex; i++) {
+          if (scene5_password[i] == -1) {
             break;
           }
-          else
-          {
+          else {
             let nextWord = "";
             switch (scene5_password[i]) {
               case 0:
@@ -2078,7 +2045,7 @@ async function SetObject() {
               case 6:
                 nextWord = "運動月";
                 break;
-  
+
               case 7:
                 nextWord = "青年";
                 break;
@@ -2104,7 +2071,7 @@ async function SetObject() {
 
             text.text = text.text + nextWord;
           }
-      
+
         }
 
       }
@@ -2432,20 +2399,26 @@ async function GoToNextDialog() {
 
     //確認目前是選項幾
     scene3_selectIndex = parseInt(content[1], 10);
-    console.log("AA:" + scene3_selectIndex);
+    //console.log("AA:" + scene3_selectIndex);
 
     var optionsNumber = scene3_selectTextInput[scene3_selectIndex].length
+
+    if (optionsNumber == 2) {
+      scene3_dialogContainer.dialogBoxS0.visible = true;
+    }
+    else {
+      scene3_dialogContainer.dialogBoxS1.visible = true;
+    }
 
     for (let i = 0; i < optionsNumber; i++) {
 
       scene3_selectBoxes[i].visible = true;
-      scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
+
       scene3_selectBoxes[i].box.width = 314 + 30;
-      scene3_selectBoxes[i].box.x = 343 - 20;
-      scene3_selectBoxes[i].text.x =
-        scene3_selectBoxes[i].box.x +
-        scene3_selectBoxes[i].box.width / 2 -
-        (scene3_selectBoxes[i].text.width) / 2;
+      scene3_selectBoxes[i].box.x = (screenWidth - scene3_selectBoxes[i].box.width) / 2;
+
+      scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
+      scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + (scene3_selectBoxes[i].box.width - scene3_selectBoxes[i].text.width) / 2;
 
       if (optionsNumber == 3)
         scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
@@ -2506,14 +2479,6 @@ async function GoToNextDialog() {
 
     if (charIndex != 13 && charIndex != 14 && charIndex != 15)
       characterEnter(charIndex);
-
-    //更改人物姓名
-    scene3_nameBox[0].text.text = name;
-
-    //更改人物姓名的欄位
-    scene3_nameBox[0].text.position.set(
-      (130 - scene3_nameBox[0].text.width) / 2 - 2.5,
-      (45 - scene3_nameBox[0].text.height + 26) / 2);
 
     //自動跳到下一句話
     GoToNextDialog();
@@ -2682,7 +2647,8 @@ async function GoToNextDialog_Ending() {
 
 async function OptionsResult(result) {
 
-  console.log(result);
+  // console.log(result);
+
   while (true) {
     scene3_textIndex = (scene3_textIndex + 1) % scene3_textInput.length;
     let content = scene3_textInput[scene3_textIndex];
@@ -2771,7 +2737,10 @@ async function JumpResult_End(result) {
 
 function clickSelectBox(a) {
 
-  console.log(scene3_selectIndex + " " + a);
+  //console.log(scene3_selectIndex + " " + a);
+
+  scene3_dialogContainer.dialogBoxS0.visible = false;
+  scene3_dialogContainer.dialogBoxS1.visible = false;
 
   for (let i = 0; i < scene3_selectBoxes.length; i++) {
     scene3_selectBoxes[i].visible = false;
