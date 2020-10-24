@@ -47,7 +47,7 @@ async function LoadResourceLoader() {
   sceneLoading_scoreText.visible = true;
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  app.stage.addChild(sceneLoading_scoreText);
+  //app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -837,7 +837,7 @@ async function CreateLoadingText(loader, resource) {
   sceneLoading_scoreText2.visible = true;
 
   sceneLoading.addChild(sceneLoading_scoreText);
-  sceneLoading.addChild(sceneLoading_scoreText2);
+ // sceneLoading.addChild(sceneLoading_scoreText2);
 
 
 }
