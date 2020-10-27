@@ -655,10 +655,10 @@ function SetObject() {
     //let default_UI = new PIXI.Sprite(PIXI.Texture.from('Bridge_DefaultUI'));
     //scene1_uIBoardSP.addChild(default_UI);
 
-    let moveDeltaTemp = 3;
+    //血量
     let Blood = new PIXI.Sprite(PIXI.Texture.from('Blood'));
     Blood.x = 16;
-    Blood.y = 14 + moveDeltaTemp;
+    Blood.y = 14 + 3;
     scene1_uIBoardSP.addChild(Blood);
 
     let Blood_Mask = new PIXI.Graphics();
@@ -666,40 +666,40 @@ function SetObject() {
     Blood_Mask.drawRect(42, 23, 156.5, 9);
     Blood_Mask.endFill();
     Blood_Mask.visible = true;
-    Blood_Mask.position.set(0, moveDeltaTemp);
+    Blood_Mask.position.set(0, 3);
     scene1_uIBoardSP.addChild(Blood_Mask);
 
     let Blood_MaskW = new PIXI.Graphics();
     Blood_MaskW.beginFill(0xFFFFFF).drawRect(42, 23, 156.5, 9).endFill();
     Blood_MaskW.visible = true;
-    Blood_MaskW.position.set(0, moveDeltaTemp);
+    Blood_MaskW.position.set(0, 3);
     Blood_MaskW.mask = Blood_Mask;
     scene1_energyBar = Blood_MaskW;
     scene1_uIBoardSP.addChild(Blood_MaskW);
 
-    moveDelta = 10;
+    var radioMoveTemp = 82;
 
     Bridge_CharTilteUIDefault = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUIDefault'));
     scene1_uIBoardSP.addChild(Bridge_CharTilteUIDefault);
-    Bridge_CharTilteUIDefault.x = 17;
-    Bridge_CharTilteUIDefault.y = 205 - moveDelta;
+    Bridge_CharTilteUIDefault.x = 17 + radioMoveTemp;
+    Bridge_CharTilteUIDefault.y = 205 - 10;
 
     Bridge_CharTilteUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_CharTilteUI'));
     Bridge_CharTilteUI.visible = false;
     scene1_uIBoardSP.addChild(Bridge_CharTilteUI);
-    Bridge_CharTilteUI.x = 16;
-    Bridge_CharTilteUI.y = 204 - moveDelta;
+    Bridge_CharTilteUI.x = 16 + radioMoveTemp;
+    Bridge_CharTilteUI.y = 204 - 10;
 
     Bridge_RadioUI = new PIXI.Sprite(PIXI.Texture.from('Bridge_RadioUI'));
     Bridge_RadioUI.visible = true;
     scene1_uIBoardSP.addChild(Bridge_RadioUI);
-    Bridge_RadioUI.x = 84;
-    Bridge_RadioUI.y = 209 - moveDelta;
+    Bridge_RadioUI.x = 84 + radioMoveTemp;
+    Bridge_RadioUI.y = 209 - 10;
 
     let Bridge_NewsMask = new PIXI.Graphics();
-    Bridge_NewsMask.beginFill(0xFFFFFF).drawRect(84 + 13, 207 - moveDelta, 115, 9).endFill();
+    Bridge_NewsMask.beginFill(0xFFFFFF).drawRect(84 + 13, 207 - 10, 115, 9).endFill();
     Bridge_NewsMask.visible = true;
-    Bridge_NewsMask.position.set(0, moveDeltaTemp);
+    Bridge_NewsMask.position.set(radioMoveTemp, 3);
     scene1_uIBoardSP.addChild(Bridge_NewsMask);
 
     scene1_CharTitleList = [];
@@ -715,8 +715,8 @@ function SetObject() {
       scene1_CharTitle.x = 1;
       scene1_CharTitleList.push(scene1_CharTitle);
 
-      scene1_CharTitle.x = 52 - scene1_CharTitle.width / 2;
-      scene1_CharTitle.y = 212 - moveDelta;
+      scene1_CharTitle.x = 52 - scene1_CharTitle.width / 2 + radioMoveTemp;
+      scene1_CharTitle.y = 212 - 10;
 
       scene1_uIBoardSP.addChild(scene1_CharTitle);
 
@@ -733,8 +733,8 @@ function SetObject() {
 
       scene1_Radio.scale.set(0.079, 0.079);
 
-      scene1_Radio.x = 101;
-      scene1_Radio.y = 212.2 - moveDelta;
+      scene1_Radio.x = 101 + radioMoveTemp;
+      scene1_Radio.y = 212.2 - 10;
       scene1_RadioList.push(scene1_Radio);
 
       scene1_RadioContainer.addChild(scene1_Radio);
@@ -746,8 +746,8 @@ function SetObject() {
       let rrI = new PIXI.Sprite(rr);
       rrI.scale.set(0.079 * 2.375, 0.079 * 2.375);
       rrI.visible = false;
-      rrI.x = 101;
-      rrI.y = 212.2 - moveDelta;
+      rrI.x = 101 + radioMoveTemp;
+      rrI.y = 212.2 - 10;
       scene1_uIBoardSP.addChild(rrI);
       scene1_B2R00 = rrI;
     }
@@ -760,8 +760,8 @@ function SetObject() {
 
       scene1_Radio.scale.set(0.189, 0.189);
 
-      scene1_Radio.x = 101;
-      scene1_Radio.y = 212 - moveDelta;
+      scene1_Radio.x = 101 + radioMoveTemp;
+      scene1_Radio.y = 212 - 10;
       scene1_B3RadioList.push(scene1_Radio);
 
       scene1_uIBoardSP.addChild(scene1_Radio);
@@ -778,8 +778,8 @@ function SetObject() {
 
       scene1_Radio.scale.set(0.079 * 2.8, 0.079 * 2.8);
       scene1_Radio.mask = Bridge_NewsMask;
-      scene1_Radio.x = 101;
-      scene1_Radio.y = 212 - moveDelta;
+      scene1_Radio.x = 101 + radioMoveTemp;
+      scene1_Radio.y = 212 - 10;
       scene1_NewsList.push(scene1_Radio);
 
       scene1_NewsContainer.addChild(scene1_Radio);
@@ -787,22 +787,29 @@ function SetObject() {
     }
     //scene1_NewsList[0].visible = true;
 
+
+    var butMoveTemp = -235;
+
     //按鈕
     {
       Button_choose = new PIXI.Sprite(PIXI.Texture.from('Button_choose'));
       Button_choose_down = new PIXI.Sprite(PIXI.Texture.from('Button_choose_down'));
       Button_jamp = new PIXI.Sprite(PIXI.Texture.from('Button_jamp'));
       Button_jamp_down = new PIXI.Sprite(PIXI.Texture.from('Button_jamp_down'));
+   
       Button_choose.scale.set(0.1, 0.1);
       Button_choose_down.scale.set(0.1, 0.1);
       Button_jamp.scale.set(0.1, 0.1);
       Button_jamp_down.scale.set(0.1, 0.1);
+
       Button_choose_down.visible = false;
       Button_jamp_down.visible = false;
-      Button_choose.position.set(250 - 5, 200 - moveDelta);
-      Button_choose_down.position.set(251.3 - 5, 201.2 - moveDelta);
-      Button_jamp.position.set(250 + 70, 200 - moveDelta);
-      Button_jamp_down.position.set(251.3 + 70, 201.2 - moveDelta);
+
+      Button_choose.position.set(250 - 5 + butMoveTemp, 200 - 10);
+      Button_choose_down.position.set(251.3 - 5 + butMoveTemp, 201.2 - 10);
+      Button_jamp.position.set(250 + 70, 200 - 10);
+      Button_jamp_down.position.set(251.3 + 70, 201.2 - 10);
+
       scene1_uIBoardSP.addChild(Button_choose);
       scene1_uIBoardSP.addChild(Button_choose_down);
       scene1_uIBoardSP.addChild(Button_jamp);
@@ -814,7 +821,7 @@ function SetObject() {
       let clickBox = new PIXI.Graphics();
       clickBox.beginFill(0xFFFFFF).drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
       clickBox.x = screenWidth - buttonBoxSize[0] - buttonBoxEdgeDistant[0] - 10;
-      clickBox.y = screenHeight - buttonBoxSize[1] - buttonBoxEdgeDistant[1] + 20 - moveDelta;;
+      clickBox.y = screenHeight - buttonBoxSize[1] - buttonBoxEdgeDistant[1] + 20 - 10;;
       clickBox.visible = true;
       clickBox.alpha = 0;
       scene1_uIBoard.addChild(clickBox);
@@ -827,8 +834,8 @@ function SetObject() {
     {
       let selectBox = new PIXI.Graphics();
       selectBox.beginFill(0xFFFFFF).drawRect(0, 0, buttonBoxSize[0], buttonBoxSize[1]).endFill();
-      selectBox.x = screenWidth - (buttonBoxSize[0] + buttonBoxEdgeDistant[0]) * 2 - 30;
-      selectBox.y = screenHeight - (buttonBoxSize[1] + buttonBoxEdgeDistant[1]) + 20 - moveDelta;;
+      selectBox.x = screenWidth - (buttonBoxSize[0] + buttonBoxEdgeDistant[0]) * 2 - 510;
+      selectBox.y = screenHeight - (buttonBoxSize[1] + buttonBoxEdgeDistant[1]) + 20 - 10;;
       selectBox.visible = true;
       selectBox.alpha = 0;
       scene1_uIBoard.addChild(selectBox);
@@ -1009,9 +1016,9 @@ function SetObject() {
       tableInstance.tint = 0xFFFFFF;
 
       let tableDetectBox = new PIXI.Graphics();
-      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.5, tableInstance.height * 0.5).endFill();
+      tableDetectBox.beginFill(0x700028).drawRect(0, 0, tableInstance.width * 0.4, tableInstance.height * 0.5).endFill();
       tableDetectBox.visible = false;
-      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.5 / 2), tableInstance.height * (0.6));
+      tableDetectBox.position.set(tableInstance.width * (0.5 - 0.4 / 2), tableInstance.height * (0.6));
 
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
@@ -1585,6 +1592,8 @@ function GameFunction() {
       if (scene1_movingPauseTimer > 0) return;
       else scene1_slimeJumping = true;
 
+      PIXI.sound.play('jump');
+
       scene1_runner.instance.stop();
 
       if (scene1_runner.instance.currentFrame < 3) {
@@ -1929,7 +1938,7 @@ function GameFunction() {
 
       Button_jamp.visible = false;
       Button_jamp_down.visible = true;
-      PIXI.sound.play('jump');
+
       SlimeJump();
     });
     scene1_buttonGroup[0].addListener("pointerup", function () {

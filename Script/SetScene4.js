@@ -375,7 +375,7 @@ function SetObject() {
 
 
         //x = screenWidth / 2 - dialogBoxA.width / 2; y = 10;
-        y = screenHeight / 2 - dialogBoxA.height / 2 - 10  + 65;
+        y = screenHeight / 2 - dialogBoxA.height / 2 - 10 + 65;
         var k = 130;
 
         if (i == 0) {
@@ -1053,14 +1053,19 @@ function GameFunction() {
         scene4_endTitle.visible = true;
 
         scene4_startTimer = 0;
+      
+
         app.ticker.add(
           function EndTitleShowUp(deltaTime) {
             scene4_startTimer++;
-
             //結尾標題出現
             if (scene4_startTimer <= 20) {
               scene4_endTitle.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
               scene4_endTitle.position.set(screenWidth / 2 - scene4_endTitle.width / 2, screenHeight / 2 - scene4_endTitle.height / 2 - 20)
+            }
+            else if(scene4_startTimer == 21)
+            {
+              PIXI.sound.play('ending_stamp');
             }
             //等待
             else if (scene4_startTimer < 100) {
@@ -1131,12 +1136,10 @@ function GameFunction() {
 
 }
 
-function ButtonResetTimer()
-{
+function ButtonResetTimer() {
 
   scene4_buttonResetTimer++;
-  if(scene4_buttonResetTimer == 120)
-  {
+  if (scene4_buttonResetTimer == 120) {
     app.ticker.remove(ButtonResetTimer);
     SetNextButtonSet();
   }

@@ -1,4 +1,4 @@
-
+var audioScale = 0.9;
 
 async function CreateCenterComponent() {
 
@@ -82,12 +82,16 @@ function StartingFadeFunc(scene, audio) {
 
   centerComponent.currentAudio = audio;
 
+  if (audio == "run1") audioScale = 0.9 * 0.8;
+  else if (audio == "run3") audioScale = 0.9 * 0.9;
+  else audioScale = 0.9;
+
 
   if (centerComponent.currentAudio != null) {
 
     centerComponent.AudioVolume = 0;
     PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
-    PIXI.sound.play(centerComponent.currentAudio, { loop: true });
+    PIXI.sound.play(centerComponent.currentAudio, { loop: true, volume: audioScale });
 
   }
 
@@ -117,8 +121,7 @@ function EndingFade(deltaTime) {
       PIXI.sound.volumeAll = centerComponent.AudioVolume * centerComponent.playAudio;
       PIXI.sound.stop(centerComponent.currentAudio);
 
-      if(scene0_sound.isPlaying )
-      {
+      if (scene0_sound.isPlaying) {
         scene0_sound.stop();
       }
     }
@@ -160,7 +163,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  //centerComponent.currentStage = 4;
+  //centerComponent.currentStage = 3;
   //loadScript("Script/SetScene3.js");
   //return;
 

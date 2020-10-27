@@ -90,21 +90,21 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set3;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose3;
       scene3_sceneList[2].visible = true;
-      audio = 'run1';
+      audio = 'plot';
       break;
     //主角蓋完書
     case 7:
       scene3_textInput = PIXI.loader.resources.textContent.data.set4;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose4;
       scene3_sceneList[6].visible = true;
-      audio = 'run2';
+      audio = 'plot';
       break;
     //主角發完書看到抗議
     case 9:
       scene3_textInput = PIXI.loader.resources.textContent.data.set5;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose5;
       scene3_sceneList[4].visible = true;
-      audio = 'run2';
+      audio = 'plot';
       break;
     //抗議遊戲結束
     //主角要去找人
@@ -112,7 +112,7 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set6;
       scene3_selectTextInput = PIXI.loader.resources.textContent.data.choose6;
       scene3_sceneList[5].visible = true;
-      audio = 'run3';
+      audio = 'plot';
       break;
     //找完人回去在飯店
     case 13:
@@ -259,13 +259,13 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set10;
       scene3_sceneList[7].visible = true;
 
-
+      scene5_EndT.visible = false;
       //兩種底板
       {
-        if (centerComponent.rate < 0.25) { centerComponent.stageResult = 0; scene5_End0.texture = PIXI.Texture.from("EndR00"); }
-        else if (centerComponent.rate < 0.5) { centerComponent.stageResult = 1; scene5_End0.texture = PIXI.Texture.from("EndR01"); }
-        else if (centerComponent.rate < 0.75) { centerComponent.stageResult = 2; scene5_End0.texture = PIXI.Texture.from("EndR02"); }
-        else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR03"); }
+        if (centerComponent.rate < 0.25) { centerComponent.stageResult = 0; scene5_End0.texture = PIXI.Texture.from("EndR00"); scene5_EndT.texture = PIXI.Texture.from("EndT00"); }
+        else if (centerComponent.rate < 0.5) { centerComponent.stageResult = 1; scene5_End0.texture = PIXI.Texture.from("EndR00"); scene5_EndT.texture = PIXI.Texture.from("EndT01"); }
+        else if (centerComponent.rate < 0.75) { centerComponent.stageResult = 2; scene5_End0.texture = PIXI.Texture.from("EndR01"); scene5_EndT.texture = PIXI.Texture.from("EndT02"); }
+        else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR01"); scene5_EndT.texture = PIXI.Texture.from("EndT03"); }
       }
 
       if (centerComponent.rate <= 0.3) centerComponent.HideEndingTriggerA[6] = true;
@@ -585,20 +585,20 @@ async function SetObject() {
         selectBox.addChild(selectBox2);*/
 
         //padding可以處理字體顯示位置不正確的問題
-       /* let style = new PIXI.TextStyle({
-          fontFamily: "pixelSilver",
-          fontSize: 96,
-          fill: "black",
-          fontStyle: "normal",
-          fontWeight: "lighter",
-          letterSpacing: 9,
-          align: "left",
-          padding: 100,
-          lineHeight: 96
-        });*/
+        /* let style = new PIXI.TextStyle({
+           fontFamily: "pixelSilver",
+           fontSize: 96,
+           fill: "black",
+           fontStyle: "normal",
+           fontWeight: "lighter",
+           letterSpacing: 9,
+           align: "left",
+           padding: 100,
+           lineHeight: 96
+         });*/
 
         let style = new PIXI.TextStyle({
-          fontFamily: "NotoSansCJKtc-Regular",
+          fontFamily: "NotoSansCJKtc-Medium",
           fontSize: 64,
           fill: "black",
           fontStyle: "normal",
@@ -610,7 +610,7 @@ async function SetObject() {
         });
 
         let selectBoxText = new PIXI.Text(scene3_selectTextInput[scene3_selectIndex][i], style);
-        selectBoxText.position.set(edge - 5 , 20.5 - 11);
+        selectBoxText.position.set(edge - 5, 20.5 - 11);
         selectBoxText.scale.set(0.5, 0.5);
 
         select.text = selectBoxText;
@@ -1399,6 +1399,12 @@ async function SetObject() {
           scene5_End0.height = screenHeight;
           uIBoard.addChild(scene5_End0);
 
+          scene5_EndT = new PIXI.Sprite(PIXI.Texture.from("EndT00"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          scene5_EndT.width = screenWidth;
+          scene5_EndT.height = screenHeight;
+          uIBoard.addChild(scene5_EndT);
+
           let Pen = new PIXI.Sprite(PIXI.Texture.from("Pen"));
           //End2.scale.set(globalImageScale, globalImageScale);
           Pen.width = screenWidth;
@@ -1976,7 +1982,7 @@ async function SetObject() {
 
       let text = new PIXI.Text("", style);
       text.scale.set(0.5, 0.5);
-      text.x = 245; text.y = 318+ deltaY;
+      text.x = 245; text.y = 318 + deltaY;
       sceneA.addChild(text);
 
       scene5_input.on('input', keycode => {
@@ -2433,7 +2439,7 @@ async function GoToNextDialog() {
 
       scene3_selectBoxes[i].visible = true;
 
-      scene3_selectBoxes[i].box.width =500;
+      scene3_selectBoxes[i].box.width = 500;
       scene3_selectBoxes[i].box.alpha = 0;
       scene3_selectBoxes[i].box.x = (scene3_selectBoxes[i].box.width) / 2;
       scene3_selectBoxes[i].x = (screenWidth - scene3_selectBoxes[i].box.width) / 2;
@@ -2441,14 +2447,12 @@ async function GoToNextDialog() {
       scene3_selectBoxes[i].text.text = scene3_selectTextInput[scene3_selectIndex][i];
       scene3_selectBoxes[i].text.x = scene3_selectBoxes[i].box.x + (scene3_selectBoxes[i].box.width - scene3_selectBoxes[i].text.width) / 2 + 5;
 
-      if (optionsNumber == 3)
-       {
+      if (optionsNumber == 3) {
         scene3_selectBoxes[i].y = 147 + 66 * (i - 1);
-       } //scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
-      else
-       {
-        scene3_selectBoxes[i].y = 147+33 + 66* (i  - 1);
-       } //scene3_selectBoxes[i].y = 343 + 22 
+      } //scene3_selectBoxes[i].y = 344 + 36 * (i - 1);
+      else {
+        scene3_selectBoxes[i].y = 147 + 33 + 66 * (i - 1);
+      } //scene3_selectBoxes[i].y = 343 + 22 
     }
   }
   //End/結尾
@@ -2595,6 +2599,27 @@ async function GoToNextDialog() {
       scene3_dialogContainer.visible = false;
       scene3_charBoard.visible = false;
       scene3_nameBoard.visible = false;
+
+      var scene5_startTimer = 0;
+   
+      scene5_EndT.visible = true;
+      app.ticker.add(
+        function EndTitleShowUp(deltaTime) {
+          scene5_startTimer++;
+          //結尾標題出現
+          if (scene5_startTimer <= 10) {
+            //scene5_EndT.scale.set(((1 - scene5_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene5_startTimer / 20) * 2 + 1) * globalImageScale);
+            scene5_EndT.width = screenWidth * ((1 - scene5_startTimer / 10) * 3 + 1) ;
+            scene5_EndT.height = screenHeight *  ((1 - scene5_startTimer / 10) * 3 + 1);
+            scene5_EndT.position.set(screenWidth / 2 - scene5_EndT.width / 2, screenHeight / 2 - scene5_EndT.height / 2 )
+          }
+          //等待
+          else if (scene5_startTimer == 11) {
+            PIXI.sound.play('ending_stamp');
+            app.ticker.remove(EndTitleShowUp);
+          }
+        });
+
       return;
     }
     //台灣是台灣人的台灣

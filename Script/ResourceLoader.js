@@ -43,11 +43,42 @@ async function LoadResourceLoader() {
   let sceneLoading_scoreText = new PIXI.Text("06:16", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
-  sceneLoading_scoreText.position.set(screenWidth / 2, screenHeight / 2);
+  sceneLoading_scoreText.position.set(10, 10);
   sceneLoading_scoreText.visible = true;
 
+
+  var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+
+  //setInterval(A,B)：每B毫秒，進行一次A事件
+  var x = setInterval(function () {
+
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    sceneLoading_scoreText.text = "t: " + days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s \nv: 10270236";
+
+    // If the count down is finished, write some text
+    if (distance < 0) {
+      clearInterval(x);
+      sceneLoading_scoreText.text = "EXPIRED";
+    }
+  }, 1000);
+
+
+
   app.stage.addChild(Scene0_TouchToStartBlack);
-  //app.stage.addChild(sceneLoading_scoreText);
+  app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -70,39 +101,37 @@ async function LoadResourceLoader() {
   window.addEventListener('resize', resize);
   window.addEventListener("orientationchange", resize, false);
 
-  if(isMobile)
-  {
+  if (isMobile) {
     Scene0_TouchToStartBlack.on("tap", (event) => {
 
       var audio = new Audio('./Resource/Music/SE/fake.mp3');
       audio.play();
-  
+
       //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
       //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
       //screenfull.request();
-  
+
       Scene0_TouchToStartBlack.visible = false;
-  
+
       TouchToStart();
     });
   }
-  else
-  {
+  else {
     Scene0_TouchToStartBlack.on("click", (event) => {
 
       var audio = new Audio('./Resource/Music/SE/fake.mp3');
       audio.play();
-  
+
       //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
       //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
       //screenfull.request();
-  
+
       Scene0_TouchToStartBlack.visible = false;
-  
+
       TouchToStart();
     });
   }
- 
+
 
 
   centerComponent = new PIXI.Container();
@@ -304,7 +333,7 @@ async function SetObject() {
     //1000->-200
     cat.zIndex = 3.5;
     cat.x = 1500;
-    cat.y = 300-18;
+    cat.y = 300 - 18;
     scene0.addChild(cat);
 
     let counter = 0;
@@ -412,7 +441,7 @@ async function ResetSetting() {
 
   //PIXI.sound.play('./Resource/Music/BGM/theme.mp3', { loop: true });
 
-  scene0_sound = PIXI.sound.Sound.from({url: './Resource/Music/BGM/theme.mp3',loop:true});
+  scene0_sound = PIXI.sound.Sound.from({ url: './Resource/Music/BGM/theme.mp3', loop: true, volume: 0.5 });
   scene0_sound.play();
   //scene0_sound.playing = true;
 
@@ -429,6 +458,8 @@ async function SetLoader() {
   await document.fonts.load('16px pixelFont');
   await document.fonts.load('8px pixelSilver');
   await document.fonts.load('16px NotoSansCJKtc-Regular');
+  await document.fonts.load('16px NotoSansCJKtc-Medium');
+
 
   //音樂載入
   /*  await PIXI.sound.add('for_conclusion', './Resource/Music/BGM/for_conclusion.mp3');
@@ -482,7 +513,9 @@ async function SetLoader() {
     .add('stamp_good', './Resource/Music/SE/stamp_good.mp3')
     .add('talking_click', './Resource/Music/SE/talking_click.mp3')
     .add('jet_fly', './Resource/Music/SE/jet_fly.mp3')
+    .add('ending_stamp', './Resource/Music/SE/ending_stamp.mp3')
     .add('error', './Resource/Music/SE/error.mp3');
+
 
   //PIXI.sound.play('theme', { loop: true });
 
@@ -540,8 +573,10 @@ async function SetLoader() {
   }
   PIXI.loader.add("EndR00", "./Resource/Final/EndScene/EndR00.png");
   PIXI.loader.add("EndR01", "./Resource/Final/EndScene/EndR01.png");
-  PIXI.loader.add("EndR02", "./Resource/Final/EndScene/EndR02.png");
-  PIXI.loader.add("EndR03", "./Resource/Final/EndScene/EndR03.png");
+  PIXI.loader.add("EndT00", "./Resource/Final/EndScene/EndT00.png");
+  PIXI.loader.add("EndT01", "./Resource/Final/EndScene/EndT01.png");
+  PIXI.loader.add("EndT02", "./Resource/Final/EndScene/EndT02.png");
+  PIXI.loader.add("EndT03", "./Resource/Final/EndScene/EndT03.png");
   PIXI.loader.add("Pen", "./Resource/Final/EndScene/Pen.png");
   PIXI.loader.add("Pen2", "./Resource/Final/EndScene/Pen2.png");
   PIXI.loader.add("Worker", "./Resource/Final/EndScene/Worker.png");
@@ -640,7 +675,7 @@ async function SetLoader() {
   }
   for (let i = 0; i < 4; i++) {
     for (let j = 0; j < 2; j++) {
-      PIXI.loader.add("B2SA" + i + "" + (j * 2), "./Resource/Final/B2/B2select/B2S" + (i+5) + "" + (j * 2) + ".png");
+      PIXI.loader.add("B2SA" + i + "" + (j * 2), "./Resource/Final/B2/B2select/B2S" + (i + 5) + "" + (j * 2) + ".png");
     }
   }
 
@@ -831,16 +866,16 @@ async function CreateLoadingText(loader, resource) {
 
   sceneLoading_scoreText = new PIXI.Text("Loading...", style);
   sceneLoading_scoreText.scale.set(0.5, 0.5);
-  sceneLoading_scoreText.position.set(screenWidth / 2 - sceneLoading_scoreText.width/2, screenHeight / 2 + 72);
+  sceneLoading_scoreText.position.set(screenWidth / 2 - sceneLoading_scoreText.width / 2, screenHeight / 2 + 72);
   sceneLoading_scoreText.visible = true;
 
   sceneLoading_scoreText2 = new PIXI.Text("Loading...", style);
   sceneLoading_scoreText2.scale.set(0.5, 0.5);
-  sceneLoading_scoreText2.position.set(screenWidth / 2- sceneLoading_scoreText2.width/2, screenHeight / 2 + 50);
+  sceneLoading_scoreText2.position.set(screenWidth / 2 - sceneLoading_scoreText2.width / 2, screenHeight / 2 + 50);
   sceneLoading_scoreText2.visible = true;
 
   sceneLoading.addChild(sceneLoading_scoreText);
- // sceneLoading.addChild(sceneLoading_scoreText2);
+  // sceneLoading.addChild(sceneLoading_scoreText2);
 
 
 }
