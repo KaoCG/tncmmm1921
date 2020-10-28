@@ -42,6 +42,9 @@ async function LoadSetting() {
 
   scene3_sceneList = [];
 
+  scene9_currentBoard = 0;
+  scene9_totalObject = [8, 3, 9];
+
   await SetContainer();
   await SetObject();
 }
@@ -65,7 +68,8 @@ async function ResetSetting() {
   scene3_dialogContainer.visible = true;
   scene3_charBoard.visible = true;
   scene3_nameBoard.visible = true;
-
+  scene5_EndTS.stop();
+  
   switch (centerComponent.currentStage) {
     //開頭林獻堂感嘆
     case 2:
@@ -259,13 +263,15 @@ async function ResetSetting() {
       scene3_textInput = PIXI.loader.resources.textContent.data.set10;
       scene3_sceneList[7].visible = true;
 
+      scene5_EndTS.play();
+
       scene5_EndT.visible = false;
       //兩種底板
       {
-        if (centerComponent.rate < 0.25) { centerComponent.stageResult = 0; scene5_End0.texture = PIXI.Texture.from("EndR00"); scene5_EndT.texture = PIXI.Texture.from("EndT00"); }
-        else if (centerComponent.rate < 0.5) { centerComponent.stageResult = 1; scene5_End0.texture = PIXI.Texture.from("EndR00"); scene5_EndT.texture = PIXI.Texture.from("EndT01"); }
-        else if (centerComponent.rate < 0.75) { centerComponent.stageResult = 2; scene5_End0.texture = PIXI.Texture.from("EndR01"); scene5_EndT.texture = PIXI.Texture.from("EndT02"); }
-        else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR01"); scene5_EndT.texture = PIXI.Texture.from("EndT03"); }
+        if (centerComponent.rate < 0.25) { centerComponent.stageResult = 0; scene5_End0.texture = PIXI.Texture.from("EndR00"); scene5_EndT.instance.texture = PIXI.Texture.from("EndT00"); }
+        else if (centerComponent.rate < 0.5) { centerComponent.stageResult = 1; scene5_End0.texture = PIXI.Texture.from("EndR00"); scene5_EndT.instance.texture = PIXI.Texture.from("EndT01"); }
+        else if (centerComponent.rate < 0.75) { centerComponent.stageResult = 2; scene5_End0.texture = PIXI.Texture.from("EndR01"); scene5_EndT.instance.texture = PIXI.Texture.from("EndT02"); }
+        else if (centerComponent.rate <= 1) { centerComponent.stageResult = 3; scene5_End0.texture = PIXI.Texture.from("EndR01"); scene5_EndT.instance.texture = PIXI.Texture.from("EndT03"); }
       }
 
       if (centerComponent.rate <= 0.3) centerComponent.HideEndingTriggerA[6] = true;
@@ -1382,33 +1388,43 @@ async function SetObject() {
         //結局畫面
         {
           let End2 = new PIXI.Sprite(PIXI.Texture.from("End2"));
-          //End2.scale.set(globalImageScale, globalImageScale);
           End2.width = screenWidth;
           End2.height = screenHeight;
           uIBoard.addChild(End2);
 
           let End1 = new PIXI.Sprite(PIXI.Texture.from("End1"));
-          //End2.scale.set(globalImageScale, globalImageScale);
           End1.width = screenWidth;
           End1.height = screenHeight;
           uIBoard.addChild(End1);
 
           scene5_End0 = new PIXI.Sprite(PIXI.Texture.from("End0"));
-          //End2.scale.set(globalImageScale, globalImageScale);
           scene5_End0.width = screenWidth;
           scene5_End0.height = screenHeight;
           uIBoard.addChild(scene5_End0);
 
-          scene5_EndT = new PIXI.Sprite(PIXI.Texture.from("EndT00"));
-          //End2.scale.set(globalImageScale, globalImageScale);
-          scene5_EndT.width = screenWidth;
-          scene5_EndT.height = screenHeight;
+          scene5_EndT = new PIXI.Container();
           uIBoard.addChild(scene5_EndT);
 
-          let Pen = new PIXI.Sprite(PIXI.Texture.from("Pen"));
-          //End2.scale.set(globalImageScale, globalImageScale);
+          scene5_EndTS = new PIXI.AnimatedSprite([PIXI.Texture.from("EndS00"),PIXI.Texture.from("EndS01")]);
+          scene5_EndTS.animationSpeed = 0.08;
+          //scene5_EndTS.visible = false;
+          scene5_EndTS.stop();
+          scene5_EndTS.width = screenWidth;
+          scene5_EndTS.height = screenHeight;
+          scene5_EndT.addChild(scene5_EndTS);
+
+          scene5_EndTI = new PIXI.Sprite(PIXI.Texture.from("EndT00"));
+          scene5_EndTI.width = screenWidth;
+          scene5_EndTI.height = screenHeight;
+          scene5_EndT.addChild(scene5_EndTI);
+          
+          scene5_EndT.instance = scene5_EndTI;
+
+  
+
+          /*let Pen = new PIXI.Sprite(PIXI.Texture.from("Pen"));
           Pen.width = screenWidth;
-          Pen.height = screenHeight;
+          Pen.height = screenHeight;*/
           //uIBoard.addChild(Pen);
           //
           //
@@ -1594,19 +1610,20 @@ async function SetObject() {
       }
       function buttonC() {
 
+        scene0_audioButtonContainer.visible = false;
         PIXI.sound.play('button_click');
         scene3_sceneList[9].visible = true;
 
-        scene9_itemIndex = 0;
+        scene9_itemIndex = -1;
+        nextItem(1);
+        //scene9_itemBlockL.texture = scene9_itemTextureList[(scene9_itemIndex) % scene9_itemTextureList.length];
+        //scene9_itemBlockC.texture = scene9_itemTextureList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        //scene9_itemBlockR.texture = scene9_itemTextureList[(scene9_itemIndex + 2) % scene9_itemTextureList.length];
 
-        scene9_itemBlockL.texture = scene9_itemTextureList[(scene9_itemIndex) % scene9_itemTextureList.length];
-        scene9_itemBlockC.texture = scene9_itemTextureList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
-        scene9_itemBlockR.texture = scene9_itemTextureList[(scene9_itemIndex + 2) % scene9_itemTextureList.length];
-
-        scene9_Title.text = scene9_itemTitleList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
-        scene9_Title.position.set(191 - scene9_Title.width / 2, 69);
-        scene9_Info.text = scene9_itemContentList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
-        scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
+        //scene9_Title.text = scene9_itemTitleList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        //scene9_Title.position.set(191 - scene9_Title.width / 2, 69);
+        //scene9_Info.text = scene9_itemContentList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        //scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
 
       }
       function buttonD() {
@@ -2145,14 +2162,67 @@ async function SetObject() {
         white.height = screenHeight;
         white.interactive = true;
 
-        let A = new PIXI.Sprite(PIXI.Texture.from("Illustrat01"));
+        let BOXtemp = 0;
+        let BOYtemp = 0;
+
+        let BO1 = new PIXI.Sprite(PIXI.Texture.from("Illustrat09"));
+        sceneA.addChild(BO1);
+        BO1.width = screenWidth;
+        BO1.height = screenHeight;
+        BO1.position.set(screenWidth / 2 - BO1.width / 2 + BOXtemp, BOYtemp - 5);
+
+        let BO1W = new PIXI.Sprite(PIXI.Texture.from("white"));
+        sceneA.addChild(BO1W);
+        BO1W.width = 70;
+        BO1W.height = 50;
+        BO1W.alpha = 0;
+        BO1W.position.set(430, 50);
+        BO1W.interactive = true;
+        //BO1W.buttonMode = true;
+        BO1W.addListener("pointerdown", function () { changeBoard(0); })
+
+        let BO2 = new PIXI.Sprite(PIXI.Texture.from("Illustrat10"));
+        sceneA.addChild(BO2);
+        BO2.width = screenWidth;
+        BO2.height = screenHeight;
+        BO2.position.set(screenWidth / 2 - BO2.width / 2 + BOXtemp, BOYtemp);
+
+        let BO2W = new PIXI.Sprite(PIXI.Texture.from("white"));
+        sceneA.addChild(BO2W);
+        BO2W.width = 70;
+        BO2W.height = 50;
+        BO2W.alpha = 0;
+        BO2W.position.set(520, 50);
+        BO2W.interactive = true;
+        //BO2W.buttonMode = true;
+        BO2W.addListener("pointerdown", function () { changeBoard(1); })
+
+        let BO3 = new PIXI.Sprite(PIXI.Texture.from("Illustrat11"));
+        sceneA.addChild(BO3);
+        BO3.width = screenWidth;
+        BO3.height = screenHeight;
+        BO3.position.set(screenWidth / 2 - BO3.width / 2 + BOXtemp, BOYtemp);
+
+        scene9_boardTag = [BO1, BO2, BO3];
+
+        let BO3W = new PIXI.Sprite(PIXI.Texture.from("white"));
+        sceneA.addChild(BO3W);
+        BO3W.width = 70;
+        BO3W.height = 50;
+        BO3W.alpha = 0;
+        BO3W.position.set(610, 50);
+        BO3W.interactive = true;
+        //BO3W.buttonMode = true;
+        BO3W.addListener("pointerdown", function () { changeBoard(2); })
+
+        let A = new PIXI.Sprite(PIXI.Texture.from("Illustrat06"));
         sceneA.addChild(A);
         A.width = screenWidth;
         A.height = screenHeight;
         A.position.set(screenWidth / 2 - A.width / 2, 0);
+        scene9_Board = A;
 
         let B = new PIXI.Sprite(PIXI.Texture.from("Illustrat02"));
-        //sceneA.addChild(B);
         B.width = screenWidth;
         B.height = screenHeight;
         B.position.set(screenWidth / 2 - B.width / 2, 0);
@@ -2194,161 +2264,240 @@ async function SetObject() {
         sceneA.addChild(X);
         X.pivot.set(X.width / 2, X.height / 2);
         X.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
-        X.position.set(667, 62);
+        X.position.set(667 + 98, 62 - 31);
 
         let XW = new PIXI.Sprite(PIXI.Texture.from("white"));
         sceneA.addChild(XW);
         XW.width = 50; XW.height = 50;
-        XW.position.set(643, 40);
+        XW.position.set(643 + 98, 40 - 31);
         XW.alpha = 0;
         XW.interactive = true;
         XW.buttonMode = true;
-        XW.addListener("pointerdown", function () { scene3_sceneList[9].visible = false; PIXI.sound.play('button_click'); })
+        XW.addListener("pointerdown", function () {
+          scene0_audioButtonContainer.visible = true;
+          scene3_sceneList[9].visible = false;
+          PIXI.sound.play('button_click');
+        })
       }
 
       scene9_itemIndex = 0;
 
-      scene9_itemTextureList = [];
-      scene9_itemTitleList = [];
-      scene9_itemContentList = [];
-      for (let i = 0; i < 15; i++) {
-        if (i < 10)
-          scene9_itemTextureList.push(PIXI.Texture.from("IllustratI0" + i));
-        else
-          scene9_itemTextureList.push(PIXI.Texture.from("IllustratI" + i));
+      scene9_itemTextureList = [[], [], []];
+      scene9_itemTitleList = [[], [], []];
+      scene9_itemContentList = [[], [], []];
+      for (let i = 0; i < 8; i++) {
+        scene9_itemTextureList[0].push(PIXI.Texture.from("IllustratII" + i));
+      }
+      for (let i = 0; i < 3; i++) {
+        scene9_itemTextureList[1].push(PIXI.Texture.from("IllustratIB" + i));
+      }
+      for (let i = 0; i < 9; i++) {
+        scene9_itemTextureList[2].push(PIXI.Texture.from("IllustratIO" + i));
       }
 
       {
-        //00
-        scene9_itemTitleList.push("天來劍");
-        scene9_itemContentList.push("余清芳的寶劍，據說拔劍一分可斬殺一萬人。");
 
-        //01
-        scene9_itemTitleList.push("書籍");
-        scene9_itemContentList.push("臺灣青年看《臺灣青年》。");
 
-        //02
-        scene9_itemTitleList.push("單光旭日章");
-        scene9_itemContentList.push("國家級勳章－凡人無法直視其耀眼無比的光芒。");
-
-        //03
-        scene9_itemTitleList.push("長官銅像");
-        scene9_itemContentList.push("為長官豎立銅像是仕商間流傳十種生存法則之一。");
-
+        //I0
+        scene9_itemTitleList[0].push("書籍");
+        scene9_itemContentList[0].push("臺灣青年看《臺灣青年》。");
         //04
-        scene9_itemTitleList.push("甲長章");
-        scene9_itemContentList.push("精緻的徽章，戴上統御能力加倍。");
-
-        //05
-        scene9_itemTitleList.push("警帽");
-        scene9_itemContentList.push("警察大人必備，權力的象徵。");
-
-        //06
-        scene9_itemTitleList.push("茶葉");
-        scene9_itemContentList.push("一不小心就世界留名的臺灣名產。");
-
-        //07
-        scene9_itemTitleList.push("高砂木瓜糖");
-        scene9_itemContentList.push("曾經風靡萬千日本人的大稻埕特產。");
-
+        scene9_itemTitleList[0].push("甲長章");
+        scene9_itemContentList[0].push("精緻的徽章，戴上統御能力加倍。");
         //08
-        scene9_itemTitleList.push("符咒");
-        scene9_itemContentList.push("依稀寫著「大明慈悲國…五福王爺 神諭」 字樣。");
+        scene9_itemTitleList[0].push("符咒");
+        scene9_itemContentList[0].push("依稀寫著「大明慈悲國…五福王爺 神諭」 字樣。");
 
         //09
-        scene9_itemTitleList.push("紳章");
-        scene9_itemContentList.push("總督府頒發給臺籍仕商的榮譽象徵。");
+        scene9_itemTitleList[0].push("紳章");
+        scene9_itemContentList[0].push("總督府頒發給臺籍仕商的榮譽象徵。");
 
         //10
-        scene9_itemTitleList.push("報紙");
-        scene9_itemContentList.push("今日頭條－新文化運動月火熱進行中！");
-
+        scene9_itemTitleList[0].push("報紙");
+        scene9_itemContentList[0].push("今日頭條－新文化運動月火熱進行中！");
         //11
-        scene9_itemTitleList.push("臺字紋章");
-        scene9_itemContentList.push("代表臺灣總督府的紋章。");
+        scene9_itemTitleList[0].push("臺字紋章");
+        scene9_itemContentList[0].push("代表臺灣總督府的紋章。");
 
         //12
-        scene9_itemTitleList.push("膠捲");
-        scene9_itemContentList.push("上面寫著： 臺灣巡迴社教片 －文化協會");
+        scene9_itemTitleList[0].push("膠捲");
+        scene9_itemContentList[0].push("上面寫著： 臺灣巡迴社教片 －文化協會");
+        //05
+        scene9_itemTitleList[0].push("警帽");
+        scene9_itemContentList[0].push("警察大人必備，權力的象徵。");
+
+        //11
+        scene9_itemTitleList[1].push("新文化運動月");
+        scene9_itemContentList[1].push("（臺灣新文化運動紀念館） 每年十月舉辦新文化運動月活動。");
+
+        //12
+        scene9_itemTitleList[1].push("街頭運動會");
+        scene9_itemContentList[1].push("（辜宅） 深入瞭解大稻埕街區的導覽活動。");
+        //05
+        scene9_itemTitleList[1].push("百年催生");
+        scene9_itemContentList[1].push("（淡水戲館） 一部臺灣文化協會的時空穿越劇作，由陳南宏編劇。");
+
+        //O0
+        scene9_itemTitleList[2].push("天來劍");
+        scene9_itemContentList[2].push("余清芳的寶劍，據說拔劍一分可斬殺一萬人。");
+
+        //O1
+        scene9_itemTitleList[2].push("單光旭日章");
+        scene9_itemContentList[2].push("國家級勳章－凡人無法直視其耀眼無比的光芒。");
+
+        //03
+        scene9_itemTitleList[2].push("長官銅像");
+        scene9_itemContentList[2].push("為長官豎立銅像是仕商間流傳十種生存法則之一。");
+
+        //06
+        scene9_itemTitleList[2].push("茶葉");
+        scene9_itemContentList[2].push("一不小心就世界留名的臺灣名產。");
+
+        //07
+        scene9_itemTitleList[2].push("高砂木瓜糖");
+        scene9_itemContentList[2].push("曾經風靡萬千日本人的大稻埕特產。");
 
         //13
-        scene9_itemTitleList.push("鴉片");
-        scene9_itemContentList.push("民間傳說具有神秘的特殊功效，被稱為「帝國主義的麻醉劑」。");
+        scene9_itemTitleList[2].push("鴉片");
+        scene9_itemContentList[2].push("民間傳說具有神秘的特殊功效，被稱為「帝國主義的麻醉劑」。");
 
         //14
-        scene9_itemTitleList.push("議會請願傳單");
-        scene9_itemContentList.push("相傳會從天而降的傳單，據聞共有上萬張。");
+        scene9_itemTitleList[2].push("議會請願傳單");
+        scene9_itemContentList[2].push("相傳會從天而降的傳單，據聞共有上萬張。");
+
+        //14
+        scene9_itemTitleList[2].push("掛號小販");
+        scene9_itemContentList[2].push("《掛號3》：一本關於新文化運動月的深度攻略。");
+
+        //14
+        scene9_itemTitleList[2].push("演講會");
+        scene9_itemContentList[2].push("民眾獲得新知的最佳方式。");
       }
+      //console.log(scene9_itemTitleList);
+
+
+      scene9_3ItemBoard = new PIXI.Container();
+      sceneA.addChild(scene9_3ItemBoard);
 
       let scene9_itemBlockSP = new PIXI.Sprite(PIXI.Texture.from("IllustratISP"));
-      sceneA.addChild(scene9_itemBlockSP);
+      scene9_3ItemBoard.addChild(scene9_itemBlockSP);
       scene9_itemBlockSP.scale.set(globalImageScale * 0.1, globalImageScale * 0.1);
       scene9_itemBlockSP.position.set((screenWidth - scene9_itemBlockSP.width) / 2, 215 - scene9_itemBlockSP.height / 2);
 
-      scene9_itemBlockC = new PIXI.Sprite(PIXI.Texture.from("IllustratI00"));
-      sceneA.addChild(scene9_itemBlockC);
+      scene9_itemBlockC = new PIXI.Sprite(PIXI.Texture.from("IllustratII0"));
+      scene9_3ItemBoard.addChild(scene9_itemBlockC);
       scene9_itemBlockC.scale.set(globalImageScale * 0.095, globalImageScale * 0.095);
       scene9_itemBlockC.position.set((screenWidth - scene9_itemBlockC.width) / 2, 215 - scene9_itemBlockC.height / 2);
 
-      scene9_itemBlockR = new PIXI.Sprite(PIXI.Texture.from("IllustratI00"));
-      sceneA.addChild(scene9_itemBlockR);
+      scene9_itemBlockR = new PIXI.Sprite(PIXI.Texture.from("IllustratII0"));
+      scene9_3ItemBoard.addChild(scene9_itemBlockR);
       scene9_itemBlockR.scale.set(globalImageScale * 0.08, globalImageScale * 0.08);
       scene9_itemBlockR.position.set((screenWidth - scene9_itemBlockR.width) / 2 + 172, 215 - scene9_itemBlockR.height / 2 + 4);
 
-      scene9_itemBlockR.interactive = true;
-      scene9_itemBlockR.buttonMode = true;
-      scene9_itemBlockR.addListener("pointerdown", function () { nextItem(1); })
+      let scene9_itemBlockRW = new PIXI.Sprite(PIXI.Texture.from("white"));
+      scene9_3ItemBoard.addChild(scene9_itemBlockRW);
+      scene9_itemBlockRW.width = scene9_itemBlockR.width * 0.5;
+      scene9_itemBlockRW.height = scene9_itemBlockR.height * 0.5;
+      scene9_itemBlockRW.alpha = 0;
+      scene9_itemBlockRW.position.set((screenWidth - scene9_itemBlockRW.width) / 2 + 172, 215 - scene9_itemBlockRW.height / 2 + 4);
+      scene9_itemBlockRW.interactive = true;
+      scene9_itemBlockRW.addListener("pointerdown", function () { nextItem(1); })
 
-      scene9_itemBlockL = new PIXI.Sprite(PIXI.Texture.from("IllustratI00"));
-      sceneA.addChild(scene9_itemBlockL);
+      scene9_itemBlockL = new PIXI.Sprite(PIXI.Texture.from("IllustratII0"));
+      scene9_3ItemBoard.addChild(scene9_itemBlockL);
       scene9_itemBlockL.scale.set(globalImageScale * 0.08, globalImageScale * 0.08);
       scene9_itemBlockL.position.set((screenWidth - scene9_itemBlockL.width) / 2 - 172, 215 - scene9_itemBlockL.height / 2 + 4);
 
-      scene9_itemBlockL.interactive = true;
-      scene9_itemBlockL.buttonMode = true;
-      scene9_itemBlockL.addListener("pointerdown", function () { nextItem(-1); })
+      let scene9_itemBlockLW = new PIXI.Sprite(PIXI.Texture.from("white"));
+      scene9_3ItemBoard.addChild(scene9_itemBlockLW);
+      scene9_itemBlockLW.width = scene9_itemBlockL.width * 0.5;
+      scene9_itemBlockLW.height = scene9_itemBlockL.height * 0.5;
+      scene9_itemBlockLW.alpha = 0;
+      scene9_itemBlockLW.position.set((screenWidth - scene9_itemBlockLW.width) / 2 - 172, 215 - scene9_itemBlockLW.height / 2 + 4);
+      scene9_itemBlockLW.interactive = true;
+      scene9_itemBlockLW.addListener("pointerdown", function () { nextItem(-1); })
+
+      scene9_BuildingBoard = new PIXI.Container();
+      scene9_BuildingBoard.visible = false;
+      sceneA.addChild(scene9_BuildingBoard);
+
+      scene9_itemBlockB = new PIXI.Sprite(PIXI.Texture.from("IllustratIB0"));
+      scene9_BuildingBoard.addChild(scene9_itemBlockB);
+      scene9_itemBlockB.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+      scene9_itemBlockB.position.set((screenWidth - scene9_itemBlockB.width) / 2, 216 - scene9_itemBlockB.height / 2);
 
       function nextItem(input) {
 
         PIXI.sound.play('button_click');
         scene9_itemIndex = (scene9_itemIndex + input);
-        while (scene9_itemIndex < 0) scene9_itemIndex += scene9_itemTextureList.length;
+        while (scene9_itemIndex < 0) scene9_itemIndex += scene9_itemTextureList[scene9_currentBoard].length;
 
-        scene9_itemBlockL.texture = scene9_itemTextureList[(scene9_itemIndex) % scene9_itemTextureList.length];
-        scene9_itemBlockC.texture = scene9_itemTextureList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
-        scene9_itemBlockR.texture = scene9_itemTextureList[(scene9_itemIndex + 2) % scene9_itemTextureList.length];
+        if (scene9_currentBoard == 0 || scene9_currentBoard == 2) {
+          scene9_itemBlockL.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex) % scene9_itemTextureList[scene9_currentBoard].length];
+          scene9_itemBlockC.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex + 1) % scene9_itemTextureList[scene9_currentBoard].length];
+          scene9_itemBlockR.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex + 2) % scene9_itemTextureList[scene9_currentBoard].length];
+        }
+        else
+        {
+          scene9_itemBlockB.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex + 1) % scene9_itemTextureList[scene9_currentBoard].length];
+        }
 
-        scene9_Title.text = scene9_itemTitleList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
-        scene9_Title.position.set(192.2 - scene9_Title.width / 2, 69);
-        scene9_Info.text = scene9_itemContentList[(scene9_itemIndex + 1) % scene9_itemTextureList.length];
+        scene9_Title.text = scene9_itemTitleList[scene9_currentBoard][(scene9_itemIndex + 1) % scene9_itemTextureList[scene9_currentBoard].length];
+        scene9_Title.position.set(171 - scene9_Title.width / 2, 71);
+        scene9_Info.text = scene9_itemContentList[scene9_currentBoard][(scene9_itemIndex + 1) % scene9_itemTextureList[scene9_currentBoard].length];
         scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
+
       }
+      function changeBoard(input) {
+
+        if (scene9_currentBoard == input) return;
+
+        scene9_currentBoard = input;
+
+        if (input != 1) {
+          scene9_3ItemBoard.visible = true;
+          scene9_BuildingBoard.visible = false;
+        }
+        else {
+          scene9_3ItemBoard.visible = false;
+          scene9_BuildingBoard.visible = true;
+        }
+
+        for (let i = 0; i < 3; i++) {
+          scene9_boardTag[i].y = screenWidth / 2 - scene9_boardTag[i].width / 2;
+        }
+        scene9_boardTag[input].y = screenWidth / 2 - scene9_boardTag[input].width / 2 - 5;
+
+        scene9_Board.texture = PIXI.Texture.from("Illustrat0" + (6 + input));
+
+        scene9_itemIndex = 0;
+        nextItem(0);
+      }
+
 
       //784b32
       let style = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
         fontSize: 48,
-        fill: "0x784b32",
+        fill: "0x666464",
         letterSpacing: 2,
         padding: 48
       });
 
       let style2 = new PIXI.TextStyle({
-        fontFamily: "pixelSilver",
-        fontSize: 60,
-        fill: "0x784b32",
+        fontFamily: "NotoSansCJKtc-Medium",
+        fontSize: 30,
+        fill: "white",
         letterSpacing: 5,
-        padding: 60
+        padding: 30
       });
 
       scene9_Title = new PIXI.Text("高砂木瓜糖", style2);
       scene9_Title.scale.set(0.5, 0.5);
-      scene9_Title.position.set(192.2 - scene9_Title.width / 2, 69);
       sceneA.addChild(scene9_Title);
 
       scene9_Info = new PIXI.Text("曾經風靡萬千日本人的大稻埕特產", style);
       scene9_Info.scale.set(0.5, 0.5);
-      scene9_Info.position.set((screenWidth - scene9_Info.width) / 2, 358);
       sceneA.addChild(scene9_Info);
 
     }
@@ -2601,7 +2750,7 @@ async function GoToNextDialog() {
       scene3_nameBoard.visible = false;
 
       var scene5_startTimer = 0;
-   
+
       scene5_EndT.visible = true;
       app.ticker.add(
         function EndTitleShowUp(deltaTime) {
@@ -2609,9 +2758,9 @@ async function GoToNextDialog() {
           //結尾標題出現
           if (scene5_startTimer <= 10) {
             //scene5_EndT.scale.set(((1 - scene5_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene5_startTimer / 20) * 2 + 1) * globalImageScale);
-            scene5_EndT.width = screenWidth * ((1 - scene5_startTimer / 10) * 3 + 1) ;
-            scene5_EndT.height = screenHeight *  ((1 - scene5_startTimer / 10) * 3 + 1);
-            scene5_EndT.position.set(screenWidth / 2 - scene5_EndT.width / 2, screenHeight / 2 - scene5_EndT.height / 2 )
+            scene5_EndT.width = screenWidth * ((1 - scene5_startTimer / 10) * 3 + 1);
+            scene5_EndT.height = screenHeight * ((1 - scene5_startTimer / 10) * 3 + 1);
+            scene5_EndT.position.set(screenWidth / 2 - scene5_EndT.width / 2, screenHeight / 2 - scene5_EndT.height / 2)
           }
           //等待
           else if (scene5_startTimer == 11) {
@@ -2918,6 +3067,7 @@ function EndThisScene() {
     app.ticker.remove(scene3_tickerFunc[i]);
   }
 
+  
 
   EndingFadeFunc(scene3, scene3_thisAudio);
 }

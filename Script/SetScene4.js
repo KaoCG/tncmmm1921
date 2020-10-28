@@ -187,7 +187,7 @@ function SetObject() {
 
       scene4_uIBoard.addChild(scene4_markContainer);
 
-      let markA = new PIXI.Sprite(PIXI.Texture.from("sight"));
+      /*let markA = new PIXI.Sprite(PIXI.Texture.from("sight"));
       markA.pivot.set(0.5, 0.5);
       markA.width = 23;
       markA.height = 19;
@@ -220,7 +220,7 @@ function SetObject() {
       markD.rotation = PI / 2 * 3;
       markD.position.set(-48, 48);
       markD.zIndex = 10;
-      scene4_markContainer.addChild(markD);
+      scene4_markContainer.addChild(markD);*/
     }
     if (scene4_gameMode == 0) {
 
@@ -393,9 +393,6 @@ function SetObject() {
         else if (i == 4) {
           x = screenWidth / 2 - dialogBoxA.width / 2 + k * 2;
         }
-
-
-
 
         dialogBoxA.position.set(x, y);
         scene4_uIBoard.addChild(dialogBoxA);
@@ -573,8 +570,64 @@ function SetObject() {
 
     }
 
+    //教學
+    {
+      let tempContainer = new PIXI.Container();
+      scene4.addChild(tempContainer);
+      scene4_Tutorial = tempContainer;
 
+      tempContainer.zIndex = 250;
+      tempContainer.visible = false;
+
+      let B1O00 = new PIXI.Sprite(PIXI.Texture.from("TutorialG200"));
+      tempContainer.addChild(B1O00);
+      B1O00.scale.set(globalImageScale * 0.25, globalImageScale * 0.25);
+      B1O00.x = (screenWidth - B1O00.width) / 2;
+      B1O00.y = -110;
+
+      let arrow = new PIXI.AnimatedSprite([PIXI.Texture.from("TutorialArrow"), PIXI.Texture.from("TutorialArrow2")]);
+
+      arrow.animationSpeed = 0.05;
+      arrow.play();
+
+      tempContainer.addChild(arrow);
+      arrow.scale.set(globalImageScale, globalImageScale);
+      arrow.position.set(600 - arrow.width / 2, (screenHeight - arrow.height) / 2);
+      arrow.interactive = true;
+      tempContainer.arrow = arrow;
+
+      arrow.addListener("pointerdown", function () {
+        PIXI.sound.play('button_click');
+        tempContainer.visible = false;
+        arrow.stop();
+
+        scene4_gamePause = false;
+
+        //開場時放一個按鈕
+
+
+        scene4_answer = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
+        scene4_lastTrueButDir = scene4_answer;
+
+        scene4_false = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
+        //console.log(scene4_false);
+        //讓新的按鈕位置不會和前一個一樣
+        while (scene4_false == scene4_answer) scene4_false = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
+        scene4_lastFalseButDir = scene4_false;
+
+        scene4_butTrue[scene4_answer].visible = true;
+        scene4_butFalse[scene4_false].visible = true;
+
+        scene4_buttonResetTimer = 0;
+        app.ticker.add(ButtonResetTimer);
+
+
+      })
+
+    }
   }
+
+
 
   //人物Sprite
   {
@@ -822,15 +875,15 @@ async function ReuseButton(dir) {
 
   await scene4_buttonGroup.push(reuseItem);
 
-  if (dir == -1) dir = Math.floor(Math.random() * scene4_butTrue.length);
+  if (dir == -1) dir = Math.floor(Math.random() * 2) * scene4_butTrue.length;;
 
   //讓新的按鈕位置不會和上次一樣
-  while (dir == scene4_lastTrueButDir) dir = Math.floor(Math.random() * scene4_butTrue.length);
+  while (dir == scene4_lastTrueButDir) dir = Math.floor(Math.random() * 2) * scene4_butTrue.length;;
   scene4_lastTrueButDir = dir;
 
   if (scene4_buttonGroup.length != 1) {
     while (dir == scene4_buttonGroup[0].dir) {
-      dir = Math.floor(Math.random() * scene4_butTrue.length);
+      dir = Math.floor(Math.random() * 2) * scene4_butTrue.length;;
     }
   }
 
@@ -947,7 +1000,7 @@ function GameFunction() {
 
   // 鍵盤操作相關
   {
-    if (scene4_gameMode == 0) {
+   /* if (scene4_gameMode == 0) {
 
       {
         let key_Up = keyboard(38);
@@ -985,7 +1038,17 @@ function GameFunction() {
       let key_Left = keyboard(37);
       scene4_keyGroup.push(key_Left);
       scene4_keyFuncroup.push(() => { DetectButtonInput(3) });
-    }
+    }*/
+
+    let key_Left= keyboard(37);
+    //key_Left.press = ButReact1;
+    scene4_keyGroup.push(key_Left);
+    scene4_keyFuncroup.push(() => { DetectButtonInput(0) });
+
+    let key_Right = keyboard(39);
+    //key_Left.press = ButReact1;
+    scene4_keyGroup.push(key_Right);
+    scene4_keyFuncroup.push(() => { DetectButtonInput(4) });
 
   }
 
@@ -1001,7 +1064,7 @@ function GameFunction() {
     function gameTimer(deltaTime) {
 
       if (scene4_gamePause) return;
-
+      //console.log(scene4_gamePause);
       timer += 1;
       buttonTimer += 1;
 
@@ -1053,7 +1116,7 @@ function GameFunction() {
         scene4_endTitle.visible = true;
 
         scene4_startTimer = 0;
-      
+
 
         app.ticker.add(
           function EndTitleShowUp(deltaTime) {
@@ -1063,8 +1126,7 @@ function GameFunction() {
               scene4_endTitle.scale.set(((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene4_startTimer / 20) * 2 + 1) * globalImageScale);
               scene4_endTitle.position.set(screenWidth / 2 - scene4_endTitle.width / 2, screenHeight / 2 - scene4_endTitle.height / 2 - 20)
             }
-            else if(scene4_startTimer == 21)
-            {
+            else if (scene4_startTimer == 21) {
               PIXI.sound.play('ending_stamp');
             }
             //等待
@@ -1101,10 +1163,15 @@ function GameFunction() {
       else if (scene4_startTimer <= 100) {
         scene4_title.alpha = (1 - (scene4_startTimer - 60) / 40);
       }
+      else if (scene4_startTimer <= 125) {
+
+      }
       //開始遊戲
       else {
 
-        scene4_gamePause = false;
+
+        scene4_Tutorial.visible = true;
+        /*scene4_gamePause = false;
 
         //開場時放一個按鈕
         if (scene4_gameMode == 1) {
@@ -1122,7 +1189,7 @@ function GameFunction() {
 
           scene4_buttonResetTimer = 0;
           app.ticker.add(ButtonResetTimer);
-        }
+        }*/
 
         app.ticker.remove(TitleShowUp);
       }
@@ -1149,14 +1216,15 @@ function SetNextButtonSet() {
   scene4_butTrue[scene4_answer].visible = false;
   scene4_butFalse[scene4_false].visible = false;
 
-  scene4_answer = Math.floor(Math.random() * scene4_butTrue.length);
-
+  scene4_answer = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
+ //console.log(scene4_answer);
   //讓新的按鈕位置不會和上次一樣
-  while (scene4_answer == scene4_lastTrueButDir) scene4_answer = Math.floor(Math.random() * scene4_butTrue.length);
+  //while (scene4_answer == scene4_lastTrueButDir) scene4_answer = Math.floor(Math.random() * 2)*scene4_butTrue.length;;
   scene4_lastTrueButDir = scene4_answer;
 
-  scene4_false = Math.floor(Math.random() * scene4_butTrue.length);
-  while (scene4_false == scene4_answer || scene4_false == scene4_lastFalseButDir) scene4_false = Math.floor(Math.random() * scene4_butTrue.length);
+  scene4_false = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
+  //while (scene4_false == scene4_answer || scene4_false == scene4_lastFalseButDir) scene4_false = Math.floor(Math.random() * 2)*scene4_butTrue.length;;
+  while (scene4_false == scene4_answer) scene4_false = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
   scene4_lastFalseButDir = scene4_false;
 
   scene4_butTrue[scene4_answer].visible = true;
@@ -1171,7 +1239,7 @@ function SetNextButtonSet() {
 //手機觸控按下按鈕 (GAMEMODE = 1)
 function DetectButtonInput(dir) {
 
-  //if (scene4_buttonGroup.length == 0) return;
+  if (scene4_gamePause) return;
 
   if (scene4_gameMode == 0) {
 
@@ -1189,24 +1257,28 @@ function DetectButtonInput(dir) {
 
   else if (scene4_gameMode == 1) {
 
-    console.log(scene4_answer);
+    scene4_butTrue[scene4_answer].visible = false;
+    scene4_butFalse[scene4_false].visible = false;
+
+    let tempTimer = 0;
+    app.ticker.add(function temp(){
+
+      tempTimer++;
+      if(tempTimer == 10)
+      {
+        SetNextButtonSet();
+        app.ticker.remove(temp);    
+      }
+    })
+
+    //console.log(scene4_answer);
     if (scene4_answer == dir) {
 
       PIXI.sound.play('small_game_click');
       AddScore(8);
-
-      SetNextButtonSet();
-
-      //RecyleButton(scene4_buttonGroup, 0);
-      //ReuseButton(-1);
-      //CheckButtonIndex();
-      //PIXI.sound.play('small_game_click');
-
     } else {
       PIXI.sound.play('error');
       AddScore(-20);
-
-      SetNextButtonSet();
     }
   }
 }

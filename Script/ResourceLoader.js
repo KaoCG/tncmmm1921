@@ -78,7 +78,7 @@ async function LoadResourceLoader() {
 
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  app.stage.addChild(sceneLoading_scoreText);
+  //app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -149,12 +149,18 @@ async function LoadResourceLoader() {
   centerComponent.readTutorial = false;
   centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false, false];
   centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false, false];
+  centerComponent.currentSceneIndex = -1;
 
   centerComponent.G1Rate = 0.6;
   centerComponent.rate = 30 / 90;
 
   //靜音按鈕
   {
+
+    scene0_audioButtonContainer = new PIXI.Container();
+    scene0_audioButtonContainer.zIndex = 80;
+    app.stage.addChild(scene0_audioButtonContainer);
+
     let audioButtonA = new PIXI.Sprite.from("./Resource/Final/Brige_UIUX/But/Button_sound_open.png");
     audioButtonA.zIndex = 80;
     audioButtonA.visible = true;
@@ -184,8 +190,8 @@ async function LoadResourceLoader() {
       PIXI.sound.volumeAll = centerComponent.AudioVolume * 1;
     });
 
-    app.stage.addChild(audioButtonA);
-    app.stage.addChild(audioButtonB);
+    scene0_audioButtonContainer.addChild(audioButtonA);
+    scene0_audioButtonContainer.addChild(audioButtonB);
   }
 
   //把畫面放入html
@@ -560,9 +566,11 @@ async function SetLoader() {
   }
 
   //教學畫面
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     PIXI.loader.add("Tutorial0" + i, "./Resource/Final/Tutorial/Tutorial0" + i + ".png");
   }
+  PIXI.loader.add("Tutorial00S", "./Resource/Final/Tutorial/Tutorial00S.png");
+  PIXI.loader.add("TutorialG200", "./Resource/Final/Tutorial/TutorialG200.png");
 
   PIXI.loader.add("TutorialArrow", "./Resource/Final/Tutorial/arrow.png");
   PIXI.loader.add("TutorialArrow2", "./Resource/Final/Tutorial/arrow2.png");
@@ -577,6 +585,8 @@ async function SetLoader() {
   PIXI.loader.add("EndT01", "./Resource/Final/EndScene/EndT01.png");
   PIXI.loader.add("EndT02", "./Resource/Final/EndScene/EndT02.png");
   PIXI.loader.add("EndT03", "./Resource/Final/EndScene/EndT03.png");
+  PIXI.loader.add("EndS00", "./Resource/Final/EndScene/EndS00.png");
+  PIXI.loader.add("EndS01", "./Resource/Final/EndScene/EndS01.png");
   PIXI.loader.add("Pen", "./Resource/Final/EndScene/Pen.png");
   PIXI.loader.add("Pen2", "./Resource/Final/EndScene/Pen2.png");
   PIXI.loader.add("Worker", "./Resource/Final/EndScene/Worker.png");
@@ -597,15 +607,22 @@ async function SetLoader() {
   }
 
   //圖鑑畫面
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     PIXI.loader.add("Illustrat0" + i, "./Resource/Final/EndScene/Illustrat/Illustrat0" + i + ".png");
   }
-  for (let i = 0; i < 10; i++) {
-    PIXI.loader.add("IllustratI0" + i, "./Resource/Final/EndScene/Illustrat/IllustratI0" + i + ".png");
+  PIXI.loader.add("Illustrat10" , "./Resource/Final/EndScene/Illustrat/Illustrat10.png");
+  PIXI.loader.add("Illustrat11" , "./Resource/Final/EndScene/Illustrat/Illustrat11.png");
+
+  for (let i = 0; i < 8; i++) {
+    PIXI.loader.add("IllustratII" + i, "./Resource/Final/EndScene/Illustrat/IllustratII" + i + ".png");
   }
-  for (let i = 10; i < 15; i++) {
-    PIXI.loader.add("IllustratI" + i, "./Resource/Final/EndScene/Illustrat/IllustratI" + i + ".png");
+  for (let i = 0; i < 3; i++) {
+    PIXI.loader.add("IllustratIB" + i, "./Resource/Final/EndScene/Illustrat/IllustratIB" + i + ".png");
   }
+  for (let i = 0; i < 9; i++) {
+    PIXI.loader.add("IllustratIO" + i, "./Resource/Final/EndScene/Illustrat/IllustratIO" + i + ".png");
+  }
+ 
   PIXI.loader.add("IllustratISP", "./Resource/Final/EndScene/Illustrat/IllustratISP.png");
 
 
@@ -713,6 +730,8 @@ async function SetLoader() {
 
     PIXI.loader.add("Button_choose", "./Resource/Final/Brige_UIUX/But/Button_choose.png");
     PIXI.loader.add("Button_choose_down", "./Resource/Final/Brige_UIUX/But/Button_choose_down.png");
+    PIXI.loader.add("Button_interact", "./Resource/Final/Brige_UIUX/But/Button_interact.png");
+    PIXI.loader.add("Button_interact_down", "./Resource/Final/Brige_UIUX/But/Button_interact_down.png");
     PIXI.loader.add("Button_jamp", "./Resource/Final/Brige_UIUX/But/Button_jamp.png");
     PIXI.loader.add("Button_jamp_down", "./Resource/Final/Brige_UIUX/But/Button_jamp_down.png");
     PIXI.loader.add("Button_sound_close", "./Resource/Final/Brige_UIUX/But/Button_sound_close.png");

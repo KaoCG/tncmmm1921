@@ -157,8 +157,8 @@ async function ResetSetting() {
       for (let i = 0; i < 5; i++) {
         scene1_selectableGroup[i].visible = true;
         scene1_selectableGroup[i].activate = true;
-        scene1_selectableGroup[i].selectIcon.visible = true;
-        scene1_selectableGroup[i].selectIcon.play();
+        //scene1_selectableGroup[i].selectIcon.visible = true;
+        //scene1_selectableGroup[i].selectIcon.play();
         scene1_selectableGroup[i].instance.play();
       }
 
@@ -211,8 +211,8 @@ async function ResetSetting() {
       for (let i = 15; i < 20; i++) {
         scene1_selectableGroup[i].visible = true;
         scene1_selectableGroup[i].activate = true;
-        scene1_selectableGroup[i].selectIcon.visible = true;
-        scene1_selectableGroup[i].selectIcon.play();
+        //scene1_selectableGroup[i].selectIcon.visible = true;
+        //scene1_selectableGroup[i].selectIcon.play();
         scene1_selectableGroup[i].instance.play();
       }
 
@@ -354,6 +354,7 @@ async function ResetSetting() {
 
   for (let i = 0; i < scene1_keyGroup.length; i++) {
     scene1_keyGroup[i].press = scene1_keyFuncroup[i];
+    scene1_keyGroup[i].release = scene1_keyReleaseFuncroup[i];
   }
 
   for (var i = scene1_itemGroup.length - 1; i >= 0; i--) {
@@ -508,6 +509,7 @@ function LoadSetting() {
     scene1_tickerFunc = [];
     scene1_keyGroup = [];
     scene1_keyFuncroup = [];
+    scene1_keyReleaseFuncroup = [];
     scene1_uiGroup = [];
     scene1_buttonGroup = [];
 
@@ -792,13 +794,13 @@ function SetObject() {
 
     //按鈕
     {
-      Button_choose = new PIXI.Sprite(PIXI.Texture.from('Button_choose'));
-      Button_choose_down = new PIXI.Sprite(PIXI.Texture.from('Button_choose_down'));
+      Button_choose = new PIXI.Sprite(PIXI.Texture.from('Button_interact'));
+      Button_choose_down = new PIXI.Sprite(PIXI.Texture.from('Button_interact_down'));
       Button_jamp = new PIXI.Sprite(PIXI.Texture.from('Button_jamp'));
       Button_jamp_down = new PIXI.Sprite(PIXI.Texture.from('Button_jamp_down'));
-   
-      Button_choose.scale.set(0.1, 0.1);
-      Button_choose_down.scale.set(0.1, 0.1);
+
+      Button_choose.scale.set(0.1 * 2.42, 0.1 * 2.42);
+      Button_choose_down.scale.set(0.1 * 2.42, 0.1 * 2.42);
       Button_jamp.scale.set(0.1, 0.1);
       Button_jamp_down.scale.set(0.1, 0.1);
 
@@ -1165,7 +1167,7 @@ function SetObject() {
   //教學物件 (場景一從這邊開始)
   {
     scene1_Tutorial = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
 
       let tempContainer = new PIXI.Container();
       scene1.addChild(tempContainer);
@@ -1174,11 +1176,25 @@ function SetObject() {
       tempContainer.zIndex = 250 - i;
       tempContainer.visible = false;
 
-      let B1O00 = new PIXI.Sprite(PIXI.Texture.from("Tutorial0" + (i)));
-      tempContainer.addChild(B1O00);
-      B1O00.scale.set(globalImageScale * 0.2, globalImageScale * 0.2);
-      B1O00.x = (screenWidth - B1O00.width) / 2;
-      B1O00.y = -45;
+      if (i == 0) {
+        let B1O00 = new PIXI.AnimatedSprite([PIXI.Texture.from("Tutorial00"), PIXI.Texture.from("Tutorial00S")]);
+        B1O00.animationSpeed = 0.05;
+        B1O00.play();
+
+        tempContainer.addChild(B1O00);
+        tempContainer.tutorial = B1O00;
+        B1O00.scale.set(globalImageScale * 0.25, globalImageScale * 0.25);
+        B1O00.x = (screenWidth - B1O00.width) / 2;
+        B1O00.y = -110;
+
+      }
+      else {
+        let B1O00 = new PIXI.Sprite(PIXI.Texture.from("Tutorial0" + (i)));
+        tempContainer.addChild(B1O00);
+        B1O00.scale.set(globalImageScale * 0.25, globalImageScale * 0.25);
+        B1O00.x = (screenWidth - B1O00.width) / 2;
+        B1O00.y = -110;
+      }
 
       let arrow = new PIXI.AnimatedSprite([PIXI.Texture.from("TutorialArrow"), PIXI.Texture.from("TutorialArrow2")]);
 
@@ -1187,11 +1203,19 @@ function SetObject() {
 
       tempContainer.addChild(arrow);
       arrow.scale.set(globalImageScale, globalImageScale);
-      arrow.position.set(597 - arrow.width / 2, (screenHeight - arrow.height) / 2);
+      arrow.position.set(600 - arrow.width / 2, (screenHeight - arrow.height) / 2);
       arrow.interactive = true;
       tempContainer.arrow = arrow;
 
-      if (i == 4) {
+      if (i == 0) {
+        arrow.addListener("pointerdown", function () {
+          PIXI.sound.play('button_click');
+          tempContainer.visible = false;
+          tempContainer.tutorial.stop();
+          arrow.stop();
+        })
+      }
+      if (i == 5) {
 
         arrow.addListener("pointerdown", function () {
           PIXI.sound.play('button_click');
@@ -1200,13 +1224,13 @@ function SetObject() {
           centerComponent.readTutorial = true;
           arrow.stop();
 
-          let timer = 40;
+          let timer = 50;
           app.ticker.add(function runIn() {
 
             //runner.x = -20;
             //runner.y = 85;
             timer -= 1;
-            scene1_runner.instance.x = -20 + timer / 40 * -200;
+            scene1_runner.instance.x = -20 + timer / 50 * -250;
 
             if (timer == 0) {
               app.ticker.remove(runIn);
@@ -1910,51 +1934,71 @@ function GameFunction() {
 
   // 鍵盤操作相關
   {
-    let key_Q = keyboard(81);
-    key_Q.press = SlimeJump;
-    scene1_keyGroup.push(key_Q);
-    scene1_keyFuncroup.push(SlimeJump);
 
-    let key_W = keyboard(87);
-    key_W.press = () => {
+    /* let key_Space = keyboard();
+ 
+     let key_Left = keyboard(37);
+     let key_Up = keyboard(38);
+     let key_Right = keyboard(39);
+ 
+     key_Space.press = () => {
+       SlimeJump();
+     };
+     key_Up.press = () => {
+       SlimeSelect();
+     };*/
 
+    let key_Up = keyboard(38);
+    key_Up.press = ButReact1;
+    key_Up.release = ButReact2;
+    scene1_keyGroup.push(key_Up);
+    scene1_keyFuncroup.push(ButReact1);
+    scene1_keyReleaseFuncroup.push(ButReact2);
+    
 
-    };
-    scene1_keyGroup.push(key_W);
-    scene1_keyFuncroup.push(null);
+    let key_Space = keyboard(32);
+    key_Space.press = ButReact3;
+    key_Space.release = ButReact4;
+    scene1_keyGroup.push(key_Space );
+    scene1_keyFuncroup.push(ButReact3);
+    scene1_keyReleaseFuncroup.push(ButReact4);
+  }
 
-    let key_E = keyboard(69);
-    key_E.press = () => {
+  function ButReact1() {
+    Button_jamp.visible = false;
+    Button_jamp_down.visible = true;
+    SlimeJump();
+  }
+  function ButReact2() {
+    Button_jamp.visible = true;
+    Button_jamp_down.visible = false;
 
-    };
-    scene1_keyGroup.push(key_E);
-    scene1_keyFuncroup.push(null);
-
+  }
+  function ButReact3() {
+    Button_choose.visible = false;
+    Button_choose_down.visible = true;
+    SlimeSelect();
+  }
+  function ButReact4() {
+    Button_choose.visible = true;
+    Button_choose_down.visible = false;
   }
 
   //按鈕相關
   {
     scene1_buttonGroup[0].addListener("pointerdown", function () {
-
-      Button_jamp.visible = false;
-      Button_jamp_down.visible = true;
-
-      SlimeJump();
+      ButReact1();
     });
     scene1_buttonGroup[0].addListener("pointerup", function () {
-      Button_jamp.visible = true;
-      Button_jamp_down.visible = false;
+      ButReact2();
     });
 
     scene1_buttonGroup[1].addListener("pointerdown", function () {
-      Button_choose.visible = false;
-      Button_choose_down.visible = true;
-      SlimeSelect();
+      ButReact3();
     });
 
     scene1_buttonGroup[1].addListener("pointerup", function () {
-      Button_choose.visible = true;
-      Button_choose_down.visible = false;
+      ButReact4();
     });
 
   }
@@ -2157,7 +2201,9 @@ async function EndThisScene() {
 
   for (let i = 0; i < scene1_keyGroup.length; i++) {
     scene1_keyGroup[i].press = null;
+    scene1_keyGroup[i].release = null;
   }
+  
   for (let i = 0; i < scene1_tickerFunc.length; i++) {
     app.ticker.remove(scene1_tickerFunc[i]);
   }

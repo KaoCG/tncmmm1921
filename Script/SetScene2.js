@@ -65,6 +65,11 @@ function ResetSetting() {
     scene2_platforms[i].x = scene2_platforms[i].width * i;
   }
 
+  for (let i = 0; i < scene2_keyGroup.length; i++) {
+    scene2_keyGroup[i].press = scene2_keyFuncroup[i];
+    //scene2_keyGroup[i].release = scene2_keyReleaseFuncroup[i];
+  }
+
   scene2_endtitleFail.visible = false;
   scene2_endtitlePass.visible = false;
   scene2_endtitleFail.alpha = 1;
@@ -695,9 +700,9 @@ function GameFunction() {
         //EndThisScene();
         let rate = scene2_score / scene2_totalScore;
         if (rate > 1) rate = 1;
-      
+
         centerComponent.G1Rate = rate;
-      
+
         if (rate > 0.6) {
           centerComponent.stageResult = 1;
           scene2_endTitle = scene2_endtitlePass;
@@ -721,8 +726,7 @@ function GameFunction() {
               scene2_endTitle.scale.set(((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale);
               scene2_endTitle.position.set(screenWidth / 2 - scene2_endTitle.width / 2, screenHeight / 2 - scene2_endTitle.height / 2 - 20)
             }
-            else if(scene4_startTimer == 21)
-            {
+            else if (scene4_startTimer == 21) {
               PIXI.sound.play('ending_stamp');
             }
             //等待
@@ -774,28 +778,51 @@ function GameFunction() {
   {
     scene2_stampBox.addListener("pointerdown", function () {
 
-      scene2_stampBox2.visible = 0;
-      scene2_hand.texture = PIXI.Texture.from("M101");
-      scene2_hand.timer = 0;
-
-      PIXI.sound.play('stamp');
-
-      createMark(scene2_movingDistant);
-      detectMarkPos();
+      PointerDown();
     });
 
     //在按鈕上放開和在按鈕外放開
     //scene2_stampBox.on('pointerup', PointerUp);
     //scene2_stampBox.on('pointerupoutside', PointerUp);
 
-    function PointerUp() {
-      scene2_stampBox2.visible = 1;
-      scene2_hand.texture = PIXI.Texture.from("M100");
-      scene2_hand.timer = -1;
-    }
+
   }
 
+  function PointerDown() {
 
+    if (scene2_gamePause) return;
+
+    scene2_stampBox2.visible = 0;
+    scene2_hand.texture = PIXI.Texture.from("M101");
+    scene2_hand.timer = 0;
+
+    PIXI.sound.play('stamp');
+
+    createMark(scene2_movingDistant);
+    detectMarkPos();
+  }
+
+  function PointerUp() {
+    scene2_stampBox2.visible = 1;
+    scene2_hand.texture = PIXI.Texture.from("M100");
+    scene2_hand.timer = -1;
+  }
+
+  //鍵盤設定
+  scene2_keyGroup = [];
+  scene2_keyFuncroup = [];
+  //scene2_keyReleaseFuncroup = [];
+  {
+    let key_Space = keyboard(32);
+    key_Space.press = PointerDown;
+    scene2_keyGroup.push(key_Space);
+    scene2_keyFuncroup.push(PointerDown);
+
+    let key_Up = keyboard(38);
+    key_Up.press = PointerDown;
+    scene2_keyGroup.push(key_Up);
+    scene2_keyFuncroup.push(PointerDown);
+  }
 }
 
 async function EndThisScene() {
@@ -814,6 +841,11 @@ async function EndThisScene() {
   }
   else {
     centerComponent.stageResult = 0;
+  }
+
+  for (let i = 0; i < scene2_keyGroup.length; i++) {
+    scene2_keyGroup[i].press = null;
+    //scene2_keyGroup[i].release = null;
   }
 
   EndingFadeFunc(scene2, 'small_game1');

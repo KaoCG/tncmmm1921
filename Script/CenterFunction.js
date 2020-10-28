@@ -55,6 +55,16 @@ async function CreateCenterComponent() {
     centerComponent.fadeUI = fadeUI;
   }
 
+
+  //設置鍵盤
+  {
+    /*let key_Space = keyboard(32);
+    let key_Left = keyboard(37);
+    let key_Up = keyboard(38);
+    let key_Right = keyboard(39);*/
+
+  }
+
   //設置開始的位置測試用
   //centerComponent.stageResult = 1;
   //centerComponent.currentStage = 14;
@@ -163,7 +173,7 @@ async function GoToNextScene() {
   await centerComponent.currentStage++;
 
   //centerComponent.fadeUI.visible = false;
-  //centerComponent.currentStage = 3;
+  //centerComponent.currentStage = 16;
   //loadScript("Script/SetScene3.js");
   //return;
 
@@ -182,17 +192,21 @@ async function GoToNextScene() {
     case 13:
     case 15:
     case 16:
+      centerComponent.currentSceneIndex = 3;
       loadScript("Script/SetScene3.js");
       break;
     case 4:
     case 8:
     case 12:
+      centerComponent.currentSceneIndex = 1;
       loadScript("Script/SetScene1.js");
       break;
     case 6:
+      centerComponent.currentSceneIndex = 2;
       loadScript("Script/SetScene2.js");
       break;
     case 10:
+      centerComponent.currentSceneIndex = 4;
       loadScript("Script/SetScene4.js");
       break;
 
