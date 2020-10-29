@@ -726,7 +726,7 @@ function GameFunction() {
               scene2_endTitle.scale.set(((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale, ((1 - scene2_startTimer / 20) * 2 + 1) * globalImageScale);
               scene2_endTitle.position.set(screenWidth / 2 - scene2_endTitle.width / 2, screenHeight / 2 - scene2_endTitle.height / 2 - 20)
             }
-            else if (scene4_startTimer == 21) {
+            else if (scene2_startTimer == 21) {
               PIXI.sound.play('ending_stamp');
             }
             //等待
