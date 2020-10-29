@@ -40,7 +40,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("06:16", style);
+  let sceneLoading_scoreText = new PIXI.Text("05:49", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(0.5, 0.5);
   sceneLoading_scoreText.position.set(10, 10);
@@ -66,7 +66,7 @@ async function LoadResourceLoader() {
 
     // Display the result in the element with id="demo"
     sceneLoading_scoreText.text = "t: " + days + "d " + hours + "h "
-      + minutes + "m " + seconds + "s \nv: 10270236";
+      + minutes + "m " + seconds + "s \nv: 10290550";
 
     // If the count down is finished, write some text
     if (distance < 0) {
@@ -78,7 +78,7 @@ async function LoadResourceLoader() {
 
 
   app.stage.addChild(Scene0_TouchToStartBlack);
-  //app.stage.addChild(sceneLoading_scoreText);
+  app.stage.addChild(sceneLoading_scoreText);
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -206,7 +206,7 @@ async function TouchToStart() {
 
   await SetLoader();
 
-  await ResetSetting();
+  ResetSetting();
 
   //等一下要打開
   //screenfull.request();
