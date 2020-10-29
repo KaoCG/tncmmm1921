@@ -67,7 +67,7 @@ async function CreateCenterComponent() {
 
   //設置開始的位置測試用
   //centerComponent.stageResult = 1;
-  centerComponent.currentStage = 7;
+  //centerComponent.currentStage = 7;
 
   centerComponent.fadeFrame = 20;
 
