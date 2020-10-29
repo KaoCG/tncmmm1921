@@ -568,6 +568,24 @@ function SetObject() {
         dialogBox.dir = dir;
       }
 
+      let O = new PIXI.Sprite(PIXI.Texture.from("O_UIUX"));
+      O.scale.set(globalImageScale * 1.5, globalImageScale * 1.5);
+      O.zIndex = 62;
+      scene4_uIBoard.addChild(O);
+      O.visible = false;
+      O.y = screenHeight / 2 - O.height / 2 - 10 + 65;
+      O.x = screenWidth / 2 - O.width / 2 - 130 * 2;
+
+      let X = new PIXI.Sprite(PIXI.Texture.from("X_UIUX"));
+      X.scale.set(globalImageScale * 1.5, globalImageScale * 1.5);
+      X.zIndex = 62;
+      scene4_uIBoard.addChild(X);
+      X.visible = false;
+      X.y = screenHeight / 2 - X.height / 2 - 10 + 65;
+      X.x = screenWidth / 2 - X.width / 2 - 130 * 2;
+
+      scene4_O = O;
+      scene4_X = X;
     }
 
     //教學
@@ -596,7 +614,10 @@ function SetObject() {
       arrow.interactive = true;
       tempContainer.arrow = arrow;
 
-      arrow.addListener("pointerdown", function () {
+      tempContainer.fadeFunc = () => {
+
+        if (tempContainer.visible == false) return;
+
         PIXI.sound.play('button_click');
         tempContainer.visible = false;
         arrow.stop();
@@ -621,6 +642,9 @@ function SetObject() {
         scene4_buttonResetTimer = 0;
         app.ticker.add(ButtonResetTimer);
 
+      }
+      arrow.addListener("pointerdown", function () {
+        tempContainer.fadeFunc();
 
       })
 
@@ -1000,47 +1024,47 @@ function GameFunction() {
 
   // 鍵盤操作相關
   {
-   /* if (scene4_gameMode == 0) {
+    /* if (scene4_gameMode == 0) {
+ 
+       {
+         let key_Up = keyboard(38);
+         scene4_keyGroup.push(key_Up);
+         scene4_keyFuncroup.push(() => { DetectButtonInput(0) });
+ 
+         let key_Right = keyboard(39);
+         scene4_keyGroup.push(key_Right);
+         scene4_keyFuncroup.push(() => { DetectButtonInput(1) });
+ 
+         let key_Down = keyboard(40);
+         scene4_keyGroup.push(key_Down);
+         scene4_keyFuncroup.push(() => { DetectButtonInput(2) });
+ 
+         let key_Left = keyboard(37);
+         scene4_keyGroup.push(key_Left);
+         scene4_keyFuncroup.push(() => { DetectButtonInput(3) });
+ 
+       }
+ 
+     }
+     else {
+       let key_Up = keyboard(38);
+       scene4_keyGroup.push(key_Up);
+       scene4_keyFuncroup.push(() => { DetectButtonInput(0) });
+ 
+       let key_Right = keyboard(39);
+       scene4_keyGroup.push(key_Right);
+       scene4_keyFuncroup.push(() => { DetectButtonInput(1) });
+ 
+       let key_Down = keyboard(40);
+       scene4_keyGroup.push(key_Down);
+       scene4_keyFuncroup.push(() => { DetectButtonInput(2) });
+ 
+       let key_Left = keyboard(37);
+       scene4_keyGroup.push(key_Left);
+       scene4_keyFuncroup.push(() => { DetectButtonInput(3) });
+     }*/
 
-      {
-        let key_Up = keyboard(38);
-        scene4_keyGroup.push(key_Up);
-        scene4_keyFuncroup.push(() => { DetectButtonInput(0) });
-
-        let key_Right = keyboard(39);
-        scene4_keyGroup.push(key_Right);
-        scene4_keyFuncroup.push(() => { DetectButtonInput(1) });
-
-        let key_Down = keyboard(40);
-        scene4_keyGroup.push(key_Down);
-        scene4_keyFuncroup.push(() => { DetectButtonInput(2) });
-
-        let key_Left = keyboard(37);
-        scene4_keyGroup.push(key_Left);
-        scene4_keyFuncroup.push(() => { DetectButtonInput(3) });
-
-      }
-
-    }
-    else {
-      let key_Up = keyboard(38);
-      scene4_keyGroup.push(key_Up);
-      scene4_keyFuncroup.push(() => { DetectButtonInput(0) });
-
-      let key_Right = keyboard(39);
-      scene4_keyGroup.push(key_Right);
-      scene4_keyFuncroup.push(() => { DetectButtonInput(1) });
-
-      let key_Down = keyboard(40);
-      scene4_keyGroup.push(key_Down);
-      scene4_keyFuncroup.push(() => { DetectButtonInput(2) });
-
-      let key_Left = keyboard(37);
-      scene4_keyGroup.push(key_Left);
-      scene4_keyFuncroup.push(() => { DetectButtonInput(3) });
-    }*/
-
-    let key_Left= keyboard(37);
+    let key_Left = keyboard(37);
     //key_Left.press = ButReact1;
     scene4_keyGroup.push(key_Left);
     scene4_keyFuncroup.push(() => { DetectButtonInput(0) });
@@ -1199,6 +1223,14 @@ function GameFunction() {
   }
 
 
+  let key_Space = keyboard(32);
+  key_Space.press = () => {
+    if (scene4_Tutorial.visible) {
+      scene4_Tutorial.fadeFunc();
+      key_Space.press = null;
+    }
+  };
+
 
 
 }
@@ -1208,7 +1240,28 @@ function ButtonResetTimer() {
   scene4_buttonResetTimer++;
   if (scene4_buttonResetTimer == 120) {
     app.ticker.remove(ButtonResetTimer);
-    SetNextButtonSet();
+
+    scene4_butTrue[scene4_answer].visible = false;
+    scene4_butFalse[scene4_false].visible = false;
+
+    scene4_X.visible = true;
+    scene4_X.x = screenWidth / 2 - scene4_X.width / 2 - 130 * 2 + 130 * scene4_answer;
+    PIXI.sound.play('error');
+    AddScore(-20);
+
+    let tempTimer = 0;
+    app.ticker.add(function temp() {
+
+      tempTimer++;
+      if (tempTimer == 16) {
+        scene4_O.visible = false;
+        scene4_X.visible = false;
+
+        SetNextButtonSet();
+        app.ticker.remove(temp);
+      }
+    })
+
   }
 }
 
@@ -1217,7 +1270,7 @@ function SetNextButtonSet() {
   scene4_butFalse[scene4_false].visible = false;
 
   scene4_answer = Math.floor(Math.random() * 2) * (scene4_butTrue.length - 1);
- //console.log(scene4_answer);
+  //console.log(scene4_answer);
   //讓新的按鈕位置不會和上次一樣
   //while (scene4_answer == scene4_lastTrueButDir) scene4_answer = Math.floor(Math.random() * 2)*scene4_butTrue.length;;
   scene4_lastTrueButDir = scene4_answer;
@@ -1257,26 +1310,34 @@ function DetectButtonInput(dir) {
 
   else if (scene4_gameMode == 1) {
 
-    scene4_butTrue[scene4_answer].visible = false;
+    if (!scene4_butTrue[dir].visible && !scene4_butFalse[dir].visible) return;
+
+      scene4_butTrue[scene4_answer].visible = false;
     scene4_butFalse[scene4_false].visible = false;
 
     let tempTimer = 0;
-    app.ticker.add(function temp(){
+    app.ticker.add(function temp() {
 
       tempTimer++;
-      if(tempTimer == 10)
-      {
+      if (tempTimer == 15) {
+
+        scene4_O.visible = false;
+        scene4_X.visible = false;
+
         SetNextButtonSet();
-        app.ticker.remove(temp);    
+        app.ticker.remove(temp);
       }
     })
 
     //console.log(scene4_answer);
     if (scene4_answer == dir) {
-
+      scene4_O.visible = true;
+      scene4_O.x = screenWidth / 2 - scene4_O.width / 2 - 130 * 2 + 130 * dir;
       PIXI.sound.play('small_game_click');
       AddScore(8);
     } else {
+      scene4_X.visible = true;
+      scene4_X.x = screenWidth / 2 - scene4_X.width / 2 - 130 * 2 + 130 * dir;
       PIXI.sound.play('error');
       AddScore(-20);
     }

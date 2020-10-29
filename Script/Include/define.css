@@ -23,3 +23,9 @@
   src: url(../../Resource/NotoSansCJKtc-Medium.otf);
 }
 
+@font-face {
+  font-family: 'DINPro-Regular_13937';
+  font-weight: normal;
+  src: url(../../Resource/DINPro-Regular_13937.ttf);
+}
+

@@ -18,36 +18,73 @@ async function LoadResourceLoader() {
   app.stage.sortableChildren = true;
   app.renderer.backgroundColor = 0x000000;
 
+  //Scene0_Container = new PIXI.Container();
+  //app.stage.addChild(Scene0_Container);
+
   Scene0_TouchToStartBlack = new PIXI.Sprite.from("./Resource/Final/TOUCHTOSTART.png");
   Scene0_TouchToStartBlack.zIndex = 100;
   Scene0_TouchToStartBlack.width = screenWidth;
   Scene0_TouchToStartBlack.height = screenHeight;
   Scene0_TouchToStartBlack.position.set(0, 0);
   Scene0_TouchToStartBlack.interactive = true;
+  app.stage.addChild(Scene0_TouchToStartBlack);
+
+  let Scene0_TouchToStartBlackBut = new PIXI.Sprite.from("./Resource/Final/TOUCHTOSTART_BUT.png");
+  Scene0_TouchToStartBlackBut.position.set(0, 0);
+  Scene0_TouchToStartBlack.addChild(Scene0_TouchToStartBlackBut);
 
   //padding可以處理字體顯示位置不正確的問題
   let style = new PIXI.TextStyle({
-    fontFamily: "pixelFont",
-    fontSize: 80,
+    fontFamily: "DINPro-Regular_13937",
+    fontSize: 75,
     fill: "white",
     stroke: '#000000',
     strokeThickness: 6,
-    letterSpacing: 8,
-    padding: 80
+    letterSpacing: 7.5,
+    padding: 75
   });
 
   sceneLoading = new PIXI.Container();
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("05:49", style);
+  let sceneLoading_scoreText = new PIXI.Text("v: 10300500", style);
   sceneLoading_scoreText.zIndex = 200;
-  sceneLoading_scoreText.scale.set(0.5, 0.5);
+  sceneLoading_scoreText.scale.set(1, 1);
   sceneLoading_scoreText.position.set(10, 10);
   sceneLoading_scoreText.visible = true;
+  Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
 
+  let timerA = new PIXI.Text("", style);
+  timerA.scale.set(1, 1);
+  //console.log(timerA.width);
+  timerA.position.set(925 - timerA.width, 946);
+  Scene0_TouchToStartBlack.addChild(timerA);
 
-  var countDownDate = new Date("Jan 5, 2021 15:37:25").getTime();
+  let timerB = new PIXI.Text("", style);
+  timerB.scale.set(1, 1);
+  timerB.position.set(1045 + 94 - timerB.width, 946);
+  Scene0_TouchToStartBlack.addChild(timerB);
+
+  let timerC = new PIXI.Text("", style);
+  timerC.scale.set(1, 1);
+  timerC.position.set(1352 - timerC.width, 946);
+  Scene0_TouchToStartBlack.addChild(timerC);
+
+  var countDownDate = new Date("Oct 17, 2021 12:00:00").getTime();
+
+  var now = new Date().getTime();
+  var distance = countDownDate - now;
+  if (distance < 0) { distance = 0; }
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  timerA.text = days;
+  timerB.text = hours;
+  timerC.text = minutes;
+  timerA.x = 925 - timerA.width;
+  timerB.x = 1141 - timerB.width;
+  timerC.x = 1355 - timerC.width;
 
   //setInterval(A,B)：每B毫秒，進行一次A事件
   var x = setInterval(function () {
@@ -58,27 +95,38 @@ async function LoadResourceLoader() {
     // Find the distance between now and the count down date
     var distance = countDownDate - now;
 
+    if (distance < 0) {
+      clearInterval(x);
+      distance = 0;
+      //sceneLoading_scoreText.text = "EXPIRED";
+    }
+
     // Time calculations for days, hours, minutes and seconds
     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    //var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    timerA.text = days;
+    timerB.text = hours;
+    timerC.text = minutes;
+
+    timerA.x = 925 - timerA.width;
+    timerB.x = 1141 - timerB.width;
+    timerC.x = 1355 - timerC.width;
 
     // Display the result in the element with id="demo"
-    sceneLoading_scoreText.text = "t: " + days + "d " + hours + "h "
-      + minutes + "m " + seconds + "s \nv: 10290550";
+    /*sceneLoading_scoreText.text = "t: " + days + "d " + hours + "h "
+      + minutes + "m " + seconds + "s \n";*/
 
     // If the count down is finished, write some text
-    if (distance < 0) {
-      clearInterval(x);
-      sceneLoading_scoreText.text = "EXPIRED";
-    }
+
   }, 1000);
 
 
 
-  app.stage.addChild(Scene0_TouchToStartBlack);
-  app.stage.addChild(sceneLoading_scoreText);
+
+
   //app.stage.addChild(Scene0_TouchToStartText);
 
   //調整尺寸時用來填補在上下的黑圖案
@@ -101,12 +149,43 @@ async function LoadResourceLoader() {
   window.addEventListener('resize', resize);
   window.addEventListener("orientationchange", resize, false);
 
+  function tapResult() {
+    var audio = new Audio('./Resource/Music/SE/fake.mp3');
+    audio.play();
+    Scene0_TouchToStartBlack.visible = false;
+
+    key_Space.press = () => {
+      if (scene0_but.visible == true) {
+        scene0_but.visible = false;
+        key_Space.press  = null;
+        PIXI.sound.play('button_click');
+        EndThisScene();
+      }
+    };
+
+    TouchToStart();
+
+  }
+
+  let key_Space = keyboard(32);
+  key_Space.press = tapResult;
+  scene0_key_Space = key_Space;
+
+  //以防萬一隔一層不被是為使用者手勢，這裡面的東西還是要再寫一遍
   if (isMobile) {
     Scene0_TouchToStartBlack.on("tap", (event) => {
 
       var audio = new Audio('./Resource/Music/SE/fake.mp3');
       audio.play();
 
+      key_Space.press = () => {
+        if (scene0_but.visible == true) {
+          scene0_but.visible = false;
+          key_Space.press  = null;
+          PIXI.sound.play('button_click');
+          EndThisScene();
+        }
+      };
       //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
       //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
       //screenfull.request();
@@ -122,6 +201,14 @@ async function LoadResourceLoader() {
       var audio = new Audio('./Resource/Music/SE/fake.mp3');
       audio.play();
 
+      key_Space.press = () => {
+        if (scene0_but.visible == true) {
+          scene0_but.visible = false;
+          key_Space.press  = null;
+          PIXI.sound.play('button_click');
+          EndThisScene();
+        }
+      };
       //全螢幕在手機上也要用 on tap ，以 user gesture 發動。
       //不過目前測試在LINE內嵌視窗和 IOS 14 上有問題，所以先關閉
       //screenfull.request();
@@ -308,6 +395,7 @@ async function SetObject() {
 
     scene0_but.addListener("pointerdown", function () {
       scene0_but.visible = false;
+      //key_Space.press  = null;
       PIXI.sound.play('button_click');
       EndThisScene();
     });
@@ -465,6 +553,7 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
   await document.fonts.load('16px NotoSansCJKtc-Regular');
   await document.fonts.load('16px NotoSansCJKtc-Medium');
+  await document.fonts.load('16px DINPro-Regular_13937');
 
 
   //音樂載入
@@ -527,9 +616,11 @@ async function SetLoader() {
 
   //其他物件
   PIXI.loader.add("TOUCHTOSTART", "./Resource/Final/TOUCHTOSTART.png");
+  PIXI.loader.add("TOUCHTOSTART_BUT", "./Resource/Final/TOUCHTOSTART_BUT.png");
   PIXI.loader.add("dialogBox", "./Resource/Final/dialogBox.png");
   PIXI.loader.add("dialogBoxS0", "./Resource/Final/dialogBoxSelect00.png");
   PIXI.loader.add("dialogBoxS1", "./Resource/Final/dialogBoxSelect01.png");
+  PIXI.loader.add("dialogBoxS2", "./Resource/Final/dialogBoxSelect02.png");
   PIXI.loader.add("arrow", "./Resource/Final/arrow.png");
 
   //可撿取物件
@@ -569,7 +660,7 @@ async function SetLoader() {
   for (let i = 0; i < 6; i++) {
     PIXI.loader.add("Tutorial0" + i, "./Resource/Final/Tutorial/Tutorial0" + i + ".png");
   }
-  PIXI.loader.add("Tutorial00S", "./Resource/Final/Tutorial/Tutorial00S.png");
+  PIXI.loader.add("Tutorial01S", "./Resource/Final/Tutorial/Tutorial01S.png");
   PIXI.loader.add("TutorialG200", "./Resource/Final/Tutorial/TutorialG200.png");
 
   PIXI.loader.add("TutorialArrow", "./Resource/Final/Tutorial/arrow.png");
@@ -610,8 +701,8 @@ async function SetLoader() {
   for (let i = 0; i < 10; i++) {
     PIXI.loader.add("Illustrat0" + i, "./Resource/Final/EndScene/Illustrat/Illustrat0" + i + ".png");
   }
-  PIXI.loader.add("Illustrat10" , "./Resource/Final/EndScene/Illustrat/Illustrat10.png");
-  PIXI.loader.add("Illustrat11" , "./Resource/Final/EndScene/Illustrat/Illustrat11.png");
+  PIXI.loader.add("Illustrat10", "./Resource/Final/EndScene/Illustrat/Illustrat10.png");
+  PIXI.loader.add("Illustrat11", "./Resource/Final/EndScene/Illustrat/Illustrat11.png");
 
   for (let i = 0; i < 8; i++) {
     PIXI.loader.add("IllustratII" + i, "./Resource/Final/EndScene/Illustrat/IllustratII" + i + ".png");
@@ -622,9 +713,9 @@ async function SetLoader() {
   for (let i = 0; i < 9; i++) {
     PIXI.loader.add("IllustratIO" + i, "./Resource/Final/EndScene/Illustrat/IllustratIO" + i + ".png");
   }
- 
-  PIXI.loader.add("IllustratISP", "./Resource/Final/EndScene/Illustrat/IllustratISP.png");
 
+  PIXI.loader.add("IllustratISP", "./Resource/Final/EndScene/Illustrat/IllustratISP.png");
+  PIXI.loader.add("Collect", "./Resource/Final/Collect.png");
 
   //結尾數字
   for (let i = 0; i < 10; i++) {
@@ -810,9 +901,10 @@ async function SetLoader() {
   PIXI.loader.add("illustrated0", "./Resource/Final/Illustrated/illustrated0.png");
 
   //其他
-  await PIXI.loader.add("block", "./Resource/Final/block.png");
+  PIXI.loader.add("block", "./Resource/Final/block.png");
 
-
+  PIXI.loader.add("X_UIUX", "./Resource/Final/X_UIUX.png");
+  PIXI.loader.add("O_UIUX", "./Resource/Final/O_UIUX.png");
 
   x = 0;
   //await PIXI.loader.onLoad.add(loadProgressHandler);
@@ -852,6 +944,7 @@ function loadProgressHandler(loader, resource) {
     sceneLoading_scoreText.visible = false;
     sceneLoading_scoreText.y = 10;
     sceneLoading_scoreText.text = "09:39";
+
   }
   else {
     sceneLoading_scoreText.text = "Progress: " + loader.progress.toFixed(2) + "%";
@@ -940,6 +1033,7 @@ async function EndThisScene() {
   //設置好畫面和中央變數後，重新調整螢幕大小
 
   //await resize();
+  scene0_key_Space.press =null;
 
   await CreateCenterComponent();
   sceneLoading.visible = false;

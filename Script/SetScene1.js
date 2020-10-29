@@ -128,6 +128,9 @@ async function ResetSetting() {
       scene1_MoneyCounter = 0;
       scene1_GentleMarkCounter = 0;
 
+      scene1_totalItemCollector = [0,0,0,0,0,0,0,0,0];
+      scene1_totalInteractCollector = [false,false,false,false];
+
       centerComponent.HideEndingTriggerA = [false, false, false, false, false, false, false];
       //【0】飛機【1】紳章>3【2】錢袋>5【3】選擇購買掛號【4】藍隊三人【5】對話:台灣人的台灣【6】六三法血量<30%
       centerComponent.HideEndingTriggerB = [false, false, false, false, false, false, false];
@@ -512,6 +515,9 @@ function LoadSetting() {
     scene1_keyReleaseFuncroup = [];
     scene1_uiGroup = [];
     scene1_buttonGroup = [];
+
+    scene1_totalItemCollector = [0,0,0,0,0,0,0,0,0];
+    scene1_totalInteractCollector = [false,false,false,false];
 
     scene1_appleTextures = [];
     for (var i = 0; i < 4; i++) {
@@ -1022,6 +1028,21 @@ function SetObject() {
       tableDetectBox.visible = false;
       tableDetectBox.position.set(tableInstance.width * (0.5 - 0.4 / 2), tableInstance.height * (0.6));
 
+      switch (i) {
+
+        //0~4場景一
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+          tableDetectBox.width = tableInstance.width * 0.2;
+          tableDetectBox.position.set(tableInstance.width * (0.5 - 0.2 / 2), tableInstance.height * (0.6));
+          break;
+        default:
+          break;
+      }
+
       let white = new PIXI.Sprite(whiteTexture);
       white.alpha = 0;
       white.visible = false;
@@ -1176,8 +1197,8 @@ function SetObject() {
       tempContainer.zIndex = 250 - i;
       tempContainer.visible = false;
 
-      if (i == 0) {
-        let B1O00 = new PIXI.AnimatedSprite([PIXI.Texture.from("Tutorial00"), PIXI.Texture.from("Tutorial00S")]);
+      if (i == 1) {
+        let B1O00 = new PIXI.AnimatedSprite([PIXI.Texture.from("Tutorial01"), PIXI.Texture.from("Tutorial01S")]);
         B1O00.animationSpeed = 0.05;
         B1O00.play();
 
@@ -1207,17 +1228,17 @@ function SetObject() {
       arrow.interactive = true;
       tempContainer.arrow = arrow;
 
-      if (i == 0) {
-        arrow.addListener("pointerdown", function () {
+      if (i == 1) {
+        tempContainer.fadeFunc = () => {
           PIXI.sound.play('button_click');
           tempContainer.visible = false;
           tempContainer.tutorial.stop();
           arrow.stop();
-        })
+        }
       }
       if (i == 5) {
 
-        arrow.addListener("pointerdown", function () {
+        tempContainer.fadeFunc = () => {
           PIXI.sound.play('button_click');
           tempContainer.visible = false;
           scene1_runner.instance.play();
@@ -1237,17 +1258,19 @@ function SetObject() {
               SetTickerFunc();
             }
           })
-        })
+        }
 
       }
       else {
-        arrow.addListener("pointerdown", function () {
+        tempContainer.fadeFunc = () => {
           PIXI.sound.play('button_click');
           tempContainer.visible = false;
           arrow.stop();
-        })
+        }
       }
-
+      arrow.addListener("pointerdown", function () {
+        tempContainer.fadeFunc();
+      })
     }
   }
 
@@ -1504,6 +1527,8 @@ function GameFunction() {
       for (let i = 0; i < scene1_itemGroup.length; i++) {
         if (scene1_itemGroup[i].activate && hitTestRectangle(scene1_runner.detectArea, scene1_itemGroup[i].detectArea)) {
 
+          scene1_totalItemCollector[scene1_itemGroup[i].id]+=1;
+
           switch (scene1_itemGroup[i].id) {
             case 0:
               addEnergy(-2);
@@ -1738,22 +1763,28 @@ function GameFunction() {
 
       scene1_movingPauseTimer = 50;
 
+      //演講會
       if (id == 10 || id == 40) {
         addEnergy(-5);
+        scene1_totalInteractCollector[0]=true;
       }
+      //鴉片
       else if (id == 11 || id == 41) {
 
         addEnergy(+5);
+        scene1_totalInteractCollector[1]=true;
       }
 
       //場景二的雕像
       else if (id == 50 || id == 20) {
         centerComponent.HideEndingTriggerB[3] = true;
+        scene1_totalInteractCollector[2]=true;
         addEnergy(+5);
       }
       //場景二的掛號
       else if (id == 51 || id == 21) {
         centerComponent.HideEndingTriggerA[3] = true;
+        scene1_totalInteractCollector[3]=true;
         addEnergy(-5);
       }
       //場景二的飛機
@@ -1954,12 +1985,12 @@ function GameFunction() {
     scene1_keyGroup.push(key_Up);
     scene1_keyFuncroup.push(ButReact1);
     scene1_keyReleaseFuncroup.push(ButReact2);
-    
+
 
     let key_Space = keyboard(32);
     key_Space.press = ButReact3;
     key_Space.release = ButReact4;
-    scene1_keyGroup.push(key_Space );
+    scene1_keyGroup.push(key_Space);
     scene1_keyFuncroup.push(ButReact3);
     scene1_keyReleaseFuncroup.push(ButReact4);
   }
@@ -1977,7 +2008,31 @@ function GameFunction() {
   function ButReact3() {
     Button_choose.visible = false;
     Button_choose_down.visible = true;
-    SlimeSelect();
+   
+    if (centerComponent.readTutorial == false && centerComponent.currentStage == 4) {
+      if (scene1_Tutorial[0].visible == true) {
+        scene1_Tutorial[0].fadeFunc();
+      }
+      else if (scene1_Tutorial[1].visible == true) {
+        scene1_Tutorial[1].fadeFunc();
+      }
+      else if (scene1_Tutorial[2].visible == true) {
+        scene1_Tutorial[2].fadeFunc();
+      }
+      else if (scene1_Tutorial[3].visible == true) {
+        scene1_Tutorial[3].fadeFunc();
+      }
+      else if (scene1_Tutorial[4].visible == true) {
+        scene1_Tutorial[4].fadeFunc();
+      }
+      else if (scene1_Tutorial[5].visible == true) {
+        scene1_Tutorial[5].fadeFunc();
+      }
+    }
+    else {
+      SlimeSelect();
+    }
+
   }
   function ButReact4() {
     Button_choose.visible = true;
@@ -2203,7 +2258,7 @@ async function EndThisScene() {
     scene1_keyGroup[i].press = null;
     scene1_keyGroup[i].release = null;
   }
-  
+
   for (let i = 0; i < scene1_tickerFunc.length; i++) {
     app.ticker.remove(scene1_tickerFunc[i]);
   }

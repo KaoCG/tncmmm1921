@@ -58,6 +58,11 @@ async function ResetSetting() {
     scene3_sceneList[i].visible = false;
   }
 
+  for (let i = 0; i < scene3_keyGroup.length; i++) {
+    scene3_keyGroup[i].press = scene3_keyFuncroup[i];
+    //scene2_keyGroup[i].release = scene2_keyReleaseFuncroup[i];
+  }
+
   /////////////////////
   //測試用
   //centerComponent.currentStage = 14;
@@ -69,7 +74,7 @@ async function ResetSetting() {
   scene3_charBoard.visible = true;
   scene3_nameBoard.visible = true;
   scene5_EndTS.stop();
-  
+
   switch (centerComponent.currentStage) {
     //開頭林獻堂感嘆
     case 2:
@@ -545,6 +550,19 @@ async function SetObject() {
         dialogBoxS1.visible = false;
         dialogBoxS1.zIndex = -1;
 
+        let dialogBoxS2 = new PIXI.Sprite(PIXI.Texture.from("dialogBoxS2"));
+        dialogBoxS2.scale.set(scale, scale);
+        dialogBoxS2.position.set(screenWidth / 2 - dialogBoxS2.width / 2, -15);
+        dialogBoxS2.visible = false;
+        dialogBoxS2.zIndex = -1;
+
+        //-114.2
+        //-48
+        //18.2
+
+        //-81
+        //15
+
         let black = new PIXI.Sprite(PIXI.Texture.from("white"));
         black.width = screenWidth;
         black.height = screenHeight;
@@ -554,10 +572,14 @@ async function SetObject() {
         black.alpha = 0.5;
         scene3_dialogContainer.addChild(black);
 
+        scene3_dialogContainer.addChild(dialogBoxS2);
         scene3_dialogContainer.addChild(dialogBoxS0);
         scene3_dialogContainer.addChild(dialogBoxS1);
+
+        scene3_dialogContainer.dialogBoxSTarget = 0;
         scene3_dialogContainer.dialogBoxS0 = dialogBoxS0;
         scene3_dialogContainer.dialogBoxS1 = dialogBoxS1;
+        scene3_dialogContainer.dialogBoxS2 = dialogBoxS2;
         scene3_dialogContainer.dialogBoxSB = black;
       }
     }
@@ -605,18 +627,18 @@ async function SetObject() {
 
         let style = new PIXI.TextStyle({
           fontFamily: "NotoSansCJKtc-Medium",
-          fontSize: 64,
+          fontSize: 68,
           fill: "black",
           fontStyle: "normal",
           fontWeight: "lighter",
           letterSpacing: 16,
           align: "left",
           padding: 100,
-          lineHeight: 64
+          lineHeight: 68
         });
 
         let selectBoxText = new PIXI.Text(scene3_selectTextInput[scene3_selectIndex][i], style);
-        selectBoxText.position.set(edge - 5, 20.5 - 11);
+        selectBoxText.position.set(edge - 5, 20.5 - 13);
         selectBoxText.scale.set(0.5, 0.5);
 
         select.text = selectBoxText;
@@ -724,8 +746,8 @@ async function SetObject() {
       BD3.width = screenWidth; BD3.height = screenHeight;
       BD3.interactive = true;
       //BD.buttonMode = true;
-      BD3.addListener("pointerdown", function () {
-
+      BD3.fadeFunc = () => {
+        if (!BD3.interactive) return;
         BD3.interactive = false;
         let totalCounter = 100 * 0.4;
         let counter = totalCounter;
@@ -744,11 +766,11 @@ async function SetObject() {
             scene3_charBoard.visible = true;
             scene3_nameBoard.visible = true;
             //GoToNextDialog();
-
-
           }
         })
-
+      };
+      BD3.addListener("pointerdown", function () {
+        BD3.fadeFunc();
       })
 
       let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD02"));
@@ -756,8 +778,8 @@ async function SetObject() {
       BD2.width = screenWidth; BD2.height = screenHeight;
       BD2.interactive = true;
       //BD2.buttonMode = true;
-      BD2.addListener("pointerdown", function () {
-
+      BD2.fadeFunc = () => {
+        if (!BD2.interactive) return;
         BD2.interactive = false;
         let totalCounter = 100 * 0.4;
         let counter = totalCounter;
@@ -769,14 +791,17 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
+      }
+      BD2.addListener("pointerdown", function () {
+        BD2.fadeFunc();
       });
 
       let BD1 = new PIXI.Sprite(PIXI.Texture.from("BD01"));
       BD1.zIndex = 33;
       BD1.width = screenWidth; BD1.height = screenHeight;
       BD1.interactive = true;
-      BD1.addListener("pointerdown", function () {
-
+      BD1.fadeFunc = () => {
+        if (!BD1.interactive) return;
         BD1.interactive = false;
         let totalCounter = 100 * 0.4;
         let counter = totalCounter;
@@ -787,7 +812,10 @@ async function SetObject() {
             BD1.visible = false;
             app.ticker.remove(countdown);
           }
-        })
+        });
+      }
+      BD1.addListener("pointerdown", function () {
+        BD1.fadeFunc();
       })
 
       /*let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
@@ -814,6 +842,10 @@ async function SetObject() {
       scene3_endBoard.addChild(BD3);
       //scene3_endBoard.addChild(BD7);
 
+      BD1.visible = false;
+      BD2.visible = false;
+      BD3.visible = false;
+
       scene3_endBoard.BDA = [];
       scene3_endBoard.BDA.push(BD1);
       scene3_endBoard.BDA.push(BD2);
@@ -828,9 +860,8 @@ async function SetObject() {
       BD3.zIndex = 31;
       BD3.width = screenWidth; BD3.height = screenHeight;
       BD3.interactive = true;
-      //BD.buttonMode = true;
-      BD3.addListener("pointerdown", function () {
-
+      BD3.fadeFunc = () => {
+        if (!BD3.interactive) return;
         BD3.interactive = false;
         let totalCounter = 100 * 0.4;
         let counter = totalCounter;
@@ -853,16 +884,18 @@ async function SetObject() {
 
           }
         })
-
+      }
+      //BD.buttonMode = true;
+      BD3.addListener("pointerdown", function () {
+        BD3.fadeFunc();
       })
 
       let BD2 = new PIXI.Sprite(PIXI.Texture.from("BD05"));
       BD2.zIndex = 32;
       BD2.width = screenWidth; BD2.height = screenHeight;
       BD2.interactive = true;
-      //BD2.buttonMode = true;
-      BD2.addListener("pointerdown", function () {
-
+      BD2.fadeFunc = () => {
+        if (!BD2.interactive) return;
         BD2.interactive = false;
         let totalCounter = 100 * 0.4;
         let counter = totalCounter;
@@ -874,14 +907,18 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
+      }
+      //BD2.buttonMode = true;
+      BD2.addListener("pointerdown", function () {
+        BD2.fadeFunc();
       });
 
       let BD1 = new PIXI.Sprite(PIXI.Texture.from("BD04"));
       BD1.zIndex = 33;
       BD1.width = screenWidth; BD1.height = screenHeight;
       BD1.interactive = true;
-      BD1.addListener("pointerdown", function () {
-
+      BD1.fadeFunc = () => {
+        if (!BD1.interactive) return;
         BD1.interactive = false;
         let totalCounter = 100 * 0.4;
         let counter = totalCounter;
@@ -893,6 +930,9 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
+      }
+      BD1.addListener("pointerdown", function () {
+        BD1.fadeFunc();
       })
 
       /*let BD7 = new PIXI.Sprite(PIXI.Texture.from("BD07"));
@@ -914,6 +954,9 @@ async function SetObject() {
         })
       })*/
 
+      BD1.visible = false;
+      BD2.visible = false;
+      BD3.visible = false;
       scene3_endBoard.addChild(BD1);
       scene3_endBoard.addChild(BD2);
       scene3_endBoard.addChild(BD3);
@@ -976,11 +1019,13 @@ async function SetObject() {
 
       let BD = new PIXI.Sprite(PIXI.Texture.from("BD00"));
       BD.zIndex = 10;
+      BD.visible = false;
       BD.width = screenWidth; BD.height = screenHeight;
       BD.interactive = true;
       //BD.buttonMode = true;
-      BD.addListener("pointerdown", function () {
+      BD.fadeFunc = () => {
 
+        if (BD.interactive == false) return;
         BD.interactive = false;
         let totalCounter = 100;
         let counter = totalCounter;
@@ -1002,7 +1047,10 @@ async function SetObject() {
             app.ticker.remove(countdown);
           }
         })
+      }
 
+      BD.addListener("pointerdown", function () {
+        BD.fadeFunc();
       })
 
       sceneA.sortableChildren = true;
@@ -1405,7 +1453,7 @@ async function SetObject() {
           scene5_EndT = new PIXI.Container();
           uIBoard.addChild(scene5_EndT);
 
-          scene5_EndTS = new PIXI.AnimatedSprite([PIXI.Texture.from("EndS00"),PIXI.Texture.from("EndS01")]);
+          scene5_EndTS = new PIXI.AnimatedSprite([PIXI.Texture.from("EndS00"), PIXI.Texture.from("EndS01")]);
           scene5_EndTS.animationSpeed = 0.08;
           //scene5_EndTS.visible = false;
           scene5_EndTS.stop();
@@ -1417,10 +1465,25 @@ async function SetObject() {
           scene5_EndTI.width = screenWidth;
           scene5_EndTI.height = screenHeight;
           scene5_EndT.addChild(scene5_EndTI);
-          
+
+          scene5_EndTW = new PIXI.Sprite(PIXI.Texture.from("white"));
+          scene5_EndTW.width = 80;
+          scene5_EndTW.height = 180;
+          scene5_EndTW.alpha = 0;
+          scene5_EndTW.interactive = true;
+          scene5_EndTW.buttonMode = true;
+          scene5_EndTW.position.set(420, 85);
+          scene5_EndTW.addListener("pointerdown", function () {
+            scene5_CollectBoard.visible = true;
+            scene0_audioButtonContainer.visible = false;
+            scene5_CollectBoardReset();
+          })
+
+          scene5_EndT.addChild(scene5_EndTW);
+
           scene5_EndT.instance = scene5_EndTI;
 
-  
+
 
           /*let Pen = new PIXI.Sprite(PIXI.Texture.from("Pen"));
           Pen.width = screenWidth;
@@ -1557,7 +1620,13 @@ async function SetObject() {
           Pen2.height = screenHeight * 0.262;
           uIBoard.addChild(Pen2);
           Pen2.interactive = true;
-          Pen2.addListener("pointerdown", function () { Worker.visible = true; })
+          Pen2.buttonMode = true;
+          Pen2.addListener("pointerdown", function () {
+            Worker.visible = true;
+            WX.visible = true;
+            WXW.visible = true;
+            scene0_audioButtonContainer.visible = false;
+          })
           Pen2.position.set(28, 210);
 
           let Worker = new PIXI.Sprite(PIXI.Texture.from("Worker"));
@@ -1568,8 +1637,202 @@ async function SetObject() {
           uIBoard.addChild(Worker);
 
           Worker.interactive = true;
-          Worker.addListener("pointerdown", function () { Worker.visible = false; })
+          //  Worker.addListener("pointerdown", function () { Worker.visible = false; })
+
+          let WX = new PIXI.Sprite(PIXI.Texture.from("Illustrat03"));
+          uIBoard.addChild(WX);
+          WX.visible = false;
+          WX.pivot.set(WX.width / 2, WX.height / 2);
+          WX.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+          WX.position.set(667 + 98, 62 - 31);
+
+          let WXW = new PIXI.Sprite(PIXI.Texture.from("white"));
+          uIBoard.addChild(WXW);
+          WXW.visible = false;
+          WXW.width = 50; WXW.height = 50;
+          WXW.position.set(643 + 98, 40 - 31);
+          WXW.alpha = 0;
+          WXW.interactive = true;
+          WXW.buttonMode = true;
+          WXW.addListener("pointerdown", function () {
+            Worker.visible = false;
+            WX.visible = false;
+            WXW.visible = false;
+            scene0_audioButtonContainer.visible = true;
+          });
         }
+
+        scene5_CollectBoard = new PIXI.Container();
+        scene5_CollectBoard.visible = false;
+        uIBoard.addChild(scene5_CollectBoard);
+
+        function scene5_CollectBoardReset() {
+
+          if (scene1_totalItemCollector !== undefined) {
+            for (let i = 0; i < scene5_CollectItemText.length; i++) {
+              var t = "X";
+              switch (i) {
+                case 0:
+                  t += scene1_totalItemCollector[8];
+                  break;
+                case 1:
+                  t += scene1_totalItemCollector[2];
+                  break;
+                case 2:
+                  t += scene1_totalItemCollector[5];
+                  break;
+                case 3:
+                  t += scene1_totalItemCollector[1];
+                  break;
+                case 4:
+                  t += scene1_totalItemCollector[3];
+                  break;
+                case 5:
+                  t += scene1_totalItemCollector[4];
+                  break;
+                case 6:
+                  t += scene1_totalItemCollector[6];
+                  break;
+                case 7:
+                  t += scene1_totalItemCollector[7];
+                  break;
+              }
+              scene5_CollectItemText[i].text = t;
+              scene5_CollectItemText[i].position.set(108 - scene5_CollectItemText[i].width / 2 + i * 83.5, 225);
+
+            }
+
+
+            scene5_CollectResultText.text = "你一共蒐集了";
+            scene5_CollectResultText.text += (scene1_totalItemCollector[1] + scene1_totalItemCollector[2] + scene1_totalItemCollector[8]);
+            scene5_CollectResultText.text += "件總督府的權力物件，";
+            scene5_CollectResultText.text += (scene1_totalItemCollector[0] + scene1_totalItemCollector[5] + scene1_totalItemCollector[6]);
+            scene5_CollectResultText.text += "件「有志之士」的象徵物件，\n";
+            if (scene1_totalInteractCollector[0] || scene1_totalInteractCollector[1] || scene1_totalInteractCollector[2] || scene1_totalInteractCollector[3]) {
+              scene5_CollectResultText.text += " 你也參與了"
+              let temp = false;
+              if (scene1_totalInteractCollector[0]) {
+                scene5_CollectResultText.text += "演講會";
+                temp = true
+              }
+              if (scene1_totalInteractCollector[3]) {
+                if (temp) scene5_CollectResultText.text += "、";
+                scene5_CollectResultText.text += "購買掛號";
+                temp = true
+              }
+              if (scene1_totalInteractCollector[1]) {
+                if (temp) scene5_CollectResultText.text += "、";
+                scene5_CollectResultText.text += "吸食鴉片";
+                temp = true
+              }
+              if (scene1_totalInteractCollector[2]) {
+                if (temp) scene5_CollectResultText.text += "、";
+                scene5_CollectResultText.text += "蓋長官銅像";
+                temp = true
+              }
+              scene5_CollectResultText.text += "的活動"
+            }
+            else {
+              scene5_CollectResultText.text += "而且並未參與所有會影響局勢的活動"
+            }
+
+            scene5_CollectResultText.text += "；\n因為你的選擇，總督府對社會的控制達到了";
+            scene5_CollectResultText.text += (Math.round(centerComponent.rate * 100));
+            if(scene1_radio + 1!=0){
+              scene5_CollectResultText.text += "%，期間通過了";   
+              scene5_CollectResultText.text += (scene1_radio + 1);
+              scene5_CollectResultText.text += "條不平等法令，\n最終促成了";
+            }
+            else
+            {
+              scene5_CollectResultText.text += "%，期間沒通過任何不平等法令，\n最終促成了";
+            }
+           
+            if (centerComponent.rate >= 0.5) scene5_CollectResultText.text += "公益會";
+            else scene5_CollectResultText.text += "文化協會";
+            scene5_CollectResultText.text += "的誕生，可喜可賀，可喜可賀！";
+
+            scene5_CollectResultText.x = (screenWidth-scene5_CollectResultText.width)/2;
+
+          }
+
+
+        }
+        {
+          let Collect = new PIXI.Sprite(PIXI.Texture.from("Collect"));
+          //End2.scale.set(globalImageScale, globalImageScale);
+          Collect.width = screenWidth;
+          Collect.height = screenHeight;
+          Collect.visible = true;
+          Collect.interactive = true;
+          scene5_CollectBoard.addChild(Collect);
+
+          let X = new PIXI.Sprite(PIXI.Texture.from("Illustrat03"));
+          scene5_CollectBoard.addChild(X);
+          X.visible = true;
+          X.pivot.set(X.width / 2, X.height / 2);
+          X.scale.set(globalImageScale * 0.15, globalImageScale * 0.15);
+          X.position.set(667 + 98 - 10, 62 - 31 + 20);
+
+          let XW = new PIXI.Sprite(PIXI.Texture.from("white"));
+          scene5_CollectBoard.addChild(XW);
+          XW.visible = true;
+          XW.width = 50; XW.height = 50;
+          XW.position.set(643 + 98 - 10, 40 - 31 + 20);
+          XW.alpha = 0;
+          XW.interactive = true;
+          XW.buttonMode = true;
+          XW.addListener("pointerdown", function () {
+            scene5_CollectBoard.visible = false;
+            scene0_audioButtonContainer.visible = true;
+          });
+
+          let style = new PIXI.TextStyle({
+            fontFamily: "DINPro-Regular_13937",
+            fontSize: 36, //36
+            fill: "black",
+            fontStyle: "normal",
+            fontWeight: "lighter",
+            //stroke: '#000000',
+            //strokeThickness: 0,
+            letterSpacing: 4,
+            padding: 100,
+            lineHeight: 36
+          });
+
+          let style2 = new PIXI.TextStyle({
+            fontFamily: "NotoSansCJKtc-Regular",
+            fontSize: 32, //36
+            fill: "black",
+            align: "center",
+            //stroke: '#000000',
+            //strokeThickness: 0,
+            letterSpacing: 2.8,
+            padding: 100,
+            lineHeight: 50
+          });
+          {
+            scene5_CollectItemText = [];
+            for (let i = 0; i < 9; i++) {
+              let T0 = new PIXI.Text("X0", style);
+              T0.scale.set(0.5, 0.5);
+              T0.position.set(108 - T0.width / 2 + i * 83.5, 227);
+              scene5_CollectBoard.addChild(T0);
+              scene5_CollectItemText.push(T0);
+
+              if (i == 8) T0.visible = false;
+            }
+
+
+            scene5_CollectResultText = new PIXI.Text("你一共蒐集了18件總督府的權力物件，16件有志之士的象徵物件，\n你也參與了演講會、購買掛號、吸食鴉片、蓋長官銅像；\n因為你的選擇，總督府對社會的控制達到了50%，期間通過了5條不平等法令，\n最終促成了公益會的誕生，可喜可賀，可喜可賀！", style2);
+            scene5_CollectResultText.scale.set(0.5, 0.5);
+            scene5_CollectResultText.position.set((screenWidth - scene5_CollectResultText.width) / 2, 290);
+            scene5_CollectBoard.addChild(scene5_CollectResultText);
+          }
+        }
+
+
+
       }
 
       //手機上外聯網址要用 on tap
@@ -2277,7 +2540,7 @@ async function SetObject() {
           scene0_audioButtonContainer.visible = true;
           scene3_sceneList[9].visible = false;
           PIXI.sound.play('button_click');
-        })
+        });
       }
 
       scene9_itemIndex = 0;
@@ -2437,8 +2700,7 @@ async function SetObject() {
           scene9_itemBlockC.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex + 1) % scene9_itemTextureList[scene9_currentBoard].length];
           scene9_itemBlockR.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex + 2) % scene9_itemTextureList[scene9_currentBoard].length];
         }
-        else
-        {
+        else {
           scene9_itemBlockB.texture = scene9_itemTextureList[scene9_currentBoard][(scene9_itemIndex + 1) % scene9_itemTextureList[scene9_currentBoard].length];
         }
 
@@ -2574,7 +2836,10 @@ async function GoToNextDialog() {
     scene3_selectIndex = parseInt(content[1], 10);
     //console.log("AA:" + scene3_selectIndex);
 
-    var optionsNumber = scene3_selectTextInput[scene3_selectIndex].length
+    optionsNumber = scene3_selectTextInput[scene3_selectIndex].length
+
+    scene3_dialogContainer.dialogBoxS2.visible = true;
+    selectSelectBox(0);
 
     scene3_dialogContainer.dialogBoxSB.visible = true;
     if (optionsNumber == 2) {
@@ -2933,51 +3198,122 @@ async function JumpResult_End(result) {
   GoToNextDialog_Ending();
 }
 
+function selectSelectBox(a) {
+  scene3_dialogContainer.dialogBoxSTarget = a;
+  if (optionsNumber == 2) {
+    if (a == 0) {
+      scene3_dialogContainer.dialogBoxS2.y = -81;
+    }
+    else {
+      scene3_dialogContainer.dialogBoxS2.y = -15;
+    }
+  }
+  else if (optionsNumber == 3) {
+    if (a == 0) {
+      scene3_dialogContainer.dialogBoxS2.y = -114 - 0.4;
+    }
+    else if (a == 1) {
+      scene3_dialogContainer.dialogBoxS2.y = -48;
+    }
+    else {
+      scene3_dialogContainer.dialogBoxS2.y = 18.2;
+    }
+  }
+}
 function clickSelectBox(a) {
 
   //console.log(scene3_selectIndex + " " + a);
 
-  scene3_dialogContainer.dialogBoxS0.visible = false;
-  scene3_dialogContainer.dialogBoxS1.visible = false;
-  scene3_dialogContainer.dialogBoxSB.visible = false;
+  if (scene3_dialogContainer.dialogBoxSTarget != a) {
+    selectSelectBox(a);
+  }
+  else {
+    scene3_dialogContainer.dialogBoxS0.visible = false;
+    scene3_dialogContainer.dialogBoxS1.visible = false;
+    scene3_dialogContainer.dialogBoxS2.visible = false;
+    scene3_dialogContainer.dialogBoxSB.visible = false;
 
-  for (let i = 0; i < scene3_selectBoxes.length; i++) {
-    scene3_selectBoxes[i].visible = false;
+    for (let i = 0; i < scene3_selectBoxes.length; i++) {
+      scene3_selectBoxes[i].visible = false;
+    }
+
+    scene3_dialogBox.active = true;
+    centerComponent.dialogResult = a;
+    OptionsResult(a);
   }
 
-  scene3_dialogBox.active = true;
-  centerComponent.dialogResult = a;
-  OptionsResult(a);
 
+}
+
+function scene3_SpaceFunc() {
+
+  if (scene3_sceneList[0].BD[0].visible == true) {
+    scene3_sceneList[0].BD[0].fadeFunc();
+  }
+  else if (scene3_endBoard.BDA[0].visible == true) {
+    scene3_endBoard.BDA[0].fadeFunc();
+  }
+  else if (scene3_endBoard.BDA[1].visible == true) {
+    scene3_endBoard.BDA[1].fadeFunc();
+  }
+  else if (scene3_endBoard.BDA[2].visible == true) {
+    scene3_endBoard.BDA[2].fadeFunc();
+  }
+  else if (scene3_endBoard.BDB[0].visible == true) {
+    scene3_endBoard.BDB[0].fadeFunc();
+  }
+  else if (scene3_endBoard.BDB[1].visible == true) {
+    scene3_endBoard.BDB[1].fadeFunc();
+  }
+  else if (scene3_endBoard.BDB[2].visible == true) {
+    scene3_endBoard.BDB[2].fadeFunc();
+  }
+  else if (scene3_dialogContainer.dialogBoxS2.visible == true) {
+    clickSelectBox(scene3_dialogContainer.dialogBoxSTarget);
+  }
+
+  else if (scene3_dialogContainer.visible != true || scene3_dialogBox.visible != true) return;
+
+  else if (centerComponent.currentStage == 15) {
+    scene3_ENDPicPointerDown();
+  }
+  else {
+    scene3_dialogBoxPointerDown();
+  }
+
+}
+function scene3_ENDPicPointerDown() {
+  if (scene3_dialogBox.dialogEnd == true) {
+    scene3_dialogBox.dialogEnd = false;
+    scene3_dialogBox.active = false;
+    EndThisScene();
+  }
+  else if (scene3_dialogBox.active == true) {
+    GoToNextDialog_Ending();
+  }
+}
+function scene3_dialogBoxPointerDown() {
+  PIXI.sound.play('talking_click');
+
+  if (scene3_dialogBox.dialogEnd == true) {
+    scene3_dialogBox.dialogEnd = false;
+    scene3_dialogBox.active = false;
+    EndThisScene();
+  }
+  else if (scene3_dialogBox.active == true) {
+    GoToNextDialog();
+  }
 }
 
 async function GameFunction() {
 
   scene3_ENDPic.on("pointerdown", function () {
-    if (scene3_dialogBox.dialogEnd == true) {
-      scene3_dialogBox.dialogEnd = false;
-      scene3_dialogBox.active = false;
-      EndThisScene();
-    }
-    else if (scene3_dialogBox.active == true) {
-      GoToNextDialog_Ending();
-    }
 
+    scene3_ENDPicPointerDown();
   });
 
   scene3_dialogBox.on("pointerdown", function () {
-
-    PIXI.sound.play('talking_click');
-
-    if (scene3_dialogBox.dialogEnd == true) {
-      scene3_dialogBox.dialogEnd = false;
-      scene3_dialogBox.active = false;
-      EndThisScene();
-    }
-    else if (scene3_dialogBox.active == true) {
-      GoToNextDialog();
-    }
-
+    scene3_dialogBoxPointerDown();
   });
 
   for (let i = 0; i < scene3_selectBoxes.length; i++) {
@@ -3007,7 +3343,30 @@ async function GameFunction() {
 
   //app.ticker.add(CharMoveLeft);
   //scene3_tickerFunc.push(CharMoveLeft);
+  {
+    scene3_keyGroup = [];
+    scene3_keyFuncroup = [];
+    let key_Space = keyboard(32);
+    scene3_keyGroup.push(key_Space);
+    scene3_keyFuncroup.push(scene3_SpaceFunc);
+    let key_Up = keyboard(38);
+    scene3_keyGroup.push(key_Up);
+    scene3_keyFuncroup.push(selectBoxUp);
+    let key_Down = keyboard(40);
+    scene3_keyGroup.push(key_Down);
+    scene3_keyFuncroup.push(selectBoxDown);
 
+    function selectBoxUp() {
+      if (scene3_dialogContainer.dialogBoxS2.visible != true) return;
+      if (scene3_dialogContainer.dialogBoxSTarget <= 0) return;
+      selectSelectBox(scene3_dialogContainer.dialogBoxSTarget - 1);
+    }
+    function selectBoxDown() {
+      if (scene3_dialogContainer.dialogBoxS2.visible != true) return;
+      if (scene3_dialogContainer.dialogBoxSTarget >= (optionsNumber - 1)) return;
+      selectSelectBox(scene3_dialogContainer.dialogBoxSTarget + 1);
+    }
+  }
 
 }
 
@@ -3067,7 +3426,10 @@ function EndThisScene() {
     app.ticker.remove(scene3_tickerFunc[i]);
   }
 
-  
+  for (let i = 0; i < scene3_keyGroup.length; i++) {
+    scene3_keyGroup[i].press = null;
+    //scene2_keyGroup[i].release = null;
+  }
 
   EndingFadeFunc(scene3, scene3_thisAudio);
 }
