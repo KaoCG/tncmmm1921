@@ -51,12 +51,12 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("v: 10300500", style);
+  let sceneLoading_scoreText = new PIXI.Text("v: 10300631", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(1, 1);
   sceneLoading_scoreText.position.set(10, 10);
   sceneLoading_scoreText.visible = true;
-  //Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
+  Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
 
   let timerA = new PIXI.Text("", style);
   timerA.scale.set(1, 1);
