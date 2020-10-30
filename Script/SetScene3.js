@@ -1474,6 +1474,7 @@ async function SetObject() {
           scene5_EndTW.buttonMode = true;
           scene5_EndTW.position.set(420, 85);
           scene5_EndTW.addListener("pointerdown", function () {
+            PIXI.sound.play('button_click');
             scene5_CollectBoard.visible = true;
             scene0_audioButtonContainer.visible = false;
             scene5_CollectBoardReset();
@@ -1622,6 +1623,7 @@ async function SetObject() {
           Pen2.interactive = true;
           Pen2.buttonMode = true;
           Pen2.addListener("pointerdown", function () {
+            PIXI.sound.play('button_click');
             Worker.visible = true;
             WX.visible = true;
             WXW.visible = true;
@@ -1655,6 +1657,7 @@ async function SetObject() {
           WXW.interactive = true;
           WXW.buttonMode = true;
           WXW.addListener("pointerdown", function () {
+            PIXI.sound.play('button_click');
             Worker.visible = false;
             WX.visible = false;
             WXW.visible = false;
@@ -1789,6 +1792,7 @@ async function SetObject() {
           XW.interactive = true;
           XW.buttonMode = true;
           XW.addListener("pointerdown", function () {
+            PIXI.sound.play('button_click');
             scene5_CollectBoard.visible = false;
             scene0_audioButtonContainer.visible = true;
           });
