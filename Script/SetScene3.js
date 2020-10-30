@@ -1808,14 +1808,14 @@ async function SetObject() {
 
           let style2 = new PIXI.TextStyle({
             fontFamily: "NotoSansCJKtc-Regular",
-            fontSize: 50, //36
+            fontSize: 25, //36
             fill: "black",
             align: "center",
             //stroke: '#000000',
             //strokeThickness: 0,
-            letterSpacing: 5.0,
+            letterSpacing: 2.5,
             padding: 100,
-            lineHeight: 100
+            lineHeight: 50
           });
           {
             scene5_CollectItemText = [];
@@ -1831,7 +1831,7 @@ async function SetObject() {
 
 
             scene5_CollectResultText = new PIXI.Text("你一共蒐集了18件總督府的權力物件，16件有志之士的象徵物件，\n你也參與了演講會、購買掛號、吸食鴉片、蓋長官銅像；\n因為你的選擇，總督府對社會的控制達到了50%，期間通過了5條不平等法令，\n最終促成了公益會的誕生，可喜可賀，可喜可賀！", style2);
-            scene5_CollectResultText.scale.set(0.25, 0.25);
+            scene5_CollectResultText.scale.set(0.5, 0.5);
             scene5_CollectResultText.position.set((screenWidth - scene5_CollectResultText.width) / 2, 285);
             scene5_CollectBoard.addChild(scene5_CollectResultText);
           }
