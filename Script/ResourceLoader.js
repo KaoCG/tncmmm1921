@@ -56,7 +56,7 @@ async function LoadResourceLoader() {
   sceneLoading_scoreText.scale.set(1, 1);
   sceneLoading_scoreText.position.set(10, 10);
   sceneLoading_scoreText.visible = true;
-  Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
+  //Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
 
   let timerA = new PIXI.Text("", style);
   timerA.scale.set(1, 1);
