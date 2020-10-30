@@ -1736,7 +1736,7 @@ async function SetObject() {
               scene5_CollectResultText.text += "而且並未參與所有會影響局勢的活動"
             }
 
-            scene5_CollectResultText.text += "；\n因為你的選擇，總督府對社會的控制達到了";
+            scene5_CollectResultText.text += "；\n因為你的選擇，總督府對社會的控制力道為";
             scene5_CollectResultText.text += (Math.round(centerComponent.rate * 100));
             if (scene1_radio + 1 != 0) {
               scene5_CollectResultText.text += "%，期間通過了";
@@ -2625,7 +2625,7 @@ async function SetObject() {
 
         //14
         scene9_itemTitleList[2].push("議會請願傳單");
-        scene9_itemContentList[2].push("相傳會從天而降、足有上萬張的傳單，由兼具紳章與錢袋之人發放。");
+        scene9_itemContentList[2].push("相傳會從天而降、足有上萬張的傳單。(或許得集夠紳章和錢袋？)");
 
         //14
         scene9_itemTitleList[2].push("掛號小販");
