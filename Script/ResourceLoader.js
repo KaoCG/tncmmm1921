@@ -35,7 +35,7 @@ async function LoadResourceLoader() {
 
   await document.fonts.load('16px DINPro-Regular_13937');
 
-  
+
   //padding可以處理字體顯示位置不正確的問題
   let style = new PIXI.TextStyle({
     fontFamily: "DINPro-Regular_13937",
@@ -51,12 +51,12 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("v: 10300712", style);
+  let sceneLoading_scoreText = new PIXI.Text("v: 10300727", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(1, 1);
   sceneLoading_scoreText.position.set(10, 10);
   sceneLoading_scoreText.visible = true;
-  //Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
+  Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
 
   let timerA = new PIXI.Text("", style);
   timerA.scale.set(1, 1);
@@ -160,7 +160,7 @@ async function LoadResourceLoader() {
     key_Space.press = () => {
       if (scene0_but.visible == true) {
         scene0_but.visible = false;
-        key_Space.press  = null;
+        key_Space.press = null;
         PIXI.sound.play('button_click');
         EndThisScene();
       }
@@ -184,7 +184,7 @@ async function LoadResourceLoader() {
       key_Space.press = () => {
         if (scene0_but.visible == true) {
           scene0_but.visible = false;
-          key_Space.press  = null;
+          key_Space.press = null;
           PIXI.sound.play('button_click');
           EndThisScene();
         }
@@ -207,7 +207,7 @@ async function LoadResourceLoader() {
       key_Space.press = () => {
         if (scene0_but.visible == true) {
           scene0_but.visible = false;
-          key_Space.press  = null;
+          key_Space.press = null;
           PIXI.sound.play('button_click');
           EndThisScene();
         }
@@ -557,7 +557,7 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
   await document.fonts.load('16px NotoSansCJKtc-Regular');
   await document.fonts.load('16px NotoSansCJKtc-Medium');
- 
+
 
 
   //音樂載入
@@ -1037,7 +1037,7 @@ async function EndThisScene() {
   //設置好畫面和中央變數後，重新調整螢幕大小
 
   //await resize();
-  scene0_key_Space.press =null;
+  scene0_key_Space.press = null;
 
   await CreateCenterComponent();
   sceneLoading.visible = false;
