@@ -1812,12 +1812,12 @@ async function SetObject() {
 
           let style2 = new PIXI.TextStyle({
             fontFamily: "NotoSansCJKtc-Regular",
-            fontSize: 25, //36
+            fontSize: 28, //36
             fill: "black",
             align: "center",
             //stroke: '#000000',
             //strokeThickness: 0,
-            letterSpacing: 2.5,
+            letterSpacing: 2.8,
             padding: 100,
             lineHeight: 50
           });
