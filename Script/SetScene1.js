@@ -778,7 +778,8 @@ function SetObject() {
     //新聞跑馬燈
     scene1_NewsList = [];
     scene1_NewsContainer = new PIXI.Container();
-    scene1_uIBoardSP.addChild(scene1_NewsContainer);
+    scene1_RadioContainer.addChild(scene1_NewsContainer);
+
     for (let i = 0; i < 5; i++) {
 
       let scene1_Radio = new PIXI.Sprite(PIXI.Texture.from("News" + i));
@@ -1920,7 +1921,7 @@ function GameFunction() {
       temp.tint = "0x07ffa5";
 
       scene1_RadioContainer.visible = false;
-      scene1_NewsContainer.visible = false;
+      //scene1_NewsContainer.visible = false;
 
       app.ticker.add(function TitleShine(deltaTime) {
 
@@ -1928,8 +1929,6 @@ function GameFunction() {
 
           temp.visible = false;
           scene1_RadioContainer.visible = true;
-          if (scene1_radioPlaying == false)
-            scene1_NewsContainer.visible = true;
           app.ticker.remove(TitleShine);
           return;
 
@@ -1953,8 +1952,6 @@ function GameFunction() {
 
             temp.visible = false;
             scene1_RadioContainer.visible = true;
-            if (scene1_radioPlaying == false)
-              scene1_NewsContainer.visible = true;
             app.ticker.remove(TitleShine);
 
           }
@@ -2225,7 +2222,7 @@ function showRadio(rate = 0) {
         scene1_radioPlaying = false;
         scene1_NewsContainer.visible = true;
         scene1_NewsList[temp].visible = true;
-        scene1_NewsList[temp].x = 230;
+        scene1_NewsList[temp].x = 230+82;
 
         app.ticker.add(function newsCountDown() {
 
@@ -2236,7 +2233,7 @@ function showRadio(rate = 0) {
           }
 
           timer -= 1;
-          scene1_NewsList[temp].x = -10 + 240 * timer / totalTimer;
+          scene1_NewsList[temp].x = -10 + 240 * timer / totalTimer + 82;
           if (timer == 0) {
             scene1_NewsList[temp].visible = false;
             app.ticker.remove(newsCountDown);

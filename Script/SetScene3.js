@@ -1698,7 +1698,7 @@ async function SetObject() {
                   break;
               }
               scene5_CollectItemText[i].text = t;
-              scene5_CollectItemText[i].position.set(108 - scene5_CollectItemText[i].width / 2 + i * 83.5, 225);
+              scene5_CollectItemText[i].position.set(108 - 36 - scene5_CollectItemText[i].width / 2 + i * 82, 225);
 
             }
 
@@ -1738,21 +1738,20 @@ async function SetObject() {
 
             scene5_CollectResultText.text += "；\n因為你的選擇，總督府對社會的控制達到了";
             scene5_CollectResultText.text += (Math.round(centerComponent.rate * 100));
-            if(scene1_radio + 1!=0){
-              scene5_CollectResultText.text += "%，期間通過了";   
+            if (scene1_radio + 1 != 0) {
+              scene5_CollectResultText.text += "%，期間通過了";
               scene5_CollectResultText.text += (scene1_radio + 1);
               scene5_CollectResultText.text += "條不平等法令，\n最終促成了";
             }
-            else
-            {
+            else {
               scene5_CollectResultText.text += "%，期間沒通過任何不平等法令，\n最終促成了";
             }
-           
+
             if (centerComponent.rate >= 0.5) scene5_CollectResultText.text += "公益會";
             else scene5_CollectResultText.text += "文化協會";
             scene5_CollectResultText.text += "的誕生，可喜可賀，可喜可賀！";
 
-            scene5_CollectResultText.x = (screenWidth-scene5_CollectResultText.width)/2;
+            scene5_CollectResultText.x = (screenWidth - scene5_CollectResultText.width) / 2;
 
           }
 
@@ -1802,31 +1801,31 @@ async function SetObject() {
 
           let style2 = new PIXI.TextStyle({
             fontFamily: "NotoSansCJKtc-Regular",
-            fontSize: 32, //36
+            fontSize: 50, //36
             fill: "black",
             align: "center",
             //stroke: '#000000',
             //strokeThickness: 0,
-            letterSpacing: 2.8,
+            letterSpacing: 5.0,
             padding: 100,
-            lineHeight: 50
+            lineHeight: 100
           });
           {
             scene5_CollectItemText = [];
             for (let i = 0; i < 9; i++) {
               let T0 = new PIXI.Text("X0", style);
               T0.scale.set(0.5, 0.5);
-              T0.position.set(108 - T0.width / 2 + i * 83.5, 227);
+              T0.position.set(108 - 36 - T0.width / 2 + i * 82, 215);
               scene5_CollectBoard.addChild(T0);
               scene5_CollectItemText.push(T0);
 
-              if (i == 8) T0.visible = false;
+
             }
 
 
             scene5_CollectResultText = new PIXI.Text("你一共蒐集了18件總督府的權力物件，16件有志之士的象徵物件，\n你也參與了演講會、購買掛號、吸食鴉片、蓋長官銅像；\n因為你的選擇，總督府對社會的控制達到了50%，期間通過了5條不平等法令，\n最終促成了公益會的誕生，可喜可賀，可喜可賀！", style2);
-            scene5_CollectResultText.scale.set(0.5, 0.5);
-            scene5_CollectResultText.position.set((screenWidth - scene5_CollectResultText.width) / 2, 290);
+            scene5_CollectResultText.scale.set(0.25, 0.25);
+            scene5_CollectResultText.position.set((screenWidth - scene5_CollectResultText.width) / 2, 285);
             scene5_CollectBoard.addChild(scene5_CollectResultText);
           }
         }
@@ -2248,16 +2247,16 @@ async function SetObject() {
       });
       let style2 = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
-        fontSize: 48,
+        fontSize: 96,
         fill: "white",
-        letterSpacing: 2,
-        padding: 48
+        letterSpacing: 4,
+        padding: 96
       });
 
-      scene5_textEmpty = new PIXI.Text("傳說集得大明慈悲國的遺落物，即可召喚元帥", style2);
-      scene5_textEmpty.scale.set(0.5, 0.5);
+      scene5_textEmpty = new PIXI.Text("傳說集得五枚大明慈悲國的遺落物，即可召喚元帥", style2);
+      scene5_textEmpty.scale.set(0.25, 0.25);
       //scene5_textEmpty.x = (screenWidth-scene5_textEmpty)/2; scene5_textEmpty.y = 320;
-      scene5_textEmpty.position.set((screenWidth - scene5_textEmpty.width) / 2, 312 + deltaY);
+      scene5_textEmpty.position.set((screenWidth - scene5_textEmpty.width) / 2, 315 + deltaY);
       sceneA.addChild(scene5_textEmpty);
 
       let text = new PIXI.Text("", style);
@@ -2626,7 +2625,7 @@ async function SetObject() {
 
         //14
         scene9_itemTitleList[2].push("議會請願傳單");
-        scene9_itemContentList[2].push("相傳會從天而降的傳單，據聞共有上萬張。");
+        scene9_itemContentList[2].push("相傳會從天而降、足有上萬張的傳單，由兼具紳章與錢袋之人發放。");
 
         //14
         scene9_itemTitleList[2].push("掛號小販");
@@ -3199,6 +3198,9 @@ async function JumpResult_End(result) {
 }
 
 function selectSelectBox(a) {
+
+  PIXI.sound.play('option_click');
+
   scene3_dialogContainer.dialogBoxSTarget = a;
   if (optionsNumber == 2) {
     if (a == 0) {
@@ -3220,6 +3222,7 @@ function selectSelectBox(a) {
     }
   }
 }
+
 function clickSelectBox(a) {
 
   //console.log(scene3_selectIndex + " " + a);
@@ -3228,6 +3231,9 @@ function clickSelectBox(a) {
     selectSelectBox(a);
   }
   else {
+
+    PIXI.sound.play('option_click');
+
     scene3_dialogContainer.dialogBoxS0.visible = false;
     scene3_dialogContainer.dialogBoxS1.visible = false;
     scene3_dialogContainer.dialogBoxS2.visible = false;
@@ -3322,7 +3328,7 @@ async function GameFunction() {
 
     scene3_selectBoxes[i].addListener("pointerdown", () => {
 
-      PIXI.sound.play('option_click');
+
       clickSelectBox(i);
 
     });

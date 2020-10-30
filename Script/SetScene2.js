@@ -715,7 +715,7 @@ function GameFunction() {
 
         scene2_startTimer = 0;
 
-        PIXI.sound.play('ending_stamp');
+        //PIXI.sound.play('ending_stamp');
 
         app.ticker.add(
           function EndTitleShowUp(deltaTime) {

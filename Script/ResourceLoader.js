@@ -33,6 +33,9 @@ async function LoadResourceLoader() {
   Scene0_TouchToStartBlackBut.position.set(0, 0);
   Scene0_TouchToStartBlack.addChild(Scene0_TouchToStartBlackBut);
 
+  await document.fonts.load('16px DINPro-Regular_13937');
+
+  
   //padding可以處理字體顯示位置不正確的問題
   let style = new PIXI.TextStyle({
     fontFamily: "DINPro-Regular_13937",
@@ -53,7 +56,7 @@ async function LoadResourceLoader() {
   sceneLoading_scoreText.scale.set(1, 1);
   sceneLoading_scoreText.position.set(10, 10);
   sceneLoading_scoreText.visible = true;
-  Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
+  //Scene0_TouchToStartBlack.addChild(sceneLoading_scoreText);
 
   let timerA = new PIXI.Text("", style);
   timerA.scale.set(1, 1);
@@ -553,7 +556,7 @@ async function SetLoader() {
   await document.fonts.load('8px pixelSilver');
   await document.fonts.load('16px NotoSansCJKtc-Regular');
   await document.fonts.load('16px NotoSansCJKtc-Medium');
-  await document.fonts.load('16px DINPro-Regular_13937');
+ 
 
 
   //音樂載入
