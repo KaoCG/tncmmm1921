@@ -1668,95 +1668,99 @@ async function SetObject() {
 
         function scene5_CollectBoardReset() {
 
-          if (scene1_totalItemCollector !== undefined) {
-            for (let i = 0; i < scene5_CollectItemText.length; i++) {
-              var t = "X";
-              switch (i) {
-                case 0:
-                  t += scene1_totalItemCollector[8];
-                  break;
-                case 1:
-                  t += scene1_totalItemCollector[2];
-                  break;
-                case 2:
-                  t += scene1_totalItemCollector[5];
-                  break;
-                case 3:
-                  t += scene1_totalItemCollector[1];
-                  break;
-                case 4:
-                  t += scene1_totalItemCollector[3];
-                  break;
-                case 5:
-                  t += scene1_totalItemCollector[4];
-                  break;
-                case 6:
-                  t += scene1_totalItemCollector[6];
-                  break;
-                case 7:
-                  t += scene1_totalItemCollector[7];
-                  break;
-                case 8:
-                  t += scene1_totalItemCollector[0];
-                  break;
-              }
-              scene5_CollectItemText[i].text = t;
-              scene5_CollectItemText[i].x = 108 - 36 - scene5_CollectItemText[i].width / 2 + i * 82;
+          if (scene1_totalItemCollector === undefined) {
+            scene1_totalItemCollector = [0,0,0,0,0,0,0,0,0]
+            scene1_totalInteractCollector = [false,false,false,false]
+          }
 
+          for (let i = 0; i < scene5_CollectItemText.length; i++) {
+            var t = "X";
+            switch (i) {
+              case 0:
+                t += scene1_totalItemCollector[8];
+                break;
+              case 1:
+                t += scene1_totalItemCollector[2];
+                break;
+              case 2:
+                t += scene1_totalItemCollector[5];
+                break;
+              case 3:
+                t += scene1_totalItemCollector[1];
+                break;
+              case 4:
+                t += scene1_totalItemCollector[3];
+                break;
+              case 5:
+                t += scene1_totalItemCollector[4];
+                break;
+              case 6:
+                t += scene1_totalItemCollector[6];
+                break;
+              case 7:
+                t += scene1_totalItemCollector[7];
+                break;
+              case 8:
+                t += scene1_totalItemCollector[0];
+                break;
             }
-
-
-            scene5_CollectResultText.text = "你一共蒐集了";
-            scene5_CollectResultText.text += (scene1_totalItemCollector[1] + scene1_totalItemCollector[2] + scene1_totalItemCollector[8]);
-            scene5_CollectResultText.text += "件總督府的權力物件，";
-            scene5_CollectResultText.text += (scene1_totalItemCollector[0] + scene1_totalItemCollector[5] + scene1_totalItemCollector[6]);
-            scene5_CollectResultText.text += "件「有志之士」的象徵物件，\n";
-            if (scene1_totalInteractCollector[0] || scene1_totalInteractCollector[1] || scene1_totalInteractCollector[2] || scene1_totalInteractCollector[3]) {
-              scene5_CollectResultText.text += " 你也參與了"
-              let temp = false;
-              if (scene1_totalInteractCollector[0]) {
-                scene5_CollectResultText.text += "演講會";
-                temp = true
-              }
-              if (scene1_totalInteractCollector[3]) {
-                if (temp) scene5_CollectResultText.text += "、";
-                scene5_CollectResultText.text += "購買掛號";
-                temp = true
-              }
-              if (scene1_totalInteractCollector[1]) {
-                if (temp) scene5_CollectResultText.text += "、";
-                scene5_CollectResultText.text += "吸食鴉片";
-                temp = true
-              }
-              if (scene1_totalInteractCollector[2]) {
-                if (temp) scene5_CollectResultText.text += "、";
-                scene5_CollectResultText.text += "蓋長官銅像";
-                temp = true
-              }
-              scene5_CollectResultText.text += "的活動"
-            }
-            else {
-              scene5_CollectResultText.text += "而且並未參與所有會影響局勢的活動"
-            }
-
-            scene5_CollectResultText.text += "；\n因為你的選擇，總督府對社會的控制力道為";
-            scene5_CollectResultText.text += (Math.round(centerComponent.rate * 100));
-            if (scene1_radio + 1 != 0) {
-              scene5_CollectResultText.text += "%，期間通過了";
-              scene5_CollectResultText.text += (scene1_radio + 1);
-              scene5_CollectResultText.text += "條不平等法令，\n最終促成了";
-            }
-            else {
-              scene5_CollectResultText.text += "%，期間沒通過任何不平等法令，\n最終促成了";
-            }
-
-            if (centerComponent.rate >= 0.5) scene5_CollectResultText.text += "公益會";
-            else scene5_CollectResultText.text += "文化協會";
-            scene5_CollectResultText.text += "的誕生，可喜可賀，可喜可賀！";
-
-            scene5_CollectResultText.x = (screenWidth - scene5_CollectResultText.width) / 2;
+            scene5_CollectItemText[i].text = t;
+            scene5_CollectItemText[i].x = 108 - 36 - scene5_CollectItemText[i].width / 2 + i * 82;
 
           }
+
+
+          scene5_CollectResultText.text = "你一共蒐集了";
+          scene5_CollectResultText.text += (scene1_totalItemCollector[1] + scene1_totalItemCollector[2] + scene1_totalItemCollector[8]);
+          scene5_CollectResultText.text += "件總督府的權力物件，";
+          scene5_CollectResultText.text += (scene1_totalItemCollector[0] + scene1_totalItemCollector[5] + scene1_totalItemCollector[6]);
+          scene5_CollectResultText.text += "件「有志之士」的象徵物件，\n";
+          if (scene1_totalInteractCollector[0] || scene1_totalInteractCollector[1] || scene1_totalInteractCollector[2] || scene1_totalInteractCollector[3]) {
+            scene5_CollectResultText.text += " 你也參與了"
+            let temp = false;
+            if (scene1_totalInteractCollector[0]) {
+              scene5_CollectResultText.text += "演講會";
+              temp = true
+            }
+            if (scene1_totalInteractCollector[3]) {
+              if (temp) scene5_CollectResultText.text += "、";
+              scene5_CollectResultText.text += "購買掛號";
+              temp = true
+            }
+            if (scene1_totalInteractCollector[1]) {
+              if (temp) scene5_CollectResultText.text += "、";
+              scene5_CollectResultText.text += "吸食鴉片";
+              temp = true
+            }
+            if (scene1_totalInteractCollector[2]) {
+              if (temp) scene5_CollectResultText.text += "、";
+              scene5_CollectResultText.text += "蓋長官銅像";
+              temp = true
+            }
+            scene5_CollectResultText.text += "的活動"
+          }
+          else {
+            scene5_CollectResultText.text += "而且並未參與所有會影響局勢的活動"
+          }
+
+          scene5_CollectResultText.text += "；\n因為你的選擇，總督府對社會的控制力道為";
+          scene5_CollectResultText.text += (Math.round(centerComponent.rate * 100));
+          if (scene1_radio + 1 != 0) {
+            scene5_CollectResultText.text += "%，期間通過了";
+            scene5_CollectResultText.text += (scene1_radio + 1);
+            scene5_CollectResultText.text += "條不平等法令，\n最終促成了";
+          }
+          else {
+            scene5_CollectResultText.text += "%，期間沒通過任何不平等法令，\n最終促成了";
+          }
+
+          if (centerComponent.rate >= 0.5) scene5_CollectResultText.text += "公益會";
+          else scene5_CollectResultText.text += "文化協會";
+          scene5_CollectResultText.text += "的誕生，可喜可賀，可喜可賀！";
+
+          scene5_CollectResultText.x = (screenWidth - scene5_CollectResultText.width) / 2;
+
+
 
 
         }
