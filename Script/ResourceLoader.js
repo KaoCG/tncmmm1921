@@ -51,7 +51,7 @@ async function LoadResourceLoader() {
   sceneLoading.zIndex = 250;
   app.stage.addChild(sceneLoading);
 
-  let sceneLoading_scoreText = new PIXI.Text("v: 10300631", style);
+  let sceneLoading_scoreText = new PIXI.Text("v: 10300652", style);
   sceneLoading_scoreText.zIndex = 200;
   sceneLoading_scoreText.scale.set(1, 1);
   sceneLoading_scoreText.position.set(10, 10);

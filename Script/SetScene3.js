@@ -1696,9 +1696,12 @@ async function SetObject() {
                 case 7:
                   t += scene1_totalItemCollector[7];
                   break;
+                case 8:
+                  t += scene1_totalItemCollector[0];
+                  break;
               }
               scene5_CollectItemText[i].text = t;
-              scene5_CollectItemText[i].position.set(108 - 36 - scene5_CollectItemText[i].width / 2 + i * 82, 225);
+              scene5_CollectItemText[i].x = 108 - 36 - scene5_CollectItemText[i].width / 2 + i * 82;
 
             }
 
