@@ -2636,7 +2636,7 @@ async function SetObject() {
 
         //14
         scene9_itemTitleList[2].push("議會請願傳單");
-        scene9_itemContentList[2].push("相傳會從天而降、足有上萬張的傳單。(或許得集夠紳章和錢袋？)");
+        scene9_itemContentList[2].push("相傳會從天而降的傳單，據聞共有上萬張。");
 
         //14
         scene9_itemTitleList[2].push("掛號小販");
