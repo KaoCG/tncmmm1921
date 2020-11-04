@@ -837,10 +837,10 @@ async function EndThisScene() {
   centerComponent.G1Rate = rate;
 
   if (rate > 0.6) {
-    centerComponent.stageResult = 1;
+    //centerComponent.stageResult = 1;
   }
   else {
-    centerComponent.stageResult = 0;
+    //centerComponent.stageResult = 0;
   }
 
   for (let i = 0; i < scene2_keyGroup.length; i++) {

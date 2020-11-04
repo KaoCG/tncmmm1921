@@ -2258,14 +2258,14 @@ async function SetObject() {
       });
       let style2 = new PIXI.TextStyle({
         fontFamily: "pixelSilver",
-        fontSize: 96,
+        fontSize: 48,
         fill: "white",
-        letterSpacing: 4,
-        padding: 96
+        letterSpacing: 2,
+        padding: 48
       });
 
       scene5_textEmpty = new PIXI.Text("傳說集得五枚大明慈悲國的遺落物，即可召喚元帥", style2);
-      scene5_textEmpty.scale.set(0.25, 0.25);
+      scene5_textEmpty.scale.set(0.5, 0.5);
       //scene5_textEmpty.x = (screenWidth-scene5_textEmpty)/2; scene5_textEmpty.y = 320;
       scene5_textEmpty.position.set((screenWidth - scene5_textEmpty.width) / 2, 315 + deltaY);
       sceneA.addChild(scene5_textEmpty);
