@@ -640,7 +640,7 @@ function SetObject() {
         scene4_butFalse[scene4_false].visible = true;
 
         scene4_buttonResetTimer = 0;
-        app.ticker.add(ButtonResetTimer);
+        //app.ticker.add(ButtonResetTimer);
 
       }
       arrow.addListener("pointerdown", function () {
@@ -1240,6 +1240,8 @@ function ButtonResetTimer() {
   scene4_buttonResetTimer++;
   if (scene4_buttonResetTimer == 120) {
     app.ticker.remove(ButtonResetTimer);
+
+    scene4_buttonResetTimer=0;
 
     scene4_butTrue[scene4_answer].visible = false;
     scene4_butFalse[scene4_false].visible = false;
