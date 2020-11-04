@@ -1241,7 +1241,7 @@ function ButtonResetTimer() {
   if (scene4_buttonResetTimer == 120) {
     app.ticker.remove(ButtonResetTimer);
 
-    scene4_buttonResetTimer=0;
+    scene4_buttonResetTimer = 0;
 
     scene4_butTrue[scene4_answer].visible = false;
     scene4_butFalse[scene4_false].visible = false;
@@ -1259,7 +1259,10 @@ function ButtonResetTimer() {
         scene4_O.visible = false;
         scene4_X.visible = false;
 
-        SetNextButtonSet();
+        if (centerComponent.currentStage == 10) {
+          SetNextButtonSet();
+        }
+        
         app.ticker.remove(temp);
       }
     })
@@ -1287,7 +1290,11 @@ function SetNextButtonSet() {
 
   app.ticker.remove(ButtonResetTimer);
   scene4_buttonResetTimer = 0;
-  app.ticker.add(ButtonResetTimer);
+
+  if (centerComponent.currentStage == 10) {
+    app.ticker.add(ButtonResetTimer);
+  }
+
 }
 
 //鍵盤按下對應按鈕 (GAMEMODE = 0)
@@ -1314,7 +1321,7 @@ function DetectButtonInput(dir) {
 
     if (!scene4_butTrue[dir].visible && !scene4_butFalse[dir].visible) return;
 
-      scene4_butTrue[scene4_answer].visible = false;
+    scene4_butTrue[scene4_answer].visible = false;
     scene4_butFalse[scene4_false].visible = false;
 
     let tempTimer = 0;
